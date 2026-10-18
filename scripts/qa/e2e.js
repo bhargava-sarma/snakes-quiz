@@ -1,0 +1,207 @@
+#!/usr/bin/env node
+/* End-to-end tests of the real user flows, in a real browser.
+ *   node scripts/qa/e2e.js [baseUrl]      (serve the repo first: python3 -m http.server 8765)
+ */
+const { chromium, devices } = require('playwright');
+const base = (process.argv[2] || 'http://localhost:8765/index.html').replace(/#.*$/, '');
+
+let failures = 0;
+const check = (ok, msg) => { console.log(`${ok ? '  ok ' : ' FAIL'} ${msg}`); if (!ok) failures++; };
+
+const session = (page) => page.evaluate(() => JSON.parse(localStorage.getItem('sarpa.v1.session') || 'null'));
+
+async function answer(page, which) {
+  // which: 'right' | 'wrong' | number
+  const s = await session(page);
+  const q = s.questions[s.index];
+  const idx = which === 'right' ? q.answer : which === 'wrong' ? [0, 1, 2, 3].find((i) => i !== q.answer) : which;
+  await page.click(`.option[data-i="${idx}"]`);
+  await page.waitForSelector('.explain .verdict');
+  return { q, idx };
+}
+
+(async () => {
+  const browser = await chromium.launch();
+
+  /* ---------- 1. a timed quiz with hints and wrong/right answers ---------- */
+  console.log('\n[1] Timed quiz, hints and explanations');
+  let ctx = await browser.newContext({ viewport: { width: 1200, height: 900 } });
+  let page = await ctx.newPage();
+  const errors = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto(`${base}#/play`, { waitUntil: 'load' });
+  await page.waitForSelector('.level');
+  await page.click('.seg-btn:has-text("15s")');
+  await page.click('.seg-btn:has-text("20")');
+  await page.click('.level:has-text("Beginner")');
+  await page.click('button:has-text("Start quiz")');
+  await page.waitForSelector('.option');
+  check(await page.isVisible('.timer'), 'timer is shown when a timer is chosen');
+  check((await page.locator('.option').count()) === 4, 'four answer options');
+  await page.keyboard.press('h');
+  await page.keyboard.press('h');
+  check((await page.locator('.hint-chip').count()) === 2, 'two hints can be revealed');
+  const wrong = await answer(page, 'wrong');
+  const D = await page.evaluate((q) => {
+    const spName = SQ.data.byId[q.species].name;
+    return { spName, others: q.options.filter((id) => id !== q.species).map((id) => SQ.data.byId[id].name) };
+  }, wrong.q);
+  check(await page.isVisible('.verdict.bad'), 'wrong answer shows a "not quite" verdict');
+  check((await page.locator('.explain .why-card').count()) === 1, 'the correct species is explained');
+  check((await page.locator('.explain .whynot').count()) === 3, 'every other option has a "why not" card');
+  check((await page.locator('.explain .whynot.chosen').count()) === 1, 'the option the player picked is highlighted');
+  const firstCard = await page.locator('.explain .whynot').first().innerText();
+  check(/Your answer/.test(firstCard), 'the picked option is listed first');
+  check(await page.locator('.option.correct').count() === 1 && await page.locator('.option.wrong').count() === 1, 'correct and wrong buttons are coloured');
+  check(await page.locator('.photo-foot .credit').count() === 1, 'the photo credit is shown');
+  await page.click('.next-btn');
+  await page.waitForFunction(() => /Question 2 of 20/.test(document.querySelector('.q-count').textContent));
+  const right = await answer(page, 'right');
+  check(await page.isVisible('.verdict.ok'), 'right answer shows a "correct" verdict');
+  check((await page.locator('.explain .whynot').count()) === 3, 'wrong options are explained even when the answer was right');
+  check((await page.locator('.explain .whynot.chosen').count()) === 0, 'no option is marked as "your answer" after a right answer');
+
+  /* ---------- 2. reload mid-quiz and resume ---------- */
+  console.log('\n[2] Reload and resume');
+  const before = await session(page);
+  await page.reload({ waitUntil: 'load' });
+  await page.waitForSelector('.option');
+  const afterReload = await session(page);
+  check(afterReload.index === before.index && afterReload.answers.length === before.answers.length, 'quiz state survives a reload');
+  check(await page.isVisible('.explain .verdict'), 'an answered question shows its explanation again after reload');
+  check((await session(page)).answers.length === 2, 'the answered question is not answered twice');
+
+  /* ---------- 3. finish the quiz, review ---------- */
+  console.log('\n[3] Finishing and results');
+  await page.click('.next-btn');
+  for (let i = 3; i <= 20; i++) {
+    await page.waitForFunction((n) => new RegExp(`Question ${n} of 20`).test(document.querySelector('.q-count').textContent), i);
+    await answer(page, i % 4 === 0 ? 'wrong' : 'right');
+    await page.click('.next-btn');
+  }
+  await page.waitForSelector('.result-hero');
+  check(/#\/results/.test(page.url()), 'finishing shows the results page');
+  const pctText = await page.locator('.ring-label strong').innerText();
+  check(/^\d+%$/.test(pctText), `results show a score (${pctText})`);
+  check((await page.locator('.tile').count()) === 20, 'all 20 answers are listed');
+  await page.click('.tile >> nth=3');
+  await page.waitForSelector('.modal .explain');
+  check((await page.locator('.modal .whynot').count()) === 3, 'tapping an answer reopens the full explanation');
+  await page.keyboard.press('Escape');
+  check((await page.locator('.modal').count()) === 0, 'Escape closes the dialog');
+  const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('sarpa.v1.progress')));
+  check(stored.totals.games === 1 && stored.totals.answered === 20, 'the game was saved to the player’s stats');
+  await page.click('button:has-text("Practise the")');
+  await page.waitForSelector('.option');
+  check(/Practice/.test(await page.locator('.q-title-mini').innerText()), 'practising the missed snakes starts a focused quiz');
+  await page.click('#quit-btn');
+  await page.click('.modal button:has-text("Discard quiz")');
+  await page.waitForSelector('.hero');
+
+  /* ---------- 4. variety between games ---------- */
+  console.log('\n[4] Variety');
+  const sets = [];
+  for (let g = 0; g < 3; g++) {
+    await page.goto(`${base}#/play`);
+    await page.waitForSelector('.level');
+    await page.click('.level:has-text("All species")');
+    await page.click('button:has-text("Start quiz")');
+    await page.waitForSelector('.option');
+    sets.push(new Set((await session(page)).questions.map((q) => q.photo)));
+    await page.click('#quit-btn');
+    await page.click('.modal button:has-text("Discard quiz")');
+  }
+  const overlap = [...sets[0]].filter((x) => sets[1].has(x)).length;
+  check(overlap <= 4, `two 20-question games share ${overlap} photos`);
+  const stSeen = await page.evaluate(() => Object.keys(JSON.parse(localStorage.getItem('sarpa.v1.progress')).seen).length);
+  check(stSeen >= 20, 'photos you have seen are remembered, so they are avoided next time');
+
+  /* ---------- 5. region filter ---------- */
+  console.log('\n[5] Region filter');
+  await page.goto(`${base}#/play`);
+  await page.waitForSelector('#region');
+  const state = await page.evaluate(() => SQ.data.regions(12)[0].state);
+  await page.selectOption('#region', state);
+  await page.click('.level:has-text("All species")');
+  await page.click('button:has-text("Start quiz")');
+  await page.waitForSelector('.option');
+  const regionOk = await page.evaluate((st) => {
+    const s = JSON.parse(localStorage.getItem('sarpa.v1.session'));
+    const set = SQ.data.speciesInState(st);
+    return s.questions.every((q) => set.has(q.species));
+  }, state);
+  check(regionOk, `every question is about a snake recorded in ${state}`);
+  await page.click('#quit-btn');
+  await page.click('.modal button:has-text("Discard quiz")');
+
+  /* ---------- 6. reporting a photo ---------- */
+  console.log('\n[6] Reporting a photo');
+  await page.goto(`${base}#/play`);
+  await page.waitForSelector('.level');
+  await page.click('button:has-text("Start quiz")');
+  await page.waitForSelector('.option');
+  const reported = (await session(page)).questions[0].photo;
+  await answer(page, 'right');
+  await page.click('button:has-text("Report photo")');
+  await page.click('.modal button:has-text("Report photo")');
+  const flagged = await page.evaluate(() => JSON.parse(localStorage.getItem('sarpa.v1.progress')).flagged);
+  check(flagged.includes(reported), 'the reported photo is remembered');
+  const never = await page.evaluate((id) => {
+    for (let i = 0; i < 40; i++) {
+      const b = SQ.engine.build({ mode: 'quiz', count: 50, difficulty: 'mixed', region: 'all', preferUnseen: false });
+      if (b.questions.some((q) => q.photo === id)) return false;
+    }
+    return true;
+  }, reported);
+  check(never, 'a reported photo is never shown again');
+  await ctx.close();
+
+  /* ---------- 7. daily challenge is the same for everyone ---------- */
+  console.log('\n[7] Daily challenge');
+  const firstPhotos = [];
+  for (let i = 0; i < 2; i++) {
+    const c = await browser.newContext({ viewport: { width: 1000, height: 800 } });
+    const p = await c.newPage();
+    await p.goto(`${base}#/daily`, { waitUntil: 'load' });
+    await p.click('button:has-text("Start today")');
+    await p.waitForSelector('.option');
+    const s = await session(p);
+    firstPhotos.push(s.questions.map((q) => q.photo + ':' + q.options.join(',')).join('|'));
+    check(s.questions.length === 10, 'the daily challenge has 10 questions');
+    for (let n = 1; n <= 10; n++) {
+      await p.waitForFunction((k) => new RegExp(`Question ${k} of 10`).test(document.querySelector('.q-count').textContent), n);
+      await answer(p, n <= 7 ? 'right' : 'wrong');
+      await p.click('.next-btn');
+    }
+    await p.waitForSelector('.result-hero');
+    await p.goto(`${base}#/daily`);
+    await p.waitForSelector('.daily-done');
+    check(await p.isVisible('.daily-done'), 'after playing, the daily page shows the finished state');
+    const grid = await p.locator('.emoji-grid .cell').count();
+    check(grid === 10, 'the result grid has 10 cells');
+    await c.close();
+  }
+  check(firstPhotos[0] === firstPhotos[1], 'two different players get exactly the same daily questions');
+
+  /* ---------- 8. phone layout ---------- */
+  console.log('\n[8] Phone');
+  ctx = await browser.newContext({ ...devices['iPhone 13'] });
+  page = await ctx.newPage();
+  await page.goto(`${base}#/play`, { waitUntil: 'load' });
+  await page.waitForSelector('.level');
+  await page.click('button:has-text("Start quiz")');
+  await page.waitForSelector('.option');
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
+  check(!overflow, 'no horizontal scrolling on a phone');
+  const btnH = await page.locator('.option').first().evaluate((el) => el.getBoundingClientRect().height);
+  check(btnH >= 44, `answer buttons are tap-friendly (${Math.round(btnH)}px tall)`);
+  await answer(page, 'wrong');
+  const overflow2 = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
+  check(!overflow2, 'no horizontal scrolling while reading an explanation');
+  await ctx.close();
+
+  check(errors.length === 0, `no uncaught JavaScript errors${errors.length ? ': ' + errors[0] : ''}`);
+  await browser.close();
+  console.log(failures ? `\n${failures} check(s) FAILED` : '\nall checks passed');
+  process.exitCode = failures ? 1 : 0;
+})();

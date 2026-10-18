@@ -1,0 +1,612 @@
+[
+  {
+    "id": "grypotyphlops-acutus",
+    "sci": "Grypotyphlops acutus",
+    "name": "Beaked Blind Snake",
+    "aka": [
+      "Beaked Worm Snake"
+    ],
+    "family": "Typhlopidae",
+    "kind": "Blind snake",
+    "tier": 3,
+    "venom": "none",
+    "len": "25-40 cm",
+    "habitat": "Loose soil, leaf litter, termite mounds and under stones and logs in gardens, farmland, scrub and forest",
+    "range": "Most of peninsular India, the Western Ghats and Eastern Ghats; also Sri Lanka and Bangladesh",
+    "diet": "Termites, ants and their larvae",
+    "active": "Underground; comes up after heavy rain, mostly at night",
+    "ids": [
+      "A glossy, cylindrical, worm-like snake, plain dark brown to blackish above with a paler underside; no neck and no visible pattern.",
+      "The head is a blunt snout that looks like a pointed beak from the side, and the eyes are only tiny dark dots under the scales.",
+      "A very short tail ends in a tiny spine that it presses into the soil like a lever; the head and tail look alike.",
+      "Harmless, though it is often mistaken for an earthworm or killed as a \"baby snake\"."
+    ],
+    "look": {
+      "colour": "Glossy dark brown to blackish; paler belly",
+      "pattern": "Plain, no pattern",
+      "head": "Blunt head with a beak-like snout and dot-like eyes",
+      "body": "Long, thin, cylindrical and smooth, with a tiny tail spine"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "worm",
+      "size": 2,
+      "habit": "fossorial",
+      "snout": "wedge",
+      "hue": [
+        "brown",
+        "black"
+      ]
+    },
+    "grp": [
+      "blind-snake"
+    ],
+    "fact": "Blind snakes eat ants and termites. A female may lay her eggs in an ants' nest, where the workers leave them alone."
+  },
+  {
+    "id": "uropeltis-macrolepis",
+    "sci": "Uropeltis macrolepis",
+    "name": "Large-scaled Shieldtail",
+    "family": "Uropeltidae",
+    "kind": "Shieldtail",
+    "tier": 4,
+    "venom": "none",
+    "len": "25-45 cm",
+    "habitat": "Moist leaf litter and soil in forest, plantations and gardens on laterite plateaus and foothills",
+    "range": "Northern Western Ghats and the Konkan (Maharashtra, Goa and neighbouring Karnataka and Gujarat)",
+    "diet": "Earthworms",
+    "active": "Underground; comes out at night and after rain",
+    "ids": [
+      "A burrowing snake with a stout, cylindrical body, glossy blue-black or dark brown above and bright yellow or orange patches along the sides.",
+      "The belly is yellow-orange with dark markings, and the colour reaches up the flanks in irregular blotches.",
+      "A tiny head, shaped like a wedge for digging, and no distinct neck; the tail ends bluntly in a rough, shield-like disc, which gives shieldtails their name.",
+      "Harmless to humans; usually found on roads and paths after rain."
+    ],
+    "look": {
+      "colour": "Blue-black or dark brown, with yellow or orange patches",
+      "pattern": "Irregular yellow side blotches and a yellow-orange belly",
+      "head": "Tiny wedge-shaped head with no neck",
+      "body": "Stout, cylindrical and glossy, with a blunt shield-like tail"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "blotched",
+      "build": "stout",
+      "size": 2,
+      "habit": "fossorial",
+      "snout": "wedge",
+      "hue": [
+        "black",
+        "yellow",
+        "orange"
+      ]
+    },
+    "grp": [
+      "shieldtail"
+    ],
+    "fact": "Shieldtails dig with their pointed snouts and plug their tunnels with the rough disc on the tail, which blocks out predators."
+  },
+  {
+    "id": "indotyphlops-braminus",
+    "sci": "Indotyphlops braminus",
+    "name": "Brahminy Blind Snake",
+    "aka": [
+      "Flowerpot Snake",
+      "Brahminy Worm Snake"
+    ],
+    "family": "Typhlopidae",
+    "kind": "Blind snake",
+    "tier": 1,
+    "venom": "none",
+    "len": "10-17 cm",
+    "habitat": "Soil, leaf litter, potted plants, garden compost and ant or termite nests; found everywhere there is loose soil",
+    "range": "Throughout India, from the plains to the Himalayan foothills, and across the world as a stowaway in plant pots",
+    "diet": "Termites, ants and their eggs and larvae",
+    "active": "Underground; comes up at night and after rain",
+    "ids": [
+      "A tiny, shiny, cylindrical, worm-like snake only about as thick as a thick pencil lead, usually dark brown or black (sometimes silvery or pinkish) with a paler belly.",
+      "No visible neck; the head and tail are almost the same blunt shape. The eyes are only tiny dark dots under the scales.",
+      "A short tail with a tiny spine. It moves like a worm but is a true snake with scales, and flicks its tongue.",
+      "Harmless, and the world's most widespread snake."
+    ],
+    "look": {
+      "colour": "Shiny black, dark brown or silvery-grey",
+      "pattern": "Plain, no pattern",
+      "head": "Blunt, rounded head without a neck, dot-like eyes",
+      "body": "Very thin, cylindrical and smooth"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "wedge",
+      "hue": [
+        "black",
+        "brown",
+        "grey"
+      ]
+    },
+    "grp": [
+      "blind-snake"
+    ],
+    "fact": "Brahminy Blind Snakes are all female and lay unfertilised eggs. A single snake can start a new population, which is why this species has spread almost worldwide in the soil of potted plants."
+  },
+  {
+    "id": "xylophis-perroteti",
+    "sci": "Xylophis perroteti",
+    "name": "Perrotet's Mountain Snake",
+    "aka": [
+      "Perrotet's Mountain Snake"
+    ],
+    "family": "Pareidae",
+    "kind": "Mountain snake",
+    "tier": 4,
+    "venom": "none",
+    "len": "25-40 cm",
+    "habitat": "Wet leaf litter, rocks, soil and plantations in the hills (tea, coffee and cardamom estates) at higher elevations",
+    "range": "Southern Western Ghats of Tamil Nadu and Kerala (endemic)",
+    "diet": "Slugs, earthworms and snails",
+    "active": "Mostly at night and in wet weather",
+    "ids": [
+      "A small, stout, dark brown or blue-grey snake with a pale belly and fine rows of lighter flecks along the body (a honeycomb-like look).",
+      "A short head and a short, blunt tail; smooth, slightly shiny scales.",
+      "A secretive snail-eater of the high hills of the southern Western Ghats. Harmless."
+    ],
+    "look": {
+      "colour": "Dark brown to blue-grey, sometimes with a violet sheen",
+      "pattern": "Fine pale flecks give a honeycomb look",
+      "head": "Small blunt head",
+      "body": "Short, stout and smooth"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "speckled",
+      "build": "stout",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "blunt",
+      "hue": [
+        "brown",
+        "grey"
+      ]
+    },
+    "grp": [
+      "small-brown"
+    ]
+  },
+  {
+    "id": "uropeltis-ellioti",
+    "sci": "Uropeltis ellioti",
+    "name": "Elliot's Shieldtail",
+    "family": "Uropeltidae",
+    "kind": "Shieldtail",
+    "tier": 4,
+    "venom": "none",
+    "len": "20-35 cm",
+    "habitat": "Moist soil and leaf litter in dry and moist forest, scrub and farmland, often under stones and logs",
+    "range": "Peninsular India: Karnataka, Madhya Pradesh, Andhra Pradesh, Maharashtra",
+    "diet": "Earthworms",
+    "active": "Underground; comes up after rain",
+    "ids": [
+      "A burrowing, cylindrical snake that is brown, olive or greyish with scales that look glossy and slightly iridescent, and a bright yellow patch at the base of the head or on the tail.",
+      "Tiny head with a pointed snout, no visible neck and a blunt, shield-like tail tip.",
+      "Harmless; often found on roads or washed out by rain."
+    ],
+    "look": {
+      "colour": "Olive, brown or grey with a yellow patch",
+      "pattern": "Plain, with yellow marks on the head and tail",
+      "head": "Tiny pointed head, no neck",
+      "body": "Short, cylindrical and glossy"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "wedge",
+      "hue": [
+        "olive",
+        "brown",
+        "yellow"
+      ]
+    },
+    "grp": [
+      "shieldtail"
+    ]
+  },
+  {
+    "id": "melanophidium-khairei",
+    "sci": "Melanophidium khairei",
+    "name": "Khaire's Black Shieldtail",
+    "family": "Uropeltidae",
+    "kind": "Shieldtail",
+    "tier": 4,
+    "venom": "none",
+    "len": "30-50 cm",
+    "habitat": "Moist soil and leaf litter in evergreen forest, plantations and gardens in the hills",
+    "range": "Northern Western Ghats (Maharashtra, Goa, Karnataka)",
+    "diet": "Earthworms",
+    "active": "Underground; comes up after rain",
+    "ids": [
+      "A shiny blue-black burrowing snake with iridescent scales that gleam blue, green and purple in light; sometimes with a pale stripe along the belly.",
+      "A tiny head that continues in a smooth line into the body, and a short, blunt tail ending in a rough disc.",
+      "Harmless, and rarely seen outside the rains."
+    ],
+    "look": {
+      "colour": "Glossy blue-black with an iridescent sheen",
+      "pattern": "Plain; pale or light belly",
+      "head": "Tiny head without a neck",
+      "body": "Cylindrical, shiny and smooth"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "worm",
+      "size": 2,
+      "habit": "fossorial",
+      "snout": "wedge",
+      "hue": [
+        "black",
+        "blue"
+      ]
+    },
+    "grp": [
+      "shieldtail"
+    ]
+  },
+  {
+    "id": "plectrurus-perroteti",
+    "sci": "Plectrurus perroteti",
+    "name": "Perrotet's Shieldtail",
+    "family": "Uropeltidae",
+    "kind": "Shieldtail",
+    "tier": 4,
+    "venom": "none",
+    "len": "30-45 cm",
+    "habitat": "Moist soil and leaf litter in high-altitude evergreen forest, shola and plantations",
+    "range": "Hills of the southern Western Ghats (Tamil Nadu and Kerala)",
+    "diet": "Earthworms",
+    "active": "Underground; comes up after rain",
+    "ids": [
+      "A burrowing snake that is dark brown, reddish-brown or purplish with a glossy, iridescent sheen and a paler, pinkish-brown belly.",
+      "Tiny pointed head with no neck, and a short tail ending in a blunt, scaly disc.",
+      "Harmless; seen when ploughing or after heavy rain in the high hills."
+    ],
+    "look": {
+      "colour": "Dark brown, reddish-brown or purplish",
+      "pattern": "Plain, with a paler belly",
+      "head": "Tiny pointed head, no neck",
+      "body": "Cylindrical and glossy"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "worm",
+      "size": 2,
+      "habit": "fossorial",
+      "snout": "wedge",
+      "hue": [
+        "brown",
+        "red"
+      ]
+    },
+    "grp": [
+      "shieldtail"
+    ]
+  },
+  {
+    "id": "melanophidium-wynaudense",
+    "sci": "Melanophidium wynaudense",
+    "name": "Wynaad Black Shieldtail",
+    "family": "Uropeltidae",
+    "kind": "Shieldtail",
+    "tier": 4,
+    "venom": "none",
+    "len": "30-45 cm",
+    "habitat": "Moist soil and leaf litter in evergreen forest and plantations in the hills",
+    "range": "Southern Western Ghats (Wayanad and neighbouring districts of Kerala and Karnataka)",
+    "diet": "Earthworms",
+    "active": "Underground; comes up after rain",
+    "ids": [
+      "A shiny, cylindrical blue-black to purplish-black burrowing snake with an iridescent sheen, often with a pale or yellowish belly.",
+      "A tiny pointed head with no neck and a blunt tail tip.",
+      "Harmless."
+    ],
+    "look": {
+      "colour": "Glossy blue-black to purplish",
+      "pattern": "Plain, pale belly",
+      "head": "Tiny pointed head, no neck",
+      "body": "Cylindrical and shiny"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "worm",
+      "size": 2,
+      "habit": "fossorial",
+      "snout": "wedge",
+      "hue": [
+        "black",
+        "blue"
+      ]
+    },
+    "grp": [
+      "shieldtail"
+    ]
+  },
+  {
+    "id": "uropeltis-phipsonii",
+    "sci": "Uropeltis phipsonii",
+    "name": "Phipson's Shieldtail",
+    "family": "Uropeltidae",
+    "kind": "Shieldtail",
+    "tier": 4,
+    "venom": "none",
+    "len": "20-30 cm",
+    "habitat": "Moist soil, leaf litter and gardens in forest and on laterite plateaus",
+    "range": "Northern Western Ghats of Maharashtra",
+    "diet": "Earthworms",
+    "active": "Underground; comes up after rain",
+    "ids": [
+      "A burrowing snake with a dark brown to bluish-black back and a pale yellow or whitish spot at the base of the snout or tail.",
+      "Tiny pointed head with no neck; short tail ending in a shield-like disc.",
+      "Harmless; found on roads and paths after rain."
+    ],
+    "look": {
+      "colour": "Dark brown or bluish-black",
+      "pattern": "Plain with pale yellow marks",
+      "head": "Tiny pointed head, no neck",
+      "body": "Cylindrical and smooth"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "wedge",
+      "hue": [
+        "black",
+        "brown"
+      ]
+    },
+    "grp": [
+      "shieldtail"
+    ]
+  },
+  {
+    "id": "platyplectrurus-madurensis",
+    "sci": "Platyplectrurus madurensis",
+    "name": "Madurai Thorntail",
+    "aka": [
+      "Thorntail Snake"
+    ],
+    "family": "Uropeltidae",
+    "kind": "Shieldtail",
+    "tier": 5,
+    "venom": "none",
+    "len": "20-30 cm",
+    "habitat": "Moist soil, leaf litter and gardens in hill forest",
+    "range": "Southern Western Ghats of Tamil Nadu and Kerala",
+    "diet": "Earthworms",
+    "active": "Underground; comes up after rain",
+    "ids": [
+      "A burrowing, cylindrical snake that is brown to reddish-brown or olive with a glossy sheen and a pinkish belly.",
+      "Tiny pointed head with no neck; the tail ends in a blunt, spiny disc.",
+      "Harmless."
+    ],
+    "look": {
+      "colour": "Brown, reddish-brown or olive",
+      "pattern": "Plain",
+      "head": "Tiny pointed head, no neck",
+      "body": "Cylindrical and glossy"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "wedge",
+      "hue": [
+        "brown",
+        "red"
+      ]
+    },
+    "grp": [
+      "shieldtail"
+    ]
+  },
+  {
+    "id": "pareas-monticola",
+    "sci": "Pareas monticola",
+    "name": "Assam Snail-eater",
+    "aka": [
+      "Mountain Slug Snake"
+    ],
+    "family": "Pareidae",
+    "kind": "Snail-eater",
+    "tier": 4,
+    "venom": "none",
+    "len": "40-65 cm",
+    "habitat": "Hill forest, bamboo and gardens, on shrubs and the ground; hunts snails and slugs at night",
+    "range": "North-east India (Assam, Meghalaya, Tripura, Arunachal Pradesh) and eastwards",
+    "diet": "Snails and slugs",
+    "active": "Nocturnal",
+    "ids": [
+      "A slender, laterally flattened snake in brown, orange-brown or yellowish with dark cross-bars or flecks, and a blunt, broad head with large eyes.",
+      "A very blunt snout and short lower jaw suited to extracting snails from their shells; no heat pits.",
+      "A harmless snail-specialist."
+    ],
+    "look": {
+      "colour": "Brown to orange-brown, with a yellowish tint",
+      "pattern": "Dark cross-bars or flecks",
+      "head": "Blunt broad head with large eyes",
+      "body": "Slim and laterally flattened"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "banded",
+      "build": "slender",
+      "size": 2,
+      "habit": "semi-arboreal",
+      "snout": "blunt",
+      "pupil": "vertical",
+      "hue": [
+        "brown",
+        "orange",
+        "yellow"
+      ]
+    },
+    "grp": [
+      "small-brown"
+    ]
+  },
+  {
+    "id": "acrochordus-granulatus",
+    "sci": "Acrochordus granulatus",
+    "name": "Little File Snake",
+    "aka": [
+      "Marine File Snake",
+      "Wart Snake"
+    ],
+    "family": "Acrochordidae",
+    "kind": "File snake",
+    "tier": 4,
+    "venom": "none",
+    "len": "50-80 cm",
+    "habitat": "Shallow sea, tidal creeks, mangroves and estuaries; rarely on beaches",
+    "range": "Coasts of India (Maharashtra, Gujarat, the south-east coast and the Andaman and Nicobar Islands)",
+    "diet": "Fish",
+    "active": "Nocturnal",
+    "ids": [
+      "A fat-looking, grey-brown snake with loose, baggy skin that hangs in folds, banded with dark and pale cross-bars.",
+      "Small, rough, granular scales (like a file) rather than smooth overlapping ones, and tiny eyes and nostrils on top of a flattish head.",
+      "Usually found in the sea or in tidal creeks, and helpless on land. Harmless."
+    ],
+    "look": {
+      "colour": "Grey-brown to blackish with paler bands",
+      "pattern": "Dark and pale cross-bars",
+      "head": "Small flattish head with upturned nostrils",
+      "body": "Baggy loose skin and tiny, granular scales"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "banded",
+      "build": "stout",
+      "size": 2,
+      "habit": "marine",
+      "hue": [
+        "grey",
+        "brown",
+        "black"
+      ],
+      "scales": "keeled"
+    },
+    "grp": [
+      "sea-snake",
+      "water-snake"
+    ]
+  },
+  {
+    "id": "dieurostus-dussumieri",
+    "sci": "Dieurostus dussumieri",
+    "name": "Dussumier's Water Snake",
+    "family": "Homalopsidae",
+    "kind": "Water snake",
+    "tier": 4,
+    "venom": "mild",
+    "len": "40-60 cm",
+    "habitat": "Ponds, paddy fields, streams and wet ground in lowlands and foothills",
+    "range": "Kerala and neighbouring parts of the southern Western Ghats",
+    "diet": "Fish, tadpoles and frogs",
+    "active": "Nocturnal",
+    "ids": [
+      "A slim, smooth, shiny snake in dark brown or blue-black with narrow pale stripes along the sides and a pale belly.",
+      "A narrow, rounded head and small eyes; spends its life in water or wet ground.",
+      "Rear-fanged and mildly venomous, harmless to people."
+    ],
+    "look": {
+      "colour": "Dark brown or blue-black",
+      "pattern": "Narrow pale stripes along the sides",
+      "head": "Small rounded head and small eyes",
+      "body": "Slim, smooth and glossy"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "striped",
+      "build": "slender",
+      "size": 2,
+      "habit": "aquatic",
+      "hue": [
+        "brown",
+        "black"
+      ]
+    },
+    "grp": [
+      "water-snake"
+    ]
+  },
+  {
+    "id": "gerarda-prevostiana",
+    "sci": "Gerarda prevostiana",
+    "name": "Gerard's Water Snake",
+    "aka": [
+      "Gerard's Mud Snake"
+    ],
+    "family": "Homalopsidae",
+    "kind": "Water snake",
+    "tier": 5,
+    "venom": "mild",
+    "len": "40-60 cm",
+    "habitat": "Mangroves, tidal creeks, estuaries and mudflats along the coast",
+    "range": "West coast of India (Maharashtra, Gujarat), the Sundarbans and east coast, and the Andaman Islands",
+    "diet": "Crabs, shrimps and small fish",
+    "active": "Nocturnal and at low tide",
+    "ids": [
+      "A stout, grey-brown or olive snake with a pale belly and often a pale stripe along the flank.",
+      "A small flattish head with small eyes set high; lives in tidal mud, where it hunts crabs.",
+      "Rear-fanged and mildly venomous, harmless to people."
+    ],
+    "look": {
+      "colour": "Grey-brown or olive",
+      "pattern": "Plain, sometimes with a pale side stripe",
+      "head": "Small flattish head, small eyes",
+      "body": "Stout, with rough scales"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "stout",
+      "size": 2,
+      "habit": "aquatic",
+      "hue": [
+        "grey",
+        "brown",
+        "olive"
+      ],
+      "scales": "keeled"
+    },
+    "grp": [
+      "water-snake"
+    ]
+  }
+]

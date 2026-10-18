@@ -1,0 +1,746 @@
+[
+  {
+    "id": "naja-naja",
+    "sci": "Naja naja",
+    "name": "Indian Cobra",
+    "aka": [
+      "Spectacled Cobra",
+      "Common Cobra"
+    ],
+    "local": {
+      "hi": "नाग (Naag)"
+    },
+    "family": "Elapidae",
+    "kind": "Cobra",
+    "tier": 1,
+    "venom": "deadly",
+    "big4": true,
+    "len": "1.2-1.8 m, occasionally over 2 m",
+    "habitat": "Farmland, villages, scrub, grassland, rocky ground and forest edges, often near rat holes and termite mounds",
+    "range": "Most of India from the plains up into the hills (the Monocled Cobra takes over in the far north-east); also Nepal, Sri Lanka, Pakistan and Bangladesh",
+    "diet": "Rats and mice mainly, plus frogs, toads, lizards, eggs and other snakes",
+    "active": "Mostly dusk and night, but often seen by day",
+    "ids": [
+      "Spreads a broad, flat hood when alarmed, lifting the front part of its body off the ground.",
+      "The back of the hood usually carries a pale 'spectacle' mark (two round lenses joined by a curve); some individuals show a single ring or hardly any mark.",
+      "Smooth, shiny scales and a rounded head with round pupils. The head is narrow and not triangular.",
+      "Colour varies from yellowish-brown and grey to dark brown or nearly black; the belly is pale with a dark band across the throat area.",
+      "Hisses loudly and sways its raised hood before striking."
+    ],
+    "look": {
+      "colour": "Yellowish, grey, brown or black; pale belly",
+      "pattern": "Mostly plain; spectacle mark on the back of the hood",
+      "head": "Narrow, rounded head that merges into a broad hood",
+      "body": "Moderately thick, smooth and glossy"
+    },
+    "t": {
+      "hood": true,
+      "head": "indistinct",
+      "pat": "plain",
+      "hue": [
+        "brown",
+        "grey",
+        "black"
+      ],
+      "build": "medium",
+      "size": 4,
+      "habit": "terrestrial"
+    },
+    "grp": [
+      "cobra-like"
+    ],
+    "fact": "Sacred in Hinduism and linked with Lord Shiva, the cobra is honoured at the Nag Panchami festival. In reality it is a shy snake that prefers to slip away, and it is a valuable rat-catcher."
+  },
+  {
+    "id": "naja-kaouthia",
+    "sci": "Naja kaouthia",
+    "name": "Monocled Cobra",
+    "aka": [
+      "Monocellate Cobra"
+    ],
+    "family": "Elapidae",
+    "kind": "Cobra",
+    "tier": 2,
+    "venom": "deadly",
+    "len": "1.3-1.8 m, up to about 2.3 m",
+    "habitat": "Paddy fields, ponds, canals, forest edges, mangroves and villages in wet lowlands",
+    "range": "North-east India, West Bengal and the eastern Himalayan foothills, and eastwards into Bangladesh and South-East Asia",
+    "diet": "Rats, frogs, fish, birds' eggs and other snakes",
+    "active": "Dusk, night and early morning; a good swimmer",
+    "ids": [
+      "The hood bears a single round or O-shaped mark (a 'monocle') on the back, often with a dark centre, rather than the two-lens spectacle of the Indian Cobra.",
+      "Spreads a broad hood and rears up when threatened, hissing loudly.",
+      "Body usually olive, tan, brown or almost black, smooth and shiny, with a pale chin and throat.",
+      "Round pupils and a rounded, non-triangular head, like other cobras.",
+      "The cobra you are most likely to meet in the wet plains of the north-east."
+    ],
+    "look": {
+      "colour": "Olive-brown, tan or black; pale chin and throat",
+      "pattern": "Single ring-shaped 'monocle' mark on the hood",
+      "head": "Narrow head merging into a broad hood",
+      "body": "Smooth, glossy and moderately thick"
+    },
+    "t": {
+      "hood": true,
+      "head": "indistinct",
+      "pat": "plain",
+      "hue": [
+        "brown",
+        "olive",
+        "black"
+      ],
+      "build": "medium",
+      "size": 4,
+      "habit": "terrestrial"
+    },
+    "grp": [
+      "cobra-like"
+    ],
+    "fact": "The Monocled Cobra swims well and often hunts frogs and fish around ponds and paddy fields, which is why it turns up in wet, low-lying places."
+  },
+  {
+    "id": "king-cobra",
+    "sci": "Ophiophagus hannah",
+    "inat": [
+      "Ophiophagus hannah",
+      "Ophiophagus kaalinga"
+    ],
+    "name": "King Cobra",
+    "aka": [
+      "Hamadryad"
+    ],
+    "local": {
+      "hi": "नागराज (Nagraj)"
+    },
+    "family": "Elapidae",
+    "kind": "Cobra",
+    "tier": 1,
+    "venom": "deadly",
+    "len": "3-4 m; the longest venomous snake in the world (to about 5.5 m)",
+    "habitat": "Dense evergreen and moist forest, bamboo thickets and plantations, usually near streams",
+    "range": "Western Ghats, forests of Odisha and the Eastern Ghats, the Himalayan foothills and north-east India (the Western Ghats snakes are sometimes treated as a separate species)",
+    "diet": "Mostly other snakes (rat snakes, cobras, pythons), sometimes monitor lizards",
+    "active": "Mainly by day",
+    "ids": [
+      "Enormous size: a long, powerful snake, often 3 m or more, that can raise a third of its body off the ground.",
+      "Spreads a long, narrow hood that has no spectacle mark; the hood is more slender than an Indian Cobra's.",
+      "Two extra large scales (occipitals) at the back of the head, a feature only king cobras have.",
+      "Adults are olive, brown or blackish with faint pale cross-bands and a cream or yellow throat; the young are glossy black with bold white or yellow bands.",
+      "Growls: a low, deep hiss like a dog's growl."
+    ],
+    "look": {
+      "colour": "Olive, brown or black; cream or yellow throat",
+      "pattern": "Faint pale chevron bands (bold in young); no spectacle mark",
+      "head": "Large rounded head with a long, narrow hood",
+      "body": "Very long, smooth and powerful"
+    },
+    "t": {
+      "hood": true,
+      "head": "indistinct",
+      "pat": "banded",
+      "hue": [
+        "olive",
+        "brown",
+        "black"
+      ],
+      "build": "stout",
+      "size": 5,
+      "habit": "terrestrial"
+    },
+    "grp": [
+      "cobra-like"
+    ],
+    "fact": "The king cobra is the only snake that builds a nest: the female heaps leaves into a mound for her eggs and guards them until they hatch."
+  },
+  {
+    "id": "bungarus-caeruleus",
+    "sci": "Bungarus caeruleus",
+    "name": "Common Krait",
+    "aka": [
+      "Indian Krait",
+      "Blue Krait"
+    ],
+    "local": {
+      "hi": "करैत (Karait)",
+      "mr": "मण्यार (Manyar)"
+    },
+    "family": "Elapidae",
+    "kind": "Krait",
+    "tier": 2,
+    "venom": "deadly",
+    "big4": true,
+    "len": "0.9-1.2 m, up to about 1.75 m",
+    "habitat": "Farmland, villages, houses, scrub and places near water; hides in rodent holes, termite mounds, rubble and wood piles",
+    "range": "Most of India (rarer in the north-east and high Himalaya), Pakistan, Nepal, Bangladesh and Sri Lanka",
+    "diet": "Other snakes, including venomous ones, plus lizards, frogs and small rodents",
+    "active": "Strictly nocturnal; sluggish and docile by day",
+    "ids": [
+      "Glossy blue-black or blackish-brown body crossed by narrow white bands, often in pairs, that are clearest on the rear half. Some adults are almost plain.",
+      "A row of enlarged six-sided (hexagonal) scales runs down the middle of the back. No other common snake has this.",
+      "Flat-topped, rounded head only slightly wider than the neck, with a blunt snout and small dark eyes.",
+      "Body is slightly triangular in cross-section with a ridged back; the tail is short and blunt.",
+      "Plain white belly. Often coils with its head tucked under the body when disturbed."
+    ],
+    "look": {
+      "colour": "Glossy blue-black or dark brown; plain white belly",
+      "pattern": "Narrow white cross-bands (single or paired), clearest towards the tail",
+      "head": "Flat head, hardly wider than the neck; blunt snout",
+      "body": "Smooth and glossy with an enlarged hexagonal scale row along the spine"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "banded",
+      "hue": [
+        "black"
+      ],
+      "build": "medium",
+      "size": 3,
+      "habit": "terrestrial"
+    },
+    "grp": [
+      "krait-like",
+      "banded-small"
+    ],
+    "fact": "Kraits are docile by day but kill many people because they slip into homes at night and bite sleepers, often so painlessly that the victim does not wake. Sleeping off the floor and under a bed-net is real protection."
+  },
+  {
+    "id": "bungarus-fasciatus",
+    "sci": "Bungarus fasciatus",
+    "name": "Banded Krait",
+    "family": "Elapidae",
+    "kind": "Krait",
+    "tier": 2,
+    "venom": "deadly",
+    "len": "1.5-2 m, up to about 2.2 m",
+    "habitat": "Moist lowland forest, paddy fields and village outskirts, near water and termite mounds",
+    "range": "Eastern and north-eastern India (Odisha, Chhattisgarh, West Bengal, Assam and the north-east), eastwards into South-East Asia",
+    "diet": "Mostly other snakes, also frogs, fish and lizards",
+    "active": "Nocturnal and very docile by day",
+    "ids": [
+      "Bold rings of glossy black and bright yellow circle the whole body, with the two colours about equal in width.",
+      "Triangular (prism-shaped) body with a prominent ridge along the backbone, which looks thick and heavy.",
+      "Broad, flat black head with yellow edges and a yellow arrow-shaped mark, hardly wider than the neck; small eyes.",
+      "Very short, blunt tail ending in a rounded tip.",
+      "Placid by day: usually hides its head under its coils and rarely bites."
+    ],
+    "look": {
+      "colour": "Black and bright yellow",
+      "pattern": "Wide black and yellow rings all the way round the body",
+      "head": "Broad, flat black head with yellow edges",
+      "body": "Heavy, ridged triangular body and blunt tail"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "ringed",
+      "hue": [
+        "black",
+        "yellow"
+      ],
+      "build": "stout",
+      "size": 4,
+      "habit": "terrestrial"
+    },
+    "grp": [
+      "krait-like",
+      "banded-bold"
+    ],
+    "fact": "Despite its fearsome venom, the Banded Krait is among the most easy-going of dangerous snakes. It is a specialist snake-eater."
+  },
+  {
+    "id": "calliophis-nigrescens",
+    "sci": "Calliophis nigrescens",
+    "name": "Striped Coral Snake",
+    "aka": [
+      "Black Coral Snake",
+      "Western Ghats Coral Snake"
+    ],
+    "family": "Elapidae",
+    "kind": "Coral snake",
+    "tier": 2,
+    "venom": "venomous",
+    "len": "40-70 cm",
+    "habitat": "Leaf litter and soil in evergreen and moist forest, plantations and gardens in the hills; found under logs and stones, and on roads after rain",
+    "range": "Western Ghats from Maharashtra and Goa to Karnataka, Kerala and Tamil Nadu",
+    "diet": "Other small snakes (such as blind snakes), and probably slender lizards",
+    "active": "Mostly at night and after rain",
+    "ids": [
+      "Slender, glossy snake with a blue-black to dark grey back, usually with thin orange-red stripes along the lower flanks.",
+      "Bright orange-red belly and underside of the tail; when alarmed it raises and curls its tail to show the red, drawing attention away from the head.",
+      "Small black head with a cream or white patch on each side of the head and neck, and a very small mouth.",
+      "Smooth, shiny scales and a body no thicker than a finger; a forest-floor snake of the Western Ghats."
+    ],
+    "look": {
+      "colour": "Glossy blue-black or dark grey; red-orange belly and tail underside",
+      "pattern": "Thin orange-red stripes along the sides; pale patches on the head",
+      "head": "Small black head, barely wider than the neck",
+      "body": "Very slender, smooth and shiny"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "striped",
+      "hue": [
+        "black",
+        "red",
+        "grey"
+      ],
+      "build": "thin",
+      "size": 2,
+      "habit": "terrestrial"
+    },
+    "grp": [
+      "coral-like"
+    ],
+    "fact": "Coral snakes have a trick: they curl up their brightly coloured tail and wave it like a head, so a predator attacks the wrong end."
+  },
+  {
+    "id": "calliophis-melanurus",
+    "sci": "Calliophis melanurus",
+    "name": "Slender Coral Snake",
+    "aka": [
+      "Indian Coral Snake"
+    ],
+    "family": "Elapidae",
+    "kind": "Coral snake",
+    "tier": 4,
+    "venom": "venomous",
+    "len": "30-60 cm",
+    "habitat": "Dry and moist forest, scrub, farmland and rocky ground under stones, logs and in leaf litter",
+    "range": "Peninsular India from Gujarat and Maharashtra southwards, and the Deccan; also Sri Lanka",
+    "diet": "Small snakes (including blind snakes) and skinks",
+    "active": "Mainly at night",
+    "ids": [
+      "Very slender, pencil-thin snake in plain grey-brown, tan or pinkish-brown, sometimes with faint dark lines along the body.",
+      "Black head and a black band across the neck, often flecked with white, and a black tail tip with an orange-red underside, so both ends look alike.",
+      "Bright red or orange belly and tail underside, which it shows by curling its tail.",
+      "Despite the name 'coral snake', most of its body is brown, not red and black."
+    ],
+    "look": {
+      "colour": "Grey-brown, tan or pinkish; red-orange belly",
+      "pattern": "Plain or faintly lined; black head, neck band and tail tip",
+      "head": "Small black head and a black neck band",
+      "body": "Very slender and smooth"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "hue": [
+        "brown",
+        "grey",
+        "tan"
+      ],
+      "build": "thin",
+      "size": 1,
+      "habit": "terrestrial"
+    },
+    "grp": [
+      "coral-like",
+      "small-brown"
+    ]
+  },
+  {
+    "id": "calliophis-bibroni",
+    "sci": "Calliophis bibroni",
+    "name": "Bibron's Coral Snake",
+    "aka": [
+      "Bibron's Slender Coral Snake"
+    ],
+    "family": "Elapidae",
+    "kind": "Coral snake",
+    "tier": 4,
+    "venom": "venomous",
+    "len": "40-70 cm",
+    "habitat": "Evergreen forest floor, shola edges and plantations at middle and high elevations, under logs and leaf litter",
+    "range": "Southern Western Ghats of Karnataka, Kerala and Tamil Nadu",
+    "diet": "Small snakes and other slender reptiles",
+    "active": "Nocturnal and after rain",
+    "ids": [
+      "Boldly banded in bright orange-red and black, one of the most striking small snakes in the Western Ghats.",
+      "Slim, smooth-scaled body and a small black head with an orange or yellowish snout.",
+      "Bright red-orange belly with black bars. Raises and curls its tail when threatened."
+    ],
+    "look": {
+      "colour": "Bright orange-red and black",
+      "pattern": "Wide black crossbands on an orange-red body",
+      "head": "Small black head with an orange snout",
+      "body": "Slim and glossy"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "ringed",
+      "hue": [
+        "red",
+        "orange",
+        "black"
+      ],
+      "build": "slender",
+      "size": 2,
+      "habit": "terrestrial"
+    },
+    "grp": [
+      "coral-like",
+      "banded-bold"
+    ]
+  },
+  {
+    "id": "sinomicrurus-macclellandi",
+    "sci": "Sinomicrurus macclellandi",
+    "name": "MacClelland's Coral Snake",
+    "aka": [
+      "Himalayan Coral Snake"
+    ],
+    "family": "Elapidae",
+    "kind": "Coral snake",
+    "tier": 4,
+    "venom": "venomous",
+    "len": "50-80 cm",
+    "habitat": "Hill forest, streams, tea gardens and farmland, under leaf litter, stones and logs",
+    "range": "Eastern Himalaya and north-east India (Sikkim, Assam, Arunachal Pradesh, Himachal Pradesh and neighbouring hills)",
+    "diet": "Other snakes, lizards and earthworms",
+    "active": "Mostly at night and after rain",
+    "ids": [
+      "Slender, brick-red or orange-red body with narrow, widely spaced black crossbars.",
+      "Small black head with a pale yellow or white patch on each side and a black collar behind it.",
+      "Smooth shiny scales and a thin build; a ground-dwelling snake of the eastern Himalaya."
+    ],
+    "look": {
+      "colour": "Brick-red or orange-red",
+      "pattern": "Narrow black crossbars; pale head patch",
+      "head": "Small black head with a pale patch and black collar",
+      "body": "Slim and glossy"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "ringed",
+      "hue": [
+        "red",
+        "orange",
+        "black"
+      ],
+      "build": "slender",
+      "size": 2,
+      "habit": "terrestrial"
+    },
+    "grp": [
+      "coral-like"
+    ]
+  },
+  {
+    "id": "hydrophis-schistosus",
+    "sci": "Hydrophis schistosus",
+    "name": "Beaked Sea Snake",
+    "aka": [
+      "Hook-nosed Sea Snake"
+    ],
+    "family": "Elapidae",
+    "kind": "Sea snake",
+    "tier": 3,
+    "venom": "deadly",
+    "len": "1-1.3 m",
+    "habitat": "Shallow coastal water, estuaries, river mouths and muddy shores; often caught in fishing nets or stranded on beaches",
+    "range": "Coasts of India, especially the west coast (Gujarat to Kerala) and the east coast; also the Gulf, Sri Lanka and South-East Asia",
+    "diet": "Fish",
+    "active": "Day and night",
+    "ids": [
+      "A heavy-bodied sea snake with a flattened, oar-like tail used for swimming; stranded snakes lie limply on the sand.",
+      "Grey, olive or bluish above with a cream or white belly; young ones have dark bands that fade with age.",
+      "Small head with a short, hooked snout (the 'beak') and small round pupils.",
+      "A flat paddle tail instead of a pointed one is the quickest way to tell a sea snake from a land snake."
+    ],
+    "look": {
+      "colour": "Grey-olive above, cream below",
+      "pattern": "Dark bands when young; plain when old",
+      "head": "Small head with a hooked snout",
+      "body": "Heavy, with a flat paddle tail"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "banded",
+      "hue": [
+        "olive",
+        "grey",
+        "cream"
+      ],
+      "build": "stout",
+      "size": 4,
+      "habit": "marine"
+    },
+    "grp": [
+      "sea-snake"
+    ],
+    "fact": "This is the sea snake responsible for most bites on fishermen, who are bitten while sorting their catch from the nets. The snake itself is not aggressive."
+  },
+  {
+    "id": "hydrophis-curtus",
+    "sci": "Hydrophis curtus",
+    "name": "Spine-bellied Sea Snake",
+    "aka": [
+      "Short Sea Snake",
+      "Lapemis"
+    ],
+    "family": "Elapidae",
+    "kind": "Sea snake",
+    "tier": 4,
+    "venom": "deadly",
+    "len": "60-100 cm",
+    "habitat": "Shallow coastal seas, estuaries and mudflats; sometimes washed ashore",
+    "range": "Coasts of India (both coasts), the Andaman Sea and South-East Asia",
+    "diet": "Fish",
+    "active": "Day and night",
+    "ids": [
+      "Short, thick-bodied sea snake with a flat paddle-like tail.",
+      "Yellowish-brown, olive or grey with dark bands or blotches that are widest on the back and fade on the sides.",
+      "Small head and small round pupils; the belly is pale yellow or cream."
+    ],
+    "look": {
+      "colour": "Yellow-brown or olive; pale belly",
+      "pattern": "Dark bands wide on the back, narrow on the flanks",
+      "head": "Small head",
+      "body": "Thick body, paddle tail"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "banded",
+      "hue": [
+        "yellow",
+        "brown",
+        "olive"
+      ],
+      "build": "stout",
+      "size": 2,
+      "habit": "marine"
+    },
+    "grp": [
+      "sea-snake"
+    ]
+  },
+  {
+    "id": "hydrophis-cyanocinctus",
+    "sci": "Hydrophis cyanocinctus",
+    "name": "Annulated Sea Snake",
+    "aka": [
+      "Blue-banded Sea Snake"
+    ],
+    "family": "Elapidae",
+    "kind": "Sea snake",
+    "tier": 4,
+    "venom": "deadly",
+    "len": "1-1.5 m",
+    "habitat": "Shallow coastal waters, reefs, estuaries and mudflats",
+    "range": "Coasts of India, the Gulf and South-East Asia",
+    "diet": "Fish and eels",
+    "active": "Day and night",
+    "ids": [
+      "Large sea snake with 30 to 50 dark blue-black bands around a pale yellowish, olive or greenish body.",
+      "The bands are broad on the back and narrow towards the belly, and fade on large adults.",
+      "Small head, round pupils and a flat paddle tail; usually seen in the water or washed ashore."
+    ],
+    "look": {
+      "colour": "Pale yellow, olive or greenish with blue-black bands",
+      "pattern": "Many dark bands, broad on the back",
+      "head": "Small, rounded head",
+      "body": "Long, strong body with a paddle tail"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "banded",
+      "hue": [
+        "yellow",
+        "olive",
+        "black"
+      ],
+      "build": "stout",
+      "size": 4,
+      "habit": "marine"
+    },
+    "grp": [
+      "sea-snake"
+    ]
+  },
+  {
+    "id": "hydrophis-platurus",
+    "sci": "Hydrophis platurus",
+    "name": "Yellow-bellied Sea Snake",
+    "aka": [
+      "Pelagic Sea Snake"
+    ],
+    "family": "Elapidae",
+    "kind": "Sea snake",
+    "tier": 3,
+    "venom": "deadly",
+    "len": "60-90 cm",
+    "habitat": "Open ocean, drifting in surface slicks; sometimes washed up on beaches after storms",
+    "range": "Seas around India (more often seen after monsoon storms) and almost all tropical oceans",
+    "diet": "Small fish",
+    "active": "Day and night",
+    "ids": [
+      "Two-coloured snake: dark brown or black on the back and bright yellow below, with a clean line between them.",
+      "Paddle-shaped tail, yellow with black spots or bars.",
+      "Narrow head and a thin neck; floats and drifts on the surface of the sea."
+    ],
+    "look": {
+      "colour": "Black above, bright yellow below",
+      "pattern": "Sharp black-and-yellow division; spotted tail",
+      "head": "Narrow, flattened head",
+      "body": "Slim, with a spotted paddle tail"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "bicolour",
+      "hue": [
+        "black",
+        "yellow"
+      ],
+      "build": "slender",
+      "size": 2,
+      "habit": "marine"
+    },
+    "grp": [
+      "sea-snake"
+    ],
+    "fact": "This is the most widespread snake on Earth, found across the Indian, Pacific and Atlantic-facing tropical seas. It drifts with ocean currents."
+  },
+  {
+    "id": "hydrophis-spiralis",
+    "sci": "Hydrophis spiralis",
+    "name": "Yellow Sea Snake",
+    "family": "Elapidae",
+    "kind": "Sea snake",
+    "tier": 5,
+    "venom": "deadly",
+    "len": "1.2-2 m",
+    "habitat": "Coastal waters, reefs and estuaries",
+    "range": "Coasts of India and South-East Asia",
+    "diet": "Eels and fish",
+    "active": "Day and night",
+    "ids": [
+      "Very long sea snake, yellowish to olive with dark crossbands.",
+      "Small head, thick rear body and a paddle tail.",
+      "Often washes up on beaches or is caught in nets."
+    ],
+    "look": {
+      "colour": "Yellow to olive",
+      "pattern": "Dark crossbands",
+      "head": "Small head",
+      "body": "Long, with a paddle tail"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "banded",
+      "hue": [
+        "yellow",
+        "olive",
+        "black"
+      ],
+      "build": "stout",
+      "size": 4,
+      "habit": "marine"
+    },
+    "grp": [
+      "sea-snake"
+    ]
+  },
+  {
+    "id": "laticauda-colubrina",
+    "sci": "Laticauda colubrina",
+    "name": "Banded Sea Krait",
+    "aka": [
+      "Yellow-lipped Sea Krait",
+      "Colubrine Sea Krait"
+    ],
+    "family": "Elapidae",
+    "kind": "Sea krait",
+    "tier": 3,
+    "venom": "deadly",
+    "len": "1-1.5 m",
+    "habitat": "Coral reefs and rocky shores; comes onto land to rest, shed its skin and lay eggs",
+    "range": "Andaman and Nicobar Islands, and tropical coasts of the Indo-Pacific",
+    "diet": "Eels",
+    "active": "Mostly at night",
+    "ids": [
+      "Pale blue-grey body ringed with dark black bands all the way round.",
+      "Yellow snout and upper lip, visible on close examination.",
+      "A paddle tail but broad belly scales, which let it crawl on land; unlike true sea snakes it is often seen on rocks and beaches.",
+      "Gentle and rarely bites, even though its venom is potent."
+    ],
+    "look": {
+      "colour": "Blue-grey with black rings; yellow snout",
+      "pattern": "Black rings around the whole body",
+      "head": "Small head with a yellow snout",
+      "body": "Cylindrical, with a paddle tail"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "ringed",
+      "hue": [
+        "blue",
+        "grey",
+        "black"
+      ],
+      "build": "medium",
+      "size": 4,
+      "habit": "marine"
+    },
+    "grp": [
+      "sea-snake",
+      "krait-like",
+      "banded-bold"
+    ],
+    "fact": "Sea kraits are amphibious: they hunt eels on the reef, but return to land to digest, rest and lay eggs."
+  },
+  {
+    "id": "bungarus-niger",
+    "sci": "Bungarus niger",
+    "name": "Greater Black Krait",
+    "aka": [
+      "Bangladesh Black Krait"
+    ],
+    "family": "Elapidae",
+    "kind": "Krait",
+    "tier": 3,
+    "venom": "deadly",
+    "len": "0.9-1.3 m, up to about 1.5 m",
+    "habitat": "Forest edges, bamboo, tea gardens, paddy fields and villages in damp lowlands and foothills",
+    "range": "North-east India (Assam, Arunachal Pradesh, Mizoram, Meghalaya, Sikkim, Tripura) and Bangladesh",
+    "diet": "Other snakes, lizards and frogs",
+    "active": "Nocturnal; placid by day",
+    "ids": [
+      "A glossy, jet-black or very dark brown snake with a plain, unmarked body and a white or pale chin and belly, sometimes with faint pale flecks or narrow pale bands on the rear.",
+      "A row of enlarged six-sided scales runs down the back, like other kraits.",
+      "A flat, rounded black head barely wider than the neck and small eyes; a short tail.",
+      "Easily mistaken for a harmless black snake, but it is a deadly krait."
+    ],
+    "look": {
+      "colour": "Glossy black or very dark brown; pale chin and belly",
+      "pattern": "Plain, sometimes faint pale bands towards the tail",
+      "head": "Flat black head, small eyes",
+      "body": "Smooth, glossy, slightly triangular in section"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "medium",
+      "size": 3,
+      "habit": "terrestrial",
+      "hue": [
+        "black",
+        "brown"
+      ]
+    },
+    "grp": [
+      "krait-like"
+    ]
+  }
+]
