@@ -94,21 +94,22 @@
     const timerSec = sess.config.timer || 0;
     const total = sess.questions.length;
 
-    const progressText = h('span.q-count');
-    const barFill = h('i');
-    const pointsEl = h('b', '0');
-    const streakEl = h('span.stat.streak', { hidden: true }, icon('flame', { size: 16 }), h('b', '0'));
-    const timerEl = h('div.timer', { hidden: !timerSec });
-    const timerText = h('span', String(timerSec));
-    timerEl.innerHTML = `<svg viewBox="0 0 40 40" width="42" height="42" aria-hidden="true"><circle cx="20" cy="20" r="17" fill="none" stroke="var(--line)" stroke-width="4"/><circle class="timer-arc" cx="20" cy="20" r="17" fill="none" stroke="var(--brand)" stroke-width="4" stroke-linecap="round" stroke-dasharray="106.8" stroke-dashoffset="0" transform="rotate(-90 20 20)"/></svg>`;
-    timerEl.appendChild(timerText);
-    const timerArc = timerEl.querySelector('.timer-arc');
+    const steps = SQ.ui.steps(total);
+    const pointsEl = h('b.lcd-num', '0000');
+    const streakEl = h('span.streak-chip', { hidden: true, title: 'Answers right in a row' }, icon('flame', { size: 15 }), h('b', '0'));
+    const timerText = h('b.lcd-num', String(timerSec));
+    const timerFill = h('i.timer-fill');
+    const timerEl = h('div.lcd.timer', { hidden: !timerSec, 'aria-label': 'Time left' }, h('span.legend', 'Time'), timerText, h('span.timer-bar', timerFill));
 
-    const top = h('div.quiz-top',
-      h('div.q-progress', h('div.q-line', progressText, h('span.q-title-mini', quizTitle(sess))), h('div.bar', barFill)),
-      h('div.q-stats', h('span.stat', icon('star', { size: 16 }), pointsEl, h('small', 'pts')), streakEl, timerEl));
+    const quitBtn = h('button.btn.btn-sm.quit-btn#quit-btn', { type: 'button', 'aria-label': 'Quit quiz' }, icon('x', { size: 16 }), h('span.quit-label', 'Quit'));
+    const top = h('div.quiz-bar',
+      h('div.qb-row',
+        quitBtn,
+        h('span.legend.q-title-mini', quizTitle(sess)),
+        h('div.qb-steps', steps.el),
+        h('div.qb-lcd', streakEl, h('div.lcd.score', h('span.legend', 'Score'), pointsEl), timerEl)));
     const grid = h('div.quiz-grid');
-    const root = h('div.quiz.wrap', top, grid);
+    const root = h('div.quiz', top, h('div.wrap.quiz-wrap', grid));
 
     let answered = false;
     let qStart = performance.now();
@@ -116,6 +117,7 @@
     let optionBtns = [];
     let nextBtn = null, nextBar = null, explainEl = null;
     let hintArea = null, hintBtn = null;
+    let progressText = null;
 
     function quizTitle(s) {
       if (s.mode === 'daily') return 'Daily challenge';
@@ -127,9 +129,9 @@
 
     function updateTop() {
       const shown = Math.min(sess.index + 1, total);
-      progressText.textContent = `Question ${shown} of ${total}`;
-      barFill.style.width = (100 * sess.answers.length / total) + '%';
-      pointsEl.textContent = String(sess.points);
+      if (progressText) progressText.textContent = `Question ${shown} of ${total}`;
+      steps.update(sess.answers, sess.index);
+      pointsEl.textContent = String(sess.points).padStart(4, '0');
       streakEl.hidden = sess.streak < 2;
       streakEl.querySelector('b').textContent = String(sess.streak);
     }
@@ -140,12 +142,12 @@
       stopTimer();
       if (!timerSec) return;
       timerEl.classList.remove('low');
-      timerArc.style.strokeDashoffset = '0';
+      timerFill.style.transform = 'scaleX(1)';
       timerText.textContent = String(timerSec);
       const t0 = performance.now();
       timerId = setInterval(() => {
         const left = timerSec - (performance.now() - t0) / 1000;
-        timerArc.style.strokeDashoffset = String(106.8 * (1 - Math.max(left, 0) / timerSec));
+        timerFill.style.transform = `scaleX(${Math.max(left, 0) / timerSec})`;
         timerText.textContent = String(Math.max(0, Math.ceil(left)));
         timerEl.classList.toggle('low', left <= 5);
         if (left <= 0) { stopTimer(); choose(-1, true); }
@@ -170,21 +172,24 @@
         return btn;
       });
 
+      const kbd = (t) => h('kbd', t);
       hintArea = h('div.hint-area', { 'aria-live': 'polite' });
       hintBtn = h('button.btn.btn-ghost.btn-sm.hint-btn', { type: 'button', onclick: useHint }, icon('bulb', { size: 16 }), h('span.hint-label'));
-      const actions = h('div.q-actions', sess.config.hints ? hintBtn : null, h('span.kbd-hint', 'Tip: press 1–4 or A–D to answer'));
+      const actions = h('div.q-actions', sess.config.hints ? hintBtn : null,
+        h('span.kbd-hint', kbd('1'), '–', kbd('4'), ' answer', sess.config.hints ? [' · ', kbd('H'), ' hint'] : null, ' · ', kbd('Enter'), ' next'));
 
-      const photoCol = h('div.quiz-photo',
-        SQ.ui.photo(photo, { zoom: true, eager: true }),
-        h('p.photo-note', icon('zoom', { size: 14 }), ' Tap the photo to enlarge it'),
-        hintArea);
+      progressText = h('span.q-count');
+      const photoCol = h('section.quiz-photo', { 'aria-label': 'Snake photo' },
+        h('div.viewport', SQ.ui.photo(photo, { zoom: true, eager: true, vf: true, tag: 'Q' + String(sess.index + 1).padStart(2, '0') })));
       explainEl = h('div#explain.explain-wrap');
       nextBtn = h('button.btn.btn-primary.btn-lg.next-btn', { type: 'button', onclick: next },
         sess.index + 1 >= total ? 'See my results' : 'Next question', icon('arrow', { size: 20 }));
       nextBar = h('div.next-bar', { hidden: true }, nextBtn);
 
-      grid.append(photoCol, h('div.quiz-side',
-        h('h2.q-title', 'Which snake is this?'), optsEl, actions, explainEl, nextBar));
+      grid.append(photoCol, h('section.quiz-side',
+        h('div.q-head', h('p.legend', progressText, h('span.q-mode', ' · ' + quizTitle(sess))), h('h1.q-title', 'Which snake is this?')),
+        optsEl, actions, hintArea, explainEl, nextBar));
+      updateTop();
 
       // restore hints (e.g. after a refresh)
       for (let i = 0; i < sess.qHints; i++) applyHint(i, true);
@@ -288,7 +293,8 @@
       nextBar.hidden = false;
       setTimeout(() => nextBtn.focus({ preventScroll: true }), 30);
       const verdict = explainEl.querySelector('.verdict');
-      if (verdict && window.innerWidth < 960) setTimeout(() => verdict.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+      // on phones and tablets the explanation starts below the fold (or the answers fill a short sideways screen): bring it into view
+      if (verdict && window.matchMedia('(max-width: 899.98px) and (min-height: 521px), (max-height: 520px) and (orientation: landscape)').matches) setTimeout(() => verdict.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
       if (correct && sess.streak > 0 && sess.streak % 10 === 0) SQ.ui.confetti();
     }
 
@@ -336,8 +342,6 @@
     document.addEventListener('keydown', onKey);
 
     /* ----- quit ----- */
-    const quitBtn = document.getElementById('quit-btn');
-    quitBtn.hidden = false;
     quitBtn.onclick = () => {
       const answeredCount = sess.answers.length;
       const body = h('div', h('p', answeredCount
@@ -351,11 +355,15 @@
       SQ.ui.modal({ title: 'Leave this quiz?', body, actions });
     };
 
+    // keep --bar-h equal to the real height of the sticky bar (it depends on the screen, the notch and the font size)
+    const syncBar = () => root.style.setProperty('--bar-h', top.offsetHeight + 'px');
+    const barObserver = window.ResizeObserver ? new ResizeObserver(syncBar) : null;
+    if (barObserver) barObserver.observe(top);
+
     const cleanup = () => {
       stopTimer();
       document.removeEventListener('keydown', onKey);
-      quitBtn.hidden = true;
-      quitBtn.onclick = null;
+      if (barObserver) barObserver.disconnect();
     };
 
     renderQuestion();

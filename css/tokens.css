@@ -1,0 +1,221 @@
+/* ==========================================================================
+   Sarpa design tokens
+   A pocket field device: aluminium chassis, orange keys, a dot-matrix LCD, silkscreen labels,
+   and a snake in every detail (scales, pixel snake, vertebra progress).
+   Light theme = "aluminium", dark theme = "night shift".
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* chassis: the page and the surfaces on it */
+  --chassis: #e8e7e2;
+  --chassis-2: #dedcd5;
+  --panel: #f6f5f1;
+  --panel-2: #edece7;
+  --panel-3: #e3e1da;
+  --ink: #131312;
+  --ink-2: #4d4c47;
+  --ink-3: #66655e;
+  --line: #d0cec6;
+  --line-2: #b8b6ad;
+  --dots: rgba(19, 19, 18, .08);
+
+  /* brand: signal orange */
+  --accent: #ff5a12;
+  --accent-2: #ff7a3d;
+  --accent-deep: #c93e00;
+  --accent-ink: #131312;
+  --accent-text: #a83200;
+  --accent-wash: #ffe6d9;
+
+  /* signals */
+  --ok: #19a757;
+  --ok-ink: #0d6b36;
+  --ok-wash: #dff3e5;
+  --bad: #d9193a;
+  --bad-solid: #d9193a;
+  --bad-ink: #a50f29;
+  --bad-wash: #fbe3e7;
+  --warn: #f2a900;
+  --warn-ink: #7a5300;
+  --warn-wash: #fdf0cf;
+  --info: #2b62ff;
+  --info-ink: #1b43c2;
+  --info-wash: #e1e9ff;
+
+  /* venom levels (LED colours) */
+  --v-deadly: #d9193a;
+  --v-venomous: #f2790f;
+  --v-mild: #e8b800;
+  --v-none: #19a757;
+
+  /* the LCD */
+  --lcd-bg: #cdd7bd;
+  --lcd-bg-2: #c2ccb1;
+  --lcd-ink: #1b2417;
+  --lcd-dim: rgba(27, 36, 23, .16);
+  --lcd-edge: #98a38a;
+
+  /* keys */
+  --key-face: #f4f3ef;
+  --key-face-2: #e7e5df;
+  --key-edge: #b9b7ae;
+  --key-drop: #a8a69d;
+  --key-hi: rgba(255, 255, 255, .9);
+
+  /* snake skin: fish-scale pattern, used very quietly */
+  --scales: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='14' viewBox='0 0 28 14'%3E%3Cg fill='none' stroke='%23131312' stroke-opacity='.11'%3E%3Ccircle cx='0' cy='0' r='7'/%3E%3Ccircle cx='14' cy='0' r='7'/%3E%3Ccircle cx='28' cy='0' r='7'/%3E%3Ccircle cx='7' cy='7' r='7'/%3E%3Ccircle cx='21' cy='7' r='7'/%3E%3Ccircle cx='0' cy='14' r='7'/%3E%3Ccircle cx='14' cy='14' r='7'/%3E%3Ccircle cx='28' cy='14' r='7'/%3E%3C/g%3E%3C/svg%3E");
+  /* a gentle serpentine rule */
+  --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4c3-4 9-4 12 0s9 4 12 0' fill='none' stroke='%23b8b6ad' stroke-width='1.5'/%3E%3C/svg%3E");
+
+  /* shadows */
+  --key-shadow: 0 1px 0 var(--key-hi) inset, 0 -2px 0 rgba(19, 19, 18, .07) inset, 0 3px 0 var(--key-drop), 0 7px 12px rgba(19, 19, 18, .10);
+  --key-shadow-down: 0 2px 5px rgba(19, 19, 18, .20) inset, 0 1px 0 var(--key-drop);
+  --panel-shadow: 0 1px 0 rgba(255, 255, 255, .8) inset, 0 1px 2px rgba(19, 19, 18, .06), 0 10px 28px rgba(19, 19, 18, .05);
+  --float-shadow: 0 18px 60px rgba(19, 19, 18, .28);
+
+  /* type */
+  --font-ui: 'Geist Variable', 'Helvetica Neue', Helvetica, Arial, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+  --font-lcd: 'Doto Variable', 'Geist Mono Variable', ui-monospace, Menlo, Consolas, monospace;
+
+  /* shape and space */
+  --r-xl: 24px;
+  --r-lg: 18px;
+  --r: 14px;
+  --r-sm: 10px;
+  --r-xs: 6px;
+  --gutter: clamp(14px, 2.6vw, 44px);
+  --page-max: 2200px;
+  --header-h: 64px;
+  --tabbar-h: 66px;
+  --bar-h: 56px;                                   /* quiz top bar */
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-t: env(safe-area-inset-top, 0px);
+  --ease: cubic-bezier(.2, .8, .2, 1);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --chassis: #121211;
+  --chassis-2: #0d0d0c;
+  --panel: #1b1b19;
+  --panel-2: #232321;
+  --panel-3: #2c2c29;
+  --ink: #efeee9;
+  --ink-2: #b3b2ab;
+  --ink-3: #8a8982;
+  --line: #34332f;
+  --line-2: #4a4942;
+  --dots: rgba(255, 255, 255, .06);
+
+  --accent: #ff6a2b;
+  --accent-2: #ff8750;
+  --accent-deep: #c24200;
+  --accent-ink: #131312;
+  --accent-text: #ff8750;
+  --accent-wash: #3a1c0f;
+
+  --ok: #3ddc84;
+  --ok-ink: #6fe6a2;
+  --ok-wash: #12301f;
+  --bad: #ff4d6a;
+  --bad-solid: #d9193a;
+  --bad-ink: #ff8099;
+  --bad-wash: #3a141c;
+  --warn: #ffc43a;
+  --warn-ink: #ffd36b;
+  --warn-wash: #33270a;
+  --info: #6d92ff;
+  --info-ink: #9db6ff;
+  --info-wash: #14214a;
+
+  --v-deadly: #ff4d6a;
+  --v-venomous: #ff8a2b;
+  --v-mild: #f5cf2e;
+  --v-none: #3ddc84;
+
+  --lcd-bg: #0e130c;
+  --lcd-bg-2: #131a10;
+  --lcd-ink: #c8f26b;
+  --lcd-dim: rgba(200, 242, 107, .13);
+  --lcd-edge: #2b3a21;
+
+  --key-face: #2c2c29;
+  --key-face-2: #232321;
+  --key-edge: #4a4942;
+  --key-drop: #080807;
+  --key-hi: rgba(255, 255, 255, .10);
+
+  --scales: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='14' viewBox='0 0 28 14'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.07'%3E%3Ccircle cx='0' cy='0' r='7'/%3E%3Ccircle cx='14' cy='0' r='7'/%3E%3Ccircle cx='28' cy='0' r='7'/%3E%3Ccircle cx='7' cy='7' r='7'/%3E%3Ccircle cx='21' cy='7' r='7'/%3E%3Ccircle cx='0' cy='14' r='7'/%3E%3Ccircle cx='14' cy='14' r='7'/%3E%3Ccircle cx='28' cy='14' r='7'/%3E%3C/g%3E%3C/svg%3E");
+  --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4c3-4 9-4 12 0s9 4 12 0' fill='none' stroke='%234a4942' stroke-width='1.5'/%3E%3C/svg%3E");
+
+  --key-shadow: 0 1px 0 var(--key-hi) inset, 0 -2px 0 rgba(0, 0, 0, .25) inset, 0 3px 0 var(--key-drop), 0 8px 14px rgba(0, 0, 0, .35);
+  --key-shadow-down: 0 2px 6px rgba(0, 0, 0, .5) inset, 0 1px 0 var(--key-drop);
+  --panel-shadow: 0 1px 0 rgba(255, 255, 255, .05) inset, 0 12px 30px rgba(0, 0, 0, .35);
+  --float-shadow: 0 18px 60px rgba(0, 0, 0, .65);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --chassis: #121211;
+    --chassis-2: #0d0d0c;
+    --panel: #1b1b19;
+    --panel-2: #232321;
+    --panel-3: #2c2c29;
+    --ink: #efeee9;
+    --ink-2: #b3b2ab;
+    --ink-3: #8a8982;
+    --line: #34332f;
+    --line-2: #4a4942;
+    --dots: rgba(255, 255, 255, .06);
+
+    --accent: #ff6a2b;
+    --accent-2: #ff8750;
+    --accent-deep: #c24200;
+    --accent-ink: #131312;
+    --accent-text: #ff8750;
+    --accent-wash: #3a1c0f;
+
+    --ok: #3ddc84;
+    --ok-ink: #6fe6a2;
+    --ok-wash: #12301f;
+    --bad: #ff4d6a;
+    --bad-solid: #d9193a;
+    --bad-ink: #ff8099;
+    --bad-wash: #3a141c;
+    --warn: #ffc43a;
+    --warn-ink: #ffd36b;
+    --warn-wash: #33270a;
+    --info: #6d92ff;
+    --info-ink: #9db6ff;
+    --info-wash: #14214a;
+
+    --v-deadly: #ff4d6a;
+    --v-venomous: #ff8a2b;
+    --v-mild: #f5cf2e;
+    --v-none: #3ddc84;
+
+    --lcd-bg: #0e130c;
+    --lcd-bg-2: #131a10;
+    --lcd-ink: #c8f26b;
+    --lcd-dim: rgba(200, 242, 107, .13);
+    --lcd-edge: #2b3a21;
+
+    --key-face: #2c2c29;
+    --key-face-2: #232321;
+    --key-edge: #4a4942;
+    --key-drop: #080807;
+    --key-hi: rgba(255, 255, 255, .10);
+
+    --scales: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='14' viewBox='0 0 28 14'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.07'%3E%3Ccircle cx='0' cy='0' r='7'/%3E%3Ccircle cx='14' cy='0' r='7'/%3E%3Ccircle cx='28' cy='0' r='7'/%3E%3Ccircle cx='7' cy='7' r='7'/%3E%3Ccircle cx='21' cy='7' r='7'/%3E%3Ccircle cx='0' cy='14' r='7'/%3E%3Ccircle cx='14' cy='14' r='7'/%3E%3Ccircle cx='28' cy='14' r='7'/%3E%3C/g%3E%3C/svg%3E");
+    --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4c3-4 9-4 12 0s9 4 12 0' fill='none' stroke='%234a4942' stroke-width='1.5'/%3E%3C/svg%3E");
+
+    --key-shadow: 0 1px 0 var(--key-hi) inset, 0 -2px 0 rgba(0, 0, 0, .25) inset, 0 3px 0 var(--key-drop), 0 8px 14px rgba(0, 0, 0, .35);
+    --key-shadow-down: 0 2px 6px rgba(0, 0, 0, .5) inset, 0 1px 0 var(--key-drop);
+    --panel-shadow: 0 1px 0 rgba(255, 255, 255, .05) inset, 0 12px 30px rgba(0, 0, 0, .35);
+    --float-shadow: 0 18px 60px rgba(0, 0, 0, .65);
+  }
+}

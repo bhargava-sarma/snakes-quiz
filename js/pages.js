@@ -17,10 +17,10 @@
     const t = p.totals;
     const have = Object.keys(p.species).filter((id) => D.byId[id] && p.species[id].c > 0).length;
 
-    const tiles = h('div.stat-tiles',
+    const tiles = h('div.lcd.stat-lcd',
       [['Quizzes played', t.games], ['Questions answered', t.answered], ['Accuracy', SQ.pct(t.correct, t.answered) + '%'],
         ['Points earned', t.points.toLocaleString()], ['Best streak', t.bestStreak], ['Time played', SQ.fmtDuration(t.seconds)]]
-        .map(([l, v]) => h('div.stat-tile', h('b', String(v)), h('span', l))));
+        .map(([l, v]) => SQ.ui.readout(l, v)));
 
     // recent games chart
     const recent = p.games.slice(0, 20).reverse();
@@ -58,7 +58,7 @@
     }));
 
     const history = p.games.length
-      ? h('div.table-wrap', h('table.history',
+      ? h('div.table-wrap', { tabindex: '0', role: 'region', 'aria-label': 'Recent quizzes (scrolls sideways on small screens)' }, h('table.history',
         h('thead', h('tr', ['Date', 'Quiz', 'Score', 'Points', 'Time'].map((x) => h('th', x)))),
         h('tbody', p.games.slice(0, 10).map((g) => {
           const lvl = SQ.engine.DIFFICULTY[g.diff];
@@ -77,31 +77,31 @@
     });
 
     const manage = h('section.card.manage',
-      h('h3', 'Your data'),
+      h('p.legend.card-tag.neutral', 'Your data'),
       h('p.muted', 'Everything is stored only on this device (in your browser). Download a backup to move it to another device.'),
       h('div.btn-row',
-        h('button.btn.btn-ghost', { type: 'button', onclick: () => {
+        h('button.btn', { type: 'button', onclick: () => {
           const blob = new Blob([S.exportAll()], { type: 'application/json' });
           const a = h('a', { href: URL.createObjectURL(blob), download: `sarpa-progress-${SQ.todayKey()}.json` });
           document.body.appendChild(a); a.click(); a.remove();
         } }, icon('download', { size: 18 }), 'Download backup'),
-        h('button.btn.btn-ghost', { type: 'button', onclick: () => fileInput.click() }, icon('upload', { size: 18 }), 'Restore backup'),
-        flagged.length ? h('button.btn.btn-ghost', { type: 'button', onclick: () => { flagged.forEach((id) => S.unflagPhoto(id)); SQ.ui.toast(`Restored ${flagged.length} reported photos`); SQ.go('/stats'); } }, icon('flag', { size: 18 }), `Restore ${flagged.length} reported photo${flagged.length > 1 ? 's' : ''}`) : null,
+        h('button.btn', { type: 'button', onclick: () => fileInput.click() }, icon('upload', { size: 18 }), 'Restore backup'),
+        flagged.length ? h('button.btn', { type: 'button', onclick: () => { flagged.forEach((id) => S.unflagPhoto(id)); SQ.ui.toast(`Restored ${flagged.length} reported photos`); SQ.go('/stats'); } }, icon('flag', { size: 18 }), `Restore ${flagged.length} reported photo${flagged.length > 1 ? 's' : ''}`) : null,
         h('button.btn.btn-danger', { type: 'button', onclick: async () => {
           if (await SQ.ui.confirm({ title: 'Reset all progress?', text: 'This deletes your stats, badges and snake-dex on this device. It cannot be undone.', confirmLabel: 'Reset everything', danger: true })) { S.resetAll(); SQ.ui.toast('Progress reset'); SQ.go('/stats'); }
         } }, icon('trash', { size: 18 }), 'Reset progress')),
       fileInput);
 
     const node = h('div.page.wrap.stats',
-      SQ.ui.pageHead('My progress', t.games ? 'Everything you have learned so far.' : 'Your quizzes, badges and snake-dex will build up here.'),
+      SQ.ui.pageHead('My progress', t.games ? 'Everything you have learned so far.' : 'Your quizzes, badges and snake-dex will build up here.', null, [h('b', '04'), 'Progress']),
       tiles,
       h('div.two-col',
-        h('section.card', h('h3', 'Last quizzes (accuracy %)'), chart),
-        h('section.card', h('h3', 'Weak spots'), weakList,
+        h('section.card', h('p.legend.card-tag.neutral', 'Last quizzes · accuracy %'), chart),
+        h('section.card', h('p.legend.card-tag.neutral', 'Weak spots'), weakList,
           weak.length ? h('button.btn.btn-primary.btn-block', { type: 'button', onclick: () => SQ.quiz.start({
             mode: 'weak', title: 'Weak-spot practice', count: 20, difficulty: 'mixed', region: 'all', timer: 0, hints: true, preferUnseen: true, focus: weak,
           }) }, icon('target', { size: 18 }), 'Practise my weak spots') : null,
-          confList ? h('div', h('h4.sub-h', 'Mix-ups to watch'), confList) : null)),
+          confList ? h('div', h('h2.sub-h', 'Mix-ups to watch'), confList) : null)),
       h('section', h('h2.section-title', `Snake-dex`, h('small', `${have} of ${D.species.length} identified correctly`)),
         h('div.dex-legend', ['Not met yet', 'Learning', 'Getting there', 'Mastered'].map((l, i) => h('span', h('i.m' + i), l))), dex),
       h('section', h('h2.section-title', 'Badges', h('small', `${Object.keys(p.badges).length} of ${SQ.badges.all.length} unlocked`)), badges),
@@ -155,7 +155,7 @@
     ];
 
     const node = h('div.page.wrap.safety',
-      SQ.ui.pageHead('Snakebite safety', 'Know what to do before you ever need it.'),
+      SQ.ui.pageHead('Snakebite safety', 'Know what to do before you ever need it.', null, [h('b', '05'), 'Safety']),
       h('div.notice.danger', icon('warn', { size: 24 }), h('div',
         h('strong', 'A snakebite is always a medical emergency. '),
         'Research estimates that snakebite caused about 58,000 deaths a year in India between 2000 and 2019, mostly among rural people, and most of these deaths could have been prevented by getting to hospital quickly for anti-snake venom. If someone has been bitten, call ',
@@ -163,8 +163,8 @@
       h('section', h('h2.section-title', 'First aid: do it R.I.G.H.T.'),
         h('div.right-grid', right.map(([k, t, text]) => h('div.right-card', h('span.right-key', k), h('h3', t), h('p', text))))),
       h('div.two-col',
-        h('section.card', h('h3', icon('x', { size: 18, stroke: 3 }), ' What NOT to do'), h('ul.dont-list', donts.map((d) => h('li', d)))),
-        h('section.card', h('h3', icon('shield', { size: 18 }), ' Avoiding bites'), h('ul.why-list', prevention.map((d) => h('li', d))))),
+        h('section.card', h('p.legend.card-tag.bad', icon('x', { size: 13, stroke: 3 }), 'What NOT to do'), h('ul.dont-list', donts.map((d) => h('li', d)))),
+        h('section.card', h('p.legend.card-tag', icon('shield', { size: 13 }), 'Avoiding bites'), h('ul.why-list', prevention.map((d) => h('li', d))))),
       h('section',
         h('h2.section-title', 'The "Big Four"', h('small', 'Cause most snakebite deaths in India')),
         h('p.lead-p', 'The standard Indian polyvalent anti-snake venom is made against these four. Learn to recognise them, but remember that any bite should be treated as an emergency.'),
@@ -189,7 +189,13 @@
     const people = new Set(D.photos.map((p) => p.credit)).size;
 
     const node = h('div.page.wrap.about.prose',
-      SQ.ui.pageHead('About Sarpa', 'A free photo quiz that teaches snake identification, one explanation at a time.'),
+      SQ.ui.pageHead('About Sarpa', 'A free photo quiz that teaches snake identification, one explanation at a time.', null, [h('b', 'SQ-1'), 'Specifications']),
+      h('div.lcd.about-lcd',
+        SQ.ui.readout('Photos', D.photos.length.toLocaleString()),
+        SQ.ui.readout('Species', D.species.length),
+        SQ.ui.readout('Photographers', people.toLocaleString()),
+        SQ.ui.readout('Data built', m.generated || '-')),
+      h('div.prose-grid',
       h('section.card',
         h('h2', 'How it works'),
         h('p', `Sarpa shows you a real photograph of a snake from the Indian subcontinent and asks you to name it from four options. After you answer you see why the right answer is right and why each of the other three options is not, including how they differ from the snake in the photo.`),
@@ -212,7 +218,7 @@
       h('section.card',
         h('h2', 'Open source'),
         h('p', 'The code is open source (MIT licence). The README explains how the photo data set is built from iNaturalist’s open data and how to rebuild or extend it. ', h('a', { href: REPO_URL, target: '_blank', rel: 'noopener' }, 'View the project on GitHub'), '.'),
-        m.generated ? h('p.muted', `Data set built ${m.generated}.`) : null));
+        m.generated ? h('p.muted', `Data set built ${m.generated}.`) : null)));
     return { node, title: 'About', view: 'about' };
   };
 
@@ -241,25 +247,25 @@
       SQ.clear(body);
       list.slice(page * PAGE, page * PAGE + PAGE).forEach((p) => {
         body.appendChild(h('tr',
-          h('td', h('a', { href: '#/guide/' + p.sp }, D.byId[p.sp].name)),
-          h('td', p.credit),
-          h('td', p.licenseUrl ? h('a', { href: p.licenseUrl, target: '_blank', rel: 'noopener' }, p.license) : p.license),
-          h('td', p.state || '-'),
-          h('td', h('a', { href: p.page, target: '_blank', rel: 'noopener' }, 'photo ' + p.id))));
+          h('td', { 'data-label': 'Species' }, h('a', { href: '#/guide/' + p.sp }, D.byId[p.sp].name)),
+          h('td', { 'data-label': 'Photographer' }, p.credit),
+          h('td', { 'data-label': 'Licence' }, p.licenseUrl ? h('a', { href: p.licenseUrl, target: '_blank', rel: 'noopener' }, p.license) : p.license),
+          h('td', { 'data-label': 'State' }, p.state || '-'),
+          h('td', { 'data-label': 'Source' }, h('a', { href: p.page, target: '_blank', rel: 'noopener' }, 'photo ' + p.id))));
       });
       SQ.clear(pager);
       pager.append(
-        h('button.btn.btn-ghost.btn-sm', { type: 'button', disabled: page === 0, onclick: () => { page--; draw(); window.scrollTo(0, 0); } }, icon('left', { size: 16 }), 'Prev'),
+        h('button.btn.btn-sm', { type: 'button', disabled: page === 0, onclick: () => { page--; draw(); window.scrollTo(0, 0); } }, icon('left', { size: 16 }), 'Prev'),
         h('span', `Page ${page + 1} of ${pages}`),
-        h('button.btn.btn-ghost.btn-sm', { type: 'button', disabled: page >= pages - 1, onclick: () => { page++; draw(); window.scrollTo(0, 0); } }, 'Next', icon('right', { size: 16 })));
+        h('button.btn.btn-sm', { type: 'button', disabled: page >= pages - 1, onclick: () => { page++; draw(); window.scrollTo(0, 0); } }, 'Next', icon('right', { size: 16 })));
     }
 
-    const search = h('input', { type: 'search', placeholder: 'Search by photographer, species or state', 'aria-label': 'Search credits' });
+    const search = h('input', { type: 'search', placeholder: 'Search credits', 'aria-label': 'Search credits by photographer, species or state' });
     search.addEventListener('input', SQ.debounce(() => { q = search.value.trim(); page = 0; draw(); }, 150));
     const node = h('div.page.wrap.credits',
-      SQ.ui.pageHead('Photo credits', 'Thank you to every photographer who shared their snake photos under an open licence on iNaturalist.'),
+      SQ.ui.pageHead('Photo credits', 'Thank you to every photographer who shared their snake photos under an open licence on iNaturalist.', null, [h('b', 'SQ-1'), 'Credits']),
       h('div.filters', h('div.search-box', icon('search', { size: 18 }), search)), info,
-      h('div.table-wrap', h('table.history', h('thead', h('tr', ['Species', 'Photographer', 'Licence', 'State', 'Source'].map((x) => h('th', x)))), body)),
+      h('div.table-wrap.credits-table', { tabindex: '0', role: 'region', 'aria-label': 'Photo credits' }, h('table.history', h('thead', h('tr', ['Species', 'Photographer', 'Licence', 'State', 'Source'].map((x) => h('th', x)))), body)),
       pager);
     draw();
     return { node, title: 'Photo credits', view: 'credits' };

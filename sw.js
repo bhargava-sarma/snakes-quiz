@@ -2,12 +2,14 @@
  *  - the app shell and data files: network first, falling back to the cache
  *  - photos: cache first (they never change), keeping the most recent ones
  */
-const VERSION = 'sarpa-v1';
+const VERSION = 'sarpa-v2';
 const IMG_CACHE = VERSION + '-img';
 const MAX_IMAGES = 700;
 
 const SHELL = [
-  './', 'index.html', 'manifest.webmanifest', 'css/app.css',
+  './', 'index.html', 'manifest.webmanifest',
+  'css/fonts.css', 'css/tokens.css', 'css/base.css', 'css/components.css', 'css/views.css',
+  'assets/fonts/geist-latin-wght-normal.woff2', 'assets/fonts/geist-mono-latin-wght-normal.woff2', 'assets/fonts/doto-latin-full-normal.woff2',
   'data/species.js', 'data/photos.js',
   'js/util.js', 'js/store.js', 'js/data.js', 'js/explain.js', 'js/engine.js', 'js/ui.js', 'js/explainpanel.js',
   'js/badges.js', 'js/quiz.js', 'js/views-main.js', 'js/results.js', 'js/guide.js', 'js/extras.js', 'js/pages.js', 'js/app.js',

@@ -8,13 +8,15 @@
 
   /* ---------- theme ---------- */
 
+  const THEME_COLOR = { light: '#e8e7e2', dark: '#121211' };
+
   SQ.theme = {
     apply() {
       const t = SQ.store.settings().theme;
       const root = document.documentElement;
       if (t === 'light' || t === 'dark') root.setAttribute('data-theme', t); else root.removeAttribute('data-theme');
       const meta = document.querySelector('meta[name="theme-color"]');
-      if (meta) meta.setAttribute('content', SQ.theme.effective() === 'dark' ? '#0d1713' : '#1c6b4a');
+      if (meta) meta.setAttribute('content', THEME_COLOR[SQ.theme.effective()]);
     },
     effective() {
       const t = SQ.store.settings().theme;
@@ -25,6 +27,7 @@
       SQ.store.saveSettings({ theme: SQ.theme.effective() === 'dark' ? 'light' : 'dark' });
       SQ.theme.apply();
       SQ.app.refreshThemeButton();
+      window.dispatchEvent(new Event('sarpa-theme'));      // canvases (the pixel snake) redraw in the new colours
     },
   };
 
@@ -65,7 +68,7 @@
       result = await route.handler({ params, query, path });
     } catch (err) {
       console.error(err);
-      result = { node: h('div.page', SQ.ui.empty('Something went wrong', String(err && err.message || err), h('a.btn.btn-primary', { href: '#/' }, 'Back to home'))) };
+      result = { node: h('div.page.wrap', SQ.ui.empty('Something went wrong', String(err && err.message || err), h('a.btn.btn-primary', { href: '#/' }, 'Back to home'))) };
     }
     if (my !== token) return; // a newer navigation won
     const view = result && result.nodeType ? { node: result } : result;
@@ -78,6 +81,7 @@
     window.scrollTo(0, 0);
     SQ.app.markNav(path);
     main.focus({ preventScroll: true });
+    if (typeof view.after === 'function') view.after();
   }
 
   SQ.go = function (path) {
@@ -90,15 +94,17 @@
   const NAV = [
     { path: '/play', label: 'Play', ico: 'play' },
     { path: '/daily', label: 'Daily', ico: 'calendar' },
-    { path: '/guide', label: 'Field guide', ico: 'book' },
-    { path: '/stats', label: 'My progress', ico: 'chart' },
-    { path: '/safety', label: 'Snakebite safety', ico: 'shield' },
+    { path: '/guide', label: 'Guide', ico: 'book' },
+    { path: '/stats', label: 'Progress', short: 'Stats', ico: 'chart' },
+    { path: '/safety', label: 'Safety', ico: 'shield' },
   ];
 
   const app = (SQ.app = {
     markNav(path) {
       SQ.$$('[data-nav]').forEach((a) => {
-        const on = path === a.dataset.nav || (a.dataset.nav !== '/' && path.startsWith(a.dataset.nav + '/'));
+        const on = path === a.dataset.nav || (a.dataset.nav !== '/' && path.startsWith(a.dataset.nav + '/'))
+          || (a.dataset.nav === '/guide' && (path === '/compare' || path === '/learn'))
+          || (a.dataset.nav === '/play' && path === '/results');
         a.classList.toggle('active', on);
         if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
       });
@@ -107,34 +113,39 @@
     refreshThemeButton() {
       const btn = document.getElementById('theme-btn');
       if (!btn) return;
-      SQ.clear(btn);
-      btn.appendChild(icon(SQ.theme.effective() === 'dark' ? 'sun' : 'moon'));
-      btn.setAttribute('aria-label', SQ.theme.effective() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+      const dark = SQ.theme.effective() === 'dark';
+      btn.dataset.mode = dark ? 'dark' : 'light';
+      btn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+      btn.setAttribute('aria-checked', dark ? 'true' : 'false');
     },
 
     buildShell() {
       const header = document.getElementById('site-header');
       header.appendChild(h('div.wrap.header-in',
-        h('a.brand', { href: '#/', 'data-nav': '/', 'aria-label': 'Sarpa home' }, h('img.brand-logo', { src: 'assets/icon.svg', width: 38, height: 38, alt: '' }), h('span.brand-text', h('strong', 'Sarpa'), h('small', 'Indian snake quiz'))),
-        h('nav.nav', { 'aria-label': 'Main' }, NAV.map((n) => h('a', { href: '#' + n.path, 'data-nav': n.path }, n.label))),
+        h('a.brand', { href: '#/', 'data-nav': '/' },
+          h('img.brand-logo', { src: 'assets/icon.svg', width: 38, height: 38, alt: '' }),
+          h('span.brand-text', h('strong', 'SARPA'), h('small', 'Indian snake quiz'))),
+        h('nav.nav', { 'aria-label': 'Main' }, NAV.map((n, i) => h('a.nav-key', { href: '#' + n.path, 'data-nav': n.path }, h('i.nav-n', String(i + 1).padStart(2, '0')), n.label))),
         h('div.header-tools',
-          h('button.icon-btn#theme-btn', { type: 'button', onclick: SQ.theme.toggle }),
-          h('button.btn.btn-sm.btn-quit', { type: 'button', id: 'quit-btn', hidden: true }, icon('x', { size: 16 }), 'Quit'))));
+          h('button.theme-btn#theme-btn', { type: 'button', role: 'switch', onclick: SQ.theme.toggle },
+            h('span.t-sun', icon('sun', { size: 18 })), h('span.t-moon', icon('moon', { size: 18 }))))));
 
       const tabbar = document.getElementById('tabbar');
-      const tabs = [
-        { path: '/', label: 'Home', ico: 'home' },
-        { path: '/play', label: 'Play', ico: 'play' },
-        { path: '/guide', label: 'Guide', ico: 'book' },
-        { path: '/stats', label: 'Progress', ico: 'chart' },
-        { path: '/safety', label: 'Safety', ico: 'shield' },
-      ];
-      tabs.forEach((t) => tabbar.appendChild(h('a.tab', { href: '#' + t.path, 'data-nav': t.path }, icon(t.ico, { size: 22 }), h('span', t.label))));
+      NAV.forEach((t) => tabbar.appendChild(h('a.tab', { href: '#' + t.path, 'data-nav': t.path }, icon(t.ico, { size: 20 }), h('span', t.short || t.label))));
 
+      const D = SQ.data;
       document.getElementById('site-footer').appendChild(h('div.wrap.footer-in',
-        h('p', h('strong', 'Sarpa'), ' is a free educational snake-identification quiz. Photos are community observations from ', h('a', { href: 'https://www.inaturalist.org', target: '_blank', rel: 'noopener' }, 'iNaturalist'), ', used under their Creative Commons licences.'),
-        h('p.footer-warn', icon('warn', { size: 16 }), ' Never touch, corner or try to catch a wild snake. In a snakebite emergency go to a hospital at once. ', h('a', { href: '#/safety' }, 'Snakebite first aid')),
-        h('p.footer-links', h('a', { href: '#/about' }, 'About & data'), h('a', { href: '#/credits' }, 'Photo credits'), h('a', { href: '#/guide' }, 'Field guide'))));
+        h('div.foot-cols',
+          h('div',
+            h('p.legend.foot-title', 'About'),
+            h('p', h('strong', 'Sarpa'), ' is a free educational snake-identification quiz. Photos are community observations from ', h('a', { href: 'https://www.inaturalist.org', target: '_blank', rel: 'noopener' }, 'iNaturalist'), ', used under their Creative Commons licences.')),
+          h('div',
+            h('p.legend.foot-title', 'Explore'),
+            h('div.foot-links', h('a', { href: '#/guide' }, 'Field guide'), h('a', { href: '#/compare' }, 'Compare two snakes'), h('a', { href: '#/learn' }, 'Flashcards'), h('a', { href: '#/about' }, 'About & data'), h('a', { href: '#/credits' }, 'Photo credits'))),
+          h('div.foot-warn', icon('warn', { size: 18 }),
+            h('p', 'Never touch, corner or try to catch a wild snake. In a snakebite emergency go to a hospital at once. ', h('a', { href: '#/safety' }, 'Snakebite first aid')))),
+        h('p.legend.foot-spec',
+          h('span', 'Sarpa SQ-1'), h('span', `${D.photos.length.toLocaleString()} photos`), h('span', `${D.species.length} species`), h('span', 'Code MIT'), h('span', 'Photos © photographers, CC'))));
       app.refreshThemeButton();
     },
 
@@ -144,7 +155,8 @@
         SQ.data.init();
       } catch (err) {
         console.error(err);
-        document.getElementById('main').appendChild(h('div.page', SQ.ui.empty('Could not load the snake data', String(err.message || err))));
+        SQ.clear(document.getElementById('main'));
+        document.getElementById('main').appendChild(h('div.page.wrap', SQ.ui.empty('Could not load the snake data', String(err.message || err))));
         return;
       }
       app.buildShell();
@@ -166,7 +178,7 @@
       window.addEventListener('hashchange', render);
       if (window.matchMedia) {
         const mq = window.matchMedia('(prefers-color-scheme: dark)');
-        const onChange = () => { SQ.theme.apply(); app.refreshThemeButton(); };
+        const onChange = () => { SQ.theme.apply(); app.refreshThemeButton(); window.dispatchEvent(new Event('sarpa-theme')); };
         if (mq.addEventListener) mq.addEventListener('change', onChange);
       }
       render();
