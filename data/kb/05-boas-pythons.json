@@ -40,7 +40,10 @@
     "grp": [
       "python"
     ],
-    "fact": "Burmese Pythons are the heaviest snakes of the Indian subcontinent. They are protected by law, and in the wild they usually avoid people."
+    "fact": "Burmese Pythons are among the largest snakes of the subcontinent. They are protected by law, and in the wild they usually avoid people.",
+    "local": {
+      "hi": "अजगर (Ajgar)"
+    }
   },
   {
     "id": "eryx-conicus",
@@ -89,7 +92,11 @@
       "sand-boa",
       "small-brown"
     ],
-    "fact": "The tail of a sand boa looks so much like its head that predators strike the wrong end. In India the animal is trafficked because of the false belief that it brings luck or has medicinal powers."
+    "fact": "The tail of a sand boa looks so much like its head that predators strike the wrong end. In India the animal is trafficked because of the false belief that it brings luck or has medicinal powers.",
+    "local": {
+      "hi": "दोमुंहा (Domuha)",
+      "mr": "दुतोंड्या (Dutondya)"
+    }
   },
   {
     "id": "eryx-johnii",
@@ -105,7 +112,7 @@
     "venom": "none",
     "len": "60-90 cm, up to about 1 m",
     "habitat": "Dry, sandy and rocky country, scrub, farmland and dry forest; burrows in soft soil",
-    "range": "Peninsular and central India (Tamil Nadu, Rajasthan, Gujarat, Andhra Pradesh and the Deccan), north to the Punjab plains",
+    "range": "Dry plains of Tamil Nadu, Andhra Pradesh, Karnataka, Gujarat and Rajasthan, up to Uttar Pradesh",
     "diet": "Rodents, small birds and lizards",
     "active": "Nocturnal",
     "ids": [
@@ -134,7 +141,11 @@
     },
     "grp": [
       "sand-boa"
-    ]
+    ],
+    "local": {
+      "hi": "दोमुंहा (Domuha)",
+      "mr": "दुतोंड्या (Dutondya)"
+    }
   },
   {
     "id": "eryx-whitakeri",
@@ -187,7 +198,10 @@
       "Indian Python"
     ],
     "local": {
-      "hi": "अजगर (Ajgar)"
+      "hi": "अजगर (Ajgar)",
+      "ta": "மலைப்பாம்பு (Malaippambu)",
+      "ml": "മലമ്പാമ്പ് (Malampambu)",
+      "kn": "ಹೆಬ್ಬಾವು (Hebbavu)"
     },
     "family": "Pythonidae",
     "kind": "Python",

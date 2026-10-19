@@ -119,6 +119,7 @@ def main():
     ap.add_argument("--min-sharp", type=float, default=120)
     ap.add_argument("--commercial-ok", action="store_true")
     ap.add_argument("--no-write", action="store_true", help="only report what would be built")
+    ap.add_argument("--report", action="store_true", help="print the number of photos chosen for every species")
     args = ap.parse_args()
 
     kb = load_kb(os.path.join(args.repo, "data", "kb"))
@@ -212,9 +213,13 @@ def main():
     kept_species = [sp for sp in kb if sp["id"] in chosen_by_species]
     kept_species.sort(key=lambda s: s["name"].lower())
     total = sum(len(v) for v in chosen_by_species.values())
-    print(f"{len(kept_species)} species, {total:,} photos")
+    n_hard = sum(p.get("_hard", 0) for v in chosen_by_species.values() for p in v)
+    print(f"{len(kept_species)} species, {total:,} photos ({n_hard:,} flagged hard)")
     if dropped:
         print("dropped (too few usable photos):", ", ".join(f"{i} ({n})" for i, n in dropped))
+    if args.report:
+        for sid, keep in sorted(chosen_by_species.items(), key=lambda kv: len(kv[1])):
+            print(f"  {len(keep):3d}  {sid}")
     unused = sorted(set(by_inat) - used_inat)
     print(f"{len(unused)} pool species not covered by the knowledge base")
     if args.no_write:
@@ -275,6 +280,22 @@ def main():
         w = csv.writer(fh)
         w.writerow(["photo_id", "species_id", "common_name", "scientific_name", "inaturalist_taxon", "state", "photographer", "license", "source_url"])
         w.writerows(sorted(catalog, key=lambda r: (r[1], r[0])))
+    # CREDITS.md: licence summary and every photographer
+    lic_count = Counter(r[7] for r in catalog)
+    who = Counter(r[6] for r in catalog)
+    with open(os.path.join(repo, "CREDITS.md"), "w") as fh:
+        fh.write("# Photo credits\n\n")
+        fh.write(f"All {total:,} photographs in `images/` are observations shared on [iNaturalist](https://www.inaturalist.org) "
+                 "by the people listed below under open Creative Commons licences. They remain \u00a9 their photographers. "
+                 "Each photo's photographer, licence and source link are in [`data/catalog.csv`](data/catalog.csv), "
+                 "in the app (under every photo and on the *Photo credits* page).\n\n")
+        fh.write("Licences used: " + ", ".join(f"{k} ({v:,})" for k, v in lic_count.most_common()) + ".\n\n")
+        fh.write("`CC BY-NC` and `CC BY-NC-SA` photos may not be used commercially. "
+                 "Rebuild the data set with `--commercial-ok` for a commercial site.\n\n")
+        fh.write("State names were derived from each photo's location using OpenStreetMap-based boundaries "
+                 "\u00a9 OpenStreetMap contributors.\n\n")
+        fh.write(f"## {len(who):,} photographers\n\n")
+        fh.write(", ".join(f"{name} ({n})" if n > 1 else name for name, n in sorted(who.items(), key=lambda kv: kv[0].lower())) + "\n")
     size = sum(os.path.getsize(os.path.join(dp, f)) for dp, _, fs in os.walk(img_root) for f in fs)
     print(f"wrote {total:,} photos ({size / 1e6:.0f} MB), data/species.js, data/photos.js, data/catalog.csv")
 

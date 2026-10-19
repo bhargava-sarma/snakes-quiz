@@ -8,7 +8,11 @@
       "Common Cobra"
     ],
     "local": {
-      "hi": "नाग (Naag)"
+      "hi": "नाग (Naag)",
+      "mr": "नाग (Naag)",
+      "ta": "நல்ல பாம்பு (Nalla pambu)",
+      "ml": "മൂർഖൻ (Moorkhan)",
+      "kn": "ನಾಗರಹಾವು (Nagarahavu)"
     },
     "family": "Elapidae",
     "kind": "Cobra",
@@ -96,7 +100,11 @@
     "grp": [
       "cobra-like"
     ],
-    "fact": "The Monocled Cobra swims well and often hunts frogs and fish around ponds and paddy fields, which is why it turns up in wet, low-lying places."
+    "fact": "The Monocled Cobra swims well and often hunts frogs and fish around ponds and paddy fields, which is why it turns up in wet, low-lying places.",
+    "local": {
+      "bn": "গোখরো (Gokhro)",
+      "hi": "नाग (Naag)"
+    }
   },
   {
     "id": "king-cobra",
@@ -110,7 +118,9 @@
       "Hamadryad"
     ],
     "local": {
-      "hi": "नागराज (Nagraj)"
+      "hi": "नागराज (Nagraj)",
+      "ml": "രാജവെമ്പാല (Rajavempala)",
+      "kn": "ಕಾಳಿಂಗ ಸರ್ಪ (Kalinga sarpa)"
     },
     "family": "Elapidae",
     "kind": "Cobra",
@@ -162,7 +172,9 @@
     ],
     "local": {
       "hi": "करैत (Karait)",
-      "mr": "मण्यार (Manyar)"
+      "mr": "मण्यार (Manyar)",
+      "ta": "கட்டுவிரியன் (Kattu viriyan)",
+      "ml": "വെള്ളിക്കെട്ടൻ (Vellikettan)"
     },
     "family": "Elapidae",
     "kind": "Krait",
@@ -578,7 +590,7 @@
     "venom": "deadly",
     "len": "60-90 cm",
     "habitat": "Open ocean, drifting in surface slicks; sometimes washed up on beaches after storms",
-    "range": "Seas around India (more often seen after monsoon storms) and almost all tropical oceans",
+    "range": "Seas around India (more often seen on beaches after monsoon storms) and across the tropical Indian and Pacific oceans",
     "diet": "Small fish",
     "active": "Day and night",
     "ids": [
@@ -607,7 +619,7 @@
     "grp": [
       "sea-snake"
     ],
-    "fact": "This is the most widespread snake on Earth, found across the Indian, Pacific and Atlantic-facing tropical seas. It drifts with ocean currents."
+    "fact": "This is one of the most widely distributed snakes on Earth, drifting with ocean currents across the tropical Indian and Pacific oceans."
   },
   {
     "id": "hydrophis-spiralis",

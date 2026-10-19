@@ -3,8 +3,16 @@
     "id": "daboia-russelii",
     "sci": "Daboia russelii",
     "name": "Russell's Viper",
-    "aka": ["Common Russell's Viper", "Chain Viper"],
-    "local": { "hi": "दबोइया (Daboia)", "mr": "घोणस (Ghonas)" },
+    "aka": [
+      "Common Russell's Viper",
+      "Chain Viper"
+    ],
+    "local": {
+      "hi": "चंद्रबोड़ा (Chandrabora)",
+      "mr": "घोणस (Ghonas)",
+      "ta": "கண்ணாடி விரியன் (Kannadi viriyan)",
+      "kn": "ಕೊಳಕುಮಂಡಲ (Kolakumandala)"
+    },
     "family": "Viperidae",
     "kind": "Viper",
     "tier": 1,
@@ -28,16 +36,38 @@
       "head": "Large triangular head with a pale V mark and big nostrils",
       "body": "Thick and heavy, rough scales, short tail"
     },
-    "t": { "hood": false, "head": "distinct", "pat": "blotched", "hue": ["brown", "yellow", "tan"], "scales": "keeled", "pupil": "vertical", "build": "heavy", "size": 3, "habit": "terrestrial" },
-    "grp": ["viper-like"],
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "hue": [
+        "brown",
+        "yellow",
+        "tan"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "heavy",
+      "size": 3,
+      "habit": "terrestrial"
+    },
+    "grp": [
+      "viper-like"
+    ],
     "fact": "Russell's Viper causes many bites on farms because it lies motionless in grass and is easily trodden on. It gives birth to live young, up to several dozen at a time."
   },
   {
     "id": "echis-carinatus",
     "sci": "Echis carinatus",
     "name": "Saw-scaled Viper",
-    "aka": ["Indian Saw-scaled Viper", "Little Indian Viper"],
-    "local": { "hi": "फुरसा (Phoorsa)" },
+    "aka": [
+      "Indian Saw-scaled Viper",
+      "Little Indian Viper"
+    ],
+    "local": {
+      "hi": "फुरसा (Phoorsa)",
+      "ta": "சுருட்டை விரியன் (Surutai viriyan)"
+    },
     "family": "Viperidae",
     "kind": "Viper",
     "tier": 1,
@@ -61,15 +91,34 @@
       "head": "Broad, pear-shaped head wider than the neck",
       "body": "Small, stout, strongly keeled scales"
     },
-    "t": { "hood": false, "head": "distinct", "pat": "blotched", "hue": ["brown", "grey", "tan"], "scales": "keeled", "pupil": "vertical", "build": "stout", "size": 2, "habit": "terrestrial" },
-    "grp": ["viper-like", "small-brown"],
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "hue": [
+        "brown",
+        "grey",
+        "tan"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "stout",
+      "size": 2,
+      "habit": "terrestrial"
+    },
+    "grp": [
+      "viper-like",
+      "small-brown"
+    ],
     "fact": "Despite its small size, the Saw-scaled Viper is blamed for more deaths than any other snake in many dry regions, because it is so common and so easily stepped on."
   },
   {
     "id": "hypnale-hypnale",
     "sci": "Hypnale hypnale",
     "name": "Hump-nosed Pit Viper",
-    "aka": ["Merrem's Hump-nosed Viper"],
+    "aka": [
+      "Merrem's Hump-nosed Viper"
+    ],
     "family": "Viperidae",
     "kind": "Pit viper",
     "tier": 3,
@@ -92,22 +141,43 @@
       "head": "Triangular head with an upturned, hump-like snout",
       "body": "Short, stout, rough-scaled"
     },
-    "t": { "hood": false, "head": "distinct", "snout": "upturned", "pat": "blotched", "hue": ["brown", "red", "grey"], "scales": "keeled", "pupil": "vertical", "build": "stout", "size": 1, "habit": "terrestrial" },
-    "grp": ["viper-like", "small-brown", "pit-viper"],
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "snout": "upturned",
+      "pat": "blotched",
+      "hue": [
+        "brown",
+        "red",
+        "grey"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "stout",
+      "size": 1,
+      "habit": "terrestrial"
+    },
+    "grp": [
+      "viper-like",
+      "small-brown",
+      "pit-viper"
+    ],
     "fact": "Hump-nosed pit vipers are often killed or ignored because they are small and drab, yet their bites are a serious problem in the Western Ghats. There is no specific antivenom for them."
   },
   {
     "id": "craspedocephalus-malabaricus",
     "sci": "Craspedocephalus malabaricus",
     "name": "Malabar Pit Viper",
-    "aka": ["Malabar Rock Pit Viper"],
+    "aka": [
+      "Malabar Rock Pit Viper"
+    ],
     "family": "Viperidae",
     "kind": "Pit viper",
     "tier": 2,
     "venom": "venomous",
     "len": "60-90 cm, up to about 1 m",
     "habitat": "Evergreen and moist forest, shola edges and plantations in hills, usually on low branches, rocks or tree trunks",
-    "range": "Western Ghats from Maharashtra and Goa through Karnataka and Kerala into Tamil Nadu",
+    "range": "Western Ghats from Maharashtra and Goa south through Karnataka and Kerala",
     "diet": "Lizards, frogs, birds and small rodents",
     "active": "Mainly at night",
     "ids": [
@@ -123,15 +193,36 @@
       "head": "Broad, flat triangular head with a blunt snout",
       "body": "Stout with keeled scales and a short tail"
     },
-    "t": { "hood": false, "head": "distinct", "pat": "blotched", "hue": ["green", "brown", "olive", "yellow"], "scales": "keeled", "pupil": "vertical", "build": "stout", "size": 2, "habit": "arboreal" },
-    "grp": ["pit-viper", "green-arboreal"],
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "hue": [
+        "green",
+        "brown",
+        "olive",
+        "yellow"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "stout",
+      "size": 2,
+      "habit": "arboreal"
+    },
+    "grp": [
+      "pit-viper",
+      "green-arboreal"
+    ],
     "fact": "One of the most colourful snakes in India: single litters of Malabar Pit Vipers can contain green, brown and even orange babies."
   },
   {
     "id": "craspedocephalus-gramineus",
     "sci": "Craspedocephalus gramineus",
     "name": "Bamboo Pit Viper",
-    "aka": ["Indian Green Pit Viper", "Common Green Pit Viper"],
+    "aka": [
+      "Indian Green Pit Viper",
+      "Common Green Pit Viper"
+    ],
     "family": "Viperidae",
     "kind": "Pit viper",
     "tier": 2,
@@ -153,8 +244,24 @@
       "head": "Flat triangular head with golden eyes and a pit",
       "body": "Slim for a viper, with keeled scales and a short tail"
     },
-    "t": { "hood": false, "head": "distinct", "pat": "plain", "hue": ["green", "yellow"], "scales": "keeled", "pupil": "vertical", "build": "medium", "size": 2, "habit": "arboreal" },
-    "grp": ["pit-viper", "green-arboreal"],
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "plain",
+      "hue": [
+        "green",
+        "yellow"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "medium",
+      "size": 2,
+      "habit": "arboreal"
+    },
+    "grp": [
+      "pit-viper",
+      "green-arboreal"
+    ],
     "fact": "Green pit vipers are well camouflaged but give themselves away with a triangular head and vertical pupils, two things a green vine snake does not have."
   },
   {
@@ -181,8 +288,24 @@
       "head": "Broad triangular head, rounded snout",
       "body": "Stocky with keeled scales"
     },
-    "t": { "hood": false, "head": "distinct", "pat": "speckled", "hue": ["brown", "olive", "yellow"], "scales": "keeled", "pupil": "vertical", "build": "stout", "size": 2, "habit": "arboreal" },
-    "grp": ["pit-viper"],
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "speckled",
+      "hue": [
+        "brown",
+        "olive",
+        "yellow"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "stout",
+      "size": 2,
+      "habit": "arboreal"
+    },
+    "grp": [
+      "pit-viper"
+    ],
     "fact": "This pit viper lives only in a small area of high hills in the southern Western Ghats."
   },
   {
@@ -210,8 +333,24 @@
       "head": "Triangular head with large head scales",
       "body": "Slim to medium, with big keeled scales"
     },
-    "t": { "hood": false, "head": "distinct", "pat": "plain", "hue": ["green", "yellow"], "scales": "keeled", "pupil": "vertical", "build": "medium", "size": 2, "habit": "arboreal" },
-    "grp": ["pit-viper", "green-arboreal"],
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "plain",
+      "hue": [
+        "green",
+        "yellow"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "medium",
+      "size": 2,
+      "habit": "arboreal"
+    },
+    "grp": [
+      "pit-viper",
+      "green-arboreal"
+    ],
     "fact": "The 'large-scaled' in its name is real: its dorsal scales are bigger than those of the other green pit vipers of the Western Ghats."
   },
   {
@@ -238,14 +377,32 @@
       "head": "Broad triangular head with a dark eye streak",
       "body": "Medium, stocky and keeled"
     },
-    "t": { "hood": false, "head": "distinct", "pat": "blotched", "hue": ["brown", "olive", "grey"], "scales": "keeled", "pupil": "vertical", "build": "stout", "size": 2, "habit": "semi-arboreal" },
-    "grp": ["pit-viper"]
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "hue": [
+        "brown",
+        "olive",
+        "grey"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "stout",
+      "size": 2,
+      "habit": "semi-arboreal"
+    },
+    "grp": [
+      "pit-viper"
+    ]
   },
   {
     "id": "trimeresurus-erythrurus",
     "sci": "Trimeresurus erythrurus",
     "name": "Red-tailed Bamboo Pit Viper",
-    "aka": ["Red-tailed Green Pit Viper"],
+    "aka": [
+      "Red-tailed Green Pit Viper"
+    ],
     "family": "Viperidae",
     "kind": "Pit viper",
     "tier": 3,
@@ -267,8 +424,24 @@
       "head": "Triangular head with golden eyes and a pit",
       "body": "Slim, keeled, with a prehensile tail"
     },
-    "t": { "hood": false, "head": "distinct", "pat": "plain", "hue": ["green", "yellow"], "scales": "keeled", "pupil": "vertical", "build": "medium", "size": 2, "habit": "arboreal" },
-    "grp": ["pit-viper", "green-arboreal"],
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "plain",
+      "hue": [
+        "green",
+        "yellow"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "medium",
+      "size": 2,
+      "habit": "arboreal"
+    },
+    "grp": [
+      "pit-viper",
+      "green-arboreal"
+    ],
     "fact": "This green pit viper is common on tea estates and in village hedgerows, where careless hands can meet it among the foliage."
   },
   {
@@ -281,7 +454,7 @@
     "venom": "venomous",
     "len": "60-90 cm",
     "habitat": "Forest and scrub in hill areas, in bushes and low trees",
-    "range": "Arunachal Pradesh, Assam, Meghalaya and Nagaland",
+    "range": "Assam, Meghalaya, Nagaland, Arunachal Pradesh and the hills of West Bengal",
     "diet": "Frogs, lizards, small birds and rodents",
     "active": "Mostly nocturnal",
     "ids": [
@@ -296,8 +469,24 @@
       "head": "Triangular head with golden eyes",
       "body": "Slim, keeled, prehensile tail"
     },
-    "t": { "hood": false, "head": "distinct", "pat": "plain", "hue": ["green", "yellow"], "scales": "keeled", "pupil": "vertical", "build": "medium", "size": 2, "habit": "arboreal" },
-    "grp": ["pit-viper", "green-arboreal"]
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "plain",
+      "hue": [
+        "green",
+        "yellow"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "medium",
+      "size": 2,
+      "habit": "arboreal"
+    },
+    "grp": [
+      "pit-viper",
+      "green-arboreal"
+    ]
   },
   {
     "id": "trimeresurus-popeiorum",
@@ -323,14 +512,31 @@
       "head": "Triangular head with a pit",
       "body": "Slim and keeled"
     },
-    "t": { "hood": false, "head": "distinct", "pat": "plain", "hue": ["green"], "scales": "keeled", "pupil": "vertical", "build": "medium", "size": 2, "habit": "arboreal" },
-    "grp": ["pit-viper", "green-arboreal"]
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "plain",
+      "hue": [
+        "green"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "medium",
+      "size": 2,
+      "habit": "arboreal"
+    },
+    "grp": [
+      "pit-viper",
+      "green-arboreal"
+    ]
   },
   {
     "id": "trimeresurus-septentrionalis",
     "sci": "Trimeresurus septentrionalis",
     "name": "Himalayan White-lipped Pit Viper",
-    "aka": ["Northern White-lipped Pit Viper"],
+    "aka": [
+      "Northern White-lipped Pit Viper"
+    ],
     "family": "Viperidae",
     "kind": "Pit viper",
     "tier": 4,
@@ -351,14 +557,31 @@
       "head": "Triangular head with a pit",
       "body": "Slim and keeled"
     },
-    "t": { "hood": false, "head": "distinct", "pat": "plain", "hue": ["green"], "scales": "keeled", "pupil": "vertical", "build": "medium", "size": 2, "habit": "arboreal" },
-    "grp": ["pit-viper", "green-arboreal"]
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "plain",
+      "hue": [
+        "green"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "medium",
+      "size": 2,
+      "habit": "arboreal"
+    },
+    "grp": [
+      "pit-viper",
+      "green-arboreal"
+    ]
   },
   {
     "id": "trimeresurus-andersonii",
     "sci": "Trimeresurus andersonii",
     "name": "Andaman Pit Viper",
-    "aka": ["Anderson's Pit Viper"],
+    "aka": [
+      "Anderson's Pit Viper"
+    ],
     "family": "Viperidae",
     "kind": "Pit viper",
     "tier": 4,
@@ -379,14 +602,32 @@
       "head": "Broad triangular head with a pit",
       "body": "Stocky and keeled"
     },
-    "t": { "hood": false, "head": "distinct", "pat": "blotched", "hue": ["brown", "olive", "grey"], "scales": "keeled", "pupil": "vertical", "build": "stout", "size": 2, "habit": "semi-arboreal" },
-    "grp": ["pit-viper"]
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "hue": [
+        "brown",
+        "olive",
+        "grey"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "stout",
+      "size": 2,
+      "habit": "semi-arboreal"
+    },
+    "grp": [
+      "pit-viper"
+    ]
   },
   {
     "id": "gloydius-himalayanus",
     "sci": "Gloydius himalayanus",
     "name": "Himalayan Pit Viper",
-    "aka": ["Himalayan Viper"],
+    "aka": [
+      "Himalayan Viper"
+    ],
     "family": "Viperidae",
     "kind": "Pit viper",
     "tier": 3,
@@ -407,15 +648,34 @@
       "head": "Broad triangular head with a pit",
       "body": "Short, stout and keeled"
     },
-    "t": { "hood": false, "head": "distinct", "pat": "blotched", "hue": ["brown", "grey"], "scales": "keeled", "pupil": "vertical", "build": "stout", "size": 2, "habit": "terrestrial" },
-    "grp": ["pit-viper", "viper-like", "small-brown"],
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "hue": [
+        "brown",
+        "grey"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "stout",
+      "size": 2,
+      "habit": "terrestrial"
+    },
+    "grp": [
+      "pit-viper",
+      "viper-like",
+      "small-brown"
+    ],
     "fact": "Few snakes live as high as this one. It gives birth to live young because eggs would not survive the cold."
   },
   {
     "id": "ovophis-monticola",
     "sci": "Ovophis monticola",
     "name": "Mountain Pit Viper",
-    "aka": ["Montane Pit Viper"],
+    "aka": [
+      "Montane Pit Viper"
+    ],
     "family": "Viperidae",
     "kind": "Pit viper",
     "tier": 4,
@@ -436,8 +696,24 @@
       "head": "Broad flat triangular head with a dark eye streak",
       "body": "Stout and rough-scaled"
     },
-    "t": { "hood": false, "head": "distinct", "pat": "blotched", "hue": ["brown", "grey"], "scales": "keeled", "pupil": "vertical", "build": "stout", "size": 2, "habit": "terrestrial" },
-    "grp": ["pit-viper", "viper-like"]
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "hue": [
+        "brown",
+        "grey"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "stout",
+      "size": 2,
+      "habit": "terrestrial"
+    },
+    "grp": [
+      "pit-viper",
+      "viper-like"
+    ]
   },
   {
     "id": "protobothrops-jerdonii",
@@ -463,7 +739,23 @@
       "head": "Elongated triangular head with a pit",
       "body": "Slender-medium, keeled"
     },
-    "t": { "hood": false, "head": "distinct", "pat": "blotched", "hue": ["olive", "brown"], "scales": "keeled", "pupil": "vertical", "build": "medium", "size": 3, "habit": "terrestrial" },
-    "grp": ["pit-viper", "viper-like"]
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "hue": [
+        "olive",
+        "brown"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "medium",
+      "size": 3,
+      "habit": "terrestrial"
+    },
+    "grp": [
+      "pit-viper",
+      "viper-like"
+    ]
   }
 ]

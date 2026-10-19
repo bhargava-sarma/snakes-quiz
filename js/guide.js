@@ -206,7 +206,10 @@
 
     const names = [];
     if (sp.aka.length) names.push(h('p.aka-line', 'Also called ', h('b', sp.aka.join(', '))));
-    if (sp.local && Object.keys(sp.local).length) names.push(h('p.aka-line', 'Local names: ', h('b', Object.values(sp.local).join(' · '))));
+    if (sp.local && Object.keys(sp.local).length) {
+      const LANG = { hi: 'Hindi', mr: 'Marathi', ta: 'Tamil', ml: 'Malayalam', kn: 'Kannada', bn: 'Bengali', te: 'Telugu', gu: 'Gujarati' };
+      names.push(h('p.aka-line', 'Local names: ', Object.entries(sp.local).map(([k, v], i) => [i ? ' · ' : null, `${LANG[k] || k} `, h('b', { lang: k }, v)])));
+    }
 
     const node = h('div.page.wrap.species',
       h('a.back-link', { href: '#/guide' }, icon('back', { size: 16 }), 'Field guide'),

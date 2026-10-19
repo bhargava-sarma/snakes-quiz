@@ -8,7 +8,9 @@
       "Oriental Rat Snake"
     ],
     "local": {
-      "hi": "धामन (Dhaman)"
+      "hi": "धामन (Dhaman)",
+      "ta": "சாரைப்பாம்பு (Saaraipambu)",
+      "ml": "ചേര (Chera)"
     },
     "family": "Colubridae",
     "kind": "Rat snake",
@@ -129,7 +131,7 @@
     "ids": [
       "Extremely slender, long, bright leaf-green body (sometimes yellowish or grey-brown) that looks just like a vine.",
       "Long, pointed head with a snout that ends in a sharp tip.",
-      "Horizontal, keyhole-shaped pupils, which are unique among Indian snakes.",
+      "Horizontal, keyhole-shaped pupils, which set vine snakes apart from almost every other snake in India.",
       "A pale yellow or white line along the lower flank on each side; black and white skin between the scales shows when it puffs up its neck.",
       "Sways slowly like a twig in the wind and may gape to show a dark mouth lining."
     ],
@@ -156,7 +158,10 @@
       "green-arboreal",
       "vine-snake"
     ],
-    "fact": "The horizontal pupils give vine snakes forward-facing vision so they can judge the distance to a lizard before they strike. Their mild venom is harmless to people."
+    "fact": "The horizontal pupils give vine snakes forward-facing vision so they can judge the distance to a lizard before they strike. Their mild venom is harmless to people.",
+    "local": {
+      "mr": "हरणटोळ (Harantol)"
+    }
   },
   {
     "id": "ptyas-korros",
@@ -483,7 +488,7 @@
     "venom": "none",
     "len": "60-100 cm",
     "habitat": "Dry open country: desert edge, scrub, rocky hills, fields and villages",
-    "range": "Rajasthan, Gujarat, Punjab, Haryana, Delhi and dry parts of the peninsula; also Pakistan and the Middle East",
+    "range": "Dry open country of Rajasthan, Gujarat, Haryana and Delhi; also Pakistan and the Middle East",
     "diet": "Lizards, geckos, small rodents and insects",
     "active": "By day",
     "ids": [
@@ -518,14 +523,14 @@
   {
     "id": "platyceps-plinii",
     "sci": "Platyceps plinii",
-    "name": "Platyceps plinii",
+    "name": "Pliny's Racer",
     "family": "Colubridae",
     "kind": "Racer",
     "tier": 4,
     "venom": "none",
     "len": "60-100 cm",
     "habitat": "Rocky plateaus, scrub, farmland and villages in the dry parts of the peninsula",
-    "range": "Western and central India, especially Maharashtra and Gujarat",
+    "range": "Peninsular, western and eastern India, with many records from Bihar, Maharashtra, Gujarat and Andhra Pradesh",
     "diet": "Lizards, geckos and small rodents",
     "active": "By day",
     "ids": [
@@ -651,7 +656,7 @@
     "venom": "none",
     "len": "1-1.8 m",
     "habitat": "Deserts, semi-desert, dry scrub, farmland and villages",
-    "range": "Rajasthan, Gujarat and the north-western dry zone; also Pakistan",
+    "range": "Dry north-western India: Rajasthan, western Uttar Pradesh and Haryana; also Pakistan",
     "diet": "Rodents, lizards, birds and eggs",
     "active": "By day and evening",
     "ids": [
@@ -869,7 +874,7 @@
     "venom": "none",
     "len": "50-90 cm",
     "habitat": "Forest edges, scrub, plantations and houses in the peninsula",
-    "range": "Peninsular India, the Western Ghats and Tamil Nadu",
+    "range": "Southern India, mostly Tamil Nadu, with records from Telangana, Kerala and Chhattisgarh",
     "diet": "Geckos, skinks and small lizards",
     "active": "Nocturnal",
     "ids": [
@@ -1391,7 +1396,7 @@
     "venom": "mild",
     "len": "0.8-1.3 m",
     "habitat": "Forest edges, bamboo, plantations and villages, in trees, bushes and on the ground",
-    "range": "North-east India (Assam, West Bengal hills, Mizoram, Arunachal Pradesh) and eastwards",
+    "range": "Assam, Odisha, West Bengal and the hills of the north-east",
     "diet": "Lizards, small birds, rodents and frogs",
     "active": "Nocturnal",
     "ids": [
@@ -1695,7 +1700,7 @@
     "venom": "mild",
     "len": "0.8-1.2 m",
     "habitat": "Dry and moist forest, scrub and gardens, on bushes and trees",
-    "range": "Peninsular India: Karnataka, Andhra Pradesh, Odisha, Tamil Nadu",
+    "range": "Peninsular and eastern India: Karnataka, Andhra Pradesh, Chhattisgarh, Odisha and Tamil Nadu",
     "diet": "Lizards, frogs and small birds",
     "active": "Nocturnal",
     "ids": [
@@ -1784,7 +1789,7 @@
     "venom": "mild",
     "len": "0.7-1.2 m",
     "habitat": "Forest, plantations, gardens and village trees; a fast climber in trees and on walls",
-    "range": "Western Ghats, Eastern Ghats, north-east India and the Himalayan foothills (also reported on the islands)",
+    "range": "Western Ghats and southern India, Odisha, West Bengal and the north-east",
     "diet": "Lizards, geckos, frogs, small birds and bats",
     "active": "By day",
     "ids": [
@@ -1918,7 +1923,7 @@
     "venom": "none",
     "len": "40-70 cm",
     "habitat": "Moist forest floor, stream edges, rocks and plantations in the hills, hunting amphibians in leaf litter",
-    "range": "Western Ghats of Karnataka, Kerala, Tamil Nadu and Maharashtra (very similar relatives occur in the northern Western Ghats)",
+    "range": "Southern Western Ghats of Karnataka, Kerala and Tamil Nadu (close relatives live in the northern Western Ghats)",
     "diet": "Frogs, tadpoles and small fish",
     "active": "By day",
     "ids": [
@@ -2099,7 +2104,7 @@
     "venom": "mild",
     "len": "50-80 cm, up to 1 m",
     "habitat": "Ponds, tanks, canals, paddy fields and streams; swims well and basks on banks",
-    "range": "Peninsular India (Tamil Nadu, Andhra Pradesh, Karnataka, Kerala, Odisha and West Bengal); also Sri Lanka",
+    "range": "Peninsular India, mainly Tamil Nadu, Andhra Pradesh and Karnataka, with records from West Bengal and Maharashtra; also Sri Lanka",
     "diet": "Fish, frogs and tadpoles",
     "active": "By day and dusk",
     "ids": [
@@ -2365,7 +2370,7 @@
     "venom": "none",
     "len": "50-80 cm",
     "habitat": "Dry forest, scrub, farmland and the edges of villages in central, eastern and northern India",
-    "range": "Odisha, Chhattisgarh, West Bengal, Uttarakhand and neighbouring states of eastern and central India",
+    "range": "Odisha, West Bengal, Uttar Pradesh, Chhattisgarh and the Himalayan foothills of Himachal Pradesh and Uttarakhand, plus Haryana",
     "diet": "Reptile eggs, lizards and frogs",
     "active": "Nocturnal",
     "ids": [
@@ -2410,7 +2415,7 @@
     "venom": "mild",
     "len": "60-90 cm, up to about 1.1 m",
     "habitat": "Mangroves, estuaries, tidal creeks, mudflats and brackish backwaters; hides in crab holes",
-    "range": "Coasts and backwaters of India (Maharashtra, Goa, Tamil Nadu, Andhra Pradesh, West Bengal and the Andaman Islands)",
+    "range": "Coasts and backwaters of India: Maharashtra, Goa, Kerala, Tamil Nadu, Andhra Pradesh, Odisha and the Andaman Islands",
     "diet": "Fish, mudskippers and crabs",
     "active": "Mostly at night",
     "ids": [
@@ -2538,7 +2543,7 @@
     "venom": "mild",
     "len": "0.8-1.2 m",
     "habitat": "Open dry forest, scrub, grassland and farmland on sandy or rocky soil",
-    "range": "Scattered across the north and east of the peninsula (Uttarakhand, West Bengal, Karnataka, Maharashtra) and north-east India",
+    "range": "Scattered records from the Uttarakhand foothills, the Deccan (Karnataka, Maharashtra) and West Bengal",
     "diet": "Lizards, frogs and small snakes",
     "active": "By day",
     "ids": [
@@ -2660,6 +2665,9 @@
       "water-snake",
       "keelback"
     ],
-    "fact": "This is the snake you are most likely to meet beside a pond or paddy field anywhere in India. It is often killed in the belief that it is a cobra or a viper."
+    "fact": "This is the snake you are most likely to meet beside a pond or paddy field anywhere in India. It is often killed in the belief that it is a cobra or a viper.",
+    "local": {
+      "bn": "ঢোড়া (Dhora)"
+    }
   }
 ]

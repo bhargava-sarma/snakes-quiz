@@ -444,7 +444,7 @@
     "venom": "none",
     "len": "40-65 cm",
     "habitat": "Hill forest, bamboo and gardens, on shrubs and the ground; hunts snails and slugs at night",
-    "range": "North-east India (Assam, Meghalaya, Tripura, Arunachal Pradesh) and eastwards",
+    "range": "North-east India (Tripura, Meghalaya, Sikkim, Assam, Arunachal Pradesh, Mizoram) and eastwards",
     "diet": "Snails and slugs",
     "active": "Nocturnal",
     "ids": [
@@ -491,7 +491,7 @@
     "venom": "none",
     "len": "50-80 cm",
     "habitat": "Shallow sea, tidal creeks, mangroves and estuaries; rarely on beaches",
-    "range": "Coasts of India (Maharashtra, Gujarat, the south-east coast and the Andaman and Nicobar Islands)",
+    "range": "Coasts of Maharashtra and Gujarat, and the Andaman and Nicobar Islands",
     "diet": "Fish",
     "active": "Nocturnal",
     "ids": [
@@ -577,7 +577,7 @@
     "venom": "mild",
     "len": "40-60 cm",
     "habitat": "Mangroves, tidal creeks, estuaries and mudflats along the coast",
-    "range": "West coast of India (Maharashtra, Gujarat), the Sundarbans and east coast, and the Andaman Islands",
+    "range": "Coasts of Maharashtra and Gujarat, with records from the east coast and the Sundarbans",
     "diet": "Crabs, shrimps and small fish",
     "active": "Nocturnal and at low tide",
     "ids": [
