@@ -41,7 +41,6 @@
     }
     const pct = SQ.pct(r.correct, r.n);
     const rank = SQ.engine.rank(pct);
-    const ringColor = pct >= 70 ? 'var(--ok)' : pct >= 45 ? 'var(--brand-2)' : 'var(--bad)';
 
     // by family
     const fam = {};
@@ -92,30 +91,29 @@
           timer: r.timer, hints: r.config.hints !== false, preferUnseen: true, focus: r.config.focus, title: r.title,
         }) }, icon('redo', { size: 18 }), 'Play again'),
       missed.length && r.mode !== 'daily'
-        ? h('button.btn.btn-ghost', { type: 'button', onclick: () => SQ.quiz.start({
+        ? h('button.btn', { type: 'button', onclick: () => SQ.quiz.start({
           mode: 'practice', title: 'Practice: snakes you missed', count: Math.min(20, Math.max(10, missed.length * 2)),
           difficulty: 'mixed', region: 'all', timer: 0, hints: true, preferUnseen: true, focus: missed.map((m) => m.species),
         }) }, icon('target', { size: 18 }), `Practise the ${missed.length} I missed`)
         : null,
-      h('button.btn.btn-ghost', { type: 'button', onclick: () => SQ.ui.shareText(shareText(r, rank), location.origin + location.pathname) }, icon('share', { size: 18 }), 'Share'),
-      h('a.btn.btn-ghost', { href: r.mode === 'daily' ? '#/daily' : '#/play' }, r.mode === 'daily' ? 'Daily page' : 'New quiz settings'));
+      h('button.btn', { type: 'button', onclick: () => SQ.ui.shareText(shareText(r, rank), location.origin + location.pathname) }, icon('share', { size: 18 }), 'Share'),
+      h('a.btn', { href: r.mode === 'daily' ? '#/daily' : '#/play' }, r.mode === 'daily' ? 'Daily page' : 'New quiz settings'));
 
     const node = h('div.page.wrap.results',
       h('section.result-hero',
-        SQ.ui.ring(pct, { size: 168, stroke: 14, label: pct + '%', sub: `${r.correct} / ${r.n}`, color: ringColor }),
+        SQ.ui.dial(pct, { size: 248, label: pct + '%', sub: `${r.correct} / ${r.n}` }),
         h('div.result-copy',
-          h('p.eyebrow', r.early ? 'Quiz ended early' : r.mode === 'daily' ? 'Daily challenge complete' : 'Quiz complete'),
+          h('p.legend', r.early ? 'Quiz ended early' : r.mode === 'daily' ? 'Daily challenge complete' : 'Quiz complete'),
           h('h1', rank.title),
           h('p.lead', rank.sub),
-          h('div.result-stats',
-            h('div', h('b', String(r.points)), h('span', 'points')),
-            h('div', h('b', String(r.bestStreak)), h('span', 'best streak')),
-            h('div', h('b', SQ.fmtDuration(r.seconds)), h('span', 'time')),
-            h('div', h('b', r.items.reduce((a, b) => a + (b.hints || 0), 0) + ''), h('span', 'hints used')))),
-        ),
+          h('div.lcd.result-lcd',
+            SQ.ui.readout('Points', r.points),
+            SQ.ui.readout('Best streak', r.bestStreak),
+            SQ.ui.readout('Time', SQ.fmtDuration(r.seconds)),
+            SQ.ui.readout('Hints used', r.items.reduce((a, b) => a + (b.hints || 0), 0))),
+          actions)),
       badgeCards.length ? h('section', h('h2.section-title', 'Badges unlocked'), h('div.badge-row', badgeCards)) : null,
-      actions,
-      h('section', h('h2.section-title', 'Your answers', h('small', 'Tap a photo to see the full explanation')), tiles),
+      h('section', h('h2.section-title', 'Your answers', h('small', 'Tap a photo for the full explanation')), tiles),
       h('div.two-col',
         h('section', h('h2.section-title', 'Snakes to revisit'), missedList),
         h('section', h('h2.section-title', 'By family'), h('div.fam-bars', famRows.map(([f, v]) => h('div.fam-row',

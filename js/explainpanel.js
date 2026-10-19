@@ -23,7 +23,7 @@
     const rows = SQ.explain.table(a, b);
     const wrap = h('div.cmp', { role: 'table', 'aria-label': `${a.name} compared with ${b.name}` });
     wrap.appendChild(h('div.cmp-row.cmp-head', { role: 'row' },
-      h('div', { role: 'columnheader' }),
+      h('div', { role: 'columnheader' }, h('span.sr-only', 'Trait')),
       h('div', { role: 'columnheader' }, h('small', labels.labelA), h('b', a.name)),
       h('div', { role: 'columnheader' }, h('small', labels.labelB), h('b', b.name))));
     rows.forEach(([label, x, y]) => {
@@ -38,6 +38,7 @@
   function whyCorrectCard(sp) {
     const why = SQ.explain.whyCorrect(sp);
     return h('section.card.why-card',
+      h('p.legend.card-tag', icon('check', { size: 13, stroke: 3 }), 'The answer'),
       h('div.why-head',
         h('div',
           h('h3', `Why it's ${SQ.article(sp.name)} ${sp.name}`),

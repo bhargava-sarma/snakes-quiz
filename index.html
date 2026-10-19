@@ -5,19 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Sarpa · Indian Snake Quiz</title>
   <meta name="description" content="Spot the snake! A free photo quiz on the snakes of India with 20, 50 or 100 questions, thousands of real photos and an explanation of why every option is right or wrong.">
-  <meta name="theme-color" content="#1c6b4a">
+  <meta name="theme-color" content="#e8e7e2">
+  <meta name="color-scheme" content="light dark">
   <meta property="og:title" content="Sarpa · Indian Snake Quiz">
   <meta property="og:description" content="Identify India's snakes from real photos, and learn exactly why each answer is right or wrong.">
   <meta property="og:type" content="website">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/icon-192.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/views.css">
+  <script>
+    // Start loading the main fonts early (not on file://, where browsers refuse cross-origin font preloads).
+    if (location.protocol !== 'file:') {
+      ['geist-latin-wght-normal', 'geist-mono-latin-wght-normal', 'doto-latin-full-normal'].forEach(function (f) {
+        var l = document.createElement('link');
+        l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = 'anonymous'; l.href = 'assets/fonts/' + f + '.woff2';
+        document.head.appendChild(l);
+      });
+    }
+  </script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
   <header id="site-header" class="site-header"></header>
   <main id="main" tabindex="-1">
+    <div class="boot" aria-hidden="true"><div class="lcd">SARPA</div></div>
     <noscript><div class="page wrap"><p>Sarpa needs JavaScript to run the quiz. Please enable it and reload.</p></div></noscript>
   </main>
   <footer id="site-footer" class="site-footer"></footer>

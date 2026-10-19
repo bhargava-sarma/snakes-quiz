@@ -2,6 +2,17 @@
 
 A free photo quiz that teaches you to recognise the snakes of India, and **explains every answer**.
 
+<p align="center">
+  <img src="docs/screens/home-desktop.jpg" alt="The Sarpa home page: a quiz screen preview, an LCD with the numbers and big keys to start a quiz" width="49%">
+  <img src="docs/screens/quiz-desktop.jpg" alt="A question on a laptop: a big photo on the left, the answer keys and the explanation on the right" width="49%">
+</p>
+<p align="center">
+  <img src="docs/screens/quiz-phone.jpg" alt="A question on a phone" width="19%">
+  <img src="docs/screens/home-phone.jpg" alt="The home page on a phone" width="19%">
+  <img src="docs/screens/results-phone.jpg" alt="The results page on a phone with a rotary-knob gauge" width="19%">
+  <img src="docs/screens/quiz-desktop-dark.jpg" alt="The night-shift theme" width="39%">
+</p>
+
 You are shown a real photograph and four options. Whether you get it right or wrong, you then see
 *why the right snake is right* **and** *why each of the other options is not*, with the key visual
 differences and a side-by-side comparison.
@@ -34,6 +45,19 @@ on any web host, on GitHub Pages, or straight from the folder on your computer.
 - **My progress**: stats, a snake-dex of species you have mastered, weak-spot practice, badges, and a backup/restore file
 - **Snakebite first aid** (the national "Do it R.I.G.H.T." guidance), the "Big Four", and myths vs facts
 - Dark mode, installable as an app, works offline after the first visit, no accounts and no tracking
+
+## Design
+
+Sarpa looks like a pocket field device: an aluminium case, orange keys that press down, a dot-matrix LCD for
+the numbers, and small printed labels. The snake is in the details: the logo is a pixel snake, the quiz progress
+bar is a snake's backbone (one segment per question, the head is the question you are on), a pixel snake crawls
+across the home-page LCD, and the skin pattern, the diamond bullets and the serpentine rules all come from scales.
+
+- fills the screen: two panes on wide screens (a big sticky photo beside the answers and explanation), a bottom
+  key bar and thumb-friendly keys on phones, and a side-by-side layout for a phone held sideways
+- light ("aluminium") and dark ("night shift") themes, and `prefers-reduced-motion` is respected
+- fonts are bundled (Geist, Geist Mono and the dot-matrix Doto, all under the SIL Open Font Licence), so there are
+  no external requests and the app still works offline
 
 ## Run it
 
@@ -108,18 +132,25 @@ node scripts/qa/engine_check.js   # 4,500+ generated questions: 4 unique options
 node scripts/qa/smoke.js          # every page and species page: no stray "null"/"undefined", no errors, no broken photos
 node scripts/qa/e2e.js            # 40-step run-through: timer, hints, wrong/right explanations, reload-and-resume, results,
                                   # daily challenge parity between two players, region filter, reporting a photo, phone layout
+node scripts/qa/layout.js         # design checks on every page at phone, tablet, laptop and ultrawide sizes, light and dark:
+                                  # nothing overflows or is clipped, tap targets, WCAG contrast, broken images, tab bar overlap
+                                  # (--quick for fewer sizes, --shots <dir> to save screenshots)
+node scripts/qa/a11y.js           # axe-core accessibility scan of every page (WCAG 2.2 AA); first: npm install --no-save axe-core
 ```
 
 ## Project layout
 
 ```
 index.html  sw.js  manifest.webmanifest
-css/app.css                         styling (light + dark theme)
+css/                                styling: fonts.css, tokens.css (colours, type, space; light + dark),
+                                    base.css (page frame, header, tab bar), components.css (keys, LCD, panels ...),
+                                    views.css (every screen)
 js/                                 the app: engine (question building), explain (why-not logic), quiz, guide, results ...
 data/kb/*.json                      the species knowledge base (hand-written)
 data/species.js  data/photos.js     generated for the app by scripts/dataset/09_build_data.py
 data/catalog.csv                    every photo with species, state, photographer, licence and source link
 images/<species>/<photo-id>.avif    the photos (800 px, AVIF) and images/thumbs/ for the cover pictures
+assets/                             app icons (drawn by scripts/assets/make-icons.js) and the bundled fonts
 scripts/dataset/                    the data-set pipeline (iNaturalist open data -> photos)
 scripts/qa/                         browser-based tests
 ```
@@ -132,6 +163,7 @@ wild snake. After a bite, go to a hospital immediately (the app has a first-aid 
 ## Licences and credits
 
 - Code: [MIT](LICENSE)
+- Fonts: Geist, Geist Mono and Doto, [SIL Open Font Licence 1.1](assets/fonts/OFL.txt)
 - Species descriptions (`data/kb`): CC BY 4.0
 - Photographs: © their photographers, under the Creative Commons licence shown with each photo
   (see [`CREDITS.md`](CREDITS.md))
