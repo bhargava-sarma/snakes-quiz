@@ -1,0 +1,340 @@
+{
+ "noPair": [
+  [
+   "naja-naja",
+   "naja-kaouthia"
+  ],
+  [
+   "craspedocephalus-gramineus",
+   "craspedocephalus-macrolepis"
+  ],
+  [
+   "craspedocephalus-malabaricus",
+   "craspedocephalus-anamallensis",
+   "craspedocephalus-travancoricus"
+  ],
+  [
+   "trimeresurus-erythrurus",
+   "trimeresurus-salazar",
+   "trimeresurus-popeiorum",
+   "trimeresurus-septentrionalis"
+  ],
+  [
+   "lycodon-septentrionalis",
+   "lycodon-zawi",
+   "lycodon-nympha",
+   "lycodon-fasciolatus",
+   "lycodon-jara",
+   "lycodon-hypsirhinoides",
+   "lycodon-flavicollis"
+  ],
+  [
+   "oligodon-arnensis",
+   "oligodon-tillacki",
+   "oligodon-russelius",
+   "oligodon-albocinctus"
+  ],
+  [
+   "platyceps-ventromaculatus",
+   "platyceps-plinii",
+   "platyceps-gracilis",
+   "platyceps-bholanathi"
+  ],
+  [
+   "elaphe-hodgsonii",
+   "elaphe-cantoris"
+  ],
+  [
+   "boiga-beddomei",
+   "boiga-thackerayi",
+   "boiga-nuchalis",
+   "boiga-multomaculata",
+   "boiga-siamensis"
+  ],
+  [
+   "uropeltis-ellioti",
+   "uropeltis-phipsonii",
+   "melanophidium-khairei",
+   "melanophidium-wynaudense",
+   "plectrurus-perroteti",
+   "platyplectrurus-madurensis"
+  ],
+  [
+   "indotyphlops-braminus",
+   "grypotyphlops-acutus"
+  ],
+  [
+   "hydrophis-curtus",
+   "hydrophis-cyanocinctus",
+   "hydrophis-spiralis"
+  ],
+  [
+   "bronzeback-tree-snake",
+   "dendrelaphis-grandoculis",
+   "dendrelaphis-andamanensis",
+   "dendrelaphis-proarchos"
+  ],
+  [
+   "python-molurus",
+   "python-bivittatus"
+  ],
+  [
+   "eryx-conicus",
+   "eryx-whitakeri"
+  ],
+  [
+   "amphiesma-monticola",
+   "sahyadriophis-beddomei"
+  ],
+  [
+   "ptyas-mucosa",
+   "ptyas-korros"
+  ],
+  [
+   "fowlea-piscator",
+   "fowlea-tytleri"
+  ]
+ ],
+ "pairs": [
+  {
+   "a": "naja-naja",
+   "b": "ptyas-mucosa",
+   "tip": "Only a cobra spreads a wide hood. The Indian Rat Snake is longer, slimmer and faster, with big round eyes and a narrow head, and cannot make a true hood; it may flatten its neck and rear up in imitation."
+  },
+  {
+   "a": "bungarus-caeruleus",
+   "b": "lycodon-aulicus",
+   "tip": "A krait has a row of enlarged six-sided scales along its spine and a plain blunt head with tiny eyes. A wolf snake has ordinary scales down the back, a flat head wider than its neck and big eyes with vertical pupils. Wolf snakes are harmless."
+  },
+  {
+   "a": "bungarus-caeruleus",
+   "b": "lycodon-striatus",
+   "tip": "Both are glossy black with white bars, which is why wolf snakes are so often killed as kraits. The Barred Wolf Snake has crisp bars mostly on the neck and front, a flat head wider than its neck and big eyes. The Common Krait has thin paired bands strongest on the rear half, a blunt head hardly wider than its neck and a row of enlarged six-sided scales on its back."
+  },
+  {
+   "a": "bungarus-caeruleus",
+   "b": "lycodon-travancoricus",
+   "tip": "The Travancore Wolf Snake has a flat head wider than its neck, big eyes and speckled, chain-like pale bands. The Common Krait has a blunt head that barely widens behind the eyes, tiny eyes and a row of enlarged six-sided scales along the spine. The wolf snake is harmless."
+  },
+  {
+   "a": "bungarus-caeruleus",
+   "b": "bungarus-niger",
+   "tip": "The Common Krait is blue-black with narrow white bands, clearest on the rear half. The Greater Black Krait is plain glossy black (sometimes with faint pale bands) and is found only in the north-east, while the Common Krait is widespread across India."
+  },
+  {
+   "a": "bungarus-fasciatus",
+   "b": "bungarus-caeruleus",
+   "tip": "The Banded Krait is far bigger, heavier and triangular in section, with broad black and yellow rings all the way round. The Common Krait is dark blue-black with thin white bands."
+  },
+  {
+   "a": "bungarus-fasciatus",
+   "b": "chrysopelea-ornata",
+   "tip": "Both can look black and yellow. The Banded Krait is thick and heavy with broad, equal rings and a ridged, triangular body. The Golden Flying Snake is slim, with black edges on every scale, narrow crossbands, red or orange flecks and big round eyes."
+  },
+  {
+   "a": "bungarus-fasciatus",
+   "b": "laticauda-colubrina",
+   "tip": "Both are ringed, but the Banded Krait is a land snake with black and bright yellow rings, while the Banded Sea Krait is blue-grey with black rings, a flattened paddle tail and a yellow snout, and lives on reefs and rocky shores."
+  },
+  {
+   "a": "naja-naja",
+   "b": "naja-kaouthia",
+   "tip": "Look at the back of the hood. The Indian Cobra has a spectacle (two round lenses joined by a curve) or no clear mark, while the Monocled Cobra has a single ring, like a monocle. They are also separated by range: the Monocled Cobra is the north-eastern species."
+  },
+  {
+   "a": "naja-naja",
+   "b": "king-cobra",
+   "tip": "A king cobra is far larger (3 m and more), has a longer, narrower hood with no spectacle mark, and has two extra large scales behind the crown of the head."
+  },
+  {
+   "a": "naja-naja",
+   "b": "pseudoxenodon-macrops",
+   "tip": "The Large-eyed False Cobra spreads a hood too, but its hood is narrower and the pattern is of dark bars and chevrons on the neck, with no spectacle or ring mark. It is smaller and lives in the hills of the Himalaya and north-east."
+  },
+  {
+   "a": "naja-naja",
+   "b": "fowlea-piscator",
+   "tip": "The Checkered Keelback can flatten its neck, but it never rears up with a spread hood. It has a checkerboard pattern, dark streaks on a rounded head and keeled scales, and it is nearly always close to water."
+  },
+  {
+   "a": "king-cobra",
+   "b": "ptyas-mucosa",
+   "tip": "A king cobra spreads a long narrow hood, is much heavier and usually well over 3 m, and growls. The Indian Rat Snake is slimmer, brown with a netted rear half, cannot make a hood and is rarely longer than about 2.5 m."
+  },
+  {
+   "a": "daboia-russelii",
+   "b": "echis-carinatus",
+   "tip": "Both are blotched vipers, but Russell's Viper is much bigger and heavier, with three rows of large white-ringed oval spots. The Saw-scaled Viper is small, sandy and slim-bodied with a wavy white line on each side and a pale cross on the head."
+  },
+  {
+   "a": "daboia-russelii",
+   "b": "eryx-conicus",
+   "tip": "Russell's Viper has a big triangular head clearly wider than its neck, large eyes with vertical pupils and rows of ringed oval spots. The Common Sand Boa has a small blunt head with tiny eyes, no neck and a blunt tail that looks like its head. The sand boa is harmless."
+  },
+  {
+   "a": "daboia-russelii",
+   "b": "spalerosophis-atriceps",
+   "tip": "The Royal Snake has large brown blotches, but its head is narrow, its eyes are big and round and its scales are smooth. Russell's Viper has a broad triangular head, vertical pupils and rough scales, with three rows of ringed spots."
+  },
+  {
+   "a": "echis-carinatus",
+   "b": "eryx-conicus",
+   "tip": "The Saw-scaled Viper has a broad head with a pale cross, vertical pupils and a wavy white line along each flank. The Common Sand Boa has a tiny wedge-shaped head, tiny eyes and a blunt tail that looks like a second head."
+  },
+  {
+   "a": "echis-carinatus",
+   "b": "hypnale-hypnale",
+   "tip": "Both are small brown vipers with rough scales. The Hump-nosed Pit Viper has an upturned, hump-like snout and lives in the Western Ghats and the coastal strip, while the Saw-scaled Viper has a normal blunt snout, a pale cross on the head and a wavy white flank line."
+  },
+  {
+   "a": "hypnale-hypnale",
+   "b": "rhabdophis-plumbicolor",
+   "tip": "The Green Keelback bluffs like a viper but has round pupils, no heat pit and a tail that tapers, and is usually olive-green. The Hump-nosed Pit Viper is brown, with a hump-like snout, a heat pit between the eye and nostril and vertical pupils."
+  },
+  {
+   "a": "craspedocephalus-gramineus",
+   "b": "green-vine-snake",
+   "tip": "The Bamboo Pit Viper is stout enough to look rope-like, with a broad triangular head, vertical pupils and a heat pit. The Green Vine Snake is extremely thin with a long pointed head, keyhole-shaped horizontal pupils and no pit."
+  },
+  {
+   "a": "craspedocephalus-malabaricus",
+   "b": "craspedocephalus-gramineus",
+   "tip": "The Bamboo Pit Viper is slimmer and a uniform bright green with a yellowish line along each flank. The Malabar Pit Viper is stockier and extremely variable in colour (green, brown, yellow or orange), often with marbled blotches."
+  },
+  {
+   "a": "craspedocephalus-gramineus",
+   "b": "trimeresurus-erythrurus",
+   "tip": "Both are green pit vipers, but they live in different places. The Bamboo Pit Viper is found in peninsular India and the Ghats, and the Red-tailed Bamboo Pit Viper in the Bengal delta and the north-east. The red-tailed species has a conspicuous reddish tail tip."
+  },
+  {
+   "a": "green-vine-snake",
+   "b": "boiga-flaviviridis",
+   "tip": "The Green Vine Snake is extremely slender with a long, pointed head and keyhole-shaped horizontal pupils. The Yellow-green Cat Snake has a heavier body, a broad blunt head distinct from the neck, and vertical pupils."
+  },
+  {
+   "a": "green-vine-snake",
+   "b": "bronzeback-tree-snake",
+   "tip": "Both are slender tree snakes. The Green Vine Snake is leaf-green with a pointed snout and horizontal, keyhole-shaped pupils. The Bronzeback is bronze-brown with big round eyes, a black eye stripe and a rounded head."
+  },
+  {
+   "a": "green-vine-snake",
+   "b": "rhabdophis-plumbicolor",
+   "tip": "The Green Keelback is a stout, short, ground-living snake with a broad head and dark neck markings. The Green Vine Snake is a very slim tree snake with a long, pointed head."
+  },
+  {
+   "a": "lycodon-aulicus",
+   "b": "oligodon-arnensis",
+   "tip": "A wolf snake has a flat head wider than its neck, large eyes with vertical pupils and thin pale bars. A Banded Kukri has a short, blunt head with a dark arrow mark, tiny eyes with round pupils and dark, pale-edged cross-bars."
+  },
+  {
+   "a": "lycodon-aulicus",
+   "b": "lycodon-striatus",
+   "tip": "The Common Wolf Snake is brown to chocolate with thin pale bars that fade with age. The Barred Wolf Snake is glossy black with bold white bars, especially on the neck and front."
+  },
+  {
+   "a": "lycodon-aulicus",
+   "b": "lycodon-travancoricus",
+   "tip": "The Common Wolf Snake is brown with thin pale bars. The Travancore Wolf Snake is darker, with paired white-yellow bands made of speckles, and lives only in the Western Ghats."
+  },
+  {
+   "a": "fowlea-piscator",
+   "b": "amphiesma-stolatum",
+   "tip": "The Checkered Keelback has a dense checkerboard of small dark squares and is nearly always near water. The Buff-striped Keelback has two pale yellowish stripes running down the back with dark spots between them."
+  },
+  {
+   "a": "fowlea-piscator",
+   "b": "atretium-schistosum",
+   "tip": "The Olive Keelback is plain olive with a yellow belly and a yellow line along the lower flank, and no checkerboard. The Checkered Keelback is covered in small dark checks and has dark streaks on the head."
+  },
+  {
+   "a": "fowlea-piscator",
+   "b": "cerberus-rynchops",
+   "tip": "The Dog-faced Water Snake is stout, lives in brackish water, mangroves and mudflats, and has small eyes on a flattened head with upturned nostrils. The Checkered Keelback is slimmer, a freshwater species with a checkerboard pattern and a dark streak behind the eye."
+  },
+  {
+   "a": "coelognathus-helena",
+   "b": "ptyas-mucosa",
+   "tip": "The Common Trinket Snake is smaller and slimmer, with dark saddles that merge into two dark stripes towards the tail and a dark eye mask. The Indian Rat Snake is larger and plain brown with a netted rear half and no stripes."
+  },
+  {
+   "a": "coelognathus-helena",
+   "b": "oligodon-taeniolatus",
+   "tip": "The Common Trinket Snake is longer, with a long pointed head and dark saddles that fade into stripes. The Streaked Kukri is short and stubby, with a small blunt head carrying a dark V mark."
+  },
+  {
+   "a": "oligodon-arnensis",
+   "b": "oligodon-taeniolatus",
+   "tip": "The Banded Kukri has narrow dark cross-bars with pale edges along the whole body. The Streaked Kukri has thin dark streaks and dashes along the body, and often a reddish stripe down the spine."
+  },
+  {
+   "a": "python-molurus",
+   "b": "python-bivittatus",
+   "tip": "The Burmese Python is bigger, with darker, more contrasting brown blotches that have pale centres, and lives in the north-east and the Himalayan foothills. The Indian Rock Python has paler, more irregular blotches and lives in the rest of the country."
+  },
+  {
+   "a": "eryx-conicus",
+   "b": "eryx-johnii",
+   "tip": "The Common Sand Boa has large dark blotches in two rows on a tan background. The Red Sand Boa is plain brown or reddish-brown without blotches."
+  },
+  {
+   "a": "eryx-conicus",
+   "b": "eryx-whitakeri",
+   "tip": "Whitaker's Boa lives in the Western Ghats foothills and has a more mottled, broken pattern, and the Common Sand Boa has bold paired blotches. They look alike, and range is the best clue."
+  },
+  {
+   "a": "boiga-trigonata",
+   "b": "boiga-forsteni",
+   "tip": "Forsten's Cat Snake is much larger and heavier (often over 1.5 m), while the Common Cat Snake is slim and about 1 m, with a dark arrow mark on the head and a ladder of dark cross-bars."
+  },
+  {
+   "a": "calliophis-nigrescens",
+   "b": "calliophis-melanurus",
+   "tip": "The Striped Coral Snake is glossy blue-black with thin red-orange stripes along its flanks and a red belly. The Slender Coral Snake is plain grey-brown with a black head, a black band across the neck and a black tail tip."
+  },
+  {
+   "a": "calliophis-melanurus",
+   "b": "sibynophis-subpunctatus",
+   "tip": "Both are slim with a black head and pale neck marks. The Slender Coral Snake has a red-orange belly and tail underside, which it shows by curling its tail, and a black tail tip. Duméril's Black-headed Snake is harmless and has a pale or orange belly with no black tail tip."
+  },
+  {
+   "a": "hydrophis-schistosus",
+   "b": "hydrophis-curtus",
+   "tip": "The Beaked Sea Snake has a hooked snout and a plain grey body with faint bands. The Spine-bellied Sea Snake is shorter and stockier with bold dark bands, wide on the back and narrow on the flanks."
+  },
+  {
+   "a": "hydrophis-platurus",
+   "b": "hydrophis-schistosus",
+   "tip": "The Yellow-bellied Sea Snake is sharply two-coloured (black above, yellow below) with a spotted paddle tail. The Beaked Sea Snake is grey-olive above and cream below, without a sharp colour line."
+  },
+  {
+   "a": "psammodynastes-pulverulentus",
+   "b": "echis-carinatus",
+   "tip": "The Common Mock Viper has smooth scales, a slim body and a dark streak through the eye, and lives in the hill forests of the north-east. The Saw-scaled Viper is stout, with rough keeled scales and a pale cross on the head, and lives in dry open country."
+  },
+  {
+   "a": "laticauda-colubrina",
+   "b": "hydrophis-cyanocinctus",
+   "tip": "The Banded Sea Krait has black rings that circle the whole body and a yellow snout, and it comes onto land. The Annulated Sea Snake has bands that are wider on the back, fade on large adults and stay in the sea."
+  },
+  {
+   "a": "dendrelaphis-grandoculis",
+   "b": "bronzeback-tree-snake",
+   "tip": "The Large-eyed Bronzeback is bluish-green with a conspicuously large eye and lives in the Western Ghats. The Common Bronzeback is bronze or olive-brown with a bold black eye stripe and lives widely."
+  },
+  {
+   "a": "pseudoxenodon-macrops",
+   "b": "ptyas-nigromarginata",
+   "tip": "The False Cobra is brown or olive with dark bars on its neck and spreads a hood. The Green Rat Snake is bright green with a black-edged belly and cannot make a hood."
+  },
+  {
+   "a": "rhabdophis-helleri",
+   "b": "amphiesma-stolatum",
+   "tip": "Heller's Red-necked Keelback has a red or orange neck and is rear-fanged (treat it as dangerous). The Buff-striped Keelback has two pale stripes along the back, no red neck and is harmless."
+  },
+  {
+   "a": "naja-kaouthia",
+   "b": "bungarus-niger",
+   "tip": "The Monocled Cobra spreads a hood and has a ring mark on its back. The Greater Black Krait is plain glossy black, never spreads a hood and has a pale belly. Both are deadly."
+  }
+ ]
+}

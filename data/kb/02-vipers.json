@@ -1,0 +1,761 @@
+[
+  {
+    "id": "daboia-russelii",
+    "sci": "Daboia russelii",
+    "name": "Russell's Viper",
+    "aka": [
+      "Common Russell's Viper",
+      "Chain Viper"
+    ],
+    "local": {
+      "hi": "चंद्रबोड़ा (Chandrabora)",
+      "mr": "घोणस (Ghonas)",
+      "ta": "கண்ணாடி விரியன் (Kannadi viriyan)",
+      "kn": "ಕೊಳಕುಮಂಡಲ (Kolakumandala)"
+    },
+    "family": "Viperidae",
+    "kind": "Viper",
+    "tier": 1,
+    "venom": "deadly",
+    "big4": true,
+    "len": "1-1.5 m, large ones to about 1.8 m",
+    "habitat": "Open scrub, grassland, farmland, rocky ground and plantations where rats are plentiful; avoids dense forest and true desert",
+    "range": "Most of India except the far north-east and high Himalaya; also Sri Lanka, Pakistan, Nepal and Bangladesh",
+    "diet": "Rodents mainly, plus lizards, frogs, scorpions and crabs",
+    "active": "Mostly nocturnal; rests under bushes or in grass by day",
+    "ids": [
+      "Three rows of large dark oval spots with black-and-white rims run down the back and flanks on a tan, brown or yellowish body, like a chain.",
+      "Broad, triangular head, clearly wider than the thin neck, with a pale V- or X-shaped mark on top.",
+      "Thick, heavy body with rough, keeled scales that tapers quickly into a short tail.",
+      "Large eyes with vertical, slit-like pupils and big, obvious nostrils.",
+      "Coils into an S-shape and gives a long, sustained hiss, one of the loudest of any snake, before striking."
+    ],
+    "look": {
+      "colour": "Tan, light brown or yellowish",
+      "pattern": "Chain of three rows of dark, white-ringed oval spots",
+      "head": "Large triangular head with a pale V mark and big nostrils",
+      "body": "Thick and heavy, rough scales, short tail"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "hue": [
+        "brown",
+        "yellow",
+        "tan"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "heavy",
+      "size": 3,
+      "habit": "terrestrial"
+    },
+    "grp": [
+      "viper-like"
+    ],
+    "fact": "Russell's Viper causes many bites on farms because it lies motionless in grass and is easily trodden on. It gives birth to live young, up to several dozen at a time."
+  },
+  {
+    "id": "echis-carinatus",
+    "sci": "Echis carinatus",
+    "name": "Saw-scaled Viper",
+    "aka": [
+      "Indian Saw-scaled Viper",
+      "Little Indian Viper"
+    ],
+    "local": {
+      "hi": "फुरसा (Phoorsa)",
+      "ta": "சுருட்டை விரியன் (Surutai viriyan)"
+    },
+    "family": "Viperidae",
+    "kind": "Viper",
+    "tier": 1,
+    "venom": "deadly",
+    "big4": true,
+    "len": "30-60 cm, rarely to 80 cm",
+    "habitat": "Dry sandy and rocky country: scrub, dunes, dry forest and farmland; hides under stones, logs and in crevices",
+    "range": "Dry parts of peninsular India, the Deccan, Rajasthan and Gujarat and coastal sand and laterite plateaus; absent from wet evergreen forest and the north-east",
+    "diet": "Scorpions, centipedes, lizards, frogs and small rodents",
+    "active": "Mainly nocturnal; may be active by day when it is cloudy",
+    "ids": [
+      "Small, stout snake with rough, strongly keeled scales. When threatened it rubs its coils together to make a hissing, sawing sound.",
+      "A pale cross, arrow or trident mark on top of a broad, pear-shaped head that is clearly wider than the neck.",
+      "Sandy, brown, grey or reddish body with a row of pale blotches along the back and a wavy white line along each flank.",
+      "Large eyes with vertical pupils and a short, stubby tail.",
+      "Often rests in a tight C-shaped or figure-of-eight coil with the head in the middle."
+    ],
+    "look": {
+      "colour": "Sandy, brown, grey or reddish",
+      "pattern": "Pale blotches down the back, wavy white line on each side, pale cross on the head",
+      "head": "Broad, pear-shaped head wider than the neck",
+      "body": "Small, stout, strongly keeled scales"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "hue": [
+        "brown",
+        "grey",
+        "tan"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "stout",
+      "size": 2,
+      "habit": "terrestrial"
+    },
+    "grp": [
+      "viper-like",
+      "small-brown"
+    ],
+    "fact": "Despite its small size, the Saw-scaled Viper is blamed for more deaths than any other snake in many dry regions, because it is so common and so easily stepped on."
+  },
+  {
+    "id": "hypnale-hypnale",
+    "sci": "Hypnale hypnale",
+    "name": "Hump-nosed Pit Viper",
+    "aka": [
+      "Merrem's Hump-nosed Viper"
+    ],
+    "family": "Viperidae",
+    "kind": "Pit viper",
+    "tier": 3,
+    "venom": "venomous",
+    "len": "30-45 cm, rarely to 55 cm",
+    "habitat": "Leaf litter in wet forest, plantations (rubber, coffee, arecanut, tea), gardens and stream banks in the Western Ghats and the coastal strip below",
+    "range": "Western Ghats and coastal Karnataka, Goa, Kerala and Tamil Nadu; also Sri Lanka",
+    "diet": "Lizards, frogs, skinks and small rodents",
+    "active": "Nocturnal and active at dusk; rests coiled in leaf litter by day",
+    "ids": [
+      "Small, stout snake with an upturned, hump-like tip to the snout. The snub nose gives it a pug-like profile.",
+      "Brown, reddish-brown, grey or pinkish body with dark triangles or blotches down the back and a pale, mottled belly.",
+      "Broad triangular head, thin neck, vertical pupils and a heat-sensing pit between the eye and the nostril.",
+      "Rough, keeled scales; usually found coiled among dead leaves, so it blends in superbly.",
+      "Easily mistaken for a harmless snake, but its bite causes severe tissue damage and can injure the kidneys."
+    ],
+    "look": {
+      "colour": "Brown, rusty or greyish; paler belly",
+      "pattern": "Dark triangles or blotches along the back",
+      "head": "Triangular head with an upturned, hump-like snout",
+      "body": "Short, stout, rough-scaled"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "snout": "upturned",
+      "pat": "blotched",
+      "hue": [
+        "brown",
+        "red",
+        "grey"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "stout",
+      "size": 1,
+      "habit": "terrestrial"
+    },
+    "grp": [
+      "viper-like",
+      "small-brown",
+      "pit-viper"
+    ],
+    "fact": "Hump-nosed pit vipers are often killed or ignored because they are small and drab, yet their bites are a serious problem in the Western Ghats. There is no specific antivenom for them."
+  },
+  {
+    "id": "craspedocephalus-malabaricus",
+    "sci": "Craspedocephalus malabaricus",
+    "name": "Malabar Pit Viper",
+    "aka": [
+      "Malabar Rock Pit Viper"
+    ],
+    "family": "Viperidae",
+    "kind": "Pit viper",
+    "tier": 2,
+    "venom": "venomous",
+    "len": "60-90 cm, up to about 1 m",
+    "habitat": "Evergreen and moist forest, shola edges and plantations in hills, usually on low branches, rocks or tree trunks",
+    "range": "Western Ghats from Maharashtra and Goa south through Karnataka and Kerala",
+    "diet": "Lizards, frogs, birds and small rodents",
+    "active": "Mainly at night",
+    "ids": [
+      "Wildly variable colour: bright green, yellow, olive, brown, orange, pinkish or blue-grey, often mottled with dark or white blotches. Colour alone does not identify it.",
+      "Stout-bodied for a tree viper, with a broad, flat, triangular head and a blunt snout.",
+      "Vertical pupils and a heat-sensing pit between the eye and the nostril; rough, keeled scales.",
+      "Short, slightly grasping tail. Waits coiled on a low branch or rock, often at head height beside a forest path.",
+      "A pit viper of the Western Ghats hills and nowhere else in India."
+    ],
+    "look": {
+      "colour": "Green, yellow, brown, orange or grey; extremely variable",
+      "pattern": "Plain or marbled; dark and pale blotches on many",
+      "head": "Broad, flat triangular head with a blunt snout",
+      "body": "Stout with keeled scales and a short tail"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "hue": [
+        "green",
+        "brown",
+        "olive",
+        "yellow"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "stout",
+      "size": 2,
+      "habit": "arboreal"
+    },
+    "grp": [
+      "pit-viper",
+      "green-arboreal"
+    ],
+    "fact": "One of the most colourful snakes in India: single litters of Malabar Pit Vipers can contain green, brown and even orange babies."
+  },
+  {
+    "id": "craspedocephalus-gramineus",
+    "sci": "Craspedocephalus gramineus",
+    "name": "Bamboo Pit Viper",
+    "aka": [
+      "Indian Green Pit Viper",
+      "Common Green Pit Viper"
+    ],
+    "family": "Viperidae",
+    "kind": "Pit viper",
+    "tier": 2,
+    "venom": "venomous",
+    "len": "60-90 cm",
+    "habitat": "Forest, bamboo clumps, scrub, plantations and gardens, in bushes and on low branches",
+    "range": "Western Ghats, Eastern Ghats and much of peninsular India south of the Gangetic plain",
+    "diet": "Lizards, frogs, small birds and rodents",
+    "active": "Mainly nocturnal",
+    "ids": [
+      "Slim, bright grass-green snake (some individuals yellow) with a lighter, yellowish or white line along the lowest row of scales on each side.",
+      "Flat, triangular head, much wider than the neck, with a yellow-green lip and golden-yellow eyes with vertical pupils.",
+      "A heat-sensing pit between the eye and nostril; keeled scales and a short tail that may have a reddish or yellow tip.",
+      "Climbs bushes and bamboo and loops over twigs, often found at eye level."
+    ],
+    "look": {
+      "colour": "Bright green, sometimes yellowish; yellow lip",
+      "pattern": "Plain, with a pale line along each flank",
+      "head": "Flat triangular head with golden eyes and a pit",
+      "body": "Slim for a viper, with keeled scales and a short tail"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "plain",
+      "hue": [
+        "green",
+        "yellow"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "medium",
+      "size": 2,
+      "habit": "arboreal"
+    },
+    "grp": [
+      "pit-viper",
+      "green-arboreal"
+    ],
+    "fact": "Green pit vipers are well camouflaged but give themselves away with a triangular head and vertical pupils, two things a green vine snake does not have."
+  },
+  {
+    "id": "craspedocephalus-anamallensis",
+    "sci": "Craspedocephalus anamallensis",
+    "name": "Anamalai Pit Viper",
+    "family": "Viperidae",
+    "kind": "Pit viper",
+    "tier": 4,
+    "venom": "venomous",
+    "len": "50-80 cm",
+    "habitat": "High-altitude evergreen forest and shola, on branches and tree trunks",
+    "range": "Higher hills of the southern Western Ghats (Anamalai, Palni, Nelliampathy and neighbouring ranges in Kerala and Tamil Nadu)",
+    "diet": "Frogs, lizards and small mammals",
+    "active": "Nocturnal",
+    "ids": [
+      "Stocky, mottled pit viper in olive-brown, yellow-brown, orange-brown or greenish tones, with dark speckles and blotches.",
+      "Broad triangular head with a rounded snout, vertical pupils and a pit between eye and nostril.",
+      "Found only in the high hills of the southern Western Ghats, usually coiled on a branch."
+    ],
+    "look": {
+      "colour": "Olive-brown, yellowish or orange-brown",
+      "pattern": "Dark speckles and blotches, often marbled",
+      "head": "Broad triangular head, rounded snout",
+      "body": "Stocky with keeled scales"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "speckled",
+      "hue": [
+        "brown",
+        "olive",
+        "yellow"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "stout",
+      "size": 2,
+      "habit": "arboreal"
+    },
+    "grp": [
+      "pit-viper"
+    ],
+    "fact": "This pit viper lives only in a small area of high hills in the southern Western Ghats."
+  },
+  {
+    "id": "craspedocephalus-macrolepis",
+    "sci": "Craspedocephalus macrolepis",
+    "name": "Large-scaled Pit Viper",
+    "family": "Viperidae",
+    "kind": "Pit viper",
+    "tier": 4,
+    "venom": "venomous",
+    "len": "50-80 cm",
+    "habitat": "Montane evergreen forest, shola and plantations, in shrubs and on low branches",
+    "range": "High ranges of the southern Western Ghats (Kerala and Tamil Nadu)",
+    "diet": "Frogs, lizards and small mammals",
+    "active": "Nocturnal",
+    "ids": [
+      "Bright green pit viper with noticeably large, overlapping scales that give a coarse, mosaic-like texture.",
+      "Yellow-white stripe along the lips and often along the lower flank; golden eyes with vertical pupils.",
+      "Triangular head, heat-sensing pit and a short prehensile tail that can be reddish.",
+      "Looks almost the same as the Bamboo Pit Viper; range and scale size separate them."
+    ],
+    "look": {
+      "colour": "Bright green with a yellow-white lip line",
+      "pattern": "Plain, sometimes with paler bands",
+      "head": "Triangular head with large head scales",
+      "body": "Slim to medium, with big keeled scales"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "plain",
+      "hue": [
+        "green",
+        "yellow"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "medium",
+      "size": 2,
+      "habit": "arboreal"
+    },
+    "grp": [
+      "pit-viper",
+      "green-arboreal"
+    ],
+    "fact": "The 'large-scaled' in its name is real: its dorsal scales are bigger than those of the other green pit vipers of the Western Ghats."
+  },
+  {
+    "id": "craspedocephalus-travancoricus",
+    "sci": "Craspedocephalus travancoricus",
+    "name": "Travancore Pit Viper",
+    "family": "Viperidae",
+    "kind": "Pit viper",
+    "tier": 4,
+    "venom": "venomous",
+    "len": "40-70 cm",
+    "habitat": "Evergreen forest and stream sides in the hills, on rocks, logs and low vegetation",
+    "range": "Southern Western Ghats of Kerala and Tamil Nadu",
+    "diet": "Frogs, lizards and small mammals",
+    "active": "Nocturnal",
+    "ids": [
+      "Brown, olive or greenish-grey pit viper with darker mottling and blotches, and a dark streak behind the eye.",
+      "Broad triangular head, vertical pupils and a heat-sensing pit between the eye and nostril.",
+      "Rough keeled scales and a short tail; found on rocks and low branches near forest streams."
+    ],
+    "look": {
+      "colour": "Brown, olive or grey-green",
+      "pattern": "Dark mottling and blotches",
+      "head": "Broad triangular head with a dark eye streak",
+      "body": "Medium, stocky and keeled"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "hue": [
+        "brown",
+        "olive",
+        "grey"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "stout",
+      "size": 2,
+      "habit": "semi-arboreal"
+    },
+    "grp": [
+      "pit-viper"
+    ]
+  },
+  {
+    "id": "trimeresurus-erythrurus",
+    "sci": "Trimeresurus erythrurus",
+    "name": "Red-tailed Bamboo Pit Viper",
+    "aka": [
+      "Red-tailed Green Pit Viper"
+    ],
+    "family": "Viperidae",
+    "kind": "Pit viper",
+    "tier": 3,
+    "venom": "venomous",
+    "len": "60-80 cm",
+    "habitat": "Bushes, bamboo, hedges, mangroves, tea gardens and village edges in damp lowlands",
+    "range": "West Bengal (including the Sundarbans), Assam, Tripura, Mizoram and neighbouring north-eastern states; also Bangladesh",
+    "diet": "Frogs, lizards, small birds and rodents",
+    "active": "Mostly nocturnal",
+    "ids": [
+      "Slender, leaf-green snake with a reddish or brown tail tip and a pale yellow-white stripe along each side.",
+      "Triangular head, golden-yellow or orange eyes with vertical pupils and a heat-sensing pit.",
+      "Keeled scales, thin neck and a prehensile tail; coils on bushes and bamboo.",
+      "The common green pit viper of north-eastern India and the Bengal delta."
+    ],
+    "look": {
+      "colour": "Bright green with a red-brown tail tip",
+      "pattern": "Plain; yellow-white stripe on each side",
+      "head": "Triangular head with golden eyes and a pit",
+      "body": "Slim, keeled, with a prehensile tail"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "plain",
+      "hue": [
+        "green",
+        "yellow"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "medium",
+      "size": 2,
+      "habit": "arboreal"
+    },
+    "grp": [
+      "pit-viper",
+      "green-arboreal"
+    ],
+    "fact": "This green pit viper is common on tea estates and in village hedgerows, where careless hands can meet it among the foliage."
+  },
+  {
+    "id": "trimeresurus-salazar",
+    "sci": "Trimeresurus salazar",
+    "name": "Salazar's Pit Viper",
+    "family": "Viperidae",
+    "kind": "Pit viper",
+    "tier": 4,
+    "venom": "venomous",
+    "len": "60-90 cm",
+    "habitat": "Forest and scrub in hill areas, in bushes and low trees",
+    "range": "Assam, Meghalaya, Nagaland, Arunachal Pradesh and the hills of West Bengal",
+    "diet": "Frogs, lizards, small birds and rodents",
+    "active": "Mostly nocturnal",
+    "ids": [
+      "Green to yellow-green pit viper, often noticeably yellowish, with a pale stripe along the lips.",
+      "Triangular head, golden eyes with vertical pupils and a heat-sensing pit.",
+      "Slim body with keeled scales and a prehensile tail, sometimes with a reddish tip.",
+      "One of several north-eastern green pit vipers that look nearly identical, so range matters."
+    ],
+    "look": {
+      "colour": "Green to yellow-green; pale lip stripe",
+      "pattern": "Plain",
+      "head": "Triangular head with golden eyes",
+      "body": "Slim, keeled, prehensile tail"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "plain",
+      "hue": [
+        "green",
+        "yellow"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "medium",
+      "size": 2,
+      "habit": "arboreal"
+    },
+    "grp": [
+      "pit-viper",
+      "green-arboreal"
+    ]
+  },
+  {
+    "id": "trimeresurus-popeiorum",
+    "sci": "Trimeresurus popeiorum",
+    "name": "Pope's Pit Viper",
+    "family": "Viperidae",
+    "kind": "Pit viper",
+    "tier": 4,
+    "venom": "venomous",
+    "len": "60-90 cm",
+    "habitat": "Hill forest, bamboo and shrubs near streams",
+    "range": "Hills of north-eastern India (Assam, Meghalaya, Arunachal Pradesh, Mizoram) and eastwards",
+    "diet": "Frogs, lizards, birds and small mammals",
+    "active": "Mostly nocturnal",
+    "ids": [
+      "Green pit viper with a pale (often white and red) stripe along each side in males, and a reddish tail.",
+      "Triangular head, reddish or orange eyes, vertical pupils and a heat-sensing pit.",
+      "Keeled scales and a prehensile tail; often coiled on a streamside branch."
+    ],
+    "look": {
+      "colour": "Green with a pale side stripe",
+      "pattern": "Plain; white-and-red side stripe in males",
+      "head": "Triangular head with a pit",
+      "body": "Slim and keeled"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "plain",
+      "hue": [
+        "green"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "medium",
+      "size": 2,
+      "habit": "arboreal"
+    },
+    "grp": [
+      "pit-viper",
+      "green-arboreal"
+    ]
+  },
+  {
+    "id": "trimeresurus-septentrionalis",
+    "sci": "Trimeresurus septentrionalis",
+    "name": "Himalayan White-lipped Pit Viper",
+    "aka": [
+      "Northern White-lipped Pit Viper"
+    ],
+    "family": "Viperidae",
+    "kind": "Pit viper",
+    "tier": 4,
+    "venom": "venomous",
+    "len": "60-80 cm",
+    "habitat": "Hill forest, scrub and farm edges at low to middle elevations, in bushes and on rocks",
+    "range": "Western Himalayan foothills (Uttarakhand, Himachal Pradesh, Haryana, Jammu & Kashmir) and Nepal",
+    "diet": "Frogs, lizards and small rodents",
+    "active": "Mostly nocturnal",
+    "ids": [
+      "Green pit viper with a conspicuous white or yellowish stripe along the upper lip and often along the flank.",
+      "Triangular head, vertical pupils and a heat-sensing pit; keeled scales.",
+      "The green pit viper of the western Himalayan foothills."
+    ],
+    "look": {
+      "colour": "Green with a white or yellow lip stripe",
+      "pattern": "Plain",
+      "head": "Triangular head with a pit",
+      "body": "Slim and keeled"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "plain",
+      "hue": [
+        "green"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "medium",
+      "size": 2,
+      "habit": "arboreal"
+    },
+    "grp": [
+      "pit-viper",
+      "green-arboreal"
+    ]
+  },
+  {
+    "id": "trimeresurus-andersonii",
+    "sci": "Trimeresurus andersonii",
+    "name": "Andaman Pit Viper",
+    "aka": [
+      "Anderson's Pit Viper"
+    ],
+    "family": "Viperidae",
+    "kind": "Pit viper",
+    "tier": 4,
+    "venom": "venomous",
+    "len": "50-80 cm",
+    "habitat": "Forest, plantations and gardens on the islands, on branches and the ground",
+    "range": "Andaman and Nicobar Islands (the only pit viper found there)",
+    "diet": "Frogs, lizards and rodents",
+    "active": "Nocturnal",
+    "ids": [
+      "Stocky pit viper in brown, olive or grey with darker blotches or marbling; some are plain dark brown.",
+      "Broad triangular head, vertical pupils and a heat-sensing pit.",
+      "The only pit viper on the Andaman and Nicobar Islands, so locality is a strong clue."
+    ],
+    "look": {
+      "colour": "Brown, olive or grey",
+      "pattern": "Dark blotches or marbling, sometimes plain",
+      "head": "Broad triangular head with a pit",
+      "body": "Stocky and keeled"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "hue": [
+        "brown",
+        "olive",
+        "grey"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "stout",
+      "size": 2,
+      "habit": "semi-arboreal"
+    },
+    "grp": [
+      "pit-viper"
+    ]
+  },
+  {
+    "id": "gloydius-himalayanus",
+    "sci": "Gloydius himalayanus",
+    "name": "Himalayan Pit Viper",
+    "aka": [
+      "Himalayan Viper"
+    ],
+    "family": "Viperidae",
+    "kind": "Pit viper",
+    "tier": 3,
+    "venom": "venomous",
+    "len": "50-80 cm",
+    "habitat": "Rocky slopes, scrub, forest edges and farmland at 1,500 to 4,000 m, often basking on stone walls and paths",
+    "range": "Western Himalaya: Jammu & Kashmir, Himachal Pradesh and Uttarakhand, extending into Nepal and Pakistan",
+    "diet": "Lizards, frogs, small rodents and insects",
+    "active": "By day in cool weather, evening in warm weather",
+    "ids": [
+      "Stout, short snake in brown, grey-brown or coppery tones with dark blotches or a zigzag along the back.",
+      "Broad, triangular head, vertical pupils and a heat-sensing pit; no hood.",
+      "Lives at high altitude in the western Himalaya, an area where few other dangerous snakes occur."
+    ],
+    "look": {
+      "colour": "Brown, grey-brown or coppery",
+      "pattern": "Dark blotches or zigzag along the back",
+      "head": "Broad triangular head with a pit",
+      "body": "Short, stout and keeled"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "hue": [
+        "brown",
+        "grey"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "stout",
+      "size": 2,
+      "habit": "terrestrial"
+    },
+    "grp": [
+      "pit-viper",
+      "viper-like",
+      "small-brown"
+    ],
+    "fact": "Few snakes live as high as this one. It gives birth to live young because eggs would not survive the cold."
+  },
+  {
+    "id": "ovophis-monticola",
+    "sci": "Ovophis monticola",
+    "name": "Mountain Pit Viper",
+    "aka": [
+      "Montane Pit Viper"
+    ],
+    "family": "Viperidae",
+    "kind": "Pit viper",
+    "tier": 4,
+    "venom": "venomous",
+    "len": "50-80 cm",
+    "habitat": "Hill and mountain forest, among leaf litter, rocks and moss, often by streams",
+    "range": "Eastern Himalaya and the hills of north-eastern India (Sikkim, West Bengal hills, Arunachal Pradesh, Meghalaya, Nagaland)",
+    "diet": "Frogs, lizards, rodents and shrews",
+    "active": "Nocturnal and dusk",
+    "ids": [
+      "Stout brown or grey-brown snake with large dark squarish blotches along the back, often in an alternating pattern.",
+      "Broad, flat triangular head with a dark streak behind the eye; vertical pupils and a pit.",
+      "Rough keeled scales; sits coiled in leaf litter or on a mossy log in hill forest."
+    ],
+    "look": {
+      "colour": "Brown or grey-brown",
+      "pattern": "Large dark squarish blotches along the back",
+      "head": "Broad flat triangular head with a dark eye streak",
+      "body": "Stout and rough-scaled"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "hue": [
+        "brown",
+        "grey"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "stout",
+      "size": 2,
+      "habit": "terrestrial"
+    },
+    "grp": [
+      "pit-viper",
+      "viper-like"
+    ]
+  },
+  {
+    "id": "protobothrops-jerdonii",
+    "sci": "Protobothrops jerdonii",
+    "name": "Jerdon's Pit Viper",
+    "family": "Viperidae",
+    "kind": "Pit viper",
+    "tier": 5,
+    "venom": "venomous",
+    "len": "70-110 cm",
+    "habitat": "Hill forest, scrub and rocky slopes",
+    "range": "Hills of Arunachal Pradesh, Nagaland and Manipur, and eastwards into Myanmar and China",
+    "diet": "Rodents, birds, frogs and lizards",
+    "active": "Nocturnal and dusk",
+    "ids": [
+      "Olive-brown to greyish snake with a row of dark, yellow-edged blotches or rings down the back.",
+      "Slender, elongated triangular head, vertical pupils and a heat-sensing pit.",
+      "Slimmer than most pit vipers in the region and found only in the far north-eastern hills."
+    ],
+    "look": {
+      "colour": "Olive-brown to grey",
+      "pattern": "Dark, yellow-edged blotches down the back",
+      "head": "Elongated triangular head with a pit",
+      "body": "Slender-medium, keeled"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "hue": [
+        "olive",
+        "brown"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical",
+      "build": "medium",
+      "size": 3,
+      "habit": "terrestrial"
+    },
+    "grp": [
+      "pit-viper",
+      "viper-like"
+    ]
+  }
+]

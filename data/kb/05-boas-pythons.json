@@ -1,0 +1,245 @@
+[
+  {
+    "id": "python-bivittatus",
+    "sci": "Python bivittatus",
+    "name": "Burmese Python",
+    "family": "Pythonidae",
+    "kind": "Python",
+    "tier": 2,
+    "venom": "none",
+    "len": "3-5 m, occasionally more",
+    "habitat": "Wet forest, grassland, swamps, river banks and farmland in the plains and foothills, close to water",
+    "range": "North-east India, West Bengal, Bihar, Uttar Pradesh terai and Uttarakhand foothills; also Nepal, Bangladesh and South-East Asia",
+    "diet": "Birds, rodents, monkeys, deer and pigs",
+    "active": "Mostly nocturnal",
+    "ids": [
+      "A very large, heavy constrictor with a pattern of large, rich brown, dark-edged blotches with a light centre on a paler tan or grey background (the pattern is darker and more contrasted than the rock python's).",
+      "A spear-shaped, dark arrow mark on top of the head, and a dark streak from the eye to the jaw.",
+      "Heat-sensing pits along the lip scales; smooth scales and a short, blunt tail.",
+      "Replaces the Indian Rock Python in the north-east and parts of the Himalayan foothills."
+    ],
+    "look": {
+      "colour": "Tan or grey with dark brown blotches",
+      "pattern": "Large dark brown blotches with light centres",
+      "head": "Triangular head with an arrow mark",
+      "body": "Huge, heavy and muscular"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "build": "heavy",
+      "size": 5,
+      "habit": "terrestrial",
+      "hue": [
+        "brown",
+        "tan",
+        "grey"
+      ]
+    },
+    "grp": [
+      "python"
+    ],
+    "fact": "Burmese Pythons are among the largest snakes of the subcontinent. They are protected by law, and in the wild they usually avoid people.",
+    "local": {
+      "hi": "अजगर (Ajgar)"
+    }
+  },
+  {
+    "id": "eryx-conicus",
+    "sci": "Eryx conicus",
+    "name": "Common Sand Boa",
+    "aka": [
+      "Russell's Earth Boa"
+    ],
+    "family": "Erycidae",
+    "kind": "Sand boa",
+    "tier": 1,
+    "venom": "none",
+    "len": "50-75 cm, up to about 1 m",
+    "habitat": "Dry, sandy and loose soil: scrub, farmland, riverbanks, rocky ground and the edges of villages; burrows just under the surface",
+    "range": "Most of peninsular and western India (Maharashtra, Gujarat, Tamil Nadu, Kerala, Karnataka and the Deccan) and Pakistan",
+    "diet": "Rodents, lizards and birds",
+    "active": "Nocturnal",
+    "ids": [
+      "A thick, blunt-bodied sand-dweller with a very short blunt tail that looks much like its head, so it is called a \"two-headed snake\".",
+      "Brown, tan or reddish-brown with large dark blotches (often in two rows) along the back; the belly is cream.",
+      "Small, flat, wedge-shaped head with tiny eyes and rough, keeled scales.",
+      "Slow and docile, and kills its prey by constriction. It is harmless but widely, and wrongly, believed to be venomous."
+    ],
+    "look": {
+      "colour": "Tan, brown or reddish-brown",
+      "pattern": "Large dark blotches in two rows",
+      "head": "Small flat head, tiny eyes, blunt tail",
+      "body": "Short, thick and heavy with keeled scales"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "blotched",
+      "build": "stout",
+      "size": 2,
+      "habit": "fossorial",
+      "snout": "wedge",
+      "hue": [
+        "brown",
+        "tan",
+        "red"
+      ],
+      "scales": "keeled"
+    },
+    "grp": [
+      "sand-boa",
+      "small-brown"
+    ],
+    "fact": "The tail of a sand boa looks so much like its head that predators strike the wrong end. In India the animal is trafficked because of the false belief that it brings luck or has medicinal powers.",
+    "local": {
+      "hi": "दोमुंहा (Domuha)",
+      "mr": "दुतोंड्या (Dutondya)"
+    }
+  },
+  {
+    "id": "eryx-johnii",
+    "sci": "Eryx johnii",
+    "name": "Red Sand Boa",
+    "aka": [
+      "Indian Sand Boa",
+      "Brown Sand Boa"
+    ],
+    "family": "Erycidae",
+    "kind": "Sand boa",
+    "tier": 1,
+    "venom": "none",
+    "len": "60-90 cm, up to about 1 m",
+    "habitat": "Dry, sandy and rocky country, scrub, farmland and dry forest; burrows in soft soil",
+    "range": "Dry plains of Tamil Nadu, Andhra Pradesh, Karnataka, Gujarat and Rajasthan, up to Uttar Pradesh",
+    "diet": "Rodents, small birds and lizards",
+    "active": "Nocturnal",
+    "ids": [
+      "A thick, cylindrical, plain brown, reddish-brown or dark brown snake with smooth, shiny scales and no blotches (young ones sometimes have faint blotches).",
+      "A very short tail that is blunt, like the head. Tiny eyes with vertical pupils; the head is a blunt wedge.",
+      "Moves slowly and coils into a ball. Harmless, but heavily poached for false beliefs about its magic powers."
+    ],
+    "look": {
+      "colour": "Plain brown, reddish-brown or dark brown",
+      "pattern": "Plain, or faint blotches",
+      "head": "Blunt wedge-shaped head and a blunt tail",
+      "body": "Thick, cylindrical and smooth"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "stout",
+      "size": 2,
+      "habit": "fossorial",
+      "snout": "wedge",
+      "hue": [
+        "brown",
+        "red"
+      ]
+    },
+    "grp": [
+      "sand-boa"
+    ],
+    "local": {
+      "hi": "दोमुंहा (Domuha)",
+      "mr": "दुतोंड्या (Dutondya)"
+    }
+  },
+  {
+    "id": "eryx-whitakeri",
+    "sci": "Eryx whitakeri",
+    "name": "Whitaker's Boa",
+    "family": "Erycidae",
+    "kind": "Sand boa",
+    "tier": 3,
+    "venom": "none",
+    "len": "50-70 cm",
+    "habitat": "Laterite plateaus, rocky scrub and open forest in the north-west of the Western Ghats; burrows in loose soil",
+    "range": "Goa, Maharashtra (Konkan), Karnataka and northern Kerala (Western Ghats foothills)",
+    "diet": "Rodents and lizards",
+    "active": "Nocturnal",
+    "ids": [
+      "A thick-bodied, blunt-tailed sand boa with a pattern of dark, irregular blotches and saddles on a tan to reddish-brown background.",
+      "Smaller and with a flatter head than the Common Sand Boa; found in the Western Ghats region.",
+      "A harmless constrictor. Similar to the Common Sand Boa, but usually with a more mottled, broken pattern."
+    ],
+    "look": {
+      "colour": "Tan to reddish-brown",
+      "pattern": "Dark irregular blotches and saddles",
+      "head": "Small flat wedge-shaped head",
+      "body": "Short, thick and smooth"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "blotched",
+      "build": "stout",
+      "size": 2,
+      "habit": "fossorial",
+      "snout": "wedge",
+      "hue": [
+        "brown",
+        "tan",
+        "red"
+      ]
+    },
+    "grp": [
+      "sand-boa",
+      "small-brown"
+    ]
+  },
+  {
+    "id": "python-molurus",
+    "sci": "Python molurus",
+    "name": "Indian Rock Python",
+    "aka": [
+      "Indian Python"
+    ],
+    "local": {
+      "hi": "अजगर (Ajgar)",
+      "ta": "மலைப்பாம்பு (Malaippambu)",
+      "ml": "മലമ്പാമ്പ് (Malampambu)",
+      "kn": "ಹೆಬ್ಬಾವು (Hebbavu)"
+    },
+    "family": "Pythonidae",
+    "kind": "Python",
+    "tier": 1,
+    "venom": "none",
+    "len": "2.5-3.5 m, large ones over 4 m",
+    "habitat": "Forests, scrub, grassland, rocky hills and swamps, usually close to water; also farmland edges and gardens",
+    "range": "Most of peninsular India and the Himalayan foothills (the Burmese Python takes over in the north-east); also Sri Lanka, Nepal and Pakistan",
+    "diet": "Rodents, birds, jackals, wild pigs and deer, swallowed whole",
+    "active": "Mostly nocturnal",
+    "ids": [
+      "A very big, heavy-bodied constrictor with small smooth scales and a short, tapering tail.",
+      "Large, irregular dark-edged blotches in pale brown, olive or yellowish on a tan or grey background; the belly is white or cream.",
+      "Spear-shaped pale mark on top of the head and a dark stripe from the eye to the jaw. Heat-sensing pits sit along the lip scales.",
+      "Moves slowly and heavily in a straight line and does not spread a hood."
+    ],
+    "look": {
+      "colour": "Tan, grey or pale brown; white belly",
+      "pattern": "Large irregular dark-edged blotches, spear mark on the head",
+      "head": "Triangular head with a dark streak through the eye",
+      "body": "Very heavy and muscular, smooth scales"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "hue": [
+        "brown",
+        "grey",
+        "olive"
+      ],
+      "build": "heavy",
+      "size": 5,
+      "habit": "terrestrial"
+    },
+    "grp": [
+      "python"
+    ],
+    "fact": "A female python coils around her eggs and shivers her muscles to keep them warm, one of the few reptiles that incubates its eggs. The species is legally protected in India."
+  }
+]
