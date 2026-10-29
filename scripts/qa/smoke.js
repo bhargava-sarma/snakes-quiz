@@ -22,6 +22,28 @@ const base = (process.argv[2] || 'http://localhost:8765/index.html').replace(/#.
   await page.waitForFunction(() => window.SQ && SQ.data && SQ.data.ready);
   const ids = await page.evaluate(() => SQ.data.species.map((s) => s.id));
 
+  // link previews: the tags WhatsApp and others read, pointing (by full https address) at a 1200 x 630 image under 300 KB
+  route = 'link preview';
+  const tags = await page.evaluate(() => Object.fromEntries([...document.querySelectorAll('meta[property^="og:"], meta[name^="twitter:"]')]
+    .map((m) => [m.getAttribute('property') || m.name, m.content])));
+  for (const k of ['og:title', 'og:description', 'og:url', 'og:image', 'og:image:width', 'og:image:height', 'twitter:card']) {
+    if (!tags[k]) problems.push(`${route}: no ${k} tag`);
+  }
+  if (/^https:\/\//.test(tags['og:image'] || '')) {
+    const local = new URL(new URL(tags['og:image']).pathname.slice(1), base).href;   // the same file on the server being tested
+    const res = await page.request.get(local);
+    const kb = res.ok() ? Math.round((await res.body()).length / 1024) : 0;
+    const size = await page.evaluate((src) => new Promise((done) => {
+      const img = new Image();
+      img.onload = () => done(img.naturalWidth + 'x' + img.naturalHeight);
+      img.onerror = () => done('unreadable');
+      img.src = src;
+    }), local);
+    if (!res.ok()) problems.push(`${route}: HTTP ${res.status()} for ${local}`);
+    else if (kb > 300) problems.push(`${route}: the image is ${kb} KB, and WhatsApp skips images over about 300 KB`);
+    if (size !== tags['og:image:width'] + 'x' + tags['og:image:height']) problems.push(`${route}: the image is ${size}, but the tags say ${tags['og:image:width']}x${tags['og:image:height']}`);
+  } else problems.push(`${route}: og:image must be a full https:// address`);
+
   const routes = ['/', '/play', '/daily', '/guide', '/learn', '/compare', '/stats', '/safety', '/about', '/credits']
     .concat(ids.map((id) => '/guide/' + id))
     .concat([`/compare?a=${ids[0]}&b=${ids[1]}`]);
