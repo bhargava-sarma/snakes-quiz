@@ -20,18 +20,42 @@ const SESSION_TTL = SESSION_DAYS * 86400;
 const RESERVED = new Set(['admin', 'administrator', 'sarpa', 'herpdle', 'root', 'support', 'moderator', 'mod', 'staff', 'system',
   'null', 'undefined', 'guest', 'anonymous', 'anon', 'me', 'you', 'everyone', 'official', 'help', 'test', 'owner', 'inaturalist']);
 
-// A short list of slurs and obscenities (English and Hindi, as typed in Latin letters). Matched after undoing
-// common number-for-letter swaps, so "b1tch" is caught too. Ordinary words and names that happen to contain one
-// (peacock, grape, Nazir) are taken out first.
-const BLOCKED = ['fuck', 'shit', 'cunt', 'bitch', 'nigg', 'fag', 'rape', 'rapist', 'nazi', 'hitler', 'porn', 'pussy', 'dick',
-  'cock', 'whore', 'slut', 'bastard', 'asshole', 'wank', 'chutiya', 'chutia', 'madarchod', 'behenchod', 'bhenchod', 'bhosdi',
-  'gandu', 'randi', 'lauda', 'harami', 'kamina', 'jihad', 'terrorist'];
-const HARMLESS = /peacock|woodcock|shuttlecock|hancock|cockatoo|cockatiel|cockroach|cocktail|dickens|dickinson|grape|drape|scrape|trapez|nazir|nazia|nazim|randip|brandi|grandi|scunthorpe/g;
+// A short list of slurs and obscenities (English and Hindi, as typed in Latin letters), matched as typed and after
+// undoing common number-for-letter swaps, so "b1tch" is caught too. These are refused wherever they appear:
+const BLOCKED = ['fuck', 'shit', 'cunt', 'cock', 'dick', 'wank', 'rape', 'rapist', 'bitch', 'nigg', 'whore', 'slut', 'porn',
+  'pussy', 'bastard', 'asshole', 'faggot', 'nazi', 'hitler', 'terrorist', 'madarchod', 'behenchod', 'bhenchod', 'bhosdi',
+  'chutiya', 'chutia'];
+// These short ones only as a whole word or at the start or end of one (words are split at _ and digits), because
+// inside longer words and names they are usually innocent:
+const BLOCKED_EDGE = ['fag', 'randi', 'lauda', 'kamina', 'gandu', 'harami', 'jihad'];
+// Ordinary words and names that contain a blocked word are taken out before checking.
+const HARMLESS = new RegExp([
+  'peacock', 'woodcock', 'shuttlecock', 'hancock', 'hitchcock', 'babcock', 'gamecock', 'weathercock', 'cockatoo', 'cockatiel',
+  'cockroach', 'cocktail', 'cockpit', 'cocker', 'cockney', 'cockle', 'cockscomb', 'cockburn',
+  'dickens', 'dickinson', 'dickson', 'riddick', 'benedick',
+  'grape', 'drape', 'scrape', 'trapez', 'therap', 'parapet', 'rapeseed',
+  'nazir', 'nazia', 'naziya', 'nazim', 'nazish', 'nazifa', 'nazila',
+  'randip', 'brandi', 'grandi', 'scunthorpe', 'wankhede', 'swank', 'obiwan', 'kaminari', 'fagun', 'fagan',
+  'shital', 'shitansh', 'shitij', '[aikru]shit',     // Shital, Shitanshu, Ishita, Nishit, Akshita, Kshitij, Harshit, Darshit
+].join('|'), 'g');
 
 function canonical(name) { return String(name).toLowerCase(); }
 
 function deLeet(s) {
-  return s.replace(/0/g, 'o').replace(/[1!|]/g, 'i').replace(/3/g, 'e').replace(/4/g, 'a').replace(/5/g, 's').replace(/7/g, 't').replace(/8/g, 'b').replace(/_/g, '');
+  return s.replace(/0/g, 'o').replace(/[1!|]/g, 'i').replace(/3/g, 'e').replace(/4/g, 'a').replace(/5/g, 's').replace(/7/g, 't').replace(/8/g, 'b');
+}
+
+/** True when a username contains a blocked word (see the lists above). */
+function offensive(name) {
+  const low = canonical(name);
+  for (const variant of [low, deLeet(low)]) {
+    // "f_u_c_k" and "obi_wan_kenobi" are read as one word for the first list
+    if (BLOCKED.some((w) => variant.replace(/[^a-z]+/g, '').replace(HARMLESS, '_').includes(w))) return true;
+    for (const word of variant.replace(HARMLESS, '_').split(/[^a-z]+/)) {
+      if (word && BLOCKED_EDGE.some((w) => word.startsWith(w) || word.endsWith(w))) return true;
+    }
+  }
+  return false;
 }
 
 /** Checks a username and returns it trimmed; throws a 400 with a friendly message when it is not allowed. */
@@ -40,11 +64,8 @@ function validateName(raw) {
   if (name.length < 3 || name.length > 16) throw new HttpError(400, 'Choose a username of 3 to 16 characters.', 'bad_name');
   if (!/^[A-Za-z0-9_]+$/.test(name)) throw new HttpError(400, 'Use only letters, numbers and _ in your username.', 'bad_name');
   if (!/[A-Za-z]/.test(name)) throw new HttpError(400, 'Your username needs at least one letter.', 'bad_name');
-  const low = canonical(name);
-  if (RESERVED.has(low)) throw new HttpError(400, 'That username is reserved. Please pick another.', 'bad_name');
-  const plain = deLeet(low).replace(HARMLESS, '');
-  const bare = low.replace(/_/g, '').replace(HARMLESS, '');
-  if (BLOCKED.some((w) => plain.includes(w) || bare.includes(w))) throw new HttpError(400, 'Please pick a different username.', 'bad_name');
+  if (RESERVED.has(canonical(name))) throw new HttpError(400, 'That username is reserved. Please pick another.', 'bad_name');
+  if (offensive(name)) throw new HttpError(400, 'That username contains a word that is not allowed here. Please pick a different one.', 'bad_name');
   return name;
 }
 
@@ -201,6 +222,6 @@ async function removeAccountRecords(store, uname) {
 }
 
 module.exports = {
-  K, SESSION_DAYS, canonical, validateName, validatePin, hashPin, checkPin, sha256, rateLimit, toObj,
+  K, SESSION_DAYS, canonical, validateName, offensive, validatePin, hashPin, checkPin, sha256, rateLimit, toObj,
   getUser, signup, login, logout, sessionUser, changePin, deleteAccount, removeAccountRecords,
 };

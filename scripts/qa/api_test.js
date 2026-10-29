@@ -324,6 +324,23 @@ async function main() {
   console.log('Upstash wire format');
   await upstashWire();
 
+  console.log('username filter');
+  const auth = require('../../server/auth');
+  // names and words that merely contain a blocked word must be allowed (Ishita, Harshita, Kshitij, obiwankenobi ...)
+  const fine = ['obiwankenobi_05', 'obi_wan_kenobi', 'Ishita', 'Harshita', 'Nishita', 'Akshita', 'Kshitij07', 'Shital', 'Darshit',
+    'Harshit', 'Dikshit', 'Ashit', 'Nazia', 'Nazir_22', 'Nazish', 'Wankhede', 'therapist', 'peacock_9', 'Cocktail', 'Hitchcock',
+    'Dickens', 'grapefruit', 'Randhir', 'Brandi', 'Gandhi', 'Kamini', 'Fagun', 'scunthorpe', 'Matsushita', 'assassin', 'classic'];
+  const rude = ['shit_head', 'bullsh1t', 'sh1t', 'eatshitandie', 'wanker', 'f_u_c_k', 'a55hole', 'nazis', 'rapist', 'dickhead',
+    'b1tch', 'pornstar', 'mycuntface', 'madarchod', 'dogshit', 'gandu', 'randi_x', 'fagboy', 'chutiya99'];
+  const wrongly = fine.filter((n) => auth.offensive(n));
+  const missed = rude.filter((n) => !auth.offensive(n));
+  ok(!wrongly.length, 'innocent names that contain a blocked word are allowed', wrongly);
+  ok(!missed.length, 'rude names are refused, also with numbers for letters', missed);
+  r = await call(store, 'POST', 'signup', { body: { username: 'obiwankenobi_05', pin: '482913' } });
+  eq(r.status, 201, 'obiwankenobi_05 can sign up');
+  r = await call(store, 'POST', 'signup', { body: { username: 'wank3r_x', pin: '482913' } });
+  ok(r.body.code === 'bad_name' && /not allowed/.test(r.body.error), 'a refused name says why', r.body);
+
   console.log('database settings');
   const { credentials } = require('../../server/store');
   eq(credentials({ UPSTASH_REDIS_REST_URL: 'https://a.upstash.io', UPSTASH_REDIS_REST_TOKEN: 't1' })[1], 't1', 'Upstash variable names');
