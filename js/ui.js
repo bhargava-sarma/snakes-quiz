@@ -161,7 +161,7 @@
   }
 
   /** Show a dialog. Returns a function that closes it. */
-  ui.modal = function ({ title, body, actions, wide, onClose, className }) {
+  ui.modal = function ({ title, body, actions, wide, onClose, className, place }) {
     ui.closeModal();
     lastFocus = document.activeElement;
     ui._onClose = onClose || null;
@@ -170,7 +170,8 @@
       title ? h('h2.modal-title', title) : null,
       h('div.modal-body', body),
       actions && actions.length ? h('div.modal-actions', actions) : null);
-    const back = h('div.modal-back', { onclick: (e) => { if (e.target === back) ui.closeModal(); } }, box);
+    // place 'top': on phones the dialog opens near the top instead of as a bottom sheet, so the keyboard does not cover its fields
+    const back = h('div.modal-back' + (place === 'top' ? '.top' : ''), { onclick: (e) => { if (e.target === back) ui.closeModal(); } }, box);
     modalRoot().appendChild(back);
     document.body.classList.add('modal-open');
     document.addEventListener('keydown', modalKeys, true);

@@ -278,7 +278,8 @@ kbd {
 .pixsnake canvas { display: block; max-width: none; }
 @media (max-width: 899.98px) { .marquee { grid-template-columns: 1fr; } .marquee-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
-.pads { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; padding-bottom: 6px; }
+.pads { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; padding-bottom: 6px; }
+@media (min-width: 1180px) { .pads { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
 .pad {
   position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center;
   min-height: clamp(136px, 14vw, 200px); padding: 20px 12px; border-radius: 22px; cursor: pointer; text-decoration: none; color: var(--ink);
@@ -378,7 +379,7 @@ kbd {
    ========================================================================== */
 
 .daily-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; align-items: start; }
-@media (min-width: 900px) { .daily-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); } }
+@media (min-width: 900px) { .daily-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .daily .card .legend { margin-bottom: 10px; }
 .daily .card h2 { font-size: clamp(1.5rem, 1.2rem + 1vw, 2.1rem); margin-bottom: 10px; }
 .daily .card p { max-width: 54ch; }

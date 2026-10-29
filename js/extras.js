@@ -75,7 +75,7 @@
 
     const node = h('div.page.wrap.compare',
       h('a.back-link', { href: '#/guide' }, icon('back', { size: 16 }), 'Field guide'),
-      SQ.ui.pageHead('Compare two snakes', 'See exactly how two look-alikes differ.', null, [h('b', '03'), 'Field guide · compare']),
+      SQ.ui.pageHead('Compare two snakes', 'See exactly how two look-alikes differ.', null, [h('b', '05'), 'Field guide · compare']),
       h('div.cmp-pick',
         h('div.cmp-field', h('label.legend', { for: 'cmp-a' }, h('b', 'A'), 'First snake'), selA),
         h('button.btn.btn-sm.cmp-swap', { type: 'button', 'aria-label': 'Swap the two snakes', onclick: () => { [a, b] = [b, a]; draw(); } }, icon('redo', { size: 16 }), 'Swap'),
@@ -145,7 +145,7 @@
         h('div.flash-actions', h('button.btn.btn-lg', { type: 'button', disabled: i === 0, onclick: prev }, icon('left', { size: 18 }), h('span.flash-back-label', 'Back')), nextOrReveal))));
     }
 
-    function next() { shown = false; if (i + 1 >= deck.length) { deck = deckFor(filter); i = 0; } else i += 1; draw(); window.scrollTo(0, 0); }
+    function next() { shown = false; if (i + 1 >= deck.length) { deck = deckFor(filter); i = 0; } else i += 1; draw(); SQ.scrollTop(); }
     function prev() { if (i > 0) { shown = false; i -= 1; draw(); } }
     function reset() { deck = deckFor(filter); i = 0; shown = false; draw(); }
 
@@ -163,7 +163,7 @@
 
     const node = h('div.page.wrap.learn',
       h('a.back-link', { href: '#/guide' }, icon('back', { size: 16 }), 'Field guide'),
-      SQ.ui.pageHead('Flashcards', 'Look at the photo, say the name out loud, then check yourself. No scores, no pressure.', null, [h('b', '03'), 'Field guide · flashcards']),
+      SQ.ui.pageHead('Flashcards', 'Look at the photo, say the name out loud, then check yourself. No scores, no pressure.', null, [h('b', '05'), 'Field guide · flashcards']),
       h('div.flash-controls', sel, h('button.btn.btn-sm', { type: 'button', onclick: reset }, icon('redo', { size: 16 }), 'Shuffle')),
       stage);
     reset();

@@ -39,6 +39,16 @@
       test: () => speciesSpotted().filter((id) => SQ.data.byId[id].venom === 'deadly' || SQ.data.byId[id].venom === 'venomous').length >= 15 },
     { id: 'daily7', name: 'Daily Devotee', icon: 'calendar', desc: 'Play the daily challenge 7 days in a row.',
       test: () => SQ.store.progress().daily.best >= 7 },
+    { id: 'survival25', name: 'Survivor', icon: 'heart', desc: 'Name 25 snakes in a row in a Survival run.',
+      test: (c) => c.summary.mode === 'sudden' && c.summary.correct >= 25 },
+    { id: 'ranked', name: 'On the Board', icon: 'trophy', desc: 'Finish a game that counts on the leaderboards.',
+      test: (c) => !!c.summary.ranked && c.summary.ranked !== 'off' },
+    { id: 'herpdle1', name: 'Clue Hunter', icon: 'grid', desc: 'Solve a Herpdle.',
+      test: (c) => c.summary.game === 'herpdle' && c.summary.won },
+    { id: 'herpdle2', name: 'Snake Whisperer', icon: 'zap', desc: 'Solve a Herpdle in two goes or fewer.',
+      test: (c) => c.summary.game === 'herpdle' && c.summary.won && c.summary.guesses <= 2 },
+    { id: 'herpdle7', name: 'Clue Streak', icon: 'flame', desc: 'Solve the daily Herpdle 7 days in a row.',
+      test: () => !!SQ.herpdleState && SQ.herpdleState.dailyStats().best >= 7 },
   ];
 
   SQ.badges = {

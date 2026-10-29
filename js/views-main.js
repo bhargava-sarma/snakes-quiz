@@ -38,6 +38,27 @@
       h('div.demo-keys', { 'aria-hidden': 'true' }, options.map((o, i) => h('span.demo-key', h('span.opt-key', LETTERS[i]), h('span.demo-name', o.name)))));
   }
 
+  /** Today's top three in both daily games (only when this site has leaderboards). */
+  function leadersCard() {
+    const box = h('section.wrap.home-section.home-leaders', { hidden: true });
+    SQ.api.status().then(async (state) => {
+      if (state !== 'ok') return;
+      try {
+        const [a, b] = await Promise.all([SQ.api.leaderboard('sarpa-daily', 'day'), SQ.api.leaderboard('herpdle', 'day')]);
+        const col = (title, lb, board) => h('a.leader-col', { href: '#/ranks?board=' + board },
+          h('p.legend', title),
+          lb.entries.length
+            ? h('ol', lb.entries.slice(0, 3).map((e) => h('li', h('b.lcd-num', String(e.rank)), h('span.leader-name', e.name), h('small', `${e.points} pts`))))
+            : h('p.muted', 'Nobody yet today. Be the first!'));
+        box.append(
+          h('div.section-head', h('h2', 'Today’s leaders'), h('a.legend', { href: '#/ranks' }, 'All leaderboards')),
+          h('div.leaders', col('Sarpa daily', a, 'sarpa-daily'), col(`Herpdle #${SQ.herpdle.dayNumber(SQ.todayKey())}`, b, 'herpdle')));
+        box.hidden = false;
+      } catch (e) { /* the home page works without it */ }
+    });
+    return box;
+  }
+
   SQ.views.home = function () {
     const D = SQ.data, S = SQ.store;
     const settings = S.settings();
@@ -53,7 +74,12 @@
       type: 'button',
       onclick: () => SQ.quiz.start({ mode: 'quiz', count: n, difficulty: settings.difficulty, region: settings.region, timer: settings.timer, hints: settings.hints, preferUnseen: settings.preferUnseen }),
     }, SQ.ui.led(), h('span.pad-num', String(n)), h('span.pad-label', 'questions'), h('span.legend', `≈ ${MINUTES[n]} min`)));
-    pads.push(h('a.pad.pad-daily', { href: '#/daily' }, SQ.ui.led(streak ? 'on' : ''), h('span.pad-num', icon('calendar', { size: 34, stroke: 1.6 })), h('span.pad-label', 'Daily challenge'), h('span.legend', streak ? `${streak} day streak` : 'new every day')));
+    const hStats = SQ.herpdleState.dailyStats();
+    pads.push(
+      h('button.pad.pad-survival', { type: 'button', onclick: () => SQ.quiz.start({ mode: 'sudden', title: 'Survival' }) },
+        SQ.ui.led(), h('span.pad-num', icon('heart', { size: 34, stroke: 1.6 })), h('span.pad-label', 'Survival'), h('span.legend', 'one mistake ends it')),
+      h('a.pad.pad-herpdle', { href: '#/herpdle' }, SQ.ui.led(hStats.streak ? 'on' : ''), h('span.pad-num', icon('grid', { size: 34, stroke: 1.6 })), h('span.pad-label', 'Herpdle'), h('span.legend', hStats.streak ? `${hStats.streak} day streak` : 'six clues, six goes')),
+      h('a.pad.pad-daily', { href: '#/daily' }, SQ.ui.led(streak ? 'on' : ''), h('span.pad-num', icon('calendar', { size: 34, stroke: 1.6 })), h('span.pad-label', 'Daily'), h('span.legend', streak ? `${streak} day streak` : 'new every day')));
 
     const progress = prog.totals.games
       ? h('div.lcd.stats-strip',
@@ -66,14 +92,17 @@
     const mosaic = SQ.shuffle(D.species.filter((s) => s.tier <= 3)).slice(0, 8);
     const guideCard = h('a.guide-card', { href: '#/guide' },
       h('div.guide-mosaic', { 'aria-hidden': 'true' }, mosaic.map((s) => SQ.ui.thumb(s))),
-      h('div.guide-copy', h('p.legend', h('b', '03'), 'Field guide'), h('h3', `Browse all ${D.species.length} species`), h('p', 'Identification tips, look-alikes, ranges and photo galleries for every snake in the quiz.'),
+      h('div.guide-copy', h('p.legend', h('b', '05'), 'Field guide'), h('h3', `Browse all ${D.species.length} species`), h('p', 'Identification tips, look-alikes, ranges and photo galleries for every snake in the quiz.'),
         h('span.more-link', 'Open the field guide', icon('arrow', { size: 16 }))));
 
     const features = [
       ['compare', 'The reason behind every answer', 'See why the right snake is right, and why each of the other options is wrong, with side-by-side comparisons.'],
       ['layers', `${D.photos.length.toLocaleString()} real photos`, 'Community photographs from across India. Every game is a fresh set, and photos you have seen are avoided.'],
       ['target', 'Four difficulty levels', 'Start with the famous snakes, then graduate to genuine look-alikes where even experts hesitate.'],
-      ['calendar', 'Daily challenge', 'Ten new questions every day, the same for everyone. Build a streak and share your score.'],
+      ['grid', 'Herpdle', 'A daily clue game: name the mystery snake in six goes, with a new clue and a sharper photo after every miss.'],
+      ['calendar', 'Two daily puzzles', 'A ten-photo challenge and a Herpdle every day, the same for everyone. Build streaks and share your score.'],
+      ['trophy', 'Leaderboards', 'Daily, weekly and all-time rankings. All it takes is a username and a 6-digit PIN.'],
+      ['heart', 'Survival mode', 'How many snakes can you name in a row? It starts easy and ends in the look-alikes.'],
       ['book', 'Illustrated field guide', `${D.species.length} species with identification tips, ranges, look-alikes and photo galleries.`],
       ['compare', 'Compare any two snakes', 'Pick two species and see how they differ, side by side. Great for the look-alikes that fool everyone.'],
       ['eye', 'Flashcards', 'Study at your own pace: look at a photo, think, then reveal the answer and what to look for.'],
@@ -90,8 +119,8 @@
           h('p.hero-lead', `Spot the snake in ${D.photos.length.toLocaleString()} real photographs of ${D.species.length} species, then learn exactly why it is, and is not, each option.`),
           h('div.hero-cta',
             h('a.btn.btn-primary.btn-lg', { href: '#/play' }, icon('play', { size: 20 }), 'Start a quiz'),
-            h('a.btn.btn-lg', { href: '#/daily' }, icon('calendar', { size: 20 }), 'Daily challenge', streak ? h('span.streak-chip', icon('flame', { size: 14 }), String(streak)) : null)),
-          h('p.hero-note', icon('shield', { size: 15 }), ' Free, no sign-up. For learning only. Never handle wild snakes.')),
+            h('a.btn.btn-lg', { href: '#/herpdle' }, icon('grid', { size: 20 }), 'Play Herpdle', hStats.streak ? h('span.streak-chip', icon('flame', { size: 14 }), String(hStats.streak)) : null)),
+          h('p.hero-note', icon('shield', { size: 15 }), ' Free to play. For learning only. Never handle wild snakes.')),
         demoScreen()),
 
       h('section.wrap.home-section',
@@ -107,7 +136,9 @@
         h('div.section-head', h('h2', 'Quick start'), h('p.legend', `${lvl.label} · ${settings.timer ? settings.timer + 's per question' : 'no timer'} · `, h('a', { href: '#/play' }, 'change settings'))),
         h('div.pads', pads)),
 
-      progress ? h('section.wrap.home-section', h('div.section-head', h('h2', 'Your progress'), h('a.legend', { href: '#/stats' }, 'See details')), progress) : null,
+      leadersCard(),
+
+      progress ? h('section.wrap.home-section', h('div.section-head', h('h2', 'Your progress'), h('a.legend', { href: '#/me' }, 'See details')), progress) : null,
 
       h('section.wrap.home-section.home-duo', SQ.snakeOfTheDay(), guideCard),
 
@@ -212,14 +243,8 @@
   };
 
   /* ------------------------------------------------------------------ */
-  /*  Daily challenge                                                     */
+  /*  Daily: today's Sarpa challenge and today's Herpdle                  */
   /* ------------------------------------------------------------------ */
-
-  function msToNextDay() {
-    const now = new Date();
-    const next = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-    return next - now;
-  }
 
   SQ.dailyShareText = function (key, res) {
     const rows = [];
@@ -227,68 +252,129 @@
     return `Sarpa daily snake quiz ${key}\n${res.correct}/${res.n} correct\n${rows.join('\n')}`;
   };
 
-  /** The last two weeks as a row of LEDs: lit = played that day. */
-  function weekLeds() {
-    const S = SQ.store;
-    const row = h('div.day-leds', { role: 'img', 'aria-label': 'Days you played the daily challenge in the last two weeks' });
+  /** The last two weeks as a row of LEDs for one game: lit = played that day. */
+  function dayLeds(label, played) {
+    const today = SQ.todayKey();
+    const row = h('div.day-leds', { role: 'img', 'aria-label': `${label}: days played in the last two weeks` });
     for (let i = 13; i >= 0; i--) {
-      const d = new Date(); d.setDate(d.getDate() - i);
-      const r = S.dailyResult(SQ.todayKey(d));
-      row.appendChild(h('span.day', { title: d.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' }) + (r ? `: ${r.correct}/${r.n}` : '') },
-        SQ.ui.led(r ? 'on' : ''), h('small', d.toLocaleDateString(undefined, { weekday: 'narrow' }))));
+      const d = SQ.time.shiftDay(today, -i);
+      const r = played(d);
+      row.appendChild(h('span.day', { title: SQ.time.label(d) + (r ? `: ${r}` : '') },
+        SQ.ui.led(r ? 'on' : ''), h('small', SQ.time.label(d, { weekday: 'narrow' }))));
     }
-    return row;
+    return h('div.day-row', h('span.legend', label), row);
+  }
+
+  function clockText(ms) {
+    const hh = Math.floor(ms / 3600000), mm = Math.floor((ms % 3600000) / 60000), ss = Math.floor((ms % 60000) / 1000);
+    return `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}:${String(ss).padStart(2, '0')}`;
   }
 
   SQ.views.daily = function () {
     const S = SQ.store, D = SQ.data;
     const key = SQ.todayKey();
     const done = S.dailyResult(key);
-    const streak = S.dailyStreak();
-    const dateLabel = new Date().toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' });
+    const sess = SQ.quiz.current();
+    const inProgress = sess && sess.mode === 'daily' && sess.config.dateKey === key ? sess : null;
+    const hs = SQ.herpdleState.load();
+    const hg = hs.days[key];
+    const hDone = hg && hg.done && SQ.herpdleState.usable(hg) ? hg : null;
+    const hBusy = hg && !hg.done && !hg.remote && SQ.herpdleState.usable(hg) ? hg : null;
+    const hStats = SQ.herpdleState.dailyStats(hs);
+    const number = SQ.herpdle.dayNumber(key);
+    const dateLabel = SQ.time.label(key, { weekday: 'long', day: 'numeric', month: 'long' });
 
-    const head = SQ.ui.pageHead('Daily challenge', `${dateLabel}. Ten questions, the same for everyone, once a day.`, null, [h('b', '02'), 'Daily']);
-    const streakCard = h('section.lcd.daily-lcd',
-      h('div.daily-reads',
-        SQ.ui.readout('Day streak', streak),
-        SQ.ui.readout('Best streak', S.progress().daily.best)),
-      weekLeds());
+    const clock = h('b.lcd-num', clockText(SQ.time.msToNextDay()));
+    const timer = setInterval(() => {
+      const ms = SQ.time.msToNextDay();
+      clock.textContent = clockText(ms);
+      if (ms < 1500) setTimeout(() => SQ.go('/daily'), 1600);     // a new day: show the new puzzles
+    }, 1000);
 
-    let body;
+    const startSarpa = (btn) => async () => {
+      btn.disabled = true;
+      await SQ.quiz.start({ mode: 'daily', count: 10, difficulty: 'intermediate', region: 'all', timer: 0, hints: true, preferUnseen: false, dateKey: key, title: 'Daily challenge' });
+      btn.disabled = false;
+    };
+
+    // ----- Sarpa daily -----
+    let sarpaBody;
     if (done) {
-      const clock = h('b', '');
-      const tick = () => {
-        const ms = msToNextDay();
-        const hh = Math.floor(ms / 3600000), mm = Math.floor((ms % 3600000) / 60000);
-        clock.textContent = `${hh}h ${String(mm).padStart(2, '0')}m`;
-      };
-      tick();
-      const timer = setInterval(tick, 30000);
-      const grid = h('div.emoji-grid');
+      const grid = h('div.emoji-grid', { role: 'img', 'aria-label': `${done.correct} of ${done.n} correct` });
       for (let i = 0; i < done.grid.length; i += 10) grid.appendChild(h('div', done.grid.slice(i, i + 10).split('').map((c) => h('span.cell.' + (c === 'G' ? 'ok' : 'bad'), c === 'G' ? '✓' : '✗'))));
-      body = h('section.card.daily-done',
-        h('p.legend', 'Today’s result'),
+      sarpaBody = [
         h('div.daily-score', h('b', `${done.correct}/${done.n}`), h('span', `${done.points} points`)),
         grid,
-        h('p.muted', 'Next challenge in ', clock),
         h('div.btn-row',
-          h('button.btn.btn-primary', { type: 'button', onclick: () => SQ.ui.shareText(SQ.dailyShareText(key, done), location.origin + location.pathname) }, icon('share', { size: 18 }), 'Share result'),
-          h('a.btn', { href: '#/play' }, 'Play a regular quiz')));
-      body.prepend(h('h2', 'You have finished today’s challenge'));
-      return { node: h('div.page.wrap.daily', head, h('div.daily-grid', body, streakCard)), title: 'Daily challenge', view: 'daily', cleanup: () => clearInterval(timer) };
+          h('button.btn.btn-primary', { type: 'button', onclick: () => SQ.ui.shareText(SQ.dailyShareText(key, done), location.origin + location.pathname + '#/daily') }, icon('share', { size: 18 }), 'Share'),
+          h('a.btn', { href: '#/ranks?board=sarpa-daily' }, icon('trophy', { size: 18 }), 'Leaderboard'))];
+    } else if (inProgress) {
+      sarpaBody = [h('p', `You are part-way through: ${inProgress.answers.length} of ${inProgress.questions.length} answered.`),
+        h('div.btn-row', h('a.btn.btn-primary.btn-lg', { href: '#/quiz' }, icon('play', { size: 20 }), 'Continue'))];
+    } else {
+      const btn = h('button.btn.btn-primary.btn-lg', { type: 'button' }, icon('play', { size: 20 }), 'Start the challenge');
+      btn.onclick = startSarpa(btn);
+      sarpaBody = [h('p', 'Ten photos at an in-between level, the same for everyone. Hints are allowed and every answer is explained.'),
+        h('div.btn-row', btn, h('a.btn', { href: '#/ranks?board=sarpa-daily' }, icon('trophy', { size: 18 }), 'Leaderboard'))];
     }
+    const sarpaCard = h('section.card.daily-card' + (done ? '.is-done' : ''),
+      h('div.daily-card-top', h('p.legend', h('b', '01'), 'Sarpa daily'), SQ.ui.led(done ? 'ok on' : inProgress ? 'on blink' : 'on')),
+      h('h2', done ? 'Done for today' : 'Ten photos, one go'),
+      ...sarpaBody);
 
-    body = h('section.card.daily-start',
-      h('p.legend', 'Today’s ten'),
-      h('h2', 'Ready when you are'),
-      h('p', 'A balanced mix of species at an in-between difficulty. Hints are allowed, and every answer is explained. Come back tomorrow for a new set.'),
-      h('button.btn.btn-primary.btn-lg', {
-        type: 'button',
-        onclick: () => SQ.quiz.start({
-          mode: 'daily', count: 10, difficulty: 'intermediate', region: 'all', timer: 0, hints: true, preferUnseen: false,
-          seed: SQ.hashSeed(`sarpa-daily-${key}-${D.meta.version || 1}`), dateKey: key, title: 'Daily challenge',
-        }),
-      }, icon('play', { size: 20 }), 'Start today’s challenge'));
-    return { node: h('div.page.wrap.daily', head, resumeBanner(), h('div.daily-grid', body, streakCard)), title: 'Daily challenge', view: 'daily' };
+    // ----- Herpdle -----
+    let herpBody;
+    if (hDone) {
+      herpBody = [
+        h('div.daily-score', h('b', hDone.won ? `${hDone.g.length}/6` : 'X/6'), h('span', hDone.won ? `${hDone.points || SQ.herpdle.points(hDone.g.length, true)} points` : 'not solved')),
+        h('p.muted', `It was the ${D.byId[hDone.sp].name}.`),
+        h('div.btn-row',
+          h('button.btn.btn-primary', { type: 'button', onclick: () => SQ.ui.shareText(SQ.herpdleState.shareText(hDone), location.origin + location.pathname + '#/herpdle') }, icon('share', { size: 18 }), 'Share'),
+          h('a.btn', { href: '#/herpdle' }, 'See the board'),
+          h('a.btn', { href: '#/ranks?board=herpdle' }, icon('trophy', { size: 18 }), 'Leaderboard'))];
+    } else if (hBusy) {
+      herpBody = [h('p', `You have used ${hBusy.g.length} of 6 goes.`), h('div.btn-row', h('a.btn.btn-primary.btn-lg', { href: '#/herpdle' }, icon('play', { size: 20 }), 'Continue'))];
+    } else if (hg && hg.remote) {
+      herpBody = [h('p', 'You played today’s Herpdle on another device.'), h('div.btn-row', h('a.btn', { href: '#/ranks?board=herpdle' }, icon('trophy', { size: 18 }), 'Leaderboard'))];
+    } else {
+      herpBody = [h('p', 'A mystery snake, six clues and six goes. Each guess shows how close you are.'),
+        h('div.btn-row', h('a.btn.btn-primary.btn-lg', { href: '#/herpdle' }, icon('play', { size: 20 }), 'Play Herpdle'), h('a.btn', { href: '#/ranks?board=herpdle' }, icon('trophy', { size: 18 }), 'Leaderboard'))];
+    }
+    const herpCard = h('section.card.daily-card' + (hDone ? '.is-done' : ''),
+      h('div.daily-card-top', h('p.legend', h('b', '02'), `Herpdle #${number}`), SQ.ui.led(hDone ? 'ok on' : hBusy ? 'on blink' : 'on')),
+      h('h2', hDone ? (hDone.won ? 'Solved' : 'Better luck tomorrow') : 'Name the mystery snake'),
+      ...herpBody);
+
+    const strip = h('section.lcd.daily-lcd',
+      h('div.daily-reads',
+        h('div.readout', h('span.legend', 'Next puzzles in'), clock),
+        SQ.ui.readout('Sarpa streak', S.dailyStreak()),
+        SQ.ui.readout('Herpdle streak', hStats.streak),
+        SQ.ui.readout('Best', Math.max(S.progress().daily.best, hStats.best))),
+      dayLeds('Sarpa', (d) => { const r = S.dailyResult(d); return r ? `${r.correct}/${r.n}` : ''; }),
+      dayLeds('Herpdle', (d) => { const g = hs.days[d]; return g && g.done ? (g.won ? `${g.g.length}/6` : 'X/6') : ''; }));
+
+    const head = SQ.ui.pageHead('Daily', `${dateLabel}. Two puzzles, the same for everyone, new every midnight (India time).`, null, [h('b', '03'), 'Daily']);
+    const node = h('div.page.wrap.daily', head, h('div.daily-grid', sarpaCard, herpCard), strip);
+
+    // signed in: show games played on another device
+    if (SQ.api.session() && (!done || !hDone)) {
+      SQ.api.me().then((me) => {
+        if (!me.today || me.today.day !== key) return;
+        if (!done && !inProgress && me.today.sarpa === 'done') {
+          const p = sarpaCard.querySelector('p:not(.legend)');
+          if (p) p.textContent = 'You have played today’s challenge on another device.';
+          const b = sarpaCard.querySelector('button.btn-primary');
+          if (b) b.remove();
+        }
+        if (!hDone && !hBusy && me.today.herpdle === 'done') {
+          const p = herpCard.querySelector('p:not(.legend)');
+          if (p) p.textContent = 'You have played today’s Herpdle on another device.';
+          const b = herpCard.querySelector('a.btn-primary');
+          if (b) b.remove();
+        }
+      }).catch(() => {});
+    }
+    return { node, title: 'Daily', view: 'daily', cleanup: () => clearInterval(timer) };
   };
 })();

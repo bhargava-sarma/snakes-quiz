@@ -5,7 +5,7 @@
   const { h, icon } = SQ;
   SQ.views = SQ.views || {};
 
-  const REPO_URL = 'https://github.com/bhargava-sarma/snakes-quiz';
+  const REPO_URL = (window.SQ_CONFIG && window.SQ_CONFIG.repoUrl) || 'https://github.com/bhargava-sarma/snakes-quiz';
 
   /* ------------------------------------------------------------------ */
   /*  My progress                                                         */
@@ -72,13 +72,13 @@
     fileInput.addEventListener('change', async () => {
       const f = fileInput.files[0];
       if (!f) return;
-      try { S.importAll(await f.text()); SQ.ui.toast('Progress restored'); SQ.go('/stats'); }
+      try { S.importAll(await f.text()); SQ.ui.toast('Progress restored'); SQ.go('/me'); }
       catch (e) { SQ.ui.toast(e.message || 'Could not read that file', 'bad'); }
     });
 
     const manage = h('section.card.manage',
       h('p.legend.card-tag.neutral', 'Your data'),
-      h('p.muted', 'Everything is stored only on this device (in your browser). Download a backup to move it to another device.'),
+      h('p.muted', 'Your snake-dex, badges, quiz history and settings are stored only on this device (in your browser). Download a backup to move them to another device. Account statistics and leaderboard places are kept by the server.'),
       h('div.btn-row',
         h('button.btn', { type: 'button', onclick: () => {
           const blob = new Blob([S.exportAll()], { type: 'application/json' });
@@ -86,14 +86,16 @@
           document.body.appendChild(a); a.click(); a.remove();
         } }, icon('download', { size: 18 }), 'Download backup'),
         h('button.btn', { type: 'button', onclick: () => fileInput.click() }, icon('upload', { size: 18 }), 'Restore backup'),
-        flagged.length ? h('button.btn', { type: 'button', onclick: () => { flagged.forEach((id) => S.unflagPhoto(id)); SQ.ui.toast(`Restored ${flagged.length} reported photos`); SQ.go('/stats'); } }, icon('flag', { size: 18 }), `Restore ${flagged.length} reported photo${flagged.length > 1 ? 's' : ''}`) : null,
+        flagged.length ? h('button.btn', { type: 'button', onclick: () => { flagged.forEach((id) => S.unflagPhoto(id)); SQ.ui.toast(`Restored ${flagged.length} reported photos`); SQ.go('/me'); } }, icon('flag', { size: 18 }), `Restore ${flagged.length} reported photo${flagged.length > 1 ? 's' : ''}`) : null,
         h('button.btn.btn-danger', { type: 'button', onclick: async () => {
-          if (await SQ.ui.confirm({ title: 'Reset all progress?', text: 'This deletes your stats, badges and snake-dex on this device. It cannot be undone.', confirmLabel: 'Reset everything', danger: true })) { S.resetAll(); SQ.ui.toast('Progress reset'); SQ.go('/stats'); }
+          if (await SQ.ui.confirm({ title: 'Reset all progress?', text: 'This deletes your stats, badges and snake-dex on this device. It cannot be undone.', confirmLabel: 'Reset everything', danger: true })) { S.resetAll(); SQ.ui.toast('Progress reset'); SQ.go('/me'); }
         } }, icon('trash', { size: 18 }), 'Reset progress')),
       fileInput);
 
     const node = h('div.page.wrap.stats',
-      SQ.ui.pageHead('My progress', t.games ? 'Everything you have learned so far.' : 'Your quizzes, badges and snake-dex will build up here.', null, [h('b', '04'), 'Progress']),
+      SQ.ui.pageHead(SQ.api.user() ? SQ.api.user().name : 'My progress', t.games ? 'Your account and everything you have learned so far.' : 'Your quizzes, badges and snake-dex will build up here.', null, [h('b', 'ME'), 'Profile']),
+      SQ.account.panel(),
+      h('h2.section-title', 'On this device', h('small', 'kept in this browser')),
       tiles,
       h('div.two-col',
         h('section.card', h('p.legend.card-tag.neutral', 'Last quizzes · accuracy %'), chart),
@@ -155,7 +157,7 @@
     ];
 
     const node = h('div.page.wrap.safety',
-      SQ.ui.pageHead('Snakebite safety', 'Know what to do before you ever need it.', null, [h('b', '05'), 'Safety']),
+      SQ.ui.pageHead('Snakebite safety', 'Know what to do before you ever need it.', null, [h('b', '06'), 'Safety']),
       h('div.notice.danger', icon('warn', { size: 24 }), h('div',
         h('strong', 'A snakebite is always a medical emergency. '),
         'Research estimates that snakebite caused about 58,000 deaths a year in India between 2000 and 2019, mostly among rural people, and most of these deaths could have been prevented by getting to hospital quickly for anti-snake venom. If someone has been bitten, call ',
@@ -214,7 +216,11 @@
         h('p', h('strong', 'Do not use this app to decide whether a real snake is dangerous. '), 'Treat every wild snake as potentially dangerous and keep your distance.')),
       h('section.card',
         h('h2', 'Privacy'),
-        h('p', 'No accounts, no cookies, no tracking, no ads. Your scores, badges and settings are stored only in your own browser. Photos are served from this site. If your browser cannot show a local image, it may load it directly from iNaturalist’s public image bucket instead.')),
+        h('p', 'No adverts, no tracking, no cookies. Your progress, badges and settings are stored in your own browser. ',
+          SQ.api.known() === 'off'
+            ? 'This copy of Sarpa has no accounts, so nothing about you is sent anywhere.'
+            : 'To play the games you make an account with just a username and a 6-digit PIN (stored only as a one-way hash); your username and scores appear on the leaderboards, and you can delete the account at any time.'),
+        h('p', 'Details are in the ', h('a', { href: '#/legal/privacy' }, 'privacy policy'), ' and the ', h('a', { href: '#/legal/terms' }, 'terms of use'), '.')),
       h('section.card',
         h('h2', 'Open source'),
         h('p', 'The code is open source (MIT licence). The README explains how the photo data set is built from iNaturalist’s open data and how to rebuild or extend it. ', h('a', { href: REPO_URL, target: '_blank', rel: 'noopener' }, 'View the project on GitHub'), '.'),
@@ -255,9 +261,9 @@
       });
       SQ.clear(pager);
       pager.append(
-        h('button.btn.btn-sm', { type: 'button', disabled: page === 0, onclick: () => { page--; draw(); window.scrollTo(0, 0); } }, icon('left', { size: 16 }), 'Prev'),
+        h('button.btn.btn-sm', { type: 'button', disabled: page === 0, onclick: () => { page--; draw(); SQ.scrollTop(); } }, icon('left', { size: 16 }), 'Prev'),
         h('span', `Page ${page + 1} of ${pages}`),
-        h('button.btn.btn-sm', { type: 'button', disabled: page >= pages - 1, onclick: () => { page++; draw(); window.scrollTo(0, 0); } }, 'Next', icon('right', { size: 16 })));
+        h('button.btn.btn-sm', { type: 'button', disabled: page >= pages - 1, onclick: () => { page++; draw(); SQ.scrollTop(); } }, 'Next', icon('right', { size: 16 })));
     }
 
     const search = h('input', { type: 'search', placeholder: 'Search credits', 'aria-label': 'Search credits by photographer, species or state' });

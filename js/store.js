@@ -67,6 +67,11 @@
   const save = () => write('progress', P());
 
   SQ.store = {
+    /** Plain storage for other modules (Herpdle, the account): store.get('herpdle', {}) */
+    get: read,
+    set: write,
+    remove,
+
     settings() {
       return Object.assign({}, DEFAULT_SETTINGS, read('settings', {}));
     },
@@ -130,8 +135,8 @@
       const d = p.daily;
       if (d.days[dateKey]) return d.days[dateKey];
       d.days[dateKey] = result;
-      const yesterday = SQ.todayKey(new Date(Date.now() - 86400000));
-      d.streak = d.last === yesterday ? d.streak + 1 : 1;
+      if (d.last && d.last > dateKey) { save(); return result; }      // an older day finished late: keep the streak as it is
+      d.streak = d.last === SQ.time.shiftDay(dateKey, -1) ? d.streak + 1 : d.last === dateKey ? d.streak : 1;
       d.best = Math.max(d.best, d.streak);
       d.last = dateKey;
       save();
@@ -141,8 +146,7 @@
     dailyStreak() {
       const d = P().daily;
       const today = SQ.todayKey();
-      const yesterday = SQ.todayKey(new Date(Date.now() - 86400000));
-      return d.last === today || d.last === yesterday ? d.streak : 0;
+      return d.last === today || d.last === SQ.time.shiftDay(today, -1) ? d.streak : 0;
     },
 
     /* ----- mastery ----- */
@@ -208,19 +212,25 @@
 
     /* ----- backup ----- */
     exportAll() {
-      return JSON.stringify({ app: 'sarpa', v: 1, settings: this.settings(), progress: P() }, null, 1);
+      return JSON.stringify({ app: 'sarpa', v: 1, settings: this.settings(), progress: P(), herpdle: read('herpdle', null) }, null, 1);
     },
     importAll(text) {
-      const data = JSON.parse(text);
-      if (!data || data.app !== 'sarpa' || !data.progress) throw new Error('This file is not a Sarpa backup.');
+      let data = null;
+      try { data = JSON.parse(text); } catch (e) { /* reported below */ }
+      if (!data || data.app !== 'sarpa' || !data.progress || typeof data.progress !== 'object') throw new Error('This file is not a Sarpa backup.');
       write('settings', Object.assign({}, DEFAULT_SETTINGS, data.settings || {}));
-      progress = Object.assign(blankProgress(), data.progress);
+      progress = null;
+      write('progress', data.progress);
+      P();
+      if (data.herpdle && typeof data.herpdle === 'object') write('herpdle', data.herpdle);
       save();
     },
     resetAll() {
       progress = blankProgress();
       remove('progress');
       remove('session');
+      remove('herpdle');
+      remove('last');
     },
   };
 })();

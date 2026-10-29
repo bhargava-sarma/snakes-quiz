@@ -125,7 +125,7 @@
     const node = h('div.page.wrap.guide',
       SQ.ui.pageHead('Field guide', `${D.species.length} snakes of India with identification tips, look-alikes and photos.`,
         h('div.btn-row', h('a.btn.btn-sm', { href: '#/learn' }, icon('eye', { size: 16 }), 'Flashcards'), h('a.btn.btn-sm', { href: '#/compare' }, icon('compare', { size: 16 }), 'Compare snakes')),
-        [h('b', '03'), 'Field guide']),
+        [h('b', '05'), 'Field guide']),
       filters, count, h('h2.sr-only', 'Species'), grid);
     draw();
     return { node, title: 'Field guide', view: 'guide' };

@@ -8,6 +8,17 @@
   const LETTERS = ['A', 'B', 'C', 'D'];
   const HINT_COST = 25;
 
+  let starting = false;
+
+  /** The daily set the server hands out, if this device has all of its photos. */
+  function serverSet(srv, day) {
+    const D = SQ.data;
+    if (!srv || srv.day !== day || !Array.isArray(srv.questions) || srv.questions.length !== 10) return null;
+    const fits = srv.questions.every((q) => D.photoById[q.photo] && D.photoById[q.photo].sp === q.species && q.options.length === 4 && q.options.every((id) => D.byId[id]));
+    if (!fits) return null;
+    return { seed: 0, questions: srv.questions.map((q, i) => ({ n: i + 1, photo: q.photo, species: q.species, options: q.options.slice(), answer: q.options.indexOf(q.species) })) };
+  }
+
   const quiz = (SQ.quiz = {
     session: null,
 
@@ -20,27 +31,77 @@
       return quiz.session;
     },
 
-    /** Build a quiz and navigate to it. */
-    start(opts) {
-      const o = Object.assign({ mode: 'quiz', count: 20, difficulty: 'beginner', region: 'all', timer: 0, hints: true, preferUnseen: true }, opts);
-      SQ.store.nextGameNumber();
-      const built = SQ.engine.build(Object.assign({}, o, { personalise: o.mode !== 'daily' }));
-      if (!built.questions.length) {
-        SQ.ui.toast('Could not build a quiz with those settings.', 'bad');
-        return false;
+    /**
+     * Build a quiz and go to it. Asks the player to sign in first when the site needs an account for games, and
+     * registers the game with the server when it will be ranked. Resolves true when the quiz started.
+     */
+    async start(opts) {
+      if (starting) return false;
+      starting = true;
+      try {
+        const o = Object.assign({ mode: 'quiz', count: 20, difficulty: 'beginner', region: 'all', timer: 0, hints: true, preferUnseen: true }, opts);
+        const gate = await SQ.account.gate();
+        if (!gate) return false;
+        let built = null, ranked = false, runId = null;
+        SQ.store.nextGameNumber();
+
+        if (o.mode === 'daily') {
+          o.dateKey = o.dateKey || SQ.todayKey();
+          if (gate.ranked) {
+            try {
+              built = serverSet(await SQ.api.daily('sarpa'), o.dateKey);
+              if (!built) SQ.ui.toast('A newer version of Sarpa is available. Reload the page to play today’s ranked challenge.', 'bad');
+              else {
+                const run = await SQ.api.start('sarpa', 'daily');
+                ranked = true; runId = run.runId;
+              }
+            } catch (e) {
+              built = null;
+              if (e.code === 'daily_done') {
+                SQ.ui.toast('You have already played today’s challenge on this account. A new one arrives at midnight (India time).');
+                SQ.go('/daily');
+                return false;
+              }
+              SQ.ui.toast('Cannot reach the Sarpa server. Today’s challenge will not be ranked.');
+            }
+          }
+          if (!built) built = SQ.engine.dailySet(o.dateKey);
+        } else if (o.mode === 'sudden') {
+          o.timer = SQ.engine.SURVIVAL.timer;
+          o.hints = false;
+          o.count = SQ.engine.SURVIVAL.plan.reduce((a, p) => a + p[1], 0);
+          o.difficulty = 'mixed';
+          built = SQ.engine.buildSurvival({ preferUnseen: o.preferUnseen });
+        } else {
+          built = SQ.engine.build(Object.assign({}, o, { personalise: true }));
+        }
+        if (!built.questions.length) {
+          SQ.ui.toast('Could not build a quiz with those settings.', 'bad');
+          return false;
+        }
+        if (gate.ranked && o.mode !== 'daily') {
+          try {
+            const run = await SQ.api.start('sarpa', o.mode, o.timer);
+            ranked = true; runId = run.runId;
+          } catch (e) {
+            SQ.ui.toast(e.code === 'network' ? 'Cannot reach the Sarpa server. This quiz will not be ranked.' : 'This quiz will not be ranked: ' + e.message);
+          }
+        }
+        quiz.session = {
+          v: 1, id: Date.now().toString(36), mode: o.mode, title: o.title || '',
+          config: {
+            count: built.questions.length, planned: o.count, difficulty: o.difficulty, region: o.region,
+            timer: o.timer, hints: o.hints, dateKey: o.dateKey || null, focus: o.focus || null,
+          },
+          seed: built.seed, questions: built.questions, index: 0, answers: [], streak: 0, bestStreak: 0, points: 0,
+          qHints: 0, removed: [], startedAt: Date.now(), activeMs: 0, ranked, runId, over: false,
+        };
+        SQ.store.saveSession(quiz.session);
+        SQ.go('/quiz');
+        return true;
+      } finally {
+        starting = false;
       }
-      quiz.session = {
-        v: 1, id: Date.now().toString(36), mode: o.mode, title: o.title || '',
-        config: {
-          count: built.questions.length, planned: o.count, difficulty: o.difficulty, region: o.region,
-          timer: o.timer, hints: o.hints, dateKey: o.dateKey || null, focus: o.focus || null,
-        },
-        seed: built.seed, questions: built.questions, index: 0, answers: [], streak: 0, bestStreak: 0, points: 0,
-        qHints: 0, removed: [], startedAt: Date.now(), activeMs: 0,
-      };
-      SQ.store.saveSession(quiz.session);
-      SQ.go('/quiz');
-      return true;
     },
 
     discard() {
@@ -65,10 +126,22 @@
       };
       SQ.store.recordGame(summary);
       if (sess.mode === 'daily' && sess.config.dateKey) {
-        SQ.store.recordDaily(sess.config.dateKey, { correct, n, points: sess.points, grid: items.map((x) => (x.correct ? 'G' : 'R')).join('') });
+        SQ.store.recordDaily(sess.config.dateKey, { correct, n, points: sess.points, grid: items.map((x) => (x.correct ? 'G' : 'R')).join(''), ranked: !!sess.ranked });
       }
+      summary.ranked = sess.ranked ? 'saving' : 'off';
       summary.newBadges = SQ.badges.evaluate(summary).map((b) => b.id);
       SQ.store.saveLastResult(summary);
+      if (sess.ranked && sess.runId) {
+        const payload = { answers: items.map((x) => ({ p: x.photo, c: x.chosen >= 0 ? x.options[x.chosen] : '', h: x.hints || 0, ms: Math.round(x.ms) })) };
+        const update = (patch) => {
+          const last = SQ.store.loadLastResult();
+          if (last && last.id === summary.id) SQ.store.saveLastResult(Object.assign(last, patch));
+          window.dispatchEvent(new CustomEvent('sarpa-result', { detail: Object.assign({ id: summary.id }, patch) }));
+        };
+        SQ.api.submit(sess.runId, payload, { game: 'sarpa', id: summary.id })
+          .then((res) => update({ ranked: 'saved', rank: res.rank, serverPoints: res.points, serverStreak: res.streak || 0 }))
+          .catch((e) => update({ ranked: e.queued ? 'queued' : 'error', rankError: e.message || 'error' }));
+      }
       quiz.session = null;
       SQ.store.clearSession();
       SQ.go('/results');
@@ -121,6 +194,7 @@
 
     function quizTitle(s) {
       if (s.mode === 'daily') return 'Daily challenge';
+      if (s.mode === 'sudden') return 'Survival';
       if (s.mode === 'weak') return 'Weak-spot practice';
       if (s.mode === 'practice') return s.title || 'Practice';
       const lvl = SQ.engine.DIFFICULTY[s.config.difficulty];
@@ -129,7 +203,7 @@
 
     function updateTop() {
       const shown = Math.min(sess.index + 1, total);
-      if (progressText) progressText.textContent = `Question ${shown} of ${total}`;
+      if (progressText) progressText.textContent = sess.mode === 'sudden' ? `Question ${shown}` : `Question ${shown} of ${total}`;
       steps.update(sess.answers, sess.index);
       pointsEl.textContent = String(sess.points).padStart(4, '0');
       streakEl.hidden = sess.streak < 2;
@@ -183,11 +257,11 @@
         h('div.viewport', SQ.ui.photo(photo, { zoom: true, eager: true, vf: true, tag: 'Q' + String(sess.index + 1).padStart(2, '0') })));
       explainEl = h('div#explain.explain-wrap');
       nextBtn = h('button.btn.btn-primary.btn-lg.next-btn', { type: 'button', onclick: next },
-        sess.index + 1 >= total ? 'See my results' : 'Next question', icon('arrow', { size: 20 }));
+        h('span.next-label', sess.index + 1 >= total ? 'See my results' : 'Next question'), icon('arrow', { size: 20 }));
       nextBar = h('div.next-bar', { hidden: true }, nextBtn);
 
       grid.append(photoCol, h('section.quiz-side',
-        h('div.q-head', h('p.legend', progressText, h('span.q-mode', ' · ' + quizTitle(sess))), h('h1.q-title', 'Which snake is this?')),
+        h('div.q-head', h('p.legend', progressText, h('span.q-mode', ' · ' + quizTitle(sess)), sess.ranked ? h('span.q-ranked', ' · Ranked') : null), h('h1.q-title', 'Which snake is this?')),
         optsEl, actions, hintArea, explainEl, nextBar));
       updateTop();
 
@@ -252,14 +326,15 @@
       stopTimer();
       const q = sess.questions[sess.index];
       const correct = !timedOut && i === q.answer;
-      const ms = performance.now() - qStart;
+      const ms = Math.round(performance.now() - qStart);        // whole milliseconds, exactly as the server will see them
       const remaining = timerSec ? Math.max(0, timerSec - ms / 1000) : 0;
       const pts = SQ.engine.score({ correct, hintsUsed: sess.qHints, remaining, timerSec, streak: sess.streak });
       sess.streak = correct ? sess.streak + 1 : 0;
       sess.bestStreak = Math.max(sess.bestStreak, sess.streak);
       sess.points += pts;
-      sess.answers.push({ chosen: timedOut ? -1 : i, correct, hints: sess.qHints, ms: Math.round(ms), points: pts });
+      sess.answers.push({ chosen: timedOut ? -1 : i, correct, hints: sess.qHints, ms, points: pts });
       sess.activeMs += ms;
+      if (sess.mode === 'sudden' && !correct) sess.over = true;     // survival: one mistake ends the run
       SQ.store.recordAnswer({ speciesId: q.species, photoId: q.photo, correct, chosenId: i >= 0 ? q.options[i] : null });
       SQ.store.saveSession(sess);
       reveal(q, i, correct, timedOut, pts);
@@ -290,6 +365,7 @@
       explainEl.appendChild(SQ.ui.explanation({ correct: correctSp, chosen: chosenSp, options, timedOut, isCorrect: correct, points: pts, streak: sess.streak }));
       explainEl.appendChild(photoFooter(photo));
 
+      if (sess.over) nextBtn.querySelector('.next-label').textContent = 'See my results';
       nextBar.hidden = false;
       setTimeout(() => nextBtn.focus({ preventScroll: true }), 30);
       const verdict = explainEl.querySelector('.verdict');
@@ -312,13 +388,13 @@
 
     function next() {
       if (!answered) return;
-      if (sess.index + 1 >= total) { quiz.finish(sess, false); return; }
+      if (sess.over || sess.index + 1 >= total) { quiz.finish(sess, false); return; }
       sess.index += 1;
       sess.qHints = 0;
       sess.removed = [];
       SQ.store.saveSession(sess);
       renderQuestion();
-      window.scrollTo(0, 0);
+      SQ.scrollTop();
     }
 
     /* ----- keyboard ----- */
@@ -344,8 +420,22 @@
     /* ----- quit ----- */
     quitBtn.onclick = () => {
       const answeredCount = sess.answers.length;
+      if (sess.mode === 'daily' && sess.ranked) {
+        // a ranked daily counts once and only when complete, so it can be paused but not ended early
+        SQ.ui.modal({
+          title: 'Leave today’s challenge?',
+          body: h('p', `You have answered ${answeredCount} of ${total}. Your place is saved: come back any time today and carry on from here. The challenge counts on the leaderboard once all ${total} are answered.`),
+          actions: [
+            h('button.btn.btn-ghost', { type: 'button', onclick: SQ.ui.closeModal }, 'Keep playing'),
+            h('button.btn.btn-primary', { type: 'button', onclick: () => { SQ.ui.closeModal(); SQ.go('/daily'); } }, 'Leave for now'),
+          ],
+        });
+        return;
+      }
       const body = h('div', h('p', answeredCount
-        ? `You have answered ${answeredCount} of ${total} questions. You can see your results so far, or throw this quiz away.`
+        ? (sess.mode === 'sudden'
+          ? `You are on a run of ${sess.streak}. End it now and see your results, or throw this run away.`
+          : `You have answered ${answeredCount} of ${total} questions. You can see your results so far, or throw this quiz away.`)
         : 'You have not answered anything yet.'));
       const actions = [
         h('button.btn.btn-ghost', { type: 'button', onclick: SQ.ui.closeModal }, 'Keep playing'),
