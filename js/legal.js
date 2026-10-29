@@ -33,7 +33,9 @@
         sec('1. About Sarpa',
           h('p', 'Sarpa is a free, non-commercial educational website for learning to identify the snakes of India. It includes the Sarpa photo quiz, Herpdle, a field guide, flashcards and snakebite first-aid information. It is run by ', who(), '. By using the site you agree to these terms. If you do not agree, please do not use it.')),
         sec('2. Accounts',
-          ul('You can read the field guide, safety pages and everything else without an account. Playing the games (Sarpa and Herpdle) needs a free account, so that every game can count on the leaderboards.',
+          ul(SQ.api.known() === 'off'
+            ? 'This copy of Sarpa has no accounts: everything, including the games, is used without one. The rest of this section applies to copies of the site that offer accounts.'
+            : 'You can read the field guide, safety pages and everything else without an account. Playing the games (Sarpa and Herpdle) needs a free account, so that every game can count on the leaderboards.',
             'An account is just a username and a 6-digit PIN. Keep your PIN secret. There is no e-mail address on your account, so a forgotten PIN cannot be recovered.',
             'One person per account. Do not share or sell accounts, and do not sign in to someone else’s.',
             'Choose a respectful username. Usernames that are offensive, hateful, misleading or that pretend to be someone else may be removed.',

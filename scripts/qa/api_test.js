@@ -324,6 +324,13 @@ async function main() {
   console.log('Upstash wire format');
   await upstashWire();
 
+  console.log('database settings');
+  const { credentials } = require('../../server/store');
+  eq(credentials({ UPSTASH_REDIS_REST_URL: 'https://a.upstash.io', UPSTASH_REDIS_REST_TOKEN: 't1' })[1], 't1', 'Upstash variable names');
+  eq(credentials({ KV_REST_API_URL: 'https://b.upstash.io', KV_REST_API_TOKEN: 't2', KV_REST_API_READ_ONLY_TOKEN: 'ro' })[1], 't2', 'Vercel integration names (read-write token)');
+  eq(credentials({ SARPA_REST_API_URL: 'https://c.upstash.io', SARPA_REST_API_TOKEN: 't3' })[1], 't3', 'a custom prefix');
+  eq(credentials({ OTHER_REST_API_URL: 'https://example.com', OTHER_REST_API_TOKEN: 'x' })[0], '', 'other services are not mistaken for the database');
+
   Date.now = realNow;
   console.log(`\n${passes} passed, ${failures} failed`);
   process.exit(failures ? 1 : 0);

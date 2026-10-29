@@ -608,5 +608,596 @@
     "grp": [
       "water-snake"
     ]
+  },
+  {
+    "id": "argyrophis-diardii",
+    "sci": "Argyrophis diardii",
+    "name": "Diard's Blind Snake",
+    "family": "Typhlopidae",
+    "kind": "Blind snake",
+    "tier": 4,
+    "venom": "none",
+    "len": "25-40 cm, rarely up to 50 cm",
+    "habitat": "Soil and leaf litter, and under logs and stones, in forest, farmland and gardens",
+    "range": "North-east India (Assam, Meghalaya, Tripura and northern West Bengal), with scattered records elsewhere, and South-East Asia",
+    "diet": "Ants and termites, and their eggs and larvae",
+    "active": "Underground; comes up at night and after rain",
+    "ids": [
+      "A large, thick-bodied blind snake: shiny brown to dark grey above, often paler below, and much thicker than the tiny Brahminy Blind Snake.",
+      "A blunt, rounded head with no neck and tiny dot-like eyes under the scales; a very short tail ending in a small spine.",
+      "Harmless; may turn up above ground after heavy rain."
+    ],
+    "look": {
+      "colour": "Shiny brown to dark grey; paler below",
+      "pattern": "Plain",
+      "head": "Blunt, rounded head, dot-like eyes",
+      "body": "Thick for a blind snake, cylindrical"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "blunt",
+      "hue": [
+        "brown",
+        "grey"
+      ]
+    },
+    "grp": [
+      "blind-snake"
+    ]
+  },
+  {
+    "id": "pseudoindotyphlops-porrectus",
+    "sci": "Pseudoindotyphlops porrectus",
+    "name": "Slender Worm Snake",
+    "aka": [
+      "Slender Blind Snake"
+    ],
+    "family": "Typhlopidae",
+    "kind": "Blind snake",
+    "tier": 4,
+    "venom": "none",
+    "len": "15-30 cm",
+    "habitat": "Soil, leaf litter and termite mounds, and under stones, in forest, scrub and gardens",
+    "range": "Widespread but patchy in India, from the Himalayan foothills to the south; also Pakistan, Nepal, Sri Lanka and Myanmar",
+    "diet": "Ants and termites, and their eggs and larvae",
+    "active": "Underground; comes up at night and after rain",
+    "ids": [
+      "A very long, thin blind snake, brown to dark brown, much more slender for its length than the Brahminy Blind Snake.",
+      "No neck, a rounded head with tiny eye-spots, and a short tail ending in a tiny spine.",
+      "Harmless; often turns up in gardens after rain."
+    ],
+    "look": {
+      "colour": "Brown to dark brown",
+      "pattern": "Plain",
+      "head": "Rounded head, dot-like eyes",
+      "body": "Very long and thin"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "blunt",
+      "hue": [
+        "brown",
+        "black"
+      ]
+    },
+    "grp": [
+      "blind-snake"
+    ]
+  },
+  {
+    "id": "melanophidium-bilineatum",
+    "sci": "Melanophidium bilineatum",
+    "name": "Two-lined Black Shieldtail",
+    "family": "Uropeltidae",
+    "kind": "Shieldtail",
+    "tier": 5,
+    "venom": "none",
+    "len": "Roughly 30-45 cm",
+    "habitat": "Leaf litter and soil in evergreen forest of the high hills",
+    "range": "Wayanad hills of Kerala (Western Ghats), above about 1,200 m",
+    "diet": "Earthworms",
+    "active": "Underground; comes up after rain",
+    "ids": [
+      "A glossy, iridescent black shieldtail with a bright yellow stripe along each lower side of the body.",
+      "A small head with a pointed snout, no visible neck and a blunt tail ending in a small shield.",
+      "Known only from the Wayanad hills. Harmless."
+    ],
+    "look": {
+      "colour": "Iridescent black with yellow stripes",
+      "pattern": "A yellow stripe along each side",
+      "head": "Small pointed head, no neck",
+      "body": "Cylindrical and glossy"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "striped",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "wedge",
+      "hue": [
+        "black",
+        "yellow"
+      ]
+    },
+    "grp": [
+      "shieldtail"
+    ]
+  },
+  {
+    "id": "rhinophis-karinthandani",
+    "sci": "Rhinophis karinthandani",
+    "name": "Karinthandan's Shieldtail",
+    "family": "Uropeltidae",
+    "kind": "Shieldtail",
+    "tier": 5,
+    "venom": "none",
+    "len": "Roughly 20-30 cm",
+    "habitat": "Soil in forest, coffee estates and farmland",
+    "range": "Wayanad and Kodagu plateaus of the Western Ghats (Kerala and Karnataka)",
+    "diet": "Earthworms",
+    "active": "Underground; comes up after rain",
+    "ids": [
+      "A small burrowing snake with a glossy dark-brown back and a pale belly heavily mottled or spotted with dark.",
+      "A pointed snout, no visible neck, and a tail ending in a large, rough shield.",
+      "Described in 2020 from Wayanad. Harmless."
+    ],
+    "look": {
+      "colour": "Glossy dark brown",
+      "pattern": "Pale belly heavily mottled with dark",
+      "head": "Pointed snout, no neck",
+      "body": "Short and cylindrical"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "pointed",
+      "hue": [
+        "brown",
+        "black"
+      ]
+    },
+    "grp": [
+      "shieldtail"
+    ]
+  },
+  {
+    "id": "rhinophis-melanoleucus",
+    "sci": "Rhinophis melanoleucus",
+    "name": "Black-and-white Shieldtail",
+    "family": "Uropeltidae",
+    "kind": "Shieldtail",
+    "tier": 5,
+    "venom": "none",
+    "len": "Roughly 20-35 cm",
+    "habitat": "Soil in forest, plantations and farmland",
+    "range": "Wayanad region of the Western Ghats (Kerala), north of the Palghat Gap",
+    "diet": "Earthworms",
+    "active": "Underground; comes up after rain",
+    "ids": [
+      "A small burrowing snake boldly marked in black and white: a dark back with white patches or mottling, and a mostly white belly.",
+      "A long, pointed snout, no visible neck and a large shield at the tip of the tail.",
+      "Described in 2020. Harmless."
+    ],
+    "look": {
+      "colour": "Black and white",
+      "pattern": "Dark back with white patches; white belly",
+      "head": "Long pointed snout",
+      "body": "Short and cylindrical"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "bicolour",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "pointed",
+      "hue": [
+        "black",
+        "white"
+      ]
+    },
+    "grp": [
+      "shieldtail"
+    ]
+  },
+  {
+    "id": "uropeltis-bhupathyi",
+    "sci": "Uropeltis bhupathyi",
+    "name": "Bhupathy's Shieldtail",
+    "family": "Uropeltidae",
+    "kind": "Shieldtail",
+    "tier": 5,
+    "venom": "none",
+    "len": "27-40 cm",
+    "habitat": "Soil and leaf litter in forest of the hills",
+    "range": "Known only from the Anaikatti hills of Tamil Nadu (Western Ghats)",
+    "diet": "Earthworms",
+    "active": "Underground; comes up after rain",
+    "ids": [
+      "A burrowing snake with a dark-brown to blackish, iridescent back and a yellow stripe on each side of the neck and of the tail.",
+      "A small pointed head, no visible neck, a blunt shield-tipped tail and a greyish belly.",
+      "Named after the herpetologist S. Bhupathy. Harmless."
+    ],
+    "look": {
+      "colour": "Dark brown to blackish, iridescent",
+      "pattern": "A yellow stripe on each side of the neck and tail",
+      "head": "Small pointed head",
+      "body": "Cylindrical"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "wedge",
+      "hue": [
+        "brown",
+        "black",
+        "yellow"
+      ]
+    },
+    "grp": [
+      "shieldtail"
+    ]
+  },
+  {
+    "id": "uropeltis-caudomaculata",
+    "sci": "Uropeltis caudomaculata",
+    "name": "Tail-spot Shieldtail",
+    "family": "Uropeltidae",
+    "kind": "Shieldtail",
+    "tier": 5,
+    "venom": "none",
+    "len": "Roughly 20-35 cm",
+    "habitat": "Soil in montane forest and plantations",
+    "range": "Eastern slopes of the southern Western Ghats in Tamil Nadu and Kerala, from the Meghamalai (High Wavy) hills to near Munnar",
+    "diet": "Earthworms",
+    "active": "Underground; comes up after rain",
+    "ids": [
+      "A small burrowing shieldtail, grey to dark brown, with bright yellow spots on the sides and especially at the base of the tail.",
+      "A small pointed head with no visible neck, and a blunt, shield-tipped tail.",
+      "Described in 2024. Harmless."
+    ],
+    "look": {
+      "colour": "Grey to dark brown",
+      "pattern": "Yellow spots, especially at the base of the tail",
+      "head": "Small pointed head",
+      "body": "Cylindrical"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "spotted",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "wedge",
+      "hue": [
+        "grey",
+        "brown",
+        "yellow"
+      ]
+    },
+    "grp": [
+      "shieldtail"
+    ]
+  },
+  {
+    "id": "uropeltis-ceylanica",
+    "sci": "Uropeltis ceylanica",
+    "name": "Kerala Shieldtail",
+    "aka": [
+      "Cuvier's Shieldtail"
+    ],
+    "family": "Uropeltidae",
+    "kind": "Shieldtail",
+    "tier": 4,
+    "venom": "none",
+    "len": "Roughly 20-30 cm",
+    "habitat": "Soil, leaf litter and the undersides of stones in forest, plantations and gardens of the hills",
+    "range": "Western Ghats of Kerala, Tamil Nadu and Karnataka (despite its name it does not live in Sri Lanka)",
+    "diet": "Earthworms",
+    "active": "Underground; comes up after rain",
+    "ids": [
+      "A small burrowing snake, brown to blackish-brown, plain or with yellowish spots or streaks along the sides.",
+      "A small pointed head, no visible neck and a blunt tail ending in a rough shield.",
+      "Its old type locality, 'Ceylon', was a mistake. Harmless."
+    ],
+    "look": {
+      "colour": "Brown to blackish-brown",
+      "pattern": "Plain or with yellowish spots or streaks",
+      "head": "Small pointed head",
+      "body": "Cylindrical"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "wedge",
+      "hue": [
+        "brown",
+        "black",
+        "yellow"
+      ]
+    },
+    "grp": [
+      "shieldtail"
+    ]
+  },
+  {
+    "id": "uropeltis-jerdoni",
+    "sci": "Uropeltis jerdoni",
+    "name": "Jerdon's Shieldtail",
+    "family": "Uropeltidae",
+    "kind": "Shieldtail",
+    "tier": 5,
+    "venom": "none",
+    "len": "Roughly 20-30 cm",
+    "habitat": "Moist forest floor and humus-rich soil in hilly deciduous forest",
+    "range": "Hills of the Bengaluru uplands in Karnataka, such as Devarayanadurga and the Nandi hills",
+    "diet": "Earthworms",
+    "active": "Underground; comes up after rain",
+    "ids": [
+      "A small, dark burrowing snake, blackish or dark grey with a faint sheen.",
+      "A small pointed head, no visible neck and a tail that ends in a flattened shield.",
+      "Described in 2021 from the hills near Bengaluru. Harmless."
+    ],
+    "look": {
+      "colour": "Blackish or dark grey",
+      "pattern": "Plain",
+      "head": "Small pointed head",
+      "body": "Cylindrical"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "wedge",
+      "hue": [
+        "black",
+        "grey"
+      ]
+    },
+    "grp": [
+      "shieldtail"
+    ]
+  },
+  {
+    "id": "uropeltis-myhendrae",
+    "sci": "Uropeltis myhendrae",
+    "name": "Barred Shieldtail",
+    "family": "Uropeltidae",
+    "kind": "Shieldtail",
+    "tier": 5,
+    "venom": "none",
+    "len": "Roughly 20-35 cm",
+    "habitat": "Soil in forest of the hills, at about 600-1,200 m",
+    "range": "Agasthyamalai hills of the southern Western Ghats (Kerala and Tamil Nadu)",
+    "diet": "Earthworms",
+    "active": "Underground; comes up after rain",
+    "ids": [
+      "A small burrowing shieldtail, dark brown to blackish, often with yellow bars or blotches along the sides.",
+      "A small pointed head, no visible neck and a blunt, shield-tipped tail.",
+      "Rarely seen and known from only a few hill sites. Harmless."
+    ],
+    "look": {
+      "colour": "Dark brown to blackish",
+      "pattern": "Yellow bars or blotches along the sides",
+      "head": "Small pointed head",
+      "body": "Cylindrical"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "blotched",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "wedge",
+      "hue": [
+        "brown",
+        "black",
+        "yellow"
+      ]
+    },
+    "grp": [
+      "shieldtail"
+    ]
+  },
+  {
+    "id": "uropeltis-ocellata",
+    "sci": "Uropeltis ocellata",
+    "name": "Ocellated Shieldtail",
+    "aka": [
+      "Nilgiri Shieldtail"
+    ],
+    "family": "Uropeltidae",
+    "kind": "Shieldtail",
+    "tier": 4,
+    "venom": "none",
+    "len": "Roughly 25-35 cm",
+    "habitat": "Moist soil in montane forest and shola, at about 600-2,000 m",
+    "range": "Western Ghats south of the Goa Gap, especially the Nilgiri and Anamalai hills and Kerala",
+    "diet": "Earthworms",
+    "active": "Underground; comes up after rain",
+    "ids": [
+      "A burrowing snake that is yellowish or olive-brown (females duller, young darker) with cross-rows of black-edged yellow or white spots that look like little eyes.",
+      "A small pointed head, no visible neck and a short tail ending in a shield.",
+      "Harmless; one of the most colourful shieldtails."
+    ],
+    "look": {
+      "colour": "Yellowish or olive-brown",
+      "pattern": "Rows of black-edged yellow spots",
+      "head": "Small pointed head",
+      "body": "Cylindrical"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "spotted",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "wedge",
+      "hue": [
+        "yellow",
+        "olive",
+        "brown"
+      ]
+    },
+    "grp": [
+      "shieldtail"
+    ]
+  },
+  {
+    "id": "uropeltis-rubromaculata",
+    "sci": "Uropeltis rubromaculata",
+    "name": "Red-spotted Shieldtail",
+    "aka": [
+      "Red-spotted Earth Snake"
+    ],
+    "family": "Uropeltidae",
+    "kind": "Shieldtail",
+    "tier": 5,
+    "venom": "none",
+    "len": "Roughly 25-40 cm",
+    "habitat": "Soil in montane forest, at about 1,000-1,800 m",
+    "range": "Anamalai hills of the southern Western Ghats (Kerala and Tamil Nadu)",
+    "diet": "Earthworms",
+    "active": "Underground; comes up after rain",
+    "ids": [
+      "A burrowing snake with an olive-brown back and a few red blotches or eye-spots on each side of the front of the body and on the tail.",
+      "A small pointed head, no visible neck and a blunt, shield-tipped tail.",
+      "Harmless; gives birth to live young."
+    ],
+    "look": {
+      "colour": "Olive-brown",
+      "pattern": "Red blotches on the sides of the neck and tail",
+      "head": "Small pointed head",
+      "body": "Cylindrical"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "spotted",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "wedge",
+      "hue": [
+        "olive",
+        "brown",
+        "red"
+      ]
+    },
+    "grp": [
+      "shieldtail"
+    ]
+  },
+  {
+    "id": "xylophis-captaini",
+    "sci": "Xylophis captaini",
+    "name": "Captain's Wood Snake",
+    "family": "Pareidae",
+    "kind": "Wood snake",
+    "tier": 5,
+    "venom": "none",
+    "len": "12-20 cm",
+    "habitat": "Leaf litter and soil in moist forest, plantations and gardens",
+    "range": "Southern Western Ghats (Kerala and Tamil Nadu)",
+    "diet": "Probably earthworms and other soft invertebrates",
+    "active": "Seen on the surface mostly after rain",
+    "ids": [
+      "A tiny, slender brown to dark-brown snake with smooth, glossy scales.",
+      "A small head barely wider than the neck, with a narrow snout and small eyes.",
+      "One of India's smallest snakes. Harmless."
+    ],
+    "look": {
+      "colour": "Brown to dark brown",
+      "pattern": "Mostly plain",
+      "head": "Small head, narrow snout",
+      "body": "Tiny, slender and glossy"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "thin",
+      "size": 1,
+      "habit": "terrestrial",
+      "hue": [
+        "brown"
+      ]
+    },
+    "grp": [
+      "small-brown"
+    ]
+  },
+  {
+    "id": "pareas-andersonii",
+    "sci": "Pareas andersonii",
+    "name": "Anderson's Slug Snake",
+    "family": "Pareidae",
+    "kind": "Snail-eater",
+    "tier": 5,
+    "venom": "none",
+    "len": "28-48 cm",
+    "habitat": "Hill forest; climbs low vegetation at night",
+    "range": "North-east India (Nagaland and Mizoram), northern Myanmar and Yunnan in China",
+    "diet": "Snails and slugs",
+    "active": "Nocturnal",
+    "ids": [
+      "A small, slender snake that is mostly dark grey with a bluish sheen, often with pale speckles.",
+      "A short, blunt, rounded head clearly wider than the neck, and big eyes with vertical pupils.",
+      "Feeds on snails and slugs. Harmless."
+    ],
+    "look": {
+      "colour": "Dark grey with a bluish sheen",
+      "pattern": "Plain or pale-speckled",
+      "head": "Short blunt head, big eyes",
+      "body": "Slim and slightly flattened"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "speckled",
+      "build": "slender",
+      "size": 1,
+      "habit": "semi-arboreal",
+      "snout": "blunt",
+      "pupil": "vertical",
+      "hue": [
+        "grey",
+        "black"
+      ]
+    },
+    "grp": [
+      "small-brown"
+    ]
   }
 ]

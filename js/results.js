@@ -8,16 +8,16 @@
   /** Open one answered question's photo + full explanation in a dialog. */
   SQ.reviewItem = function (item) {
     const D = SQ.data;
-    const photo = D.photoById[item.photo];
-    if (!photo) return;
+    const photo = D.photoById[item.photo];          // can be missing when a newer data set dropped the photo
     const correctSp = D.byId[item.species];
     const options = item.options.map((id) => D.byId[id]);
+    if (!correctSp || options.some((o) => !o)) return;
     const chosenSp = item.chosen >= 0 ? D.byId[item.options[item.chosen]] : null;
     SQ.ui.modal({
       title: `Question ${item.n}`, wide: true, className: 'review',
       body: [
-        SQ.ui.photo(photo, { zoom: true, eager: true }),
-        SQ.ui.creditLine(photo),
+        photo ? SQ.ui.photo(photo, { zoom: true, eager: true }) : null,
+        photo ? SQ.ui.creditLine(photo) : h('p.muted', 'This photo has since been taken out of the game.'),
         SQ.ui.explanation({ correct: correctSp, chosen: chosenSp, options, timedOut: item.chosen < 0, isCorrect: item.correct, points: item.points, streak: 0 }),
       ],
     });
@@ -73,6 +73,8 @@
     if (!r) {
       return { node: h('div.page.wrap', SQ.ui.empty('No results yet', 'Play a quiz to see your results here.', h('a.btn.btn-primary', { href: '#/play' }, 'Start a quiz'))), view: 'results' };
     }
+    // a game played before the data set was updated can mention a species that is no longer in it
+    r.items = (r.items || []).filter((it) => D.byId[it.species] && (it.options || []).every((id) => D.byId[id]));
     const pct = SQ.pct(r.correct, r.n);
     const survival = r.mode === 'sudden';
     const rank = survival ? survivalRank(r.correct) : SQ.engine.rank(pct);
@@ -105,7 +107,8 @@
         type: 'button', title: `Question ${it.n}: ${D.byId[it.species].name}`,
         'aria-label': `Question ${it.n}, ${it.correct ? 'correct' : 'wrong'}: ${D.byId[it.species].name}. Open explanation`,
         onclick: () => SQ.reviewItem(it),
-      }, SQ.ui.photo(p, { alt: '' }), h('span.tile-n', String(it.n)), h('span.tile-mark', icon(it.correct ? 'check' : 'x', { size: 14, stroke: 3 })));
+      }, p ? SQ.ui.photo(p, { alt: '' }) : h('span.tile-gone', { 'aria-hidden': 'true' }, icon('help', { size: 22 })),
+      h('span.tile-n', String(it.n)), h('span.tile-mark', icon(it.correct ? 'check' : 'x', { size: 14, stroke: 3 })));
     }));
 
     const missedList = missed.length

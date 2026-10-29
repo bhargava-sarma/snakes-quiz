@@ -154,7 +154,8 @@
   /** Words that would give the answer away: its names (common, other, scientific), but not everyday words. */
   function secretWords(sp) {
     const words = new Set();
-    const add = (text) => String(text || '').split(/[^A-Za-zÀ-ɏ'’-]+/).forEach((w) => {
+    // hyphenated names count word by word (Bar-necked: bar, necked), as the text is read the same way
+    const add = (text) => String(text || '').split(/[^A-Za-zÀ-ɏ'’]+/).forEach((w) => {
       const clean = w.replace(/['’]s$/i, '').replace(/^['’-]+|['’-]+$/g, '').toLowerCase();
       if (clean.length >= 3 && !GENERIC.has(clean)) words.add(clean);
     });
@@ -170,16 +171,20 @@
    */
   function mask(text, secret) {
     const out = [];
-    const re = /[A-Za-zÀ-ɏ][A-Za-zÀ-ɏ'’-]*/g;
+    const re = /[A-Za-zÀ-ɏ][A-Za-zÀ-ɏ'’]*/g;
     let last = 0, m;
     const push = (t) => { if (!t) return; const prev = out[out.length - 1]; if (prev && prev.t != null) prev.t += t; else out.push({ t }); };
     while ((m = re.exec(text))) {
-      const word = m[0].toLowerCase().replace(/['’]s$/, '');
-      const hit = secret.has(word) || secret.has(word.replace(/e?s$/, ''));       // cobras, Russell's
+      let tok = m[0];
+      const quote = tok.match(/['’]+$/);                                           // a closing quote is not part of the word
+      if (quote && !/['’]s$/i.test(tok)) tok = tok.slice(0, -quote[0].length);
+      const word = tok.toLowerCase().replace(/['’]s$/, '');
+      const hit = secret.has(word) || secret.has(word.replace(/e?s$/, ''))        // cobras, Russell's
+        || (word.length > 4 && word.endsWith('y') && secret.has(word.slice(0, -1)));   // coppery
       if (!hit) continue;
       push(text.slice(last, m.index));
-      out.push({ hide: true, w: m[0] });
-      last = m.index + m[0].length;
+      out.push({ hide: true, w: tok });
+      last = m.index + tok.length;
     }
     push(text.slice(last));
     return out;

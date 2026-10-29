@@ -3,6 +3,10 @@
  *
  *   node scripts/qa/layout.js [baseUrl] [--quick] [--shots <dir>] [--only <route-substring>]
  *
+ * Serve the site with  node scripts/dev-server.js 8765 --no-api  (guest play, every page) or with the API
+ * (node scripts/dev-server.js 8765): then one test account is made and every screen size uses it, so the
+ * signed-in pages (profile, ranked games, leaderboards) are checked too.
+ *
  * Checks (each failure is printed with the page, the screen size and the element):
  *   - horizontal overflow: nothing sticks out of the screen sideways
  *   - spilling text: a word or label wider than the box it sits in
@@ -50,6 +54,18 @@ const ROUTES = [
   { r: '/', name: 'home' },
   { r: '/play', name: 'setup' },
   { r: '/daily', name: 'daily' },
+  { r: '/herpdle', name: 'herpdle' },
+  { r: '/herpdle?mode=practice', name: 'herpdle-practice' },
+  { r: 'herpdle-board', name: 'herpdle-board' },
+  { r: 'herpdle-result', name: 'herpdle-result' },
+  { r: 'herpdle-daily', name: 'herpdle-daily' },
+  { r: '/daily', name: 'daily-after' },
+  { r: '/ranks', name: 'ranks' },
+  { r: '/ranks?board=herpdle&period=week', name: 'ranks-herpdle' },
+  { r: 'account', name: 'account-dialog' },
+  { r: '/legal', name: 'legal' },
+  { r: '/legal/privacy', name: 'legal-privacy' },
+  { r: '/legal/licences', name: 'legal-licences' },
   { r: '/guide', name: 'guide' },
   { r: '/guide/naja-naja', name: 'species' },
   { r: '/guide/lycodon-fasciolatus', name: 'species-hard' },
@@ -58,7 +74,7 @@ const ROUTES = [
   { r: '/safety', name: 'safety' },
   { r: '/about', name: 'about' },
   { r: '/credits', name: 'credits' },
-  { r: '/stats', name: 'progress', after: 'play-one' },
+  { r: '/me', name: 'profile', after: 'play-one' },
   { r: 'quiz', name: 'quiz' },
   { r: 'quiz-answered', name: 'quiz-answered' },
   { r: '/results', name: 'results', after: 'play-one' },
@@ -138,9 +154,15 @@ function inPage(opts) {
     const s = style(el);
     const hasText = Array.from(el.childNodes).some((n) => n.nodeType === 3 && n.textContent.trim());
     if (!hasText) continue;
-    const range = document.createRange();
-    range.selectNodeContents(el);
-    const tr = range.getBoundingClientRect();
+    // where the visible text ends (screen-reader-only text is clipped on purpose, so it does not count)
+    let tr = { right: -Infinity };
+    const walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    for (let n = walk.nextNode(); n; n = walk.nextNode()) {
+      if (!n.textContent.trim() || n.parentElement.closest(SKIP)) continue;
+      const range = document.createRange();
+      range.selectNodeContents(n);
+      for (const rc of range.getClientRects()) if (rc.width > 0) tr = { right: Math.max(tr.right, rc.right) };
+    }
     const er = el.getBoundingClientRect();
     const clipped = s.overflowX !== 'visible';
     if (!clipped && er.width > 0 && tr.right > er.right + 1.5 && s.display !== 'inline') add('text-spill', el, `text reaches ${Math.round(tr.right)} but the box ends at ${Math.round(er.right)}`);
@@ -161,6 +183,9 @@ function inPage(opts) {
       if (el.closest('.credit, .gallery-strip, .foot-links')) { /* credits are small print by nature; strip is checked below */ }
       const r = el.getBoundingClientRect();
       if (el.closest('.credit')) continue;
+      // a checkbox or radio inside its label: the whole label is the target
+      const lab = /^(checkbox|radio)$/.test(el.type) ? el.closest('label') : null;
+      if (lab) { const lr = lab.getBoundingClientRect(); if (lr.width >= 40 && lr.height >= 40) continue; }
       if (r.width < 40 || r.height < 40) add('tap-target', el, `${Math.round(r.width)}x${Math.round(r.height)}px`);
     }
   }
@@ -257,7 +282,51 @@ async function playOne(page) {
   await page.waitForSelector('.result-hero');
 }
 
+async function herpdleGuess(page, name) {
+  await page.fill('#hd-input', name);
+  await page.click('.hd-go');
+}
+
 async function openRoute(page, route) {
+  if (route.r === 'herpdle-board' || route.r === 'herpdle-result') {
+    await page.goto(`${base}#/herpdle?mode=practice`, { waitUntil: 'load' });
+    await page.evaluate(() => { const st = SQ.herpdleState.load(); st.seenHelp = true; st.practice = null; SQ.herpdleState.save(st); });
+    await page.goto(`${base}#/play`, { waitUntil: 'load' });
+    await page.goto(`${base}#/herpdle?mode=practice`, { waitUntil: 'load' });
+    await page.click('button:has-text("Start a practice game")');
+    await page.waitForSelector('#hd-input');
+    const names = await page.evaluate(() => { const g = SQ.herpdleState.load().practice; return { right: SQ.data.byId[g.sp].name, wrong: SQ.data.species.find((x) => x.id !== g.sp && x.tier <= 2).name }; });
+    await herpdleGuess(page, names.wrong);
+    await page.waitForSelector('.hd-row');
+    if (route.r === 'herpdle-result') { await herpdleGuess(page, names.right); await page.waitForSelector('.hd-result'); }
+    await page.waitForTimeout(900);           // the tiles flip in one after another
+    return;
+  }
+  if (route.r === 'herpdle-daily') {
+    await page.goto(`${base}#/herpdle`, { waitUntil: 'load' });
+    await page.waitForSelector('.hd-intro, .hd-status, .hd-result');
+    const play = page.locator('button:has-text("Play today’s Herpdle")');
+    if (await play.count()) {
+      await play.click();
+      const started = await page.waitForSelector('#hd-input', { timeout: 6000 }).then(() => true, () => false);
+      if (started) {
+        const right = await page.evaluate(() => { const g = SQ.herpdleState.load().days[SQ.todayKey()]; return SQ.data.byId[g.sp].name; });
+        await page.waitForTimeout(700);        // ranked games must not be answered impossibly fast
+        await herpdleGuess(page, right);
+        await page.waitForSelector('.hd-result');
+        await page.waitForTimeout(900);
+      }
+    }
+    return;
+  }
+  if (route.r === 'account') {
+    await page.goto(`${base}#/`, { waitUntil: 'load' });
+    await page.waitForSelector('.hero');
+    await page.evaluate(() => { SQ.account.open({ mode: 'signup' }); });
+    await page.waitForSelector('.modal.acct');
+    await page.waitForTimeout(300);
+    return;
+  }
   if (route.r === 'quiz' || route.r === 'quiz-answered') {
     await page.goto(`${base}#/play`, { waitUntil: 'load' });
     await page.evaluate(() => { SQ.quiz.discard(); SQ.quiz.start({ mode: 'quiz', count: 20, difficulty: 'intermediate', region: 'all', timer: 30, hints: true, preferUnseen: false }); });
@@ -273,7 +342,25 @@ async function openRoute(page, route) {
   await page.waitForSelector('#main > :not(.boot)', { timeout: 10000 });
 }
 
+/** With the accounts API running, make one account for the whole run (sign-ups are rate-limited per address). */
+async function testAccount() {
+  const api = new URL('api/sarpa', base.replace(/[^/]*$/, ''));
+  try {
+    const st = await (await fetch(api + '?action=health')).json();
+    if (!st.accounts) return null;
+    const name = `layout_${Date.now() % 100000}`;
+    const res = await fetch(api + '?action=signup', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: name, pin: '305817' }) });
+    const j = await res.json();
+    if (!res.ok) throw new Error(j.error || res.status);
+    return { token: j.token, name: j.user.name, created: j.user.created || 0 };
+  } catch (e) {
+    return null;
+  }
+}
+
 (async () => {
+  const account = await testAccount();
+  console.log(account ? `signed in as ${account.name} (accounts are on)` : 'no accounts API: checking guest play');
   const browser = await chromium.launch();
   const problems = [];
   const notes = new Map();
@@ -288,10 +375,17 @@ async function openRoute(page, route) {
       const ctx = await browser.newContext({
         viewport: { width: vp.w, height: vp.h }, deviceScaleFactor: vp.touch ? 2 : 1, hasTouch: !!vp.touch, isMobile: !!vp.touch && vp.w < 700, colorScheme: theme,
       });
+      if (account) {
+        await ctx.addInitScript((a) => {
+          try { if (!localStorage.getItem('sarpa.v1.auth')) localStorage.setItem('sarpa.v1.auth', JSON.stringify(Object.assign({ at: Date.now() }, a))); } catch (e) { /* ignore */ }
+        }, account);
+      }
       const page = await ctx.newPage();
       const errors = [];
       page.on('pageerror', (e) => errors.push(e.message));
-      page.on('console', (m) => { if (m.type() === 'error' && !/favicon|net::ERR/.test(m.text())) errors.push(m.text()); });
+      // failed requests are reported by URL below; the accounts API answering 404 on a static host is expected
+      page.on('console', (m) => { if (m.type() === 'error' && !/favicon|net::ERR|Failed to load resource/.test(m.text())) errors.push(m.text()); });
+      page.on('response', (res) => { if (res.status() >= 400 && !/\/api\/sarpa|favicon/.test(res.url())) errors.push(`HTTP ${res.status()} for ${res.url()}`); });
       await playOne(page);
       for (const route of ROUTES) {
         if (only && !route.name.includes(only) && !route.r.includes(only)) continue;
@@ -303,6 +397,7 @@ async function openRoute(page, route) {
         });
         await page.waitForTimeout(450);
         const found = await page.evaluate(inPage, { touch: !!vp.touch });
+        if (route.r === 'account') await page.keyboard.press('Escape');
         checked++;
         const label = `${route.name} @ ${vp.name} ${vp.w}x${vp.h} ${theme}`;
         for (const f of found) {

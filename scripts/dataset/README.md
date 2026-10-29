@@ -30,6 +30,7 @@ You do **not** need to run any of this to use or deploy the site: the finished d
 | 7b/7c | `07b_embed_images.py`, `07c_rank_quality.py` | optional: learns "is this a good quiz photo?" from your own good/hard/reject labels |
 | 8 | `08_contact_sheets.py` | makes numbered contact sheets so a person can quickly mark unusable photos |
 | 9 | `09_build_data.py` | combines the knowledge base (`data/kb`) with the chosen photos and writes `images/`, `data/species.js`, `data/photos.js`, `data/catalog.csv`, `CREDITS.md` |
+| 10 | `10_server_data.js` | writes `server/generated/data.json` for the accounts API: species, which species each photo shows, and five years of daily puzzles (Sarpa and Herpdle), made with the website's own code |
 
 ```bash
 W=work; mkdir -p $W/in && cd $W/in
@@ -46,7 +47,12 @@ python3 ../../scripts/dataset/05_select_pool.py --candidates candidates.jsonl --
 python3 ../../scripts/dataset/06_fetch_images.py --pool pool.json --out ../out                # ~15 min
 python3 ../../scripts/dataset/07_score_images.py --work ../out --model resnet50v2.onnx --synset synset.txt
 python3 ../../scripts/dataset/09_build_data.py --repo ../.. --pool pool.json --work ../out --min-snake 0.9
+node ../../scripts/dataset/10_server_data.js                                                   # after every step 9
 ```
+
+Always run step 10 after step 9 and deploy both together: the API checks answers and hands out the daily puzzles
+from that file. Days that have already started keep their puzzles (as long as their photos are still in the data
+set), so a rebuild does not change a puzzle people are playing.
 
 ### Human review (recommended)
 
@@ -68,7 +74,7 @@ python3 scripts/dataset/09_build_data.py ... --rejects rejects.json --hard hard.
 | `--commercial-ok` | keep only CC0 / CC BY / CC BY-SA photos (usable on a commercial site; still needs attribution) |
 | `--max-per-species 60` | cap photos per species |
 | `--min-per-species 6` | species with fewer usable photos are left out |
-| `--min-snake 0.9` | minimum "a snake is clearly visible" score |
+| `--min-snake 0.9` | minimum "a snake is clearly visible" score (photos a person reviewed and kept are not held to it) |
 | `--no-write` | only report what would be built |
 
 ## Adding a species

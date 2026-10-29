@@ -205,14 +205,26 @@ function memory() {
 let cached = null;
 
 /**
- * The store for this deployment, or null when no database is configured.
- * Works with the variable names of the Vercel Upstash integration (KV_REST_API_URL / KV_REST_API_TOKEN)
- * and of Upstash itself (UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN).
+ * The database address and token: the variable names of Upstash itself (UPSTASH_REDIS_REST_URL / _TOKEN), of the
+ * Vercel integration (KV_REST_API_URL / _TOKEN), or the same with a custom prefix chosen when the database was
+ * connected to the project (for example SARPA_REST_API_URL / SARPA_REST_API_TOKEN).
  */
+function credentials(env) {
+  if (env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN) return [env.UPSTASH_REDIS_REST_URL, env.UPSTASH_REDIS_REST_TOKEN];
+  if (env.KV_REST_API_URL && env.KV_REST_API_TOKEN) return [env.KV_REST_API_URL, env.KV_REST_API_TOKEN];
+  for (const key of Object.keys(env).sort()) {
+    const m = key.match(/^(.+_)(REST_API_URL|REST_URL)$/);
+    if (!m || !/^https:\/\/[^/]+\.upstash\.io/.test(env[key] || '')) continue;
+    const token = env[m[1] + m[2].replace(/URL$/, 'TOKEN')];
+    if (token) return [env[key], token];
+  }
+  return ['', ''];
+}
+
+/** The store for this deployment, or null when no database is configured. */
 function fromEnv(env = process.env) {
   if (cached && cached.env === env) return cached.store;
-  const url = env.UPSTASH_REDIS_REST_URL || env.KV_REST_API_URL || '';
-  const token = env.UPSTASH_REDIS_REST_TOKEN || env.KV_REST_API_TOKEN || '';
+  const [url, token] = credentials(env);
   let store = null;
   if (env.SARPA_STORE === 'memory') store = memory();
   else if (url && token) store = upstash(url, token);
@@ -220,4 +232,4 @@ function fromEnv(env = process.env) {
   return store;
 }
 
-module.exports = { upstash, memory, fromEnv, StoreError };
+module.exports = { upstash, memory, fromEnv, credentials, StoreError };

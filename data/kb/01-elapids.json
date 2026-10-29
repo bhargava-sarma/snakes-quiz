@@ -754,5 +754,255 @@
     "grp": [
       "krait-like"
     ]
+  },
+  {
+    "id": "bungarus-andamanensis",
+    "sci": "Bungarus andamanensis",
+    "name": "Andaman Krait",
+    "aka": [
+      "South Andaman Krait"
+    ],
+    "family": "Elapidae",
+    "kind": "Krait",
+    "tier": 4,
+    "venom": "deadly",
+    "len": "0.9-1.3 m",
+    "habitat": "Forest, plantations and the edges of villages",
+    "range": "Endemic to the Andaman Islands, including Little Andaman",
+    "diet": "Mainly other snakes; also lizards",
+    "active": "Nocturnal",
+    "ids": [
+      "A glossy black or dark brown krait with many evenly spaced, narrow white or yellowish cross-bands (roughly 40 on the body) that widen towards the belly.",
+      "A ridge of enlarged six-sided scales runs along the middle of the back; the rounded head is barely wider than the neck, with small dark eyes.",
+      "Found only in the Andaman Islands. Highly venomous, like all kraits: never handle it."
+    ],
+    "look": {
+      "colour": "Glossy black or dark brown",
+      "pattern": "Many narrow white or yellowish cross-bands",
+      "head": "Rounded head barely wider than the neck",
+      "body": "Smooth and glossy, with a ridge of large scales along the back"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "banded",
+      "build": "medium",
+      "size": 3,
+      "habit": "terrestrial",
+      "hue": [
+        "black",
+        "white",
+        "yellow"
+      ]
+    },
+    "grp": [
+      "krait-like",
+      "banded-small"
+    ]
+  },
+  {
+    "id": "bungarus-bungaroides",
+    "sci": "Bungarus bungaroides",
+    "name": "Northeastern Hill Krait",
+    "family": "Elapidae",
+    "kind": "Krait",
+    "tier": 4,
+    "venom": "deadly",
+    "len": "0.9-1.3 m, up to about 1.4 m",
+    "habitat": "Hill forest, often in damp places near streams",
+    "range": "Hills of north-east India (Meghalaya, Assam, Arunachal Pradesh, Nagaland), Sikkim and the Darjeeling hills; also Nepal, Bhutan, Myanmar and southern China",
+    "diet": "Mainly other snakes",
+    "active": "Nocturnal",
+    "ids": [
+      "A shiny black krait crossed by many very narrow white or pale yellow lines; on the belly the pale bars become wider.",
+      "A ridge of enlarged six-sided scales along the back, and a flat, rounded head barely wider than the neck with small eyes.",
+      "A krait of the eastern Himalaya and the north-eastern hills. Highly venomous."
+    ],
+    "look": {
+      "colour": "Shiny black",
+      "pattern": "Many very narrow white or pale yellow cross-lines",
+      "head": "Flat, rounded head with small eyes",
+      "body": "Smooth and glossy"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "banded",
+      "build": "medium",
+      "size": 3,
+      "habit": "terrestrial",
+      "hue": [
+        "black",
+        "white"
+      ]
+    },
+    "grp": [
+      "krait-like",
+      "banded-small"
+    ]
+  },
+  {
+    "id": "bungarus-lividus",
+    "sci": "Bungarus lividus",
+    "name": "Lesser Black Krait",
+    "family": "Elapidae",
+    "kind": "Krait",
+    "tier": 4,
+    "venom": "deadly",
+    "len": "Up to about 1 m",
+    "habitat": "Lowland grassland, farmland and villages",
+    "range": "North-east India (Assam and northern West Bengal), Nepal, Bhutan and Bangladesh",
+    "diet": "Mainly other snakes; also lizards",
+    "active": "Nocturnal",
+    "ids": [
+      "A plain, glossy black or dark slate-grey krait with no bands, and a white belly.",
+      "A ridge of enlarged six-sided scales along the back, a flat head barely wider than the neck and small black eyes.",
+      "Highly venomous, like all kraits. Easily mistaken for a harmless dark snake."
+    ],
+    "look": {
+      "colour": "Glossy black or dark slate-grey; white belly",
+      "pattern": "Plain, without bands",
+      "head": "Flat head with small eyes",
+      "body": "Smooth and glossy"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "medium",
+      "size": 3,
+      "habit": "terrestrial",
+      "hue": [
+        "black",
+        "grey"
+      ]
+    },
+    "grp": [
+      "krait-like"
+    ]
+  },
+  {
+    "id": "calliophis-castoe",
+    "sci": "Calliophis castoe",
+    "name": "Castoe's Coral Snake",
+    "family": "Elapidae",
+    "kind": "Coral snake",
+    "tier": 5,
+    "venom": "venomous",
+    "len": "About 50-55 cm",
+    "habitat": "Leaf litter in semi-evergreen and wet forest",
+    "range": "Central Western Ghats in Maharashtra (Amboli), Goa and Karnataka, up to about 750 m",
+    "diet": "Probably small snakes and other slender reptiles, like other coral snakes",
+    "active": "Mostly at night and after rain",
+    "ids": [
+      "A slender coral snake with a plain, unmarked brown to reddish-brown back, without stripes or bands.",
+      "Salmon to scarlet belly and underside of the tail, an orange band across the head, and a small head barely wider than the neck.",
+      "Venomous. Known only from a few forest sites in the central Western Ghats; described in 2012."
+    ],
+    "look": {
+      "colour": "Plain brown to reddish-brown; salmon to scarlet belly",
+      "pattern": "Unmarked back; an orange band on the head",
+      "head": "Small head with an orange band",
+      "body": "Very slender and smooth"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "thin",
+      "size": 2,
+      "habit": "terrestrial",
+      "hue": [
+        "brown",
+        "red",
+        "orange"
+      ]
+    },
+    "grp": [
+      "coral-like"
+    ],
+    "fact": "Its name castoe honours the coral-snake researcher Todd Castoe, and also plays on the Latin castus, 'pure', for its unmarked back."
+  },
+  {
+    "id": "sinomicrurus-gorei",
+    "sci": "Sinomicrurus gorei",
+    "name": "Gore's Coral Snake",
+    "family": "Elapidae",
+    "kind": "Coral snake",
+    "tier": 5,
+    "venom": "venomous",
+    "len": "50-70 cm",
+    "habitat": "Leaf litter in hill and lowland forest",
+    "range": "North-east India (Assam, Manipur, Mizoram, Nagaland, Tripura), Nepal and Bangladesh",
+    "diet": "Small snakes and other slender reptiles",
+    "active": "Mostly at night",
+    "ids": [
+      "A slender coral snake with a reddish-brown body that has few or no black cross-bands, unlike the boldly banded MacClelland's Coral Snake.",
+      "A black head crossed by a cream or white band, followed by a black band on the nape.",
+      "Venomous. Long treated as a colour form of MacClelland's Coral Snake and restored as a separate species in 2023."
+    ],
+    "look": {
+      "colour": "Reddish-brown",
+      "pattern": "Few or no black cross-bands",
+      "head": "Black head with a cream band",
+      "body": "Very slender and smooth"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "thin",
+      "size": 2,
+      "habit": "terrestrial",
+      "hue": [
+        "red",
+        "brown",
+        "black"
+      ]
+    },
+    "grp": [
+      "coral-like"
+    ]
+  },
+  {
+    "id": "hydrophis-caerulescens",
+    "sci": "Hydrophis caerulescens",
+    "name": "Dwarf Sea Snake",
+    "family": "Elapidae",
+    "kind": "Sea snake",
+    "tier": 5,
+    "venom": "deadly",
+    "len": "50-75 cm",
+    "habitat": "Shallow, muddy coastal water, estuaries and river mouths; sometimes washed ashore",
+    "range": "Coasts of India, especially the west coast from Gujarat to Karnataka, and on to South-East Asia",
+    "diet": "Small fish",
+    "active": "Day and night",
+    "ids": [
+      "A small sea snake, bluish-grey above and paler below, with many (about 35-60) dark bluish-black cross-bands.",
+      "Small head on a slender neck, a body flattened from side to side towards the rear, and a paddle-shaped tail.",
+      "Highly venomous (its venom attacks the nerves). Never handle a sea snake, even one stranded on the beach."
+    ],
+    "look": {
+      "colour": "Bluish-grey above, paler below",
+      "pattern": "Many dark bluish-black bands",
+      "head": "Small head on a slender neck",
+      "body": "Flattened towards the rear, paddle tail"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "banded",
+      "build": "slender",
+      "size": 2,
+      "habit": "marine",
+      "hue": [
+        "grey",
+        "blue",
+        "black"
+      ]
+    },
+    "grp": [
+      "sea-snake"
+    ]
   }
 ]

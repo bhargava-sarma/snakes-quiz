@@ -122,7 +122,7 @@ main > * { animation: rise .32s var(--ease) both; }
   padding-top: var(--safe-t);
 }
 .header-in { display: flex; align-items: center; gap: 18px; min-height: var(--header-h); }
-.brand { display: flex; align-items: center; gap: 11px; min-height: 44px; text-decoration: none; color: var(--ink); flex: none; }
+.brand { display: flex; align-items: center; gap: 11px; min-height: 44px; min-width: 44px; text-decoration: none; color: var(--ink); flex: none; }
 .brand-logo { display: block; width: 38px; height: 38px; border-radius: 10px; box-shadow: 0 2px 0 rgba(19, 19, 18, .25), 0 6px 12px rgba(255, 90, 18, .22); }
 .brand-text { display: flex; flex-direction: column; gap: 3px; line-height: 1; }
 .brand-text strong { font: 900 1.5625rem/1 var(--font-lcd); font-variation-settings: "ROND" 100; letter-spacing: .06em; color: var(--ink); }

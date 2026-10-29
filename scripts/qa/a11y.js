@@ -15,7 +15,23 @@ if (!axePath) { console.error('axe-core is not installed. Run:  npm install --no
 const axeSrc = fs.readFileSync(axePath, 'utf8');
 const base = (process.argv[2] || 'http://localhost:8765/index.html').replace(/#.*$/, '');
 
-const ROUTES = ['/', '/play', '/daily', '/guide', '/guide/naja-naja', '/compare?a=naja-naja&b=ptyas-mucosa', '/learn', '/safety', '/stats', '/about', '/credits', 'quiz', 'quiz-answered', '/results'];
+const ROUTES = ['/', '/play', '/daily', '/herpdle', '/herpdle?mode=practice', 'herpdle-board', '/ranks', 'account', '/guide', '/guide/naja-naja',
+  '/compare?a=naja-naja&b=ptyas-mucosa', '/learn', '/safety', '/me', '/about', '/credits', '/legal', '/legal/privacy', 'quiz', 'quiz-answered', '/results'];
+
+/** Herpdle practice with one wrong guess on the board. */
+async function herpdleBoard(page) {
+  await page.goto(`${base}#/herpdle?mode=practice`, { waitUntil: 'load' });
+  await page.evaluate(() => { const st = SQ.herpdleState.load(); st.seenHelp = true; st.practice = null; SQ.herpdleState.save(st); });
+  await page.goto(`${base}#/play`, { waitUntil: 'load' });
+  await page.goto(`${base}#/herpdle?mode=practice`, { waitUntil: 'load' });
+  await page.click('button:has-text("Start a practice game")');
+  await page.waitForSelector('#hd-input');
+  const wrong = await page.evaluate(() => { const g = SQ.herpdleState.load().practice; return SQ.data.species.find((x) => x.id !== g.sp && x.tier <= 2).name; });
+  await page.fill('#hd-input', wrong);
+  await page.click('.hd-go');
+  await page.waitForSelector('.hd-row');
+  await page.waitForTimeout(900);
+}
 const CONTEXTS = [['phone', 390, 844, 'light'], ['laptop', 1440, 900, 'light'], ['laptop', 1440, 900, 'dark']];
 
 (async () => {
@@ -35,7 +51,14 @@ const CONTEXTS = [['phone', 390, 844, 'light'], ['laptop', 1440, 900, 'light'], 
     }
     await page.waitForSelector('.result-hero');
     for (const r of ROUTES) {
-      if (r === 'quiz' || r === 'quiz-answered') {
+      if (r === 'herpdle-board') {
+        await herpdleBoard(page);
+      } else if (r === 'account') {
+        await page.goto(`${base}#/`, { waitUntil: 'load' });
+        await page.waitForSelector('.hero');
+        await page.evaluate(() => { SQ.account.open({ mode: 'signup' }); });
+        await page.waitForSelector('.modal.acct');
+      } else if (r === 'quiz' || r === 'quiz-answered') {
         await page.evaluate(() => { SQ.quiz.discard(); SQ.quiz.start({ mode: 'quiz', count: 20, difficulty: 'intermediate', region: 'all', timer: 30, hints: true, preferUnseen: false }); });
         await page.waitForSelector('.option');
         if (r === 'quiz-answered') { await page.click('.hint-btn'); await page.click('.option >> nth=1'); await page.waitForSelector('.explain .verdict'); }
@@ -49,6 +72,7 @@ const CONTEXTS = [['phone', 390, 844, 'light'], ['laptop', 1440, 900, 'light'], 
         const res = await axe.run(document, { resultTypes: ['violations'], runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'] } });
         return res.violations.map((v) => ({ id: v.id, impact: v.impact, help: v.help, count: v.nodes.length, sample: v.nodes[0].target.join(' ') }));
       });
+      if (r === 'account') await page.keyboard.press('Escape');
       for (const v of violations) {
         const e = found.get(v.id) || { ...v, count: 0, where: new Set() };
         e.count += v.count; e.where.add(`${r} @ ${vp}/${theme}`);
