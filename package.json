@@ -1,0 +1,21 @@
+{
+  "name": "snakes-quiz",
+  "version": "1.0.0",
+  "description": "Sarpa · Indian Snake Quiz",
+  "type": "module",
+  "scripts": {
+    "dev": "echo 'This is a static HTML project. Open index.html in a browser or use a local server.'",
+    "build": "echo 'No build step required for this static project.'",
+    "lint": "echo 'No linter configured yet.'"
+  },
+  "keywords": [
+    "quiz",
+    "snakes",
+    "education"
+  ],
+  "author": "",
+  "license": "SEE LICENSE IN LICENSE",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
+}
