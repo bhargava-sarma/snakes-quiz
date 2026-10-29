@@ -1,11 +1,10 @@
 {
   "name": "Sarpa · Indian Snake Quiz",
   "short_name": "Sarpa",
-  "description": "Identify the snakes of India from real photos and learn why each answer is right or wrong.",
+  "description": "Identify the snakes of India from real photos, play the daily Herpdle and learn why each answer is right or wrong.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "orientation": "portrait-primary",
   "background_color": "#e8e7e2",
   "theme_color": "#e8e7e2",
   "categories": ["education", "games"],

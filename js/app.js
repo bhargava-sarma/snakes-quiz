@@ -78,7 +78,7 @@
     document.title = (view.title ? view.title + ' · ' : '') + 'Sarpa · Indian Snake Quiz';
     document.body.dataset.view = view.view || '';
     document.body.classList.toggle('in-quiz', !!view.focus);
-    window.scrollTo(0, 0);
+    SQ.scrollTop();
     SQ.app.markNav(path);
     main.focus({ preventScroll: true });
     if (typeof view.after === 'function') view.after();
@@ -92,10 +92,11 @@
   /* ---------- shell ---------- */
 
   const NAV = [
-    { path: '/play', label: 'Play', ico: 'play' },
-    { path: '/daily', label: 'Daily', ico: 'calendar' },
-    { path: '/guide', label: 'Guide', ico: 'book' },
-    { path: '/stats', label: 'Progress', short: 'Stats', ico: 'chart' },
+    { path: '/play', label: 'Play', ico: 'play', tab: true },
+    { path: '/herpdle', label: 'Herpdle', ico: 'grid', tab: true },
+    { path: '/daily', label: 'Daily', ico: 'calendar', tab: true },
+    { path: '/ranks', label: 'Ranks', ico: 'trophy', tab: true },
+    { path: '/guide', label: 'Guide', ico: 'book', tab: true },
     { path: '/safety', label: 'Safety', ico: 'shield' },
   ];
 
@@ -104,7 +105,7 @@
       SQ.$$('[data-nav]').forEach((a) => {
         const on = path === a.dataset.nav || (a.dataset.nav !== '/' && path.startsWith(a.dataset.nav + '/'))
           || (a.dataset.nav === '/guide' && (path === '/compare' || path === '/learn'))
-          || (a.dataset.nav === '/play' && path === '/results');
+          || (a.dataset.nav === '/play' && (path === '/results' || path === '/quiz'));
         a.classList.toggle('active', on);
         if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
       });
@@ -127,11 +128,13 @@
           h('span.brand-text', h('strong', 'SARPA'), h('small', 'Indian snake quiz'))),
         h('nav.nav', { 'aria-label': 'Main' }, NAV.map((n, i) => h('a.nav-key', { href: '#' + n.path, 'data-nav': n.path }, h('i.nav-n', String(i + 1).padStart(2, '0')), n.label))),
         h('div.header-tools',
+          h('a.icon-btn.safety-key', { href: '#/safety', 'data-nav': '/safety', 'aria-label': 'Snakebite safety' }, icon('shield', { size: 18 })),
+          SQ.account.headerButton(),
           h('button.theme-btn#theme-btn', { type: 'button', role: 'switch', onclick: SQ.theme.toggle },
             h('span.t-sun', icon('sun', { size: 18 })), h('span.t-moon', icon('moon', { size: 18 }))))));
 
       const tabbar = document.getElementById('tabbar');
-      NAV.forEach((t) => tabbar.appendChild(h('a.tab', { href: '#' + t.path, 'data-nav': t.path }, icon(t.ico, { size: 20 }), h('span', t.short || t.label))));
+      NAV.filter((t) => t.tab).forEach((t) => tabbar.appendChild(h('a.tab', { href: '#' + t.path, 'data-nav': t.path }, icon(t.ico, { size: 20 }), h('span', t.short || t.label))));
 
       const D = SQ.data;
       document.getElementById('site-footer').appendChild(h('div.wrap.footer-in',
@@ -141,7 +144,10 @@
             h('p', h('strong', 'Sarpa'), ' is a free educational snake-identification quiz. Photos are community observations from ', h('a', { href: 'https://www.inaturalist.org', target: '_blank', rel: 'noopener' }, 'iNaturalist'), ', used under their Creative Commons licences.')),
           h('div',
             h('p.legend.foot-title', 'Explore'),
-            h('div.foot-links', h('a', { href: '#/guide' }, 'Field guide'), h('a', { href: '#/compare' }, 'Compare two snakes'), h('a', { href: '#/learn' }, 'Flashcards'), h('a', { href: '#/about' }, 'About & data'), h('a', { href: '#/credits' }, 'Photo credits'))),
+            h('div.foot-links', h('a', { href: '#/guide' }, 'Field guide'), h('a', { href: '#/compare' }, 'Compare two snakes'), h('a', { href: '#/learn' }, 'Flashcards'), h('a', { href: '#/herpdle?mode=practice' }, 'Herpdle practice'), h('a', { href: '#/me' }, 'My progress'), h('a', { href: '#/about' }, 'About & data'), h('a', { href: '#/credits' }, 'Photo credits'))),
+          h('div',
+            h('p.legend.foot-title', 'Legal'),
+            h('div.foot-links', SQ.legalPages.map((p) => h('a', { href: '#/legal/' + p.key }, p.title)))),
           h('div.foot-warn', icon('warn', { size: 18 }),
             h('p', 'Never touch, corner or try to catch a wild snake. In a snakebite emergency go to a hospital at once. ', h('a', { href: '#/safety' }, 'Snakebite first aid')))),
         h('p.legend.foot-spec',
@@ -166,14 +172,19 @@
       add('/quiz', SQ.views.quiz);
       add('/results', SQ.views.results);
       add('/daily', SQ.views.daily);
+      add('/herpdle', SQ.views.herpdle);
+      add('/ranks', SQ.views.ranks);
       add('/guide', SQ.views.guide);
       add('/guide/:id', SQ.views.species);
       add('/compare', SQ.views.compare);
       add('/learn', SQ.views.learn);
       add('/safety', SQ.views.safety);
-      add('/stats', SQ.views.stats);
+      add('/me', SQ.views.stats);
+      add('/stats', () => { setTimeout(() => SQ.go('/me'), 0); return { node: h('div') }; });     // the old address
       add('/about', SQ.views.about);
       add('/credits', SQ.views.credits);
+      add('/legal', SQ.views.legal);
+      add('/legal/:page', SQ.views.legal);
 
       window.addEventListener('hashchange', render);
       if (window.matchMedia) {
@@ -183,6 +194,11 @@
       }
       render();
       app.registerServiceWorker();
+      // find out whether this site has accounts, then send any game that could not be saved earlier
+      SQ.api.status().then((state) => { if (state === 'ok') setTimeout(SQ.api.flush, 1500); });
+      window.addEventListener('sarpa-auth', () => {
+        if (location.hash.replace(/^#/, '').startsWith('/me') && !document.body.classList.contains('modal-open')) render();
+      });
     },
 
     registerServiceWorker() {

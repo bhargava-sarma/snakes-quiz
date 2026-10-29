@@ -1,6 +1,7 @@
 # Sarpa · Indian Snake Quiz
 
-A free photo quiz that teaches you to recognise the snakes of India, and **explains every answer**.
+A free photo quiz that teaches you to recognise the snakes of India, and **explains every answer**. Two games:
+**Sarpa**, the photo quiz, and **Herpdle**, a daily puzzle where you name a mystery snake from clues.
 
 <p align="center">
   <img src="docs/screens/home-desktop.jpg" alt="The Sarpa home page: a quiz screen preview, an LCD with the numbers and big keys to start a quiz" width="49%">
@@ -12,18 +13,24 @@ A free photo quiz that teaches you to recognise the snakes of India, and **expla
   <img src="docs/screens/results-phone.jpg" alt="The results page on a phone with a rotary-knob gauge" width="19%">
   <img src="docs/screens/quiz-desktop-dark.jpg" alt="The night-shift theme" width="39%">
 </p>
+<p align="center">
+  <img src="docs/screens/herpdle-desktop.jpg" alt="Herpdle on a laptop: a pixelated photo of the mystery snake and the clues" width="59%">
+  <img src="docs/screens/herpdle-phone.jpg" alt="Herpdle on a phone: two guesses with green and yellow comparison tiles" width="19%">
+  <img src="docs/screens/daily-phone.jpg" alt="The Daily page on a phone with both daily puzzles" width="19%">
+</p>
 
 You are shown a real photograph and four options. Whether you get it right or wrong, you then see
 *why the right snake is right* **and** *why each of the other options is not*, with the key visual
 differences and a side-by-side comparison.
 
-It is a plain static website (HTML, CSS and JavaScript, **no build step, no backend**), so it runs
-on any web host, on GitHub Pages, or straight from the folder on your computer.
+It is a plain static website (HTML, CSS and JavaScript, **no build step**) plus one small serverless function
+for accounts and leaderboards. Without the function (on GitHub Pages, any static host, or straight from the folder
+on your computer) everything still works, just without accounts and leaderboards.
 
 ## Features
 
-**The quiz**
-- 20, 50 or 100 questions, four options each
+**Sarpa, the photo quiz**
+- 20, 50 or 100 questions, four options each, or **Survival**: one mistake ends the run, and it gets harder as you go
 - Four difficulty levels: *Beginner* (famous snakes, look-alikes kept apart), *Intermediate*, *Expert*
   (most options are genuine look-alikes) and *All species*
 - Optional timer with bonus points for speed, hints (where the photo was taken, the snake's group and
@@ -36,15 +43,32 @@ on any web host, on GitHub Pages, or straight from the folder on your computer.
   grouped as one species or are never offered together
 - Keyboard shortcuts (`1`–`4` or `A`–`D` to answer, `Enter` for next, `H` for a hint), works on phones
 
+**Herpdle, the daily snake puzzle**
+- One mystery snake a day, the same for everyone, and six goes to name it
+- Six clues, one more after every guess (where it lives, venom, habits, looks, a tell-tale sign, a last clue); words
+  that would give the name away are blacked out
+- Every guess shows six tiles that say how close you are: family, venom, size, lifestyle, pattern and region of India
+  (green = same, yellow = close, arrows for bigger/smaller and more/less venomous)
+- A pixelated photo of the snake sharpens with every guess; a shareable result grid; practice mode with three levels
+
+**Accounts and leaderboards**
+- Make an account with just a **username and a 6-digit PIN** (no e-mail, no password rules, nothing else)
+- Accounts are for the two games only (`requireAccountForGames` in [`js/config.js`](js/config.js)); the field guide,
+  flashcards, safety pages and everything else never ask for one
+- **Daily, weekly and all-time leaderboards** for the Sarpa daily challenge, Herpdle and quiz points, with your own
+  place shown even when you are not in the top list; streaks and statistics on your profile
+- Change your PIN, sign out everywhere, or delete the account and every score at any time
+
 **Everything else**
-- **Daily challenge**: ten new questions every day, identical for everyone, with a streak and a shareable result
-- **Field guide** of every species: identification tips, size, habitat, range, look-alikes, photo gallery with credits, where in India it was photographed
+- **Daily** page with both daily puzzles (new every midnight, India time), streaks and the last two weeks at a glance
+- **Field guide** of all 162 species: identification tips, size, habitat, range, look-alikes, photo gallery with credits, where in India it was photographed
 - **Compare tool**: pick any two snakes and see how they differ
 - **Flashcards** for relaxed studying
 - **Region filter**: quiz yourself on the snakes recorded in your own state
 - **My progress**: stats, a snake-dex of species you have mastered, weak-spot practice, badges, and a backup/restore file
 - **Snakebite first aid** (the national "Do it R.I.G.H.T." guidance), the "Big Four", and myths vs facts
-- Dark mode, installable as an app, works offline after the first visit, no accounts and no tracking
+- **Legal** pages: terms of use, privacy policy, safety disclaimer, photo licences and how to ask for a photo to be removed
+- Dark mode, installable as an app, works offline after the first visit, no ads, no cookies and no tracking
 
 ## Design
 
@@ -61,19 +85,47 @@ across the home-page LCD, and the skin pattern, the diamond bullets and the serp
 
 ## Run it
 
-Open `index.html` in a browser. Because there is no build step, you can also serve the folder:
-
 ```bash
-python3 -m http.server 8000      # then open http://localhost:8000
+node scripts/dev-server.js 8000           # website + accounts API with a temporary in-memory database
+node scripts/dev-server.js 8000 --no-api  # website only, like a static host (guest play, no leaderboards)
 ```
 
-### Put it online (GitHub Pages)
+Then open http://localhost:8000. No packages are needed (Node 18 or newer). `python3 -m http.server` also works
+for the website alone.
+
+### Put it online (Vercel, with accounts and leaderboards)
+
+1. Import the repository in Vercel (no framework, no build command; the defaults are right). The website is served as
+   static files and `api/sarpa.js` becomes the accounts API.
+2. In the Vercel project open **Storage → Create Database → Upstash for Redis**, pick the free plan and connect it to
+   the project (keep the suggested environment-variable prefix).
+3. Recommended, **before anyone signs up**: in **Settings → Environment Variables** add `PIN_PEPPER` with a long
+   random value (for example the output of `openssl rand -hex 32`). Never change it later, or every PIN stops
+   working. Optional: `IP_SALT` (another random value) and `ADMIN_TOKEN` (16+ characters, to remove an abusive
+   username with the `admin-delete` action).
+4. Redeploy. `https://<your-site>/api/sarpa?action=health` should now say `"accounts": true`.
+5. Optional: put the operator's name and contact e-mail in [`js/config.js`](js/config.js); the legal pages use them.
+
+Without step 2 the site still works: the games are played as a guest and are not ranked.
+
+### Put it online (GitHub Pages or any static host, without accounts)
 
 1. In the repository go to **Settings → Pages → Build and deployment → Source** and choose **GitHub Actions**.
 2. Merge to `main`. The workflow in `.github/workflows/pages.yml` publishes the site automatically.
 
 Any other static host (Netlify, Cloudflare Pages, an S3 bucket, your own server) works as well: upload
 `index.html`, `sw.js`, `manifest.webmanifest`, `css/`, `js/`, `data/*.js`, `assets/` and `images/`.
+
+### How the accounts work
+
+- A PIN is never stored: the server keeps a salted scrypt hash. Sessions are random tokens, stored only as hashes,
+  and end after 180 days without use. Wrong PINs and sign-ups are rate-limited per account and per (hashed) address.
+- Scores are worked out by the server from the answers, not taken from the browser. The daily puzzles come from the
+  server's schedule (`server/generated/data.json`, made by `scripts/dataset/10_server_data.js` with the website's
+  own code), each account can play each daily once, and impossible timings are refused. As in any browser game,
+  a determined cheat can still read the answers from the website's code, so the boards are for fun.
+- The database holds usernames, PIN hashes, game results and leaderboard entries; old results expire (see the
+  privacy page). There are no cookies, ads or analytics.
 
 ## The photo data set
 
@@ -125,13 +177,17 @@ To add or fix a species, edit the JSON and run `scripts/dataset/09_build_data.py
 
 ## Quality checks
 
-With the site served on port 8765 (`python3 -m http.server 8765`) and Playwright installed:
+With the site served on port 8765 (`node scripts/dev-server.js 8765`, add `--no-api` to test guest play) and
+Playwright installed:
 
 ```bash
+node scripts/qa/api_test.js       # the accounts API against an in-memory database: sign-up, PINs, sessions, rate limits,
+                                  # daily puzzles, scoring, anti-cheat checks, leaderboards, deleting an account
 node scripts/qa/engine_check.js   # 4,500+ generated questions: 4 unique options, right answer, no look-alike clashes, balance...
 node scripts/qa/smoke.js          # every page and species page: no stray "null"/"undefined", no errors, no broken photos
-node scripts/qa/e2e.js            # 40-step run-through: timer, hints, wrong/right explanations, reload-and-resume, results,
-                                  # daily challenge parity between two players, region filter, reporting a photo, phone layout
+node scripts/qa/e2e.js            # 50-step run-through: account sign-up, timer, hints, explanations, reload-and-resume,
+                                  # results, daily parity between two players, region filter, reporting a photo, phone
+                                  # layout, Herpdle
 node scripts/qa/layout.js         # design checks on every page at phone, tablet, laptop and ultrawide sizes, light and dark:
                                   # nothing overflows or is clipped, tap targets, WCAG contrast, broken images, tab bar overlap
                                   # (--quick for fewer sizes, --shots <dir> to save screenshots)
@@ -144,15 +200,21 @@ node scripts/qa/a11y.js           # axe-core accessibility scan of every page (W
 index.html  sw.js  manifest.webmanifest
 css/                                styling: fonts.css, tokens.css (colours, type, space; light + dark),
                                     base.css (page frame, header, tab bar), components.css (keys, LCD, panels ...),
-                                    views.css (every screen)
-js/                                 the app: engine (question building), explain (why-not logic), quiz, guide, results ...
+                                    views.css (every screen), games.css (Herpdle, accounts, leaderboards)
+js/                                 the app: engine (question building), explain (why-not logic), quiz, guide, results,
+                                    herpdle-core + herpdle (the clue game), api + account (accounts), ranks, legal ...
+js/config.js                        site settings: API address, accounts on/off, who runs the site (for the legal pages)
+api/sarpa.js                        the Vercel serverless function (accounts and leaderboards); its code is in server/
+server/                             the API: app (actions), auth (PINs, sessions), games (scoring, boards), store (Upstash)
+server/generated/data.json          species, photos and the daily puzzles the server checks against (generated)
 data/kb/*.json                      the species knowledge base (hand-written)
 data/species.js  data/photos.js     generated for the app by scripts/dataset/09_build_data.py
 data/catalog.csv                    every photo with species, state, photographer, licence and source link
 images/<species>/<photo-id>.avif    the photos (800 px, AVIF) and images/thumbs/ for the cover pictures
 assets/                             app icons (drawn by scripts/assets/make-icons.js) and the bundled fonts
-scripts/dataset/                    the data-set pipeline (iNaturalist open data -> photos)
-scripts/qa/                         browser-based tests
+scripts/dataset/                    the data-set pipeline (iNaturalist open data -> photos -> server schedule)
+scripts/dev-server.js               a local server for the website and the API
+scripts/qa/                         API and browser-based tests
 ```
 
 ## Safety

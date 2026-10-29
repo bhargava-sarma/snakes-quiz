@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 /* End-to-end tests of the real user flows, in a real browser.
- *   node scripts/qa/e2e.js [baseUrl]      (serve the repo first: python3 -m http.server 8765)
+ *   node scripts/qa/e2e.js [baseUrl]
+ * Serve the repo first. With accounts (games ask for an account first):  node scripts/dev-server.js 8765
+ * Without accounts, like a plain static host:  node scripts/dev-server.js 8765 --no-api  (or python3 -m http.server 8765)
  */
 const { chromium, devices } = require('playwright');
 const base = (process.argv[2] || 'http://localhost:8765/index.html').replace(/#.*$/, '');
@@ -9,6 +11,22 @@ let failures = 0;
 const check = (ok, msg) => { console.log(`${ok ? '  ok ' : ' FAIL'} ${msg}`); if (!ok) failures++; };
 
 const session = (page) => page.evaluate(() => JSON.parse(localStorage.getItem('sarpa.v1.session') || 'null'));
+
+let accounts = 0;
+/** After a game is started: in accounts mode the site asks for an account first, so make one; then wait for the game. */
+async function startGame(page, ready = '.option') {
+  await page.locator(`${ready}, .modal.acct`).first().waitFor({ timeout: 15000 });
+  if (await page.locator('.modal.acct').count()) {
+    accounts++;
+    await page.click('.acct-tabs .seg-btn >> text=Create account');
+    await page.fill('#acct-name', `e2e_${Date.now() % 100000}_${accounts}`);
+    await page.fill('#acct-pin', '305817');
+    await page.fill('#acct-pin2', '305817');
+    await page.check('#acct-agree');
+    await page.click('.acct-fields button[type=submit]');
+  }
+  await page.waitForSelector(ready);
+}
 
 async function answer(page, which) {
   // which: 'right' | 'wrong' | number
@@ -35,7 +53,8 @@ async function answer(page, which) {
   await page.click('.seg-btn:has-text("20")');
   await page.click('.level:has-text("Beginner")');
   await page.click('button:has-text("Start quiz")');
-  await page.waitForSelector('.option');
+  await startGame(page);
+  console.log(`  (${accounts ? 'accounts on: signed up first' : 'accounts off: guest play'})`);
   check(await page.isVisible('.timer'), 'timer is shown when a timer is chosen');
   check((await page.locator('.option').count()) === 4, 'four answer options');
   await page.keyboard.press('h');
@@ -163,8 +182,8 @@ async function answer(page, which) {
     const c = await browser.newContext({ viewport: { width: 1000, height: 800 } });
     const p = await c.newPage();
     await p.goto(`${base}#/daily`, { waitUntil: 'load' });
-    await p.click('button:has-text("Start today")');
-    await p.waitForSelector('.option');
+    await p.click('button:has-text("Start the challenge")');
+    await startGame(p);
     const s = await session(p);
     firstPhotos.push(s.questions.map((q) => q.photo + ':' + q.options.join(',')).join('|'));
     check(s.questions.length === 10, 'the daily challenge has 10 questions');
@@ -175,8 +194,8 @@ async function answer(page, which) {
     }
     await p.waitForSelector('.result-hero');
     await p.goto(`${base}#/daily`);
-    await p.waitForSelector('.daily-done');
-    check(await p.isVisible('.daily-done'), 'after playing, the daily page shows the finished state');
+    await p.waitForSelector('.daily-card.is-done');
+    check(await p.isVisible('.daily-card.is-done'), 'after playing, the daily page shows the finished state');
     const grid = await p.locator('.emoji-grid .cell').count();
     check(grid === 10, 'the result grid has 10 cells');
     await c.close();
@@ -190,7 +209,7 @@ async function answer(page, which) {
   await page.goto(`${base}#/play`, { waitUntil: 'load' });
   await page.waitForSelector('.level');
   await page.click('button:has-text("Start quiz")');
-  await page.waitForSelector('.option');
+  await startGame(page);
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
   check(!overflow, 'no horizontal scrolling on a phone');
   const btnH = await page.locator('.option').first().evaluate((el) => el.getBoundingClientRect().height);
@@ -211,7 +230,7 @@ async function answer(page, which) {
   await page.goto(`${base}#/`, { waitUntil: 'load' });
   await page.waitForSelector('.hero');
   check(await page.isVisible('.nav') && !(await page.isVisible('.tabbar')), 'wide screens show the key row in the header and no bottom bar');
-  check((await page.locator('.nav a').count()) === 5, 'five main sections in the navigation');
+  check((await page.locator('.nav a').count()) === 6, 'six main sections in the navigation');
   const themeBefore = await page.evaluate(() => document.documentElement.getAttribute('data-theme'));
   await page.click('#theme-btn');
   const themeAfter = await page.evaluate(() => document.documentElement.getAttribute('data-theme'));
@@ -226,9 +245,11 @@ async function answer(page, which) {
   await page.waitForSelector('.level');
   await page.click('.seg-btn:has-text("20")');
   await page.click('button:has-text("Start quiz")');
-  await page.waitForSelector('.option');
+  await startGame(page);
   check((await page.locator('.steps i').count()) === 20, 'the progress bar has one segment per question');
   check(await page.locator('.steps i.now').count() === 1, 'the current question is marked on the progress bar');
+  // the height is measured by a ResizeObserver, which reports a frame or two after the quiz appears
+  await page.waitForFunction(() => parseFloat(getComputedStyle(document.querySelector('.quiz')).getPropertyValue('--bar-h')) === document.querySelector('.quiz-bar').offsetHeight, null, { timeout: 2000 }).catch(() => {});
   const barH = await page.evaluate(() => parseFloat(getComputedStyle(document.querySelector('.quiz')).getPropertyValue('--bar-h')));
   const realH = await page.evaluate(() => document.querySelector('.quiz-bar').offsetHeight);
   check(Math.abs(barH - realH) <= 1, `the sticky bar height is measured (${barH}px vs ${realH}px)`);
@@ -243,6 +264,41 @@ async function answer(page, which) {
   check(await page.locator('.steps i.bad').count() === 1, 'a wrong answer turns its segment red');
   const photoBox = await page.locator('.viewport').boundingBox();
   check(photoBox.y + photoBox.height <= 900 + 1, `on a laptop screen the whole photo fits without scrolling (${Math.round(photoBox.height)}px tall)`);
+  await ctx.close();
+
+  /* ---------- 10. Herpdle practice ---------- */
+  console.log('\n[10] Herpdle');
+  ctx = await browser.newContext({ ...devices['Pixel 7'] });
+  page = await ctx.newPage();
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto(`${base}#/herpdle?mode=practice`, { waitUntil: 'load' });
+  await page.waitForSelector('.hd-intro');
+  await page.waitForTimeout(700);
+  if (await page.locator('.modal').count()) await page.keyboard.press('Escape');      // how to play, on the first visit
+  await page.waitForSelector('.modal', { state: 'detached' }).catch(() => {});
+  await page.click('button:has-text("Start a practice game")');
+  await startGame(page, '#hd-input');
+  const hd = await page.evaluate(() => {
+    const st = SQ.herpdleState.load();
+    const g = st.practice;
+    return { sp: g.sp, wrong: SQ.data.species.find((s) => s.id !== g.sp && s.tier <= 2).name, right: SQ.data.byId[g.sp].name };
+  });
+  check(!!hd.sp, 'a practice game picks a mystery snake');
+  check((await page.locator('.hd-clue:not(.locked)').count()) === 1, 'only the first clue is shown at the start');
+  await page.fill('#hd-input', hd.wrong.slice(0, 5));
+  await page.waitForSelector('.hd-list:not([hidden]) .hd-opt');
+  check((await page.locator('.hd-list .hd-opt').count()) >= 1, 'typing suggests matching species');
+  await page.fill('#hd-input', hd.wrong);
+  await page.click('.hd-go');
+  await page.waitForSelector('.hd-row .hd-tile');
+  check((await page.locator('.hd-row').first().locator('.hd-tile').count()) === 6, 'a guess shows six comparison tiles');
+  check((await page.locator('.hd-clue:not(.locked)').count()) === 2, 'a wrong guess reveals the next clue');
+  await page.fill('#hd-input', hd.right);
+  await page.click('.hd-go');
+  await page.waitForSelector('.hd-result');
+  check(/Solved in 2/i.test(await page.locator('.hd-result').innerText()), 'the right guess ends the game: solved in 2');
+  const hOverflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
+  check(!hOverflow, 'no horizontal scrolling in Herpdle on a phone');
   await ctx.close();
 
   check(errors.length === 0, `no uncaught JavaScript errors${errors.length ? ': ' + errors[0] : ''}`);

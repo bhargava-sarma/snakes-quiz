@@ -2,17 +2,18 @@
  *  - the app shell and data files: network first, falling back to the cache
  *  - photos: cache first (they never change), keeping the most recent ones
  */
-const VERSION = 'sarpa-v2';
+const VERSION = 'sarpa-v3';
 const IMG_CACHE = VERSION + '-img';
 const MAX_IMAGES = 700;
 
 const SHELL = [
   './', 'index.html', 'manifest.webmanifest',
-  'css/fonts.css', 'css/tokens.css', 'css/base.css', 'css/components.css', 'css/views.css',
+  'css/fonts.css', 'css/tokens.css', 'css/base.css', 'css/components.css', 'css/views.css', 'css/games.css',
   'assets/fonts/geist-latin-wght-normal.woff2', 'assets/fonts/geist-mono-latin-wght-normal.woff2', 'assets/fonts/doto-latin-full-normal.woff2',
   'data/species.js', 'data/photos.js',
-  'js/util.js', 'js/store.js', 'js/data.js', 'js/explain.js', 'js/engine.js', 'js/ui.js', 'js/explainpanel.js',
-  'js/badges.js', 'js/quiz.js', 'js/views-main.js', 'js/results.js', 'js/guide.js', 'js/extras.js', 'js/pages.js', 'js/app.js',
+  'js/config.js', 'js/util.js', 'js/store.js', 'js/data.js', 'js/explain.js', 'js/engine.js', 'js/herpdle-core.js', 'js/ui.js',
+  'js/api.js', 'js/account.js', 'js/explainpanel.js', 'js/badges.js', 'js/quiz.js', 'js/views-main.js', 'js/results.js',
+  'js/herpdle.js', 'js/ranks.js', 'js/guide.js', 'js/extras.js', 'js/pages.js', 'js/legal.js', 'js/app.js',
   'assets/icon.svg', 'assets/icon-192.png',
 ];
 
@@ -42,6 +43,7 @@ self.addEventListener('fetch', (event) => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;   // leave third-party requests alone
+  if (url.pathname.includes('/api/')) return;         // accounts and leaderboards: always live, never cached
 
   if (url.pathname.includes('/images/')) {
     event.respondWith(

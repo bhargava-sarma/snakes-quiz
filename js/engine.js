@@ -103,7 +103,7 @@
       const clear = photos.filter((p) => !p.hard);
       if (clear.length >= 3 || (clear.length && opts.difficulty === 'beginner')) photos = clear;
     }
-    const fresh = photos.filter((p) => !used.has(p.id));
+    const fresh = photos.filter((p) => !used.has(p.id) && !(opts.exclude && opts.exclude.has(p.id)));
     if (fresh.length) photos = fresh;
     if (opts.preferUnseen && opts.personalise !== false) {
       const seen = SQ.store.seenMap();
@@ -186,6 +186,34 @@
         used.add(photo.id);
         const options = SQ.shuffle([sp, ...pickDistractors(sp, pool, rnd, opts)], rnd).map((s) => s.id);
         return { n: i + 1, photo: photo.id, species: sp.id, options, answer: options.indexOf(sp.id) };
+      });
+      return { seed, questions };
+    },
+
+    /**
+     * A day's daily challenge: the same ten questions for everyone. The server's schedule of daily puzzles is made
+     * with this function too (scripts/dataset/10_server_data.js), so keep it free of anything personal.
+     */
+    dailySet(day) {
+      return engine.build({
+        mode: 'daily', count: 10, difficulty: 'intermediate', region: 'all', timer: 0, hints: true,
+        preferUnseen: false, personalise: false, seed: SQ.hashSeed(`sarpa-daily-${day}-${SQ.data.meta.version || 1}`),
+      });
+    },
+
+    /** Survival: one long run that gets harder as it goes (famous snakes first, then look-alikes). */
+    SURVIVAL: { timer: 30, plan: [['beginner', 10], ['intermediate', 20], ['expert', 70]] },
+    buildSurvival(opts = {}) {
+      const seed = opts.seed != null ? opts.seed : SQ.randomSeed();
+      const used = new Set();
+      const questions = [];
+      engine.SURVIVAL.plan.forEach(([difficulty, count], k) => {
+        const part = engine.build(Object.assign({}, opts, { mode: 'sudden', difficulty, count, region: 'all', seed: (seed + 7919 * k) >>> 0, exclude: used }));
+        part.questions.forEach((q) => {
+          if (used.has(q.photo)) return;      // every photo at most once in a run
+          used.add(q.photo);
+          questions.push(Object.assign(q, { n: questions.length + 1 }));
+        });
       });
       return { seed, questions };
     },

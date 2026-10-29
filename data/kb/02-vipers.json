@@ -757,5 +757,140 @@
       "pit-viper",
       "viper-like"
     ]
+  },
+  {
+    "id": "craspedocephalus-peltopelor",
+    "sci": "Craspedocephalus peltopelor",
+    "name": "Southern Large-scaled Pit Viper",
+    "aka": [
+      "Agasthyamalai Pit Viper"
+    ],
+    "family": "Viperidae",
+    "kind": "Pit viper",
+    "tier": 5,
+    "venom": "venomous",
+    "len": "50-75 cm",
+    "habitat": "Montane evergreen forest, shola and forest edges, on shrubs, bamboo and low branches",
+    "range": "Agasthyamalai hills of the southern Western Ghats (Kerala and Tamil Nadu), south of the Shencottah Gap",
+    "diet": "Frogs, lizards and small mammals",
+    "active": "Nocturnal",
+    "ids": [
+      "A bright green pit viper with large, coarse body scales, very like the Large-scaled Pit Viper of the hills further north.",
+      "Triangular head, a heat-sensing pit between the eye and the nostril, and vertical pupils.",
+      "Named in 2021 for the large-scaled pit vipers of the Agasthyamalai hills. Venomous."
+    ],
+    "look": {
+      "colour": "Bright green",
+      "pattern": "Plain",
+      "head": "Triangular head with large scales",
+      "body": "Medium build with coarse, keeled scales"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "plain",
+      "build": "medium",
+      "size": 2,
+      "habit": "arboreal",
+      "hue": [
+        "green"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical"
+    },
+    "grp": [
+      "pit-viper",
+      "green-arboreal"
+    ]
+  },
+  {
+    "id": "ovophis-zayuensis",
+    "sci": "Ovophis zayuensis",
+    "name": "Zayu Mountain Pit Viper",
+    "family": "Viperidae",
+    "kind": "Pit viper",
+    "tier": 5,
+    "venom": "venomous",
+    "len": "50-70 cm",
+    "habitat": "Montane forest, forest edges and stream banks",
+    "range": "Arunachal Pradesh (first formally reported from India in 2024, from the Dibang Valley) and the neighbouring parts of Tibet and Yunnan in China",
+    "diet": "Small mammals, frogs and lizards",
+    "active": "Nocturnal",
+    "ids": [
+      "A stout, brown or pinkish-brown pit viper with dark brown blotches along the back and sides.",
+      "A short triangular head with a heat-sensing pit, vertical pupils and a plain pale belly.",
+      "Very like the Mountain Pit Viper. Venomous."
+    ],
+    "look": {
+      "colour": "Brown or pinkish-brown",
+      "pattern": "Dark brown blotches",
+      "head": "Short triangular head",
+      "body": "Stout, keeled scales"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "build": "stout",
+      "size": 2,
+      "habit": "terrestrial",
+      "hue": [
+        "brown",
+        "pink"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical"
+    },
+    "grp": [
+      "pit-viper",
+      "viper-like"
+    ]
+  },
+  {
+    "id": "protobothrops-mucrosquamatus",
+    "sci": "Protobothrops mucrosquamatus",
+    "name": "Brown-spotted Pit Viper",
+    "aka": [
+      "Taiwan Habu"
+    ],
+    "family": "Viperidae",
+    "kind": "Pit viper",
+    "tier": 4,
+    "venom": "venomous",
+    "len": "0.8-1.2 m",
+    "habitat": "Hill forest, bamboo, farmland and streamsides, at about 500-2,500 m",
+    "range": "North-east India (Arunachal Pradesh, Mizoram, Nagaland and Assam), and on to southern China, Taiwan and Vietnam",
+    "diet": "Small mammals, birds, frogs and lizards",
+    "active": "Nocturnal",
+    "ids": [
+      "A long, slim pit viper, greyish-brown to olive-brown, with a row of large dark-brown blotches along the back, often edged with paler scales.",
+      "A long, lance-shaped head covered in small scales, a heat-sensing pit and vertical pupils.",
+      "Venomous and medically important where it is common (for example in Taiwan). Treat any bite as an emergency."
+    ],
+    "look": {
+      "colour": "Greyish- to olive-brown",
+      "pattern": "Large dark-brown blotches along the back",
+      "head": "Long, lance-shaped head",
+      "body": "Long and slim for a viper"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "build": "medium",
+      "size": 3,
+      "habit": "terrestrial",
+      "hue": [
+        "brown",
+        "grey",
+        "olive"
+      ],
+      "scales": "keeled",
+      "pupil": "vertical"
+    },
+    "grp": [
+      "pit-viper",
+      "viper-like"
+    ]
   }
 ]

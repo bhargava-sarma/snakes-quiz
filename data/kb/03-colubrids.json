@@ -1915,15 +1915,19 @@
   },
   {
     "id": "sahyadriophis-beddomei",
-    "sci": "Sahyadriophis beddomei",
+    "sci": "Sahyadriophis beddomei complex",
     "name": "Beddome's Keelback",
+    "inat": [
+      "Sahyadriophis beddomei",
+      "Sahyadriophis uttaraghati"
+    ],
     "family": "Colubridae",
     "kind": "Keelback",
     "tier": 3,
     "venom": "none",
     "len": "40-70 cm",
     "habitat": "Moist forest floor, stream edges, rocks and plantations in the hills, hunting amphibians in leaf litter",
-    "range": "Southern Western Ghats of Karnataka, Kerala and Tamil Nadu (close relatives live in the northern Western Ghats)",
+    "range": "Western Ghats from Maharashtra and Goa to Karnataka, Kerala and Tamil Nadu. The northern populations (Maharashtra, Goa and northern Karnataka) are now treated as a separate, look-alike species, Sahyadriophis uttaraghati, and are shown here together with Beddome's Keelback",
     "diet": "Frogs, tadpoles and small fish",
     "active": "By day",
     "ids": [
@@ -2669,5 +2673,1223 @@
     "local": {
       "bn": "ঢোড়া (Dhora)"
     }
+  },
+  {
+    "id": "ahaetulla-perroteti",
+    "sci": "Ahaetulla perroteti",
+    "name": "Perrotet's Vine Snake",
+    "aka": [
+      "Bronze-headed Vine Snake",
+      "Western Ghats Bronzeback"
+    ],
+    "family": "Colubridae",
+    "kind": "Vine snake",
+    "tier": 4,
+    "venom": "mild",
+    "len": "50-60 cm",
+    "habitat": "Open montane grassland above the forest line; basks in the sun and rarely climbs trees",
+    "range": "High ranges of the Western Ghats in Tamil Nadu and Kerala, such as the Nilgiri hills",
+    "diet": "Lizards and frogs",
+    "active": "By day",
+    "ids": [
+      "A short, slim vine snake of the high hills: males are bright green above and paler yellowish-green below, while females are duller brownish-grey.",
+      "Unlike the Green Vine Snake, its snout is short and blunt, without the long pointed tip; the eyes have horizontal pupils.",
+      "Lives on the ground among grass tussocks. Mildly venomous (rear-fanged) but harmless to people."
+    ],
+    "look": {
+      "colour": "Bright green (males) or brownish-grey (females)",
+      "pattern": "Plain",
+      "head": "Narrow head with a short, blunt snout",
+      "body": "Slim and smooth"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "plain",
+      "build": "slender",
+      "size": 2,
+      "habit": "terrestrial",
+      "snout": "blunt",
+      "hue": [
+        "green",
+        "brown",
+        "grey"
+      ],
+      "pupil": "keyhole"
+    },
+    "grp": [
+      "vine-snake",
+      "green-arboreal"
+    ],
+    "fact": "Unlike other vine snakes it is a grassland specialist of the high Western Ghats that rarely, if ever, climbs trees."
+  },
+  {
+    "id": "archelaphe-bella",
+    "sci": "Archelaphe bella",
+    "name": "Bella Rat Snake",
+    "aka": [
+      "Beautiful Rat Snake"
+    ],
+    "family": "Colubridae",
+    "kind": "Rat snake",
+    "tier": 5,
+    "venom": "none",
+    "len": "60-80 cm",
+    "habitat": "Montane forest and forest edges",
+    "range": "North-east India (Arunachal Pradesh, Assam, Nagaland, Manipur), Myanmar, southern China and Vietnam",
+    "diet": "Little known; probably small rodents and lizards",
+    "active": "Poorly known",
+    "ids": [
+      "A smallish rat snake patterned like a corn snake: reddish-brown to grey-brown with large, dark-edged reddish or brown blotches down the back.",
+      "A narrow head slightly wider than the neck and smooth scales.",
+      "A rare mountain snake of the north-east; harmless."
+    ],
+    "look": {
+      "colour": "Reddish-brown to grey-brown",
+      "pattern": "Large dark-edged blotches down the back",
+      "head": "Narrow head",
+      "body": "Slim and smooth"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "blotched",
+      "build": "slender",
+      "size": 2,
+      "habit": "terrestrial",
+      "hue": [
+        "red",
+        "brown",
+        "grey"
+      ]
+    },
+    "grp": [
+      "rat-snake"
+    ]
+  },
+  {
+    "id": "boiga-andamanensis",
+    "sci": "Boiga andamanensis",
+    "name": "Andaman Cat Snake",
+    "family": "Colubridae",
+    "kind": "Cat snake",
+    "tier": 4,
+    "venom": "mild",
+    "len": "0.8-1.2 m, up to about 1.5 m",
+    "habitat": "Forest and plantations; climbs trees and often hides in thatched roofs",
+    "range": "Endemic to the Andaman Islands",
+    "diet": "Lizards, birds and their eggs, and small mammals",
+    "active": "Nocturnal",
+    "ids": [
+      "A long, slim cat snake that is tan or pale reddish- to greyish-brown, either plain or with faint dark spots or thin cross-lines; some are bright reddish.",
+      "A broad head clearly wider than the thin neck, and big eyes with vertical pupils.",
+      "Mildly venomous (rear-fanged) but harmless to people."
+    ],
+    "look": {
+      "colour": "Tan, pale reddish- or greyish-brown",
+      "pattern": "Plain or with faint dark spots and thin cross-lines",
+      "head": "Broad head, big eyes with vertical pupils",
+      "body": "Long, slim and slightly flattened"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "plain",
+      "build": "slender",
+      "size": 3,
+      "habit": "arboreal",
+      "pupil": "vertical",
+      "hue": [
+        "tan",
+        "brown",
+        "red"
+      ]
+    },
+    "grp": [
+      "cat-snake"
+    ]
+  },
+  {
+    "id": "boiga-dightoni",
+    "sci": "Boiga dightoni",
+    "name": "Dighton's Cat Snake",
+    "aka": [
+      "Travancore Cat Snake",
+      "Pirmad Cat Snake"
+    ],
+    "family": "Colubridae",
+    "kind": "Cat snake",
+    "tier": 5,
+    "venom": "mild",
+    "len": "Roughly 1 m",
+    "habitat": "Evergreen and moist forest in the hills, in trees and shrubs",
+    "range": "Southern Western Ghats of Kerala and western Tamil Nadu (Ponmudi, Peermade, Anamalai and Palani hills)",
+    "diet": "Mainly lizards",
+    "active": "Nocturnal",
+    "ids": [
+      "A slender cat snake that is pinkish, salmon or reddish-brown with darker, irregular blotches or cross-bars along the back; the colour varies between individuals.",
+      "A broad head clearly wider than the neck, and large eyes with vertical pupils.",
+      "A little-known endemic of the southern Western Ghats. Mildly venomous but harmless to people."
+    ],
+    "look": {
+      "colour": "Pinkish, salmon or reddish-brown",
+      "pattern": "Darker irregular blotches or cross-bars",
+      "head": "Broad head, large eyes with vertical pupils",
+      "body": "Slim and slightly flattened"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "build": "slender",
+      "size": 3,
+      "habit": "arboreal",
+      "pupil": "vertical",
+      "hue": [
+        "pink",
+        "red",
+        "brown"
+      ]
+    },
+    "grp": [
+      "cat-snake"
+    ]
+  },
+  {
+    "id": "boiga-quincunciata",
+    "sci": "Boiga quincunciata",
+    "name": "Assamese Cat Snake",
+    "family": "Colubridae",
+    "kind": "Cat snake",
+    "tier": 5,
+    "venom": "mild",
+    "len": "Roughly 1 m",
+    "habitat": "Mixed deciduous and evergreen forest; lives in trees",
+    "range": "North-east India (Assam, Arunachal Pradesh, Mizoram, Manipur, Nagaland) and northern West Bengal; also Bhutan and Myanmar",
+    "diet": "Lizards, frogs and small birds",
+    "active": "Nocturnal",
+    "ids": [
+      "A slender cat snake that is yellowish or greyish-brown, finely speckled with dark brown, with a row of dark, pale-edged spots along the middle of the back.",
+      "A broad head clearly wider than the neck, and large eyes with vertical pupils.",
+      "Mildly venomous (rear-fanged) but harmless to people."
+    ],
+    "look": {
+      "colour": "Yellowish or greyish-brown with dark speckles",
+      "pattern": "A row of dark, pale-edged spots down the back",
+      "head": "Broad head, large eyes with vertical pupils",
+      "body": "Slim and slightly flattened"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "spotted",
+      "build": "slender",
+      "size": 3,
+      "habit": "arboreal",
+      "pupil": "vertical",
+      "hue": [
+        "brown",
+        "grey",
+        "yellow"
+      ]
+    },
+    "grp": [
+      "cat-snake"
+    ]
+  },
+  {
+    "id": "boiga-wallachi",
+    "sci": "Boiga wallachi",
+    "name": "Nicobar Cat Snake",
+    "aka": [
+      "Wallach's Cat Snake"
+    ],
+    "family": "Colubridae",
+    "kind": "Cat snake",
+    "tier": 5,
+    "venom": "mild",
+    "len": "About 1-1.3 m",
+    "habitat": "Undisturbed tropical moist forest",
+    "range": "Endemic to Great Nicobar and Little Nicobar",
+    "diet": "Little known; probably lizards, frogs and small mammals",
+    "active": "Nocturnal",
+    "ids": [
+      "A medium-sized cat snake known only from the Nicobar Islands: yellowish to olive, often darker on the back, with a yellow chin and belly.",
+      "A broad head clearly wider than the neck, a fairly long snout and big eyes with vertical pupils.",
+      "Mildly venomous (rear-fanged) but harmless to people."
+    ],
+    "look": {
+      "colour": "Yellowish to olive, with a yellow chin and belly",
+      "pattern": "Mostly plain",
+      "head": "Broad head, big eyes with vertical pupils",
+      "body": "Long and slim"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "plain",
+      "build": "slender",
+      "size": 3,
+      "habit": "semi-arboreal",
+      "pupil": "vertical",
+      "hue": [
+        "yellow",
+        "olive"
+      ]
+    },
+    "grp": [
+      "cat-snake"
+    ]
+  },
+  {
+    "id": "chrysopelea-taprobanica",
+    "sci": "Chrysopelea taprobanica",
+    "name": "Sri Lankan Flying Snake",
+    "aka": [
+      "Sri Lankan Golden Tree Snake"
+    ],
+    "family": "Colubridae",
+    "kind": "Flying snake",
+    "tier": 4,
+    "venom": "mild",
+    "len": "About 1 m",
+    "habitat": "Dry deciduous forest, scrub and rocky hills; climbs trees and walls",
+    "range": "Eastern Ghats of Andhra Pradesh and Tamil Nadu (such as the Seshachalam hills), and Sri Lanka",
+    "diet": "Lizards (especially geckos), small birds and frogs",
+    "active": "By day",
+    "ids": [
+      "A slim tree snake with bold black cross-bands on a pale yellowish, greenish or light brown background, often with reddish spots along the middle of the back.",
+      "A flat head with black bars across the crown, and large eyes with round pupils.",
+      "Glides between trees by flattening its body, like the Golden Flying Snake. Mildly venomous but harmless to people; first confirmed in India in 2013."
+    ],
+    "look": {
+      "colour": "Pale yellowish, greenish or light brown",
+      "pattern": "Bold black cross-bands, often with reddish spots on the back",
+      "head": "Flat head with black cross-bars",
+      "body": "Slim, with keeled belly edges"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "banded",
+      "build": "slender",
+      "size": 3,
+      "habit": "arboreal",
+      "hue": [
+        "black",
+        "yellow",
+        "brown"
+      ]
+    },
+    "grp": [
+      "green-arboreal",
+      "bronzeback"
+    ]
+  },
+  {
+    "id": "dendrelaphis-cyanochloris",
+    "sci": "Dendrelaphis cyanochloris",
+    "name": "Wall's Bronzeback",
+    "aka": [
+      "Blue Bronzeback"
+    ],
+    "family": "Colubridae",
+    "kind": "Bronzeback",
+    "tier": 5,
+    "venom": "mild",
+    "len": "Roughly 1-1.5 m",
+    "habitat": "Lowland and hill forest up to about 1,000 m; lives in trees",
+    "range": "North-east India and the eastern Himalayan foothills (such as Darjeeling, Sikkim, Arunachal Pradesh and Mizoram), and on to Myanmar, Thailand and Malaysia",
+    "diet": "Frogs and lizards",
+    "active": "By day",
+    "ids": [
+      "A long, very slim tree snake with a bronze-brown back and bluish skin showing between the scales of the neck.",
+      "A dark stripe through the eye, large eyes with round pupils and a long, thin tail.",
+      "Fast and alert; harmless to people."
+    ],
+    "look": {
+      "colour": "Bronze-brown back; bluish between the neck scales",
+      "pattern": "Plain back; dark stripe through the eye",
+      "head": "Long head with large eyes",
+      "body": "Very slim with a long tail"
+    },
+    "t": {
+      "hood": false,
+      "head": "pointed",
+      "pat": "plain",
+      "build": "thin",
+      "size": 3,
+      "habit": "arboreal",
+      "hue": [
+        "brown",
+        "blue",
+        "green"
+      ]
+    },
+    "grp": [
+      "bronzeback",
+      "brown-slender"
+    ]
+  },
+  {
+    "id": "ferania-sieboldii",
+    "sci": "Ferania sieboldii",
+    "name": "Siebold's Water Snake",
+    "aka": [
+      "Siebold's Smooth Water Snake"
+    ],
+    "family": "Homalopsidae",
+    "kind": "Water snake",
+    "tier": 4,
+    "venom": "mild",
+    "len": "50-70 cm",
+    "habitat": "Ponds, marshes, ditches and slow rivers in the plains",
+    "range": "Plains of northern India (Uttar Pradesh, Bihar, West Bengal) and parts of the north-east; also Nepal, Bangladesh and Myanmar",
+    "diet": "Fish and frogs",
+    "active": "Mostly at night",
+    "ids": [
+      "A stout, smooth water snake that is pale grey, cream or tan with large dark-brown or black blotches in a bold mosaic pattern.",
+      "Small eyes set high on a rounded head, and nostrils on top of the snout for breathing at the surface.",
+      "Rear-fanged and mildly venomous but harmless to people; spends most of its life in water."
+    ],
+    "look": {
+      "colour": "Pale grey, cream or tan",
+      "pattern": "Large dark blotches in a mosaic",
+      "head": "Rounded head, small eyes set high",
+      "body": "Stout and smooth"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "blotched",
+      "build": "stout",
+      "size": 2,
+      "habit": "aquatic",
+      "hue": [
+        "grey",
+        "cream",
+        "brown",
+        "black"
+      ]
+    },
+    "grp": [
+      "water-snake"
+    ]
+  },
+  {
+    "id": "fowlea-schnurrenbergeri",
+    "sci": "Fowlea schnurrenbergeri",
+    "name": "Bar-necked Keelback",
+    "aka": [
+      "Kramer's Keelback"
+    ],
+    "family": "Colubridae",
+    "kind": "Keelback",
+    "tier": 5,
+    "venom": "mild",
+    "len": "Roughly 50-80 cm",
+    "habitat": "Ponds, marshes, rice fields and wet grassland",
+    "range": "Plains of northern and eastern India (Uttar Pradesh, Bihar, West Bengal, Odisha, Assam), Nepal and Bangladesh",
+    "diet": "Frogs and fish",
+    "active": "Day and night; busiest early in the morning and in the evening",
+    "ids": [
+      "Very like the Checkered Keelback: olive-brown or grey with rows of dark squares in a checkered pattern.",
+      "The best sign is a thick dark bar across the top of the nape, instead of the inverted V of the Checkered Keelback.",
+      "Lives in and around water. Harmless to people."
+    ],
+    "look": {
+      "colour": "Olive-brown or grey",
+      "pattern": "Checkered rows of dark spots; a dark bar on the nape",
+      "head": "Head slightly wider than the neck",
+      "body": "Medium build with keeled scales"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "checkered",
+      "build": "medium",
+      "size": 2,
+      "habit": "aquatic",
+      "hue": [
+        "olive",
+        "brown",
+        "grey"
+      ],
+      "scales": "keeled"
+    },
+    "grp": [
+      "water-snake",
+      "keelback"
+    ]
+  },
+  {
+    "id": "gonyosoma-oxycephalum",
+    "sci": "Gonyosoma oxycephalum",
+    "name": "Red-tailed Racer",
+    "aka": [
+      "Red-tailed Green Rat Snake"
+    ],
+    "family": "Colubridae",
+    "kind": "Rat snake",
+    "tier": 4,
+    "venom": "none",
+    "len": "1.5-2 m, up to about 2.4 m",
+    "habitat": "Lowland forest, mangroves and plantations; lives in trees",
+    "range": "Andaman and Nicobar Islands, and South-East Asia",
+    "diet": "Birds and their eggs, rodents and bats",
+    "active": "By day",
+    "ids": [
+      "A large, bright green tree snake with a grey, brown or reddish-brown tail that contrasts with the green body.",
+      "A long, narrow head with a dark stripe through the eye, and a pale green or yellowish throat and belly.",
+      "When threatened it inflates its throat and strikes, but it is non-venomous."
+    ],
+    "look": {
+      "colour": "Bright green body; grey, brown or reddish tail",
+      "pattern": "Plain; dark stripe through the eye",
+      "head": "Long, narrow head",
+      "body": "Long, slim and flattened from side to side"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "bicolour",
+      "build": "slender",
+      "size": 4,
+      "habit": "arboreal",
+      "hue": [
+        "green",
+        "grey",
+        "brown"
+      ]
+    },
+    "grp": [
+      "green-arboreal",
+      "rat-snake"
+    ]
+  },
+  {
+    "id": "hebius-clerki",
+    "sci": "Hebius clerki",
+    "name": "Clerk's Keelback",
+    "aka": [
+      "Yunnan Keelback"
+    ],
+    "family": "Colubridae",
+    "kind": "Keelback",
+    "tier": 5,
+    "venom": "none",
+    "len": "40-70 cm",
+    "habitat": "Hill forest, forest edges and damp ground near streams",
+    "range": "Eastern Himalaya and north-east India (Sikkim, Arunachal Pradesh), Myanmar and southern China",
+    "diet": "Frogs, tadpoles and small fish",
+    "active": "By day",
+    "ids": [
+      "A small brown keelback, usually with a pale stripe or a line of light spots along each side of the back.",
+      "Keeled scales and a head slightly wider than the neck.",
+      "Harmless; lives near water in hill forest."
+    ],
+    "look": {
+      "colour": "Brown",
+      "pattern": "A pale stripe or spots along each side",
+      "head": "Head slightly wider than the neck",
+      "body": "Slim, with keeled scales"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "striped",
+      "build": "slender",
+      "size": 2,
+      "habit": "terrestrial",
+      "hue": [
+        "brown",
+        "olive"
+      ],
+      "scales": "keeled"
+    },
+    "grp": [
+      "keelback",
+      "striped-snake"
+    ]
+  },
+  {
+    "id": "herpetoreas-platyceps",
+    "sci": "Herpetoreas platyceps",
+    "name": "Himalayan Keelback",
+    "family": "Colubridae",
+    "kind": "Keelback",
+    "tier": 4,
+    "venom": "none",
+    "len": "60-90 cm",
+    "habitat": "Hill forest, grassland, streamsides and fields in the mountains",
+    "range": "Himalaya, from Jammu and Kashmir and Himachal Pradesh east to Uttarakhand, Sikkim, the Darjeeling hills and Arunachal Pradesh",
+    "diet": "Frogs, tadpoles and small fish",
+    "active": "By day",
+    "ids": [
+      "An olive-brown to dark brown keelback with small dark spots or a faint checkered pattern, and a dark streak running back from the eye.",
+      "In life, a coral-red or orange line runs along the edges of the belly; keeled scales.",
+      "A harmless mountain snake."
+    ],
+    "look": {
+      "colour": "Olive-brown to dark brown",
+      "pattern": "Small dark spots; a red line along the belly edge",
+      "head": "Dark streak behind the eye",
+      "body": "Medium build with keeled scales"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "spotted",
+      "build": "medium",
+      "size": 2,
+      "habit": "terrestrial",
+      "hue": [
+        "brown",
+        "olive",
+        "red"
+      ],
+      "scales": "keeled"
+    },
+    "grp": [
+      "keelback"
+    ]
+  },
+  {
+    "id": "liopeltis-calamaria",
+    "sci": "Liopeltis calamaria",
+    "name": "Calamaria Reed Snake",
+    "family": "Colubridae",
+    "kind": "Reed snake",
+    "tier": 5,
+    "venom": "none",
+    "len": "25-40 cm",
+    "habitat": "Grassland, scrub and open forest in the hills and plains, often under stones and logs",
+    "range": "Scattered across peninsular India (Karnataka, Tamil Nadu, Andhra Pradesh, Maharashtra, Kerala) and the Himalayan foothills; also Sri Lanka",
+    "diet": "Little known; probably small invertebrates",
+    "active": "Probably by day",
+    "ids": [
+      "A tiny, very slender olive-brown or grey-brown snake with dark spots or streaks on each side of the head.",
+      "A yellowish belly in life, smooth shiny scales and a long tail.",
+      "Harmless and rarely seen."
+    ],
+    "look": {
+      "colour": "Olive-brown or grey-brown; yellowish belly",
+      "pattern": "Dark spots or streaks on the sides of the head",
+      "head": "Small head",
+      "body": "Very slim and smooth"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "thin",
+      "size": 1,
+      "habit": "terrestrial",
+      "hue": [
+        "brown",
+        "olive",
+        "grey"
+      ]
+    },
+    "grp": [
+      "small-brown",
+      "brown-slender"
+    ]
+  },
+  {
+    "id": "oligodon-affinis",
+    "sci": "Oligodon affinis",
+    "name": "Western Kukri Snake",
+    "aka": [
+      "Western Kukri"
+    ],
+    "family": "Colubridae",
+    "kind": "Kukri snake",
+    "tier": 4,
+    "venom": "none",
+    "len": "30-40 cm",
+    "habitat": "Leaf litter and soil in forest and plantations of the hills",
+    "range": "Western Ghats south of Goa (Karnataka, Kerala and Tamil Nadu)",
+    "diet": "Mainly reptile eggs",
+    "active": "Mostly at dusk and night",
+    "ids": [
+      "A small brown kukri snake with dark cross-lines or spots along the back and a dark, symmetrical, bird-shaped mark on top of the head.",
+      "A short head with a blunt snout, small eyes and smooth scales; the belly is yellow and black.",
+      "Harmless; found only in the Western Ghats."
+    ],
+    "look": {
+      "colour": "Brown",
+      "pattern": "Dark cross-lines; a dark bird-shaped mark on the head",
+      "head": "Short head, blunt snout",
+      "body": "Short and smooth"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "banded",
+      "build": "slender",
+      "size": 1,
+      "habit": "terrestrial",
+      "hue": [
+        "brown",
+        "yellow",
+        "black"
+      ]
+    },
+    "grp": [
+      "kukri",
+      "small-brown"
+    ]
+  },
+  {
+    "id": "oligodon-cinereus",
+    "sci": "Oligodon cinereus",
+    "name": "Ashy Kukri Snake",
+    "family": "Colubridae",
+    "kind": "Kukri snake",
+    "tier": 5,
+    "venom": "none",
+    "len": "40-80 cm",
+    "habitat": "Forest, plantations, gardens and villages in the plains and hills",
+    "range": "North-east India (Assam, Meghalaya, Arunachal Pradesh, Mizoram), Bhutan, Myanmar, southern China and South-East Asia",
+    "diet": "Mainly reptile eggs",
+    "active": "Mostly at night",
+    "ids": [
+      "A smooth, plain-looking kukri snake that is very variable: ash-grey, olive, reddish-brown or orange, sometimes with faint narrow dark cross-lines.",
+      "A short head with a blunt snout and small eyes.",
+      "Harmless. Like other kukri snakes it slits open reptile eggs with its curved rear teeth."
+    ],
+    "look": {
+      "colour": "Ash-grey, olive, reddish-brown or orange",
+      "pattern": "Mostly plain, sometimes faint dark cross-lines",
+      "head": "Short head, blunt snout",
+      "body": "Medium build, smooth"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "medium",
+      "size": 2,
+      "habit": "terrestrial",
+      "hue": [
+        "grey",
+        "brown",
+        "red",
+        "orange"
+      ]
+    },
+    "grp": [
+      "kukri",
+      "small-brown"
+    ]
+  },
+  {
+    "id": "oligodon-cyclurus",
+    "sci": "Oligodon cyclurus",
+    "name": "Cantor's Kukri Snake",
+    "family": "Colubridae",
+    "kind": "Kukri snake",
+    "tier": 5,
+    "venom": "none",
+    "len": "Roughly 50-80 cm",
+    "habitat": "Forest, grassland, farmland and gardens in the plains and foothills",
+    "range": "North-east India (Assam and northern West Bengal), Bangladesh, Nepal, Myanmar and South-East Asia",
+    "diet": "Reptile eggs and small vertebrates",
+    "active": "Mostly at dusk and night",
+    "ids": [
+      "A large kukri snake, brown or tan with darker stripes or rows of dark blotches along the back.",
+      "A short head with a blunt snout, small eyes and smooth, shiny scales.",
+      "Harmless, though its blade-like rear teeth can make a bite bleed."
+    ],
+    "look": {
+      "colour": "Brown or tan",
+      "pattern": "Dark stripes or rows of blotches along the back",
+      "head": "Short head, blunt snout",
+      "body": "Medium build, smooth"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "striped",
+      "build": "medium",
+      "size": 2,
+      "habit": "terrestrial",
+      "hue": [
+        "brown",
+        "tan"
+      ]
+    },
+    "grp": [
+      "kukri",
+      "striped-snake"
+    ]
+  },
+  {
+    "id": "oligodon-travancoricus",
+    "sci": "Oligodon travancoricus",
+    "name": "Travancore Kukri Snake",
+    "family": "Colubridae",
+    "kind": "Kukri snake",
+    "tier": 5,
+    "venom": "none",
+    "len": "30-50 cm",
+    "habitat": "Forest floor and plantations in the hills",
+    "range": "Southern Western Ghats (Kerala and Tamil Nadu)",
+    "diet": "Mainly reptile eggs",
+    "active": "Little known",
+    "ids": [
+      "A small brown kukri snake with around 25 black, white-edged cross-bars along the body and black marks on the head.",
+      "A whitish belly with squarish black spots, and a short head with a blunt snout.",
+      "Very like Jerdon's Kukri Snake. Harmless."
+    ],
+    "look": {
+      "colour": "Brown or grey-brown",
+      "pattern": "Black, white-edged cross-bars",
+      "head": "Short head with black marks",
+      "body": "Short and smooth"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "banded",
+      "build": "slender",
+      "size": 1,
+      "habit": "terrestrial",
+      "hue": [
+        "brown",
+        "grey",
+        "black"
+      ]
+    },
+    "grp": [
+      "kukri",
+      "banded-small"
+    ]
+  },
+  {
+    "id": "oligodon-venustus",
+    "sci": "Oligodon venustus",
+    "name": "Jerdon's Kukri Snake",
+    "family": "Colubridae",
+    "kind": "Kukri snake",
+    "tier": 5,
+    "venom": "none",
+    "len": "30-45 cm",
+    "habitat": "Forest floor, plantations and grassy hillsides",
+    "range": "Western Ghats south of Goa (Karnataka, Kerala and Tamil Nadu)",
+    "diet": "Mainly reptile eggs",
+    "active": "Mostly at dusk and night",
+    "ids": [
+      "A small brown or grey kukri snake with rows of dark, often pale-edged spots that may join into cross-bands; the spotting is very variable.",
+      "A whitish belly with black squarish spots, and a short head with dark markings and a blunt snout.",
+      "Harmless; found only in the Western Ghats."
+    ],
+    "look": {
+      "colour": "Brown or grey",
+      "pattern": "Rows of dark spots, sometimes joined into bands",
+      "head": "Short head with dark marks",
+      "body": "Short and smooth"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "spotted",
+      "build": "slender",
+      "size": 1,
+      "habit": "terrestrial",
+      "hue": [
+        "brown",
+        "grey"
+      ]
+    },
+    "grp": [
+      "kukri",
+      "small-brown"
+    ]
+  },
+  {
+    "id": "oligodon-violaceus",
+    "sci": "Oligodon violaceus",
+    "name": "Coral Red Kukri Snake",
+    "aka": [
+      "Kheri Kukri Snake",
+      "Violet Kukri Snake"
+    ],
+    "family": "Colubridae",
+    "kind": "Kukri snake",
+    "tier": 5,
+    "venom": "none",
+    "len": "Roughly 40-70 cm",
+    "habitat": "Sal forest, grassland and farmland of the Terai and the plains",
+    "range": "Terai and plains of northern India (Uttar Pradesh, northern West Bengal), Nepal and Bangladesh",
+    "diet": "Mainly reptile eggs",
+    "active": "Mostly at dusk and night",
+    "ids": [
+      "A strikingly plain, bright coral-red to orange kukri snake, sometimes with a darker reddish or purplish tinge on the back.",
+      "A short head with a blunt snout and small dark eyes; smooth, glossy scales.",
+      "Until recently called the Kheri Kukri Snake (Oligodon kheriensis). Harmless."
+    ],
+    "look": {
+      "colour": "Coral red to orange",
+      "pattern": "Plain",
+      "head": "Short head, blunt snout",
+      "body": "Medium build, smooth and glossy"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "medium",
+      "size": 2,
+      "habit": "terrestrial",
+      "hue": [
+        "red",
+        "orange"
+      ]
+    },
+    "grp": [
+      "kukri"
+    ]
+  },
+  {
+    "id": "platyceps-josephi",
+    "sci": "Platyceps josephi",
+    "name": "Joseph's Racer",
+    "family": "Colubridae",
+    "kind": "Racer",
+    "tier": 5,
+    "venom": "none",
+    "len": "Roughly 1 m",
+    "habitat": "Dry forest, scrub and rocky hillsides",
+    "range": "Southern India, mainly Tamil Nadu (including the Meghamalai hills)",
+    "diet": "Lizards and other small vertebrates",
+    "active": "By day",
+    "ids": [
+      "A slim, fast racer that is brown or tan; young ones have dark cross-bands on the front of the body that usually fade in adults.",
+      "Young snakes have two slanting dark marks on the back of the head, shaped roughly like the Greek letter pi.",
+      "Harmless. Described in 2021, with help from a 185-year-old painting."
+    ],
+    "look": {
+      "colour": "Brown or tan",
+      "pattern": "Dark cross-bands on the front of the body in young snakes",
+      "head": "Narrow head, large eyes",
+      "body": "Slim and fast"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "banded",
+      "build": "slender",
+      "size": 3,
+      "habit": "terrestrial",
+      "hue": [
+        "brown",
+        "tan"
+      ]
+    },
+    "grp": [
+      "racer",
+      "brown-slender"
+    ]
+  },
+  {
+    "id": "psammophis-longifrons",
+    "sci": "Psammophis longifrons",
+    "name": "Stout Sand Snake",
+    "family": "Psammophiidae",
+    "kind": "Sand snake",
+    "tier": 4,
+    "venom": "mild",
+    "len": "Roughly 1-1.5 m",
+    "habitat": "Dry open forest, scrub, grassland and rocky hills",
+    "range": "Peninsular India: Gujarat, Maharashtra, Madhya Pradesh, Chhattisgarh, Telangana, Andhra Pradesh and Karnataka",
+    "diet": "Lizards, rodents and small birds",
+    "active": "By day",
+    "ids": [
+      "A long, fast and fairly stout sand snake that is plain olive-grey, grey-brown or tan, usually without stripes (young ones can show faint stripes).",
+      "A long head with large eyes, round pupils and a slight 'frowning' brow over each eye.",
+      "Rear-fanged and mildly venomous but harmless to people; found only in India."
+    ],
+    "look": {
+      "colour": "Plain olive-grey, grey-brown or tan",
+      "pattern": "Plain (faint stripes in the young)",
+      "head": "Long head with large eyes",
+      "body": "Long and fairly stout for a sand snake"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "medium",
+      "size": 3,
+      "habit": "terrestrial",
+      "hue": [
+        "grey",
+        "olive",
+        "brown"
+      ]
+    },
+    "grp": [
+      "brown-slender"
+    ]
+  },
+  {
+    "id": "psammophis-schokari",
+    "sci": "Psammophis schokari",
+    "name": "Schokari Sand Racer",
+    "aka": [
+      "Forskål's Sand Snake"
+    ],
+    "family": "Psammophiidae",
+    "kind": "Sand snake",
+    "tier": 4,
+    "venom": "mild",
+    "len": "Roughly 0.8-1.2 m",
+    "habitat": "Desert, sandy and rocky scrub and dry farmland",
+    "range": "The Thar desert region of north-western India (mainly Rajasthan and Gujarat), Pakistan, and on to the Middle East and North Africa",
+    "diet": "Lizards, small rodents and birds",
+    "active": "By day",
+    "ids": [
+      "A very slim, fast snake with long dark-brown and pale stripes running the whole length of the body, and a pale belly.",
+      "A long head with large eyes and round pupils, with dark and light lines on the head and lips.",
+      "Climbs bushes to hunt lizards and birds. Rear-fanged and mildly venomous but harmless to people."
+    ],
+    "look": {
+      "colour": "Sandy, olive or grey-brown",
+      "pattern": "Dark and pale stripes along the body",
+      "head": "Long head, large eyes",
+      "body": "Very slim with a long tail"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "striped",
+      "build": "thin",
+      "size": 3,
+      "habit": "terrestrial",
+      "hue": [
+        "brown",
+        "tan",
+        "grey"
+      ]
+    },
+    "grp": [
+      "striped-snake",
+      "brown-slender"
+    ]
+  },
+  {
+    "id": "rhabdophis-bindi",
+    "sci": "Rhabdophis bindi",
+    "name": "Bindi Keelback",
+    "family": "Colubridae",
+    "kind": "Keelback",
+    "tier": 5,
+    "venom": "venomous",
+    "len": "60-80 cm",
+    "habitat": "Lowland evergreen and semi-evergreen forest, near streams",
+    "range": "Southern Assam (Cachar district, around the Barail hills) and Tripura",
+    "diet": "Frogs and toads",
+    "active": "By day",
+    "ids": [
+      "A dark olive or brownish keelback with small pale and dark flecks along the body and a red, bindi-like spot on the nape.",
+      "Keeled scales and a head slightly wider than the neck. It is smaller than the Orange-collared Keelback and lacks the glands on its neck.",
+      "Described in 2021 from Assam. Rear-fanged; its venom is unstudied, but related keelbacks have caused dangerous bleeding, so treat any bite seriously."
+    ],
+    "look": {
+      "colour": "Dark olive or brown",
+      "pattern": "Pale and dark flecks; a red spot on the nape",
+      "head": "Head slightly wider than the neck",
+      "body": "Medium build with keeled scales"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "speckled",
+      "build": "medium",
+      "size": 2,
+      "habit": "terrestrial",
+      "hue": [
+        "olive",
+        "brown",
+        "red"
+      ],
+      "scales": "keeled"
+    },
+    "grp": [
+      "keelback",
+      "red-necked"
+    ]
+  },
+  {
+    "id": "rhabdophis-himalayanus",
+    "sci": "Rhabdophis himalayanus",
+    "name": "Orange-collared Keelback",
+    "family": "Colubridae",
+    "kind": "Keelback",
+    "tier": 4,
+    "venom": "venomous",
+    "len": "Roughly 60-90 cm",
+    "habitat": "Hill forest, streams, grassland and terraced fields",
+    "range": "Eastern Himalaya and north-east India (Sikkim, Assam, Arunachal Pradesh), Nepal, Bhutan and Myanmar",
+    "diet": "Frogs and toads",
+    "active": "By day",
+    "ids": [
+      "An olive-green to dark olive keelback with a bold orange or yellow collar behind a black patch on the nape; the collar is usually broken in the middle.",
+      "Orange or red spots or bars along the sides of the body, and keeled scales.",
+      "Rear-fanged; its venom is poorly known, but related red-necked keelbacks have caused dangerous bleeding, so treat any bite seriously."
+    ],
+    "look": {
+      "colour": "Olive-green to dark olive",
+      "pattern": "Orange collar and orange spots along the sides",
+      "head": "Black patch on the nape",
+      "body": "Medium build with keeled scales"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "spotted",
+      "build": "medium",
+      "size": 3,
+      "habit": "terrestrial",
+      "hue": [
+        "olive",
+        "green",
+        "orange"
+      ],
+      "scales": "keeled"
+    },
+    "grp": [
+      "keelback",
+      "red-necked"
+    ]
+  },
+  {
+    "id": "rhabdophis-leonardi",
+    "sci": "Rhabdophis leonardi",
+    "name": "Leonard's Keelback",
+    "family": "Colubridae",
+    "kind": "Keelback",
+    "tier": 5,
+    "venom": "venomous",
+    "len": "Roughly 50-70 cm",
+    "habitat": "Hill forest, grassland and streamsides",
+    "range": "Hills of north-east India (Nagaland and Manipur), and on to Myanmar, Laos, Vietnam and southern China",
+    "diet": "Little known",
+    "active": "By day",
+    "ids": [
+      "A dark keelback, blue-grey, olive or brown, often with small pale spots along the body.",
+      "Keeled scales and a head slightly wider than the neck.",
+      "Only recently confirmed in India. Rear-fanged; its venom is unstudied, so treat any bite seriously."
+    ],
+    "look": {
+      "colour": "Blue-grey, olive or brown",
+      "pattern": "Small pale spots",
+      "head": "Head slightly wider than the neck",
+      "body": "Medium build with keeled scales"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "spotted",
+      "build": "medium",
+      "size": 2,
+      "habit": "terrestrial",
+      "hue": [
+        "blue",
+        "grey",
+        "olive",
+        "brown"
+      ],
+      "scales": "keeled"
+    },
+    "grp": [
+      "keelback"
+    ]
+  },
+  {
+    "id": "rhabdops-aquaticus",
+    "sci": "Rhabdops aquaticus",
+    "name": "Aquatic Rhabdops",
+    "family": "Colubridae",
+    "kind": "Forest snake",
+    "tier": 4,
+    "venom": "none",
+    "len": "60-90 cm, up to about 95 cm",
+    "habitat": "Pools and slow streams on laterite plateaus and in forest",
+    "range": "Northern Western Ghats: southern Maharashtra, Goa and northern Karnataka",
+    "diet": "Probably frogs, tadpoles and fish",
+    "active": "Mostly at night",
+    "ids": [
+      "A thick-bodied, olive-green to brown snake with small black spots, often seen in or near water.",
+      "A small head with small eyes; the young and the adults differ in colour.",
+      "Long mistaken for the Olive Forest Snake of the southern Western Ghats. Harmless and docile."
+    ],
+    "look": {
+      "colour": "Olive-green to brown",
+      "pattern": "Small black spots",
+      "head": "Small head, small eyes",
+      "body": "Stout and smooth"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "spotted",
+      "build": "stout",
+      "size": 3,
+      "habit": "aquatic",
+      "hue": [
+        "olive",
+        "green",
+        "brown"
+      ]
+    },
+    "grp": [
+      "small-brown",
+      "water-snake"
+    ]
+  },
+  {
+    "id": "sibynophis-sagittarius",
+    "sci": "Sibynophis sagittarius",
+    "name": "Cantor's Black-headed Snake",
+    "family": "Colubridae",
+    "kind": "Black-headed snake",
+    "tier": 5,
+    "venom": "none",
+    "len": "Roughly 25-45 cm",
+    "habitat": "Grassland, scrub, forest edges and farmland",
+    "range": "Northern and eastern India, from Jammu and Kashmir and Uttarakhand to Bihar and West Bengal",
+    "diet": "Small lizards such as skinks",
+    "active": "By day",
+    "ids": [
+      "A small, slim light-brown snake with a black or dark-brown head and nape, followed by a thin yellow or cream collar.",
+      "A row of small black dots along the middle of the back, and a blunt, rounded head.",
+      "Very like Duméril's Black-headed Snake. Harmless."
+    ],
+    "look": {
+      "colour": "Light brown; black head",
+      "pattern": "A thin pale collar; a row of black dots along the back",
+      "head": "Blunt, rounded black head",
+      "body": "Slim and smooth"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "bicolour",
+      "build": "thin",
+      "size": 1,
+      "habit": "terrestrial",
+      "hue": [
+        "brown",
+        "black",
+        "yellow"
+      ]
+    },
+    "grp": [
+      "small-brown",
+      "collared-small"
+    ]
   }
 ]

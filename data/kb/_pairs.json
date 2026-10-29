@@ -6,7 +6,8 @@
   ],
   [
    "craspedocephalus-gramineus",
-   "craspedocephalus-macrolepis"
+   "craspedocephalus-macrolepis",
+   "craspedocephalus-peltopelor"
   ],
   [
    "craspedocephalus-malabaricus",
@@ -32,13 +33,15 @@
    "oligodon-arnensis",
    "oligodon-tillacki",
    "oligodon-russelius",
-   "oligodon-albocinctus"
+   "oligodon-albocinctus",
+   "oligodon-travancoricus"
   ],
   [
    "platyceps-ventromaculatus",
    "platyceps-plinii",
    "platyceps-gracilis",
-   "platyceps-bholanathi"
+   "platyceps-bholanathi",
+   "platyceps-josephi"
   ],
   [
    "elaphe-hodgsonii",
@@ -49,7 +52,9 @@
    "boiga-thackerayi",
    "boiga-nuchalis",
    "boiga-multomaculata",
-   "boiga-siamensis"
+   "boiga-siamensis",
+   "boiga-dightoni",
+   "boiga-quincunciata"
   ],
   [
    "uropeltis-ellioti",
@@ -57,22 +62,37 @@
    "melanophidium-khairei",
    "melanophidium-wynaudense",
    "plectrurus-perroteti",
-   "platyplectrurus-madurensis"
+   "platyplectrurus-madurensis",
+   "uropeltis-macrolepis",
+   "uropeltis-ceylanica",
+   "uropeltis-jerdoni",
+   "uropeltis-bhupathyi",
+   "uropeltis-caudomaculata",
+   "uropeltis-myhendrae",
+   "uropeltis-ocellata",
+   "uropeltis-rubromaculata",
+   "melanophidium-bilineatum",
+   "rhinophis-karinthandani",
+   "rhinophis-melanoleucus"
   ],
   [
    "indotyphlops-braminus",
-   "grypotyphlops-acutus"
+   "grypotyphlops-acutus",
+   "argyrophis-diardii",
+   "pseudoindotyphlops-porrectus"
   ],
   [
    "hydrophis-curtus",
    "hydrophis-cyanocinctus",
-   "hydrophis-spiralis"
+   "hydrophis-spiralis",
+   "hydrophis-caerulescens"
   ],
   [
    "bronzeback-tree-snake",
    "dendrelaphis-grandoculis",
    "dendrelaphis-andamanensis",
-   "dendrelaphis-proarchos"
+   "dendrelaphis-proarchos",
+   "dendrelaphis-cyanochloris"
   ],
   [
    "python-molurus",
@@ -92,7 +112,79 @@
   ],
   [
    "fowlea-piscator",
-   "fowlea-tytleri"
+   "fowlea-tytleri",
+   "fowlea-schnurrenbergeri"
+  ],
+  [
+   "hydrophis-schistosus",
+   "hydrophis-caerulescens"
+  ],
+  [
+   "bungarus-niger",
+   "bungarus-lividus"
+  ],
+  [
+   "bungarus-caeruleus",
+   "bungarus-andamanensis",
+   "bungarus-bungaroides"
+  ],
+  [
+   "sinomicrurus-macclellandi",
+   "sinomicrurus-gorei"
+  ],
+  [
+   "calliophis-nigrescens",
+   "calliophis-castoe"
+  ],
+  [
+   "chrysopelea-ornata",
+   "chrysopelea-taprobanica"
+  ],
+  [
+   "ovophis-monticola",
+   "ovophis-zayuensis"
+  ],
+  [
+   "boiga-flaviviridis",
+   "boiga-wallachi"
+  ],
+  [
+   "oligodon-taeniolatus",
+   "oligodon-affinis",
+   "oligodon-venustus",
+   "oligodon-travancoricus"
+  ],
+  [
+   "oligodon-cinereus",
+   "oligodon-violaceus"
+  ],
+  [
+   "oligodon-cyclurus",
+   "oligodon-taeniolatus"
+  ],
+  [
+   "psammophis-condanarus",
+   "psammophis-schokari"
+  ],
+  [
+   "rhabdophis-himalayanus",
+   "rhabdophis-bindi"
+  ],
+  [
+   "rhabdops-olivaceus",
+   "rhabdops-aquaticus"
+  ],
+  [
+   "sibynophis-subpunctatus",
+   "sibynophis-sagittarius"
+  ],
+  [
+   "xylophis-perroteti",
+   "xylophis-captaini"
+  ],
+  [
+   "hebius-clerki",
+   "herpetoreas-platyceps"
   ]
  ],
  "pairs": [
@@ -335,6 +427,36 @@
    "a": "naja-kaouthia",
    "b": "bungarus-niger",
    "tip": "The Monocled Cobra spreads a hood and has a ring mark on its back. The Greater Black Krait is plain glossy black, never spreads a hood and has a pale belly. Both are deadly."
+  },
+  {
+   "a": "green-vine-snake",
+   "b": "ahaetulla-perroteti",
+   "tip": "The Green Vine Snake has a long, pointed snout that ends in a flexible tip and lives in bushes and trees. Perrotet's Vine Snake has a short, blunt snout and lives on the ground in the high-altitude grassland of the Western Ghats."
+  },
+  {
+   "a": "ptyas-nigromarginata",
+   "b": "gonyosoma-oxycephalum",
+   "tip": "Both are big green snakes. The Green Rat Snake has black-edged scales that form dark lines towards the tail and lives in the north-east; the Red-tailed Racer has a plain green body with a contrasting grey, brown or reddish tail and, in India, lives only on the Andaman and Nicobar Islands."
+  },
+  {
+   "a": "psammophis-condanarus",
+   "b": "psammophis-longifrons",
+   "tip": "The Indo-Chinese Sand Snake is boldly striped along its whole length. The Stout Sand Snake is a bigger, plain olive-grey or brown snake without clear stripes."
+  },
+  {
+   "a": "rhabdophis-helleri",
+   "b": "rhabdophis-himalayanus",
+   "tip": "Heller's Red-necked Keelback has a bright red neck on a green body. The Orange-collared Keelback has a dark olive body with an orange collar behind a black patch on the nape, and orange spots along its sides."
+  },
+  {
+   "a": "protobothrops-mucrosquamatus",
+   "b": "ovophis-monticola",
+   "tip": "The Brown-spotted Pit Viper is long and slim with a lance-shaped head and a row of large dark blotches. The Mountain Pit Viper is short and very stout, with a short, broad head."
+  },
+  {
+   "a": "bungarus-caeruleus",
+   "b": "bungarus-andamanensis",
+   "tip": "They look alike, but they never meet: the Andaman Krait lives only in the Andaman Islands and has single narrow pale bands, while the Common Krait of the mainland has narrow white bands that are often paired."
   }
  ]
 }

@@ -122,7 +122,7 @@ main > * { animation: rise .32s var(--ease) both; }
   padding-top: var(--safe-t);
 }
 .header-in { display: flex; align-items: center; gap: 18px; min-height: var(--header-h); }
-.brand { display: flex; align-items: center; gap: 11px; min-height: 44px; text-decoration: none; color: var(--ink); flex: none; }
+.brand { display: flex; align-items: center; gap: 11px; min-height: 44px; min-width: 44px; text-decoration: none; color: var(--ink); flex: none; }
 .brand-logo { display: block; width: 38px; height: 38px; border-radius: 10px; box-shadow: 0 2px 0 rgba(19, 19, 18, .25), 0 6px 12px rgba(255, 90, 18, .22); }
 .brand-text { display: flex; flex-direction: column; gap: 3px; line-height: 1; }
 .brand-text strong { font: 900 1.5625rem/1 var(--font-lcd); font-variation-settings: "ROND" 100; letter-spacing: .06em; color: var(--ink); }
@@ -181,7 +181,8 @@ main > * { animation: rise .32s var(--ease) both; }
 .tabbar { display: none; }
 body.in-quiz .site-header, body.in-quiz .site-footer, body.in-quiz .tabbar { display: none !important; }
 
-@media (max-width: 859.98px) {
+@media (max-width: 1023.98px) {
+  html { scroll-padding-bottom: calc(var(--tabbar-h) + var(--safe-b) + 12px); }
   .nav { display: none; }
   .header-in .header-tools { margin-left: auto; }
   .brand-text small { display: none; }
@@ -209,9 +210,14 @@ body.in-quiz .site-header, body.in-quiz .site-footer, body.in-quiz .tabbar { dis
   .tab .ico svg { width: 20px; height: 20px; }
   body:not(.in-quiz) .site-footer { padding-bottom: calc(var(--tabbar-h) + var(--safe-b)); }
 }
-@media (min-width: 860px) and (max-width: 1060px) {
-  .nav a { padding: 0 10px; gap: 6px; letter-spacing: .05em; }
+@media (min-width: 1024px) and (max-width: 1279.98px) {
+  .nav a { padding: 0 11px; gap: 6px; letter-spacing: .05em; }
+  .nav a .nav-n { display: none; }
   .brand-text small { display: none; }
+}
+/* small phones: the logo alone, so the safety key, the account key and the theme switch fit beside it */
+@media (max-width: 379.98px) {
+  .brand-text { display: none; }
 }
 /* a phone on its side: every pixel of height counts, so the header scrolls away and the key bar shrinks to icons */
 @media (max-height: 520px) and (orientation: landscape) {
@@ -235,7 +241,7 @@ body.in-quiz .site-header, body.in-quiz .site-footer, body.in-quiz .tabbar { dis
   background-size: auto, 28px 14px;
 }
 .footer-in { padding-top: clamp(22px, 3vw, 36px); padding-bottom: clamp(22px, 3vw, 36px); display: grid; gap: 22px; }
-.foot-cols { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1.4fr); gap: 22px clamp(20px, 4vw, 64px); align-items: start; }
+.foot-cols { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.4fr); gap: 22px clamp(20px, 4vw, 64px); align-items: start; }
 .foot-cols p { margin: 0 0 .5em; max-width: 58ch; }
 .foot-title { margin-bottom: 8px; }
 .foot-links { display: flex; flex-direction: column; gap: 4px; }
@@ -245,7 +251,11 @@ body.in-quiz .site-header, body.in-quiz .site-footer, body.in-quiz .tabbar { dis
 .foot-warn { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: var(--r); background: var(--panel); border: 1px solid var(--line); color: var(--ink); }
 .foot-warn .ico { color: var(--bad-ink); margin-top: 3px; }
 .foot-spec { padding-top: 14px; border-top: 1px dashed var(--line-2); display: flex; flex-wrap: wrap; gap: 6px 18px; }
-@media (max-width: 859.98px) {
+@media (max-width: 1023.98px) {
+  .foot-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .foot-warn { grid-column: 1 / -1; }
+}
+@media (max-width: 599.98px) {
   .foot-cols { grid-template-columns: 1fr; }
 }
 

@@ -12,7 +12,9 @@ const base = (process.argv[2] || 'http://localhost:8765/index.html').replace(/#.
   const page = await ctx.newPage();
   const problems = [];
   let route = '';
-  page.on('console', (m) => { if (m.type() === 'error') problems.push(`${route}: console error: ${m.text().slice(0, 160)}`); });
+  // failed requests are reported by URL; the accounts API answering 404 on a static host is expected
+  page.on('console', (m) => { if (m.type() === 'error' && !/Failed to load resource/.test(m.text())) problems.push(`${route}: console error: ${m.text().slice(0, 160)}`); });
+  page.on('response', (res) => { if (res.status() >= 400 && !/\/api\/sarpa|favicon/.test(res.url())) problems.push(`${route}: HTTP ${res.status()} for ${res.url()}`); });
   page.on('pageerror', (e) => problems.push(`${route}: page error: ${e.message}`));
   page.on('requestfailed', (r) => { if (!/inaturalist-open-data/.test(r.url())) problems.push(`${route}: request failed ${r.url().slice(0, 100)}`); });
 

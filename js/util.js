@@ -57,6 +57,15 @@
   SQ.$$ = (sel, root) => Array.from((root || document).querySelectorAll(sel));
   SQ.clear = (el) => { while (el.firstChild) el.removeChild(el.firstChild); return el; };
 
+  /** Jump to the top (or to y) at once, even though the page otherwise scrolls smoothly. */
+  SQ.scrollTop = (y = 0) => {
+    const root = document.documentElement;
+    const prev = root.style.scrollBehavior;
+    root.style.scrollBehavior = 'auto';
+    window.scrollTo(0, y);
+    root.style.scrollBehavior = prev;
+  };
+
   SQ.debounce = (fn, ms) => {
     let t;
     return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); };
@@ -123,10 +132,36 @@
 
   SQ.fmtDate = (ts) => new Date(ts).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
 
-  SQ.todayKey = function (d = new Date()) {
-    const p = (n) => String(n).padStart(2, '0');
-    return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+  /* ---------- the game calendar ----------
+   * Everyone plays on India Standard Time (UTC+05:30): the daily puzzles and the daily leaderboards change at
+   * midnight in India, wherever the player is. server/time.js has the same functions; keep the two in step. */
+
+  const IST_OFFSET_MS = 330 * 60 * 1000;
+  const DAY_MS = 86400000;
+  const pad2 = (n) => String(n).padStart(2, '0');
+  const utcKey = (d) => `${d.getUTCFullYear()}-${pad2(d.getUTCMonth() + 1)}-${pad2(d.getUTCDate())}`;
+
+  SQ.time = {
+    DAY_MS,
+    /** 'YYYY-MM-DD' for the day it is in India at time `ms`. */
+    dayKey: (ms = Date.now()) => utcKey(new Date(ms + IST_OFFSET_MS)),
+    /** Whole days since 1970-01-01 for a 'YYYY-MM-DD' key. */
+    dayIndex(key) {
+      const [y, m, d] = key.split('-').map(Number);
+      return Math.round(Date.UTC(y, m - 1, d) / DAY_MS);
+    },
+    keyFromIndex: (i) => utcKey(new Date(i * DAY_MS)),
+    shiftDay: (key, n) => SQ.time.keyFromIndex(SQ.time.dayIndex(key) + n),
+    /** Milliseconds until the next midnight in India. */
+    msToNextDay: (ms = Date.now()) => DAY_MS - ((ms + IST_OFFSET_MS) % DAY_MS),
+    /** A day key written out in the reader's language, e.g. "Thu 29 Oct". */
+    label(key, opts = { weekday: 'short', day: 'numeric', month: 'short' }) {
+      return new Date(SQ.time.dayIndex(key) * DAY_MS).toLocaleDateString(undefined, Object.assign({ timeZone: 'UTC' }, opts));
+    },
   };
+
+  /** Today's key on the game calendar (or the key for the moment `d`). */
+  SQ.todayKey = (d) => SQ.time.dayKey(d ? d.getTime() : Date.now());
 
   SQ.plural = (n, one, many) => `${n} ${n === 1 ? one : many || one + 's'}`;
 
@@ -191,6 +226,13 @@
     grid: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
     sliders: '<line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/>',
     menu: '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>',
+    user: '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+    skip: '<polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/>',
+    help: '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+    file: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>',
+    up: '<line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>',
+    down: '<line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/>',
+    trophy: '<path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3"/><path d="M7 5H4v2a3 3 0 0 0 3 3"/>',
   };
 
   SQ.icon = function (name, opts = {}) {

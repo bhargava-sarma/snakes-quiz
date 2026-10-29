@@ -176,7 +176,10 @@ def main():
                 if pid in rejects or pid not in metrics or p["license"] not in (COMMERCIAL_OK if args.commercial_ok else {"CC0", "CC-BY", "CC-BY-SA", "CC-BY-NC", "CC-BY-NC-SA"}):
                     continue
                 snake = scores.get(pid, {}).get("snake", 1.0)
-                if snake < args.min_snake or metrics[pid]["sharp"] < args.min_sharp:
+                if metrics[pid]["sharp"] < args.min_sharp:
+                    continue
+                # a person who looked at the photo and kept it overrides the automatic "is a snake visible" score
+                if snake < args.min_snake and pid not in reviewed:
                     continue
                 # quality score: prominence of the snake, sharpness (log), resolution, primary photo
                 q = 2.2 * snake + 0.35 * min(math.log10(max(metrics[pid]["sharp"], 10)) / 4, 1) + (0.15 if p["pos"] == 0 else 0)
