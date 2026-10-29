@@ -116,6 +116,14 @@ Without step 2 the site still works: the games are played as a guest and are not
 Any other static host (Netlify, Cloudflare Pages, an S3 bucket, your own server) works as well: upload
 `index.html`, `sw.js`, `manifest.webmanifest`, `css/`, `js/`, `data/*.js`, `assets/` and `images/`.
 
+### Link previews
+
+When the link is pasted into WhatsApp, X, Facebook, LinkedIn, Slack and similar apps, they show a card with
+[`assets/social-preview.jpg`](assets/social-preview.jpg). These apps need full addresses, so the tags at the top of
+`index.html` name `https://snakes-quiz.vercel.app`: on another domain, change those addresses. The apps remember a
+link's preview for a while, so to see a change straight away, share the address with something added, such as
+`https://snakes-quiz.vercel.app/?v=2`. `scripts/assets/make-social-preview.js` redraws the image.
+
 ### How the accounts work
 
 - A PIN is never stored: the server keeps a salted scrypt hash. Sessions are random tokens, stored only as hashes,
@@ -184,7 +192,8 @@ Playwright installed:
 node scripts/qa/api_test.js       # the accounts API against an in-memory database: sign-up, PINs, sessions, rate limits,
                                   # daily puzzles, scoring, anti-cheat checks, leaderboards, deleting an account
 node scripts/qa/engine_check.js   # 4,500+ generated questions: 4 unique options, right answer, no look-alike clashes, balance...
-node scripts/qa/smoke.js          # every page and species page: no stray "null"/"undefined", no errors, no broken photos
+node scripts/qa/smoke.js          # every page and species page: no stray "null"/"undefined", no errors, no broken photos;
+                                  # the link-preview tags and image
 node scripts/qa/e2e.js            # 50-step run-through: account sign-up, timer, hints, explanations, reload-and-resume,
                                   # results, daily parity between two players, region filter, reporting a photo, phone
                                   # layout, Herpdle
@@ -211,7 +220,7 @@ data/kb/*.json                      the species knowledge base (hand-written)
 data/species.js  data/photos.js     generated for the app by scripts/dataset/09_build_data.py
 data/catalog.csv                    every photo with species, state, photographer, licence and source link
 images/<species>/<photo-id>.avif    the photos (800 px, AVIF) and images/thumbs/ for the cover pictures
-assets/                             app icons (drawn by scripts/assets/make-icons.js) and the bundled fonts
+assets/                             app icons and the link-preview image (drawn by scripts/assets/) and the bundled fonts
 scripts/dataset/                    the data-set pipeline (iNaturalist open data -> photos -> server schedule)
 scripts/dev-server.js               a local server for the website and the API
 scripts/qa/                         API and browser-based tests
