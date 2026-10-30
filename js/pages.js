@@ -216,9 +216,9 @@
         h('p', h('strong', 'Do not use this app to decide whether a real snake is dangerous. '), 'Treat every wild snake as potentially dangerous and keep your distance.')),
       h('section.card',
         h('h2', 'Privacy'),
-        h('p', 'No adverts, no tracking, no cookies. Your progress, badges and settings are stored in your own browser. ',
+        h('p', 'No adverts, no cookies and nothing that follows you around: visits are only counted with cookie-free statistics. Your progress, badges and settings are stored in your own browser. ',
           SQ.api.known() === 'off'
-            ? 'This copy of Sarpa has no accounts, so nothing about you is sent anywhere.'
+            ? 'This copy of Sarpa has no accounts.'
             : 'To play the games you make an account with just a username and a 6-digit PIN (stored only as a one-way hash); your username and scores appear on the leaderboards, and you can delete the account at any time.'),
         h('p', 'Details are in the ', h('a', { href: '#/legal/privacy' }, 'privacy policy'), ' and the ', h('a', { href: '#/legal/terms' }, 'terms of use'), '.')),
       h('section.card',

@@ -1,5 +1,6 @@
 # Publishes the site (plain static files, no build step) to GitHub Pages.
 # One-time setup: Settings -> Pages -> Build and deployment -> Source: "GitHub Actions".
+# Until GitHub Pages is switched on, pushes skip this job (the site on Vercel does not need it).
 name: Deploy to GitHub Pages
 
 on:
@@ -18,6 +19,7 @@ concurrency:
 
 jobs:
   deploy:
+    if: github.event_name == 'workflow_dispatch' || github.event.repository.has_pages
     runs-on: ubuntu-latest
     environment:
       name: github-pages

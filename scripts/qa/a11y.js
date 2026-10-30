@@ -38,7 +38,8 @@ const CONTEXTS = [['phone', 390, 844, 'light'], ['laptop', 1440, 900, 'light'], 
   const browser = await chromium.launch();
   const found = new Map();
   for (const [vp, w, h, theme] of CONTEXTS) {
-    const ctx = await browser.newContext({ viewport: { width: w, height: h }, colorScheme: theme, hasTouch: w < 700, isMobile: w < 700 });
+    // bypassCSP: the page forbids inline scripts, and axe-core is injected as one
+    const ctx = await browser.newContext({ viewport: { width: w, height: h }, colorScheme: theme, hasTouch: w < 700, isMobile: w < 700, bypassCSP: true });
     const page = await ctx.newPage();
     await page.goto(`${base}#/play`, { waitUntil: 'load' });
     await page.evaluate(() => SQ.quiz.start({ mode: 'quiz', count: 10, difficulty: 'intermediate', region: 'all', timer: 0, hints: true, preferUnseen: false }));

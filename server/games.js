@@ -369,6 +369,9 @@ async function removePlayer(store, uname, name) {
   const boards = await store.cmd('SMEMBERS', K.userBoards(uname));
   const cmds = boards.map((k) => (k.startsWith('sq:lbd:') ? ['HDEL', k, name] : ['ZREM', k, name]));
   cmds.push(['DEL', K.userBoards(uname)], ['DEL', K.stats(uname)], ['DEL', K.recent(uname)]);
+  // the "already played today" marks of the last few days (they would expire by themselves after 4 days)
+  const today = time.dayKey();
+  for (let i = 0; i <= 4; i++) ['sarpa', 'herpdle'].forEach((g) => cmds.push(['HDEL', K.dailyStatus(g, time.shiftDay(today, -i)), uname]));
   await store.pipe(cmds);
 }
 

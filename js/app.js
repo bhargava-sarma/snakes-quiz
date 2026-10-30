@@ -50,13 +50,16 @@
     return { path: path || '/', query: new URLSearchParams(q >= 0 ? raw.slice(q + 1) : '') };
   }
 
+  // a broken link (a stray "%") would otherwise stop the page from changing at all
+  const decode = (s) => { try { return decodeURIComponent(s); } catch (e) { return s; } };
+
   async function render() {
     const my = ++token;
     const { path, query } = parseHash();
     let route = null, params = {};
     for (const r of routes) {
       const m = path.match(r.re);
-      if (m) { route = r; r.keys.forEach((k, i) => (params[k] = decodeURIComponent(m[i + 1]))); break; }
+      if (m) { route = r; r.keys.forEach((k, i) => (params[k] = decode(m[i + 1]))); break; }
     }
     if (typeof cleanup === 'function') { try { cleanup(); } catch (e) { console.error(e); } }
     cleanup = null;

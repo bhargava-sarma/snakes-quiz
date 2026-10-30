@@ -29,10 +29,26 @@ const TYPES = {
   '.csv': 'text/csv; charset=utf-8',
 };
 
+// The response headers that vercel.json gives every address (the security headers), so that local runs and the tests
+// see what visitors get. Only the "/(.*)" pattern and exact paths are understood, which is all vercel.json uses.
+const VERCEL = JSON.parse(fs.readFileSync(path.join(ROOT, 'vercel.json'), 'utf8'));
+const vercelHeaders = (pathname) => Object.assign({}, ...(VERCEL.headers || [])
+  .filter((rule) => rule.source === '/(.*)' || rule.source === pathname)
+  .map((rule) => Object.fromEntries(rule.headers.map((x) => [x.key, x.value]))));
+
 const server = http.createServer((req, res) => {
   const url = new URL(req.url, 'http://localhost');
+  const extra = vercelHeaders(url.pathname);
   if (url.pathname === '/api/sarpa' && !noApi) {
+    Object.entries(extra).forEach(([k, v]) => res.setHeader(k, v));
     handler(req, res, noStore ? { store: null } : {}).catch((e) => { console.error(e); res.statusCode = 500; res.end(); });
+    return;
+  }
+  // Vercel serves its analytics scripts under /_vercel/; here they are empty stand-ins, so nothing is ever collected
+  if (url.pathname.startsWith('/_vercel/')) {
+    const script = req.method === 'GET' && url.pathname.endsWith('.js');
+    res.writeHead(script ? 200 : 204, Object.assign({}, extra, script ? { 'Content-Type': 'text/javascript; charset=utf-8' } : {}));
+    res.end(script ? '/* Vercel analytics run only on Vercel */\n' : undefined);
     return;
   }
   let rel;
@@ -41,8 +57,8 @@ const server = http.createServer((req, res) => {
   const file = path.join(ROOT, path.normalize(rel));
   if (!file.startsWith(ROOT + path.sep) || /[\\/]\.(git|env)/.test(file)) { res.writeHead(403); res.end(); return; }
   fs.stat(file, (err, st) => {
-    if (err || !st.isFile()) { res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' }); res.end('<h1>Not found</h1>'); return; }
-    res.writeHead(200, { 'Content-Type': TYPES[path.extname(file).toLowerCase()] || 'application/octet-stream', 'Content-Length': st.size, 'Cache-Control': 'no-cache' });
+    if (err || !st.isFile()) { res.writeHead(404, Object.assign({}, extra, { 'Content-Type': 'text/html; charset=utf-8' })); res.end('<h1>Not found</h1>'); return; }
+    res.writeHead(200, Object.assign({}, extra, { 'Content-Type': TYPES[path.extname(file).toLowerCase()] || 'application/octet-stream', 'Content-Length': st.size, 'Cache-Control': 'no-cache' }));
     if (req.method === 'HEAD') { res.end(); return; }
     fs.createReadStream(file).pipe(res);
   });

@@ -100,7 +100,7 @@
             show(friendly(ex), ex.code === 'bad_name' || ex.code === 'name_taken' ? name : ex.code === 'bad_pin' || ex.code === 'weak_pin' || ex.code === 'bad_credentials' ? pin.input : null);
           }
         } },
-          field('acct-name', 'Username', name, signup ? '3 to 16 letters, numbers or _. Everyone sees it on the leaderboards.' : 'Not case sensitive.'),
+          field('acct-name', 'Username', name, signup ? '3 to 16 letters, numbers or _. Everyone sees it on the leaderboards, so please do not use your full real name.' : 'Not case sensitive.'),
           pin.el,
           pin2 ? pin2.el : null,
           signup ? h('label.check', agree, h('span', 'I am 18 or older, or my parent or guardian agrees to this account, and I accept the ',
