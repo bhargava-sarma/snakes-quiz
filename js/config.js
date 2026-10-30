@@ -8,12 +8,11 @@ window.SQ_CONFIG = {
   // leaderboards. The field guide, flashcards, safety pages and everything else never need an account.
   requireAccountForGames: true,
 
-  // Who runs this copy of the site and how to reach them (shown on the legal pages). If the e-mail address is
-  // left empty, the pages point to the contact page below instead.
-  operator: '',                     // e.g. 'Asha Rao' or 'The Sarpa team'; empty: "the people who run this site"
+  // Who runs this site and how to reach them (shown on the legal pages). With no e-mail address, the legal pages
+  // send people to the issue tracker instead (which is public, so they also say not to post anything private there).
+  operator: 'bhargava-sarma',
+  operatorUrl: 'https://github.com/bhargava-sarma',
   contactEmail: '',
-  // The services that store or carry data for this site (named in the privacy policy).
-  providers: 'Vercel (website hosting) and Upstash (the accounts database)',
   contactUrl: 'https://github.com/bhargava-sarma/snakes-quiz/issues',
   repoUrl: 'https://github.com/bhargava-sarma/snakes-quiz',
 };

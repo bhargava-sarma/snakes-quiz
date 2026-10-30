@@ -68,7 +68,7 @@ on your computer) everything still works, just without accounts and leaderboards
 - **My progress**: stats, a snake-dex of species you have mastered, weak-spot practice, badges, and a backup/restore file
 - **Snakebite first aid** (the national "Do it R.I.G.H.T." guidance), the "Big Four", and myths vs facts
 - **Legal** pages: terms of use, privacy policy, safety disclaimer, photo licences and how to ask for a photo to be removed
-- Dark mode, installable as an app, works offline after the first visit, no ads, no cookies and no tracking
+- Dark mode, installable as an app, works offline after the first visit, no ads, no cookies, only cookie-free visit counts
 
 ## Design
 
@@ -99,12 +99,16 @@ for the website alone.
    static files and `api/sarpa.js` becomes the accounts API.
 2. In the Vercel project open **Storage → Create Database → Upstash for Redis**, pick the free plan and connect it to
    the project (keep the suggested environment-variable prefix).
-3. Recommended, **before anyone signs up**: in **Settings → Environment Variables** add `PIN_PEPPER` with a long
-   random value (for example the output of `openssl rand -hex 32`). Never change it later, or every PIN stops
-   working. Optional: `IP_SALT` (another random value) and `ADMIN_TOKEN` (16+ characters, to remove an abusive
-   username with the `admin-delete` action).
+3. Strongly recommended: in **Settings → Environment Variables** add `PIN_PEPPER` with a long random value (for
+   example the output of `openssl rand -hex 32`). With it, a copy of the database alone is not enough to work out
+   anyone's PIN. It can be added at any time: PINs made before it are re-hashed with it when their owners next sign
+   in. Once set, never change or remove it, or the PINs hashed with it stop working. Optional: `IP_SALT` (another
+   random value) and `ADMIN_TOKEN` (16+ characters, to remove an abusive username with the `admin-delete` action).
 4. Redeploy. `https://<your-site>/api/sarpa?action=health` should now say `"accounts": true`.
-5. Optional: put the operator's name and contact e-mail in [`js/config.js`](js/config.js); the legal pages use them.
+5. Optional: in the Vercel project, turn on **Analytics** (Web Analytics) and **Speed Insights**. Both are
+   cookie-free and already wired up in `index.html`; the privacy policy describes them. To drop them, turn them off
+   and delete their two `/_vercel/` script tags.
+6. Put who runs the site and how to reach them in [`js/config.js`](js/config.js); the legal pages use them.
 
 Without step 2 the site still works: the games are played as a guest and are not ranked.
 
@@ -133,7 +137,29 @@ link's preview for a while, so to see a change straight away, share the address 
   own code), each account can play each daily once, and impossible timings are refused. As in any browser game,
   a determined cheat can still read the answers from the website's code, so the boards are for fun.
 - The database holds usernames, PIN hashes, game results and leaderboard entries; old results expire (see the
-  privacy page). There are no cookies, ads or analytics.
+  privacy page). There are no cookies or ads; visits are counted with Vercel's cookie-free Web Analytics and Speed
+  Insights.
+
+### Security and privacy
+
+- **PINs** are never stored: only salted scrypt hashes, made with the `PIN_PEPPER` key (kept outside the database)
+  once that is set. Every PIN check (signing in, changing the PIN, deleting the account) counts towards limits per network
+  (6 in 15 minutes) and per account (30 an hour, 100 a day), which makes guessing a PIN impractical.
+- **Sessions** are 256-bit random keys sent in a header, never cookies, so other websites cannot act for a signed-in
+  player. The database keeps only their SHA-256.
+- **Other websites cannot use a visitor's browser against the API**: it accepts only JSON, which a browser will not
+  send to another site without that site's permission, and the API never gives it.
+- **Network addresses** are kept only as keyed hashes in rate-limit counters, which delete themselves within two days.
+- **The website** has a strict Content Security Policy (in `index.html`): it runs only its own scripts and loads
+  nothing from other sites, except photos from iNaturalist's store as a fallback. `vercel.json` stops other sites
+  from framing it and adds `nosniff`, a referrer policy and a permissions policy. Anything a player types, and
+  everything from the photo data, is put on the page as text, never as HTML.
+- **Secrets** live only in Vercel's environment variables. `.env` files are git-ignored, so `vercel env pull` cannot
+  leak them into the repository.
+
+Known limits: a forgotten PIN cannot be reset (there is no e-mail), and a determined cheat can still script perfect
+answers, because the website needs the answers to explain them. The boards are for fun, and `admin-delete` removes
+cheats.
 
 ## The photo data set
 
@@ -190,7 +216,8 @@ Playwright installed:
 
 ```bash
 node scripts/qa/api_test.js       # the accounts API against an in-memory database: sign-up, PINs, sessions, rate limits,
-                                  # daily puzzles, scoring, anti-cheat checks, leaderboards, deleting an account
+                                  # daily puzzles, scoring, anti-cheat checks, leaderboards, deleting an account, and the
+                                  # security checks (JSON only, PIN limits, pepper upgrade, name races, keyed address hashes)
 node scripts/qa/engine_check.js   # 4,500+ generated questions: 4 unique options, right answer, no look-alike clashes, balance...
 node scripts/qa/smoke.js          # every page and species page: no stray "null"/"undefined", no errors, no broken photos;
                                   # the link-preview tags and image
@@ -207,6 +234,7 @@ node scripts/qa/a11y.js           # axe-core accessibility scan of every page (W
 
 ```
 index.html  sw.js  manifest.webmanifest
+vercel.json                         security headers for the site on Vercel (the page's own policy is in index.html)
 css/                                styling: fonts.css, tokens.css (colours, type, space; light + dark),
                                     base.css (page frame, header, tab bar), components.css (keys, LCD, panels ...),
                                     views.css (every screen), games.css (Herpdle, accounts, leaderboards)

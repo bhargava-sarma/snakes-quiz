@@ -6,3 +6,7 @@
 __pycache__/
 node_modules/
 .DS_Store
+# secrets: "vercel env pull" writes the database token and PIN pepper to .env files
+.env
+.env.*
+.vercel/

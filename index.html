@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <!-- What this page may load: only its own files, plus iNaturalist's photo store as a fallback for photos. No inline
+       scripts, no other sites. vercel.json adds the protections a page cannot set itself (no framing, and more). -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://inaturalist-open-data.s3.amazonaws.com; font-src 'self'; connect-src 'self'; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Sarpa · Indian Snake Quiz</title>
   <meta name="description" content="Spot the snake! A free photo quiz and a daily clue game (Herpdle) on the snakes of India, with thousands of real photos, an explanation for every answer and daily, weekly and all-time leaderboards.">
@@ -37,28 +40,11 @@
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/views.css">
   <link rel="stylesheet" href="css/games.css">
-  <script>
-    // Use the saved theme before the first paint, so a dark page does not flash light while the app loads.
-    try {
-      var t = JSON.parse(localStorage.getItem('sarpa.v1.settings') || '{}').theme;
-      var dark = t === 'dark' || (t !== 'light' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
-      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
-      document.querySelector('meta[name="theme-color"]').setAttribute('content', dark ? '#121211' : '#e8e7e2');
-    } catch (e) { /* storage blocked: the app sorts the theme out when it starts */ }
-    // Start loading the main fonts early (not on file://, where browsers refuse cross-origin font preloads).
-    if (location.protocol !== 'file:') {
-      ['geist-latin-wght-normal', 'geist-mono-latin-wght-normal', 'doto-latin-full-normal'].forEach(function (f) {
-        var l = document.createElement('link');
-        l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = 'anonymous'; l.href = 'assets/fonts/' + f + '.woff2';
-        document.head.appendChild(l);
-      });
-    }
-  </script>
-  <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
-  <script type="module">
-    import { injectSpeedInsights } from 'https://cdn.jsdelivr.net/npm/@vercel/speed-insights@1/dist/index.mjs';
-    injectSpeedInsights();
-  </script>
+  <script src="js/boot.js"></script>
+  <!-- Vercel Web Analytics and Speed Insights, served by Vercel from this site's own address (no other site involved,
+       no cookies). They only exist on Vercel; elsewhere these two requests simply fail. See the privacy policy. -->
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>

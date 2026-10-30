@@ -31,7 +31,8 @@ function call(store, method, action, { body, token, query = {}, ip = '10.0.0.1',
     const qs = new URLSearchParams(Object.assign({ action }, query)).toString();
     const req = {
       method, url: '/api/sarpa?' + qs,
-      headers: Object.assign({ 'x-forwarded-for': ip }, token ? { authorization: 'Bearer ' + token } : {}, headers),
+      headers: Object.assign({ 'x-forwarded-for': ip }, method === 'POST' ? { 'content-type': 'application/json' } : {},
+        token ? { authorization: 'Bearer ' + token } : {}, headers),
       body: method === 'POST' ? (body || {}) : undefined,
     };
     const res = {
@@ -303,8 +304,11 @@ async function main() {
   eq(r.body.entries.length, 0, 'and from past days');
   const left = Array.from(store._data.keys()).filter((k) => k.includes('ranger_c'));
   ok(left.every((k) => k.startsWith('sq:rl:')), 'only rate-limit counters remain for a deleted account', left);
+  ok(!(await store.cmd('HGET', `sq:dly:sarpa:${tomorrow}`, 'ranger_c')), 'the deleted account’s “already played today” mark is gone');
   r = await call(store, 'POST', 'signup', { body: { username: 'Ranger_C', pin: '305817' }, ip: '10.0.0.9' });
   eq(r.status, 201, 'the name is free again');
+  r = await call(store, 'POST', 'start', { token: r.body.token, body: { game: 'sarpa', mode: 'daily' } });
+  eq(r.status, 200, 'a new account with the old name does not inherit its daily games');
 
   console.log('admin');
   process.env.ADMIN_TOKEN = 'x'.repeat(24);
@@ -348,9 +352,122 @@ async function main() {
   eq(credentials({ SARPA_REST_API_URL: 'https://c.upstash.io', SARPA_REST_API_TOKEN: 't3' })[1], 't3', 'a custom prefix');
   eq(credentials({ OTHER_REST_API_URL: 'https://example.com', OTHER_REST_API_TOKEN: 'x' })[0], '', 'other services are not mistaken for the database');
 
+  console.log('privacy and security');
+  await securityChecks(auth);
+
   Date.now = realNow;
   console.log(`\n${passes} passed, ${failures} failed`);
   process.exit(failures ? 1 : 0);
+}
+
+/** The defences added after the privacy and security review. */
+async function securityChecks(auth) {
+  const httpLib = require('../../server/http');
+  const sec = storeLib.memory();
+  sec._setClock(() => now);
+  let r;
+
+  // other websites cannot make a visitor's browser send forms or plain text to the API
+  for (const type of ['text/plain;charset=UTF-8', 'application/x-www-form-urlencoded', 'multipart/form-data; boundary=x']) {
+    r = await call(sec, 'POST', 'login', { body: { username: 'abc', pin: '123456' }, headers: { 'content-type': type, 'content-length': '40' } });
+    eq(r.status, 415, `${type.split(';')[0]} is refused`);
+  }
+  r = await call(sec, 'POST', 'logout', { headers: { 'content-type': '', 'content-length': '0' } });
+  eq(r.status, 200, 'a request without a body needs no type');
+  r = await call(sec, 'POST', 'signup', { body: { username: 'json_ok', pin: '582039' }, headers: { 'content-type': 'application/json; charset=utf-8' } });
+  eq(r.status, 201, 'JSON with a charset is fine');
+
+  // names no account can have are simply a wrong sign-in, and do not reach the database
+  r = await call(sec, 'POST', 'login', { body: { username: 'a:b*c', pin: '582039' } });
+  eq(r.status, 401, 'an impossible name is a wrong sign-in');
+  ok(!Array.from(sec._data.keys()).some((k) => k.includes('a:b*c')), 'and leaves nothing in the database');
+
+  // a rate-limit counter that lost its expiry gets one back (it would otherwise lock someone out for good)
+  await sec.cmd('SET', 'sq:rl:test:x', '3');
+  await auth.rateLimit(sec, 'test', 'x', 10, 60);
+  ok(Number(await sec.cmd('TTL', 'sq:rl:test:x')) > 0, 'a counter without an expiry gets one');
+
+  // at most 100 PIN attempts a day on one account, from anywhere
+  await sec.cmd('SET', 'sq:rl:login-acct-day:json_ok', 100, 'EX', 86400);
+  r = await call(sec, 'POST', 'login', { body: { username: 'json_ok', pin: '582039' }, ip: '10.9.9.9' });
+  eq(r.status, 429, 'the daily cap on sign-in attempts');
+  ok(/tomorrow/.test(r.body.error || ''), 'says when to come back', r.body);
+
+  // PIN checks while signed in are limited like signing in
+  r = await call(sec, 'POST', 'signup', { body: { username: 'pin_guard', pin: '582039' }, ip: '10.3.3.2' });
+  const tokG = r.body.token;
+  for (let i = 0; i < 6; i++) await call(sec, 'POST', 'delete-account', { token: tokG, body: { pin: '111111' }, ip: '10.3.3.3' });
+  r = await call(sec, 'POST', 'delete-account', { token: tokG, body: { pin: '582039' }, ip: '10.3.3.3' });
+  eq(r.status, 429, 'guessing a PIN through "delete account" is limited');
+
+  // two sign-ups for the same name at the same moment, on a database with some delay: exactly one gets it
+  const slow = {
+    kind: 'slow',
+    cmd: async (...a) => { await new Promise((ok2) => setTimeout(ok2, 3)); return sec.cmd(...a); },
+    pipe: async (c) => { await new Promise((ok2) => setTimeout(ok2, 3)); return sec.pipe(c); },
+    multi: async (c) => { await new Promise((ok2) => setTimeout(ok2, 3)); return sec.multi(c); },
+  };
+  const both = await Promise.all([
+    call(slow, 'POST', 'signup', { body: { username: 'Twin_Name', pin: '582039' }, ip: '10.4.4.1' }),
+    call(slow, 'POST', 'signup', { body: { username: 'twin_name', pin: '730591' }, ip: '10.4.4.2' }),
+  ]);
+  eq(both.map((x) => x.status).sort().join(','), '201,409', 'one name, two sign-ups at once: one wins');
+  const firstWon = both[0].status === 201;
+  r = await call(sec, 'POST', 'login', { body: { username: 'twin_name', pin: firstWon ? '582039' : '730591' }, ip: '10.4.4.3' });
+  eq(r.status, 200, 'the winner’s PIN works');
+  r = await call(sec, 'POST', 'login', { body: { username: 'twin_name', pin: firstWon ? '730591' : '582039' }, ip: '10.4.4.3' });
+  eq(r.status, 401, 'the other PIN does not');
+  await sec.cmd('SET', 'sq:uc:held_name', '1', 'EX', 30);          // a sign-up that died while writing this name
+  r = await call(sec, 'POST', 'signup', { body: { username: 'held_name', pin: '582039' }, ip: '10.4.4.4' });
+  eq(r.status, 409, 'a name being written by another sign-up cannot be taken');
+  advance(31000);
+  r = await call(sec, 'POST', 'signup', { body: { username: 'held_name', pin: '582039' }, ip: '10.4.4.4' });
+  eq(r.status, 201, 'the hold lapses by itself');
+
+  // PIN_PEPPER can be added after people have signed up: their PINs are re-hashed with it when they next sign in
+  delete process.env.PIN_PEPPER;
+  r = await call(sec, 'POST', 'signup', { body: { username: 'early_bird', pin: '582039' }, ip: '10.5.5.5' });
+  const before = await auth.getUser(sec, 'early_bird');
+  eq(before.pv, '0', 'a PIN hashed without a pepper is marked so');
+  process.env.PIN_PEPPER = 'p'.repeat(40);
+  r = await call(sec, 'POST', 'login', { body: { username: 'early_bird', pin: '582039' }, ip: '10.5.5.5' });
+  eq(r.status, 200, 'it still works after the pepper is added');
+  const after = await auth.getUser(sec, 'early_bird');
+  ok(after.pv === '1' && after.hash !== before.hash, 'and is re-hashed with the pepper', after);
+  r = await call(sec, 'POST', 'login', { body: { username: 'early_bird', pin: '582039' }, ip: '10.5.5.6' });
+  eq(r.status, 200, 'the re-hashed PIN works');
+  r = await call(sec, 'POST', 'login', { body: { username: 'early_bird', pin: '582030' }, ip: '10.5.5.6' });
+  eq(r.status, 401, 'a wrong PIN still fails');
+  for (const withPepper of [true, false]) {          // records from before the pv mark
+    if (withPepper) process.env.PIN_PEPPER = 'p'.repeat(40); else delete process.env.PIN_PEPPER;
+    const made = await auth.hashPin('604817');
+    const legacy = withPepper ? 'legacy_pep' : 'legacy_plain';
+    await sec.cmd('HSET', 'sq:u:' + legacy, 'name', legacy, 'salt', made.salt, 'hash', made.hash, 'created', now);
+    process.env.PIN_PEPPER = 'p'.repeat(40);
+    r = await call(sec, 'POST', 'login', { body: { username: legacy, pin: '604817' }, ip: '10.5.5.7' });
+    eq(r.status, 200, `an older record hashed ${withPepper ? 'with' : 'without'} the pepper still works`);
+    eq((await auth.getUser(sec, legacy)).pv, '1', 'and is then marked as peppered');
+    r = await call(sec, 'POST', 'login', { body: { username: legacy, pin: '604818' }, ip: '10.5.5.8' });
+    eq(r.status, 401, 'and a wrong PIN for it still fails');
+  }
+  delete process.env.PIN_PEPPER;
+
+  // network addresses are only ever stored as hashes keyed with a server secret
+  const req = (ip) => ({ headers: { 'x-forwarded-for': ip } });
+  process.env.IP_SALT = 'one-secret';
+  const a1 = httpLib.clientId(req('203.0.113.7'));
+  process.env.IP_SALT = 'another-secret';
+  const a2 = httpLib.clientId(req('203.0.113.7'));
+  delete process.env.IP_SALT;
+  ok(a1 !== a2 && a1.length === 24, 'address hashes depend on the server secret');
+  const plain = require('crypto').createHash('sha256').update('sarpa-rl::203.0.113.7').digest('hex').slice(0, 24);
+  ok(httpLib.clientId(req('203.0.113.7')) !== plain, 'without IP_SALT the hash is still keyed');
+
+  // the admin token is compared in constant time; near misses fail
+  process.env.ADMIN_TOKEN = 'x'.repeat(24);
+  r = await call(sec, 'POST', 'admin-delete', { body: { username: 'json_ok' }, headers: { 'x-admin-token': 'x'.repeat(23) + 'y' } });
+  eq(r.status, 403, 'a token one character off is refused');
+  delete process.env.ADMIN_TOKEN;
 }
 
 /** A tiny imitation of the Upstash REST API (single command, /pipeline, /multi-exec) on top of the memory store. */

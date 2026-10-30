@@ -15,7 +15,8 @@
  *
  * Signed-in calls send "Authorization: Bearer <token>". Errors come back as { error, code } with an HTTP status.
  */
-const { HttpError, readBody, query, bearer, clientId, send } = require('./http');
+const crypto = require('crypto');
+const { HttpError, readBody, query, bearer, jsonOrEmpty, clientId, send } = require('./http');
 const storeLib = require('./store');
 const auth = require('./auth');
 const games = require('./games');
@@ -35,10 +36,17 @@ async function needUser(store, req) {
 
 const POST_ONLY = new Set(['signup', 'login', 'logout', 'change-pin', 'delete-account', 'start', 'submit', 'admin-delete']);
 
+/** Compares two secrets in constant time, so the time an answer takes says nothing about how close a guess was. */
+function sameSecret(a, b) {
+  const digest = (s) => crypto.createHash('sha256').update(String(s)).digest();
+  return crypto.timingSafeEqual(digest(a), digest(b));
+}
+
 async function route(req, store) {
   const q = query(req);
   const action = String(q.action || '');
   if (POST_ONLY.has(action) && req.method !== 'POST') throw new HttpError(405, 'Use POST for this.', 'method');
+  if (POST_ONLY.has(action) && !jsonOrEmpty(req)) throw new HttpError(415, 'Send the request as JSON.', 'bad_type');
   const body = POST_ONLY.has(action) ? await readBody(req) : {};
   if (body === null || typeof body !== 'object' || Array.isArray(body)) throw new HttpError(400, 'The request was not valid.', 'bad_json');
 
@@ -92,8 +100,10 @@ async function route(req, store) {
     case 'delete-account': {
       const s = needStore(store);
       const user = await needUser(s, req);
-      await auth.deleteAccount(s, user, body, clientId(req));
+      await auth.confirmPin(s, user, body, clientId(req));
+      // the games first: if anything fails half-way, the account is still there to try again with
       await games.removePlayer(s, user.key, user.name);
+      await auth.removeAccountRecords(s, user.key);
       return { body: { ok: true } };
     }
 
@@ -113,7 +123,7 @@ async function route(req, store) {
       const s = needStore(store);
       const want = process.env.ADMIN_TOKEN || '';
       const got = String(req.headers['x-admin-token'] || '');
-      if (want.length < 16 || got !== want) throw new HttpError(403, 'Not allowed.', 'forbidden');
+      if (want.length < 16 || !sameSecret(got, want)) throw new HttpError(403, 'Not allowed.', 'forbidden');
       const uname = auth.canonical(String(body.username || '').trim());
       const rec = await auth.getUser(s, uname);
       if (!rec) throw new HttpError(404, 'No such account.', 'no_user');

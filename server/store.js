@@ -23,6 +23,7 @@ function upstash(url, token) {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
+        signal: AbortSignal.timeout(10000),         // a stuck database must not hold the request open
       });
     } catch (e) {
       throw new StoreError('database unreachable: ' + (e && e.message));

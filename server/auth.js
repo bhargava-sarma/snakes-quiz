@@ -1,14 +1,15 @@
 'use strict';
 /* Accounts: a username and a 6-digit PIN, nothing else.
- *  - PINs are stored only as salted scrypt hashes (plus an optional server-side pepper, PIN_PEPPER).
+ *  - PINs are stored only as salted scrypt hashes, made with a server-side pepper (PIN_PEPPER) when there is one.
  *  - Sessions are random tokens; the database keeps only their SHA-256, so a database leak does not leak sessions.
- *  - Sign-in attempts are rate limited per account and per network address, which makes guessing a PIN impractical.
+ *  - Every PIN check is rate limited per account and per network address, which makes guessing a PIN impractical.
  */
 const crypto = require('crypto');
 const { HttpError } = require('./http');
 
 const K = {
-  user: (u) => `sq:u:${u}`,              // hash: name, salt, hash, created, pinChanged
+  user: (u) => `sq:u:${u}`,              // hash: name, salt, hash, pv, created, pinChanged
+  claim: (u) => `sq:uc:${u}`,            // string: held for a moment while the account for a name is being written
   session: (h) => `sq:s:${h}`,           // string: account key
   sessions: (u) => `sq:us:${u}`,         // set of session hashes
   rate: (scope, id) => `sq:rl:${scope}:${id}`,
@@ -81,9 +82,17 @@ function validatePin(raw, strict) {
   return pin;
 }
 
-function scrypt(pin, salt) {
-  const pepper = process.env.PIN_PEPPER || '';
-  const input = pepper ? crypto.createHmac('sha256', pepper).update(pin).digest() : pin;
+/*
+ * A PIN hash is scrypt(PIN, salt), or scrypt(HMAC(PIN_PEPPER, PIN), salt) when the server has a pepper. The pepper
+ * lives only in the server's settings, so a copy of the database alone is not enough to try all million PINs.
+ * Each record notes which kind it is (pv: '1' with the pepper, '0' without; records from before this have no pv).
+ * A PIN hashed without the pepper is re-hashed with it the next time its owner signs in, so PIN_PEPPER can be added
+ * at any time. It must never be changed or removed once set, or the PINs hashed with it stop working.
+ */
+const pepper = () => process.env.PIN_PEPPER || '';
+
+function scrypt(pin, salt, withPepper) {
+  const input = withPepper ? crypto.createHmac('sha256', pepper()).update(pin).digest() : pin;
   return new Promise((resolve, reject) => {
     crypto.scrypt(input, salt, 32, { N: 16384, r: 8, p: 1, maxmem: 64 * 1024 * 1024 }, (err, key) => (err ? reject(err) : resolve(key)));
   });
@@ -91,18 +100,34 @@ function scrypt(pin, salt) {
 
 async function hashPin(pin) {
   const salt = crypto.randomBytes(16);
-  const hash = await scrypt(pin, salt);
-  return { salt: salt.toString('base64'), hash: hash.toString('base64') };
+  const withPepper = !!pepper();
+  const hash = await scrypt(pin, salt, withPepper);
+  return { salt: salt.toString('base64'), hash: hash.toString('base64'), pv: withPepper ? '1' : '0' };
 }
 
+/** Checks a PIN against an account record. Returns false, or { upgrade } (true: re-hash it with the pepper). */
 async function checkPin(pin, rec) {
   if (!rec || !rec.salt || !rec.hash) {
-    await scrypt(pin, crypto.randomBytes(16));        // same work either way, so timing does not reveal unknown names
+    await scrypt(pin, crypto.randomBytes(16), false);        // same work either way, so timing does not reveal unknown names
     return false;
   }
-  const got = await scrypt(pin, Buffer.from(rec.salt, 'base64'));
+  const salt = Buffer.from(rec.salt, 'base64');
   const want = Buffer.from(rec.hash, 'base64');
-  return got.length === want.length && crypto.timingSafeEqual(got, want);
+  const has = !!pepper();
+  if (rec.pv === '1' && !has) console.error('[sarpa api] PIN_PEPPER is missing, so PINs hashed with it cannot be checked');
+  // the ways this record may have been hashed, most likely first
+  const ways = rec.pv === '1' ? [true] : rec.pv === '0' ? [false] : has ? [true, false] : [false];
+  for (const withPepper of ways) {
+    if (withPepper && !has) continue;
+    const got = await scrypt(pin, salt, withPepper);
+    if (got.length === want.length && crypto.timingSafeEqual(got, want)) return { upgrade: has && (!withPepper || rec.pv !== '1') };
+  }
+  return false;
+}
+
+async function upgradePin(store, uname, pin) {
+  const { salt, hash, pv } = await hashPin(pin);
+  await store.cmd('HSET', K.user(uname), 'salt', salt, 'hash', hash, 'pv', pv);
 }
 
 const sha256 = (s) => crypto.createHash('sha256').update(s).digest('hex');
@@ -111,13 +136,21 @@ const newToken = () => crypto.randomBytes(32).toString('base64url');
 /** A fixed-window counter. Throws 429 once `limit` is exceeded within `windowSec`. */
 async function rateLimit(store, scope, id, limit, windowSec, message) {
   const key = K.rate(scope, id);
-  // SET NX starts the window (with its expiry) only once; INCR keeps the expiry
-  const [, count] = await store.pipe([['SET', key, 0, 'EX', windowSec, 'NX'], ['INCR', key]]);
+  // SET NX starts the window (with its expiry) only once; INCR keeps the expiry. Should the key run out between the
+  // two, INCR makes a new one without an expiry, which is then given one: a counter must never outlive its window.
+  const [, count, left] = await store.pipe([['SET', key, 0, 'EX', windowSec, 'NX'], ['INCR', key], ['TTL', key]]);
+  if (Number(left) === -1) await store.cmd('EXPIRE', key, windowSec);
   if (Number(count) > limit) {
-    const ttl = Number(await store.cmd('TTL', key));
-    const mins = Math.max(1, Math.ceil((ttl > 0 ? ttl : windowSec) / 60));
+    const mins = Math.max(1, Math.ceil((Number(left) > 0 ? Number(left) : windowSec) / 60));
     throw new HttpError(429, message || `Too many attempts. Please wait ${mins} minute${mins === 1 ? '' : 's'} and try again.`, 'rate_limited');
   }
+}
+
+/** Counts one PIN attempt on an account: from one network address, and from everywhere in an hour and in a day. */
+async function pinAttempt(store, uname, ipId) {
+  await rateLimit(store, 'login-acct', `${uname}:${ipId}`, 6, 900);
+  await rateLimit(store, 'login-acct-all', uname, 30, 3600, 'Too many sign-in attempts for this account. Please try again in an hour.');
+  await rateLimit(store, 'login-acct-day', uname, 100, 86400, 'Too many sign-in attempts for this account today. Please try again tomorrow.');
 }
 
 const toObj = (flat) => {
@@ -159,31 +192,35 @@ async function signup(store, { username, pin }, ipId) {
   const p = validatePin(pin, true);
   await rateLimit(store, 'signup-ip', ipId, 20, 3600, 'Too many new accounts from this network. Please try again in an hour.');
   const uname = canonical(name);
-  const { salt, hash } = await hashPin(p);
-  const created = Date.now();
-  // HSETNX makes the name check and the claim one atomic step, so two people cannot take the same name
-  const claimed = await store.cmd('HSETNX', K.user(uname), 'name', name);
-  if (Number(claimed) !== 1) {
-    // a half-written record (the request that claimed it failed before saving the PIN) may be taken over
-    const rec = toObj(await store.cmd('HGETALL', K.user(uname)));
-    if (rec.hash) throw new HttpError(409, 'That username is taken. Please choose another.', 'name_taken');
+  const taken = () => new HttpError(409, 'That username is taken. Please choose another.', 'name_taken');
+  const { salt, hash, pv } = await hashPin(p);
+  // Only one sign-up at a time may hold a name while its account is written, so two people choosing the same name at
+  // the same moment cannot both get in. The hold lapses by itself if a request dies half-way.
+  if ((await store.cmd('SET', K.claim(uname), '1', 'EX', 30, 'NX')) !== 'OK') throw taken();
+  try {
+    if (await store.cmd('HGET', K.user(uname), 'hash')) throw taken();
+    const created = Date.now();
+    await store.cmd('HSET', K.user(uname), 'name', name, 'salt', salt, 'hash', hash, 'pv', pv, 'created', created, 'pinChanged', created);
+    const token = await createSession(store, uname);
+    return { token, user: { name, created } };
+  } finally {
+    await store.cmd('DEL', K.claim(uname));
   }
-  await store.cmd('HSET', K.user(uname), 'name', name, 'salt', salt, 'hash', hash, 'created', created, 'pinChanged', created);
-  const token = await createSession(store, uname);
-  return { token, user: { name, created } };
 }
 
 async function login(store, { username, pin }, ipId) {
   const name = typeof username === 'string' ? username.trim() : '';
   if (!name || name.length > 32) throw new HttpError(400, 'Enter your username.', 'bad_name');
   const p = validatePin(pin, false);
+  const wrong = () => new HttpError(401, 'Wrong username or PIN.', 'bad_credentials');
+  if (!/^[A-Za-z0-9_]+$/.test(name)) throw wrong();         // no account can have such a name
   const uname = canonical(name);
   await rateLimit(store, 'login-ip', ipId, 40, 900);
-  await rateLimit(store, 'login-acct', `${uname}:${ipId}`, 6, 900);
-  await rateLimit(store, 'login-acct-all', uname, 30, 3600, 'Too many sign-in attempts for this account. Please try again in an hour.');
+  await pinAttempt(store, uname, ipId);
   const rec = await getUser(store, uname);
   const ok = await checkPin(p, rec);
-  if (!ok) throw new HttpError(401, 'Wrong username or PIN.', 'bad_credentials');
+  if (!ok) throw wrong();
+  if (ok.upgrade) await upgradePin(store, uname, p);
   await store.cmd('DEL', K.rate('login-acct', `${uname}:${ipId}`));
   const token = await createSession(store, uname);
   return { token, user: { name: rec.name, created: Number(rec.created) || 0 } };
@@ -196,26 +233,26 @@ async function logout(store, user) {
 async function changePin(store, user, { pin, newPin }, ipId) {
   const p = validatePin(pin, false);
   const np = validatePin(newPin, true);
-  await rateLimit(store, 'login-acct', `${user.key}:${ipId}`, 6, 900);
+  await pinAttempt(store, user.key, ipId);
   const rec = await getUser(store, user.key);
   if (!(await checkPin(p, rec))) throw new HttpError(401, 'Your current PIN is not right.', 'bad_credentials');
-  const { salt, hash } = await hashPin(np);
-  await store.cmd('HSET', K.user(user.key), 'salt', salt, 'hash', hash, 'pinChanged', Date.now());
+  const { salt, hash, pv } = await hashPin(np);
+  await store.cmd('HSET', K.user(user.key), 'salt', salt, 'hash', hash, 'pv', pv, 'pinChanged', Date.now());
   // sign out every other device
   const others = (await store.cmd('SMEMBERS', K.sessions(user.key))).filter((h) => h !== user.tokenHash);
   if (others.length) await store.pipe([...others.map((h) => ['DEL', K.session(h)]), ['SREM', K.sessions(user.key), ...others]]);
   return { ok: true, signedOutOthers: others.length };
 }
 
-/** Removes the sessions and the account record; game data is removed by the caller. */
-async function deleteAccount(store, user, { pin }, ipId) {
+/** Checks the PIN of a signed-in account before something that cannot be undone (deleting the account). */
+async function confirmPin(store, user, { pin }, ipId) {
   const p = validatePin(pin, false);
-  await rateLimit(store, 'login-acct', `${user.key}:${ipId}`, 6, 900);
+  await pinAttempt(store, user.key, ipId);
   const rec = await getUser(store, user.key);
   if (!(await checkPin(p, rec))) throw new HttpError(401, 'Your PIN is not right.', 'bad_credentials');
-  await removeAccountRecords(store, user.key);
 }
 
+/** Removes the sessions and the account record (game data is removed separately, by games.removePlayer). */
 async function removeAccountRecords(store, uname) {
   const all = await store.cmd('SMEMBERS', K.sessions(uname));
   await store.pipe([...all.map((h) => ['DEL', K.session(h)]), ['DEL', K.sessions(uname)], ['DEL', K.user(uname)]]);
@@ -223,5 +260,5 @@ async function removeAccountRecords(store, uname) {
 
 module.exports = {
   K, SESSION_DAYS, canonical, validateName, offensive, validatePin, hashPin, checkPin, sha256, rateLimit, toObj,
-  getUser, signup, login, logout, sessionUser, changePin, deleteAccount, removeAccountRecords,
+  getUser, signup, login, logout, sessionUser, changePin, confirmPin, removeAccountRecords,
 };
