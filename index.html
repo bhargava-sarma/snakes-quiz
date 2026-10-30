@@ -55,6 +55,10 @@
     }
   </script>
   <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+  <script type="module">
+    import { injectSpeedInsights } from 'https://cdn.jsdelivr.net/npm/@vercel/speed-insights@1/dist/index.mjs';
+    injectSpeedInsights();
+  </script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
