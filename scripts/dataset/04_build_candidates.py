@@ -1,19 +1,22 @@
 #!/usr/bin/env python3
 """Step 4 - join observations, photos and observers into candidate images.
 
-For every research-grade snake observation in the subcontinent we work out
-whether it was made inside India (and in which state / union territory) by
-testing the GPS point against state polygons.
+For every research-grade snake observation from step 2 we work out whether it
+was made inside the region (and in which state, province or territory) by
+testing the GPS point against state polygons. Every candidate is tagged with the
+region: "in" (India) or "na" (North America: the USA and Canada).
 
 The polygons are only used at build time to *label* each photo with a state; the
-map file itself is not redistributed.  Any GeoJSON FeatureCollection with a
-`properties.name` per state works, e.g. from the npm package
-`@highcharts/map-collection` (countries/in/in-all.geo.json, OpenStreetMap data).
+map file itself is not redistributed.  Any GeoJSON FeatureCollection in longitude
+and latitude with a `properties.name` per state works, e.g. India from the npm
+package `@highcharts/map-collection` (countries/in/in-all.geo.json, OpenStreetMap
+data), and the USA and Canada from Natural Earth's public-domain
+ne_50m_admin_1_states_provinces (keep the two countries' features, without Hawaii).
 
 Usage:
   04_build_candidates.py --obs obs_snakes.tsv --photos photos_snakes.tsv \
       --observers observers.csv.gz --taxa snake_taxa.tsv \
-      --states in-all.geo.json --out candidates.jsonl
+      --states in-all.geo.json --out candidates.jsonl [--region na]
 """
 import argparse
 import csv
@@ -28,7 +31,7 @@ from shapely.geometry import shape
 # The islands are tiny and the polygons are coarse, so allow a generous snap
 # distance (degrees) for them.  Mainland states only snap by a few km, so a
 # photo from just across the border (Nepal, Bangladesh...) is not claimed.
-ISLAND_STATES = {"Andaman and Nicobar Islands", "Lakshadweep"}
+ISLAND_STATES = {"Andaman and Nicobar Islands", "Lakshadweep"}       # India; the North American map has its islands
 SNAP_MAINLAND_DEG = 0.06
 SNAP_ISLAND_DEG = 0.5
 
@@ -40,7 +43,7 @@ def load_states(path):
 
 
 def locate(lats, lons, states):
-    """Return a list with the state name for every point, or None if outside India."""
+    """Return a list with the state name for every point, or None if outside the region."""
     x, y = np.asarray(lons, dtype=float), np.asarray(lats, dtype=float)
     result = [None] * len(x)
     todo = np.ones(len(x), dtype=bool)
@@ -73,6 +76,7 @@ def main():
     ap.add_argument("--observers", required=True)
     ap.add_argument("--taxa", required=True, help="snake_taxa.tsv from step 1")
     ap.add_argument("--states", required=True)
+    ap.add_argument("--region", default="in", choices=["in", "na"], help="in: India, na: the USA and Canada")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
@@ -97,8 +101,8 @@ def main():
     states = locate([obs[u]["lat"] for u in uuids], [obs[u]["lon"] for u in uuids], load_states(args.states))
     for u, s in zip(uuids, states):
         obs[u]["state"] = s
-    in_india = sum(1 for u in uuids if obs[u]["state"])
-    print(f"{in_india:,} observations fall inside India")
+    inside = sum(1 for u in uuids if obs[u]["state"])
+    print(f"{inside:,} observations fall inside the region")
 
     wanted = {obs[u]["observer"] for u in uuids if obs[u]["state"]}
     observers = {}
@@ -113,11 +117,11 @@ def main():
         for line in fh:
             pid, ouuid, ext, lic, w, h, pos = line.rstrip("\n").split("\t")
             o = obs.get(ouuid)
-            if not o or not o["state"]:
+            if not o or not o["state"] or not w or not h:      # no recorded size: it cannot be checked, so skip it
                 continue
             login, name = observers.get(o["observer"], ("", ""))
             out.write(json.dumps({
-                "photo": int(pid), "obs": ouuid, "ext": ext, "license": lic,
+                "photo": int(pid), "obs": ouuid, "ext": ext, "license": lic, "region": args.region,
                 "w": int(w), "h": int(h), "pos": int(pos),
                 "species": species_name[o["species"]], "species_id": o["species"],
                 "state": o["state"], "lat": o["lat"], "lon": o["lon"], "acc": o["acc"],

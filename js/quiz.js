@@ -10,13 +10,21 @@
 
   let starting = false;
 
+  /** Does a mixed game really have both areas (each at least 30% of it)? The server checks the same before the bonus. */
+  function isMixed(area, questions) {
+    if (area !== 'mix' || !questions.length) return false;
+    const n = (a) => questions.filter((q) => q.area === a).length;
+    return Math.min(n('in'), n('na')) >= Math.max(1, 0.3 * questions.length);
+  }
+  SQ.isMixedGame = isMixed;
+
   /** The daily set the server hands out, if this device has all of its photos. */
   function serverSet(srv, day) {
     const D = SQ.data;
     if (!srv || srv.day !== day || !Array.isArray(srv.questions) || srv.questions.length !== 10) return null;
     const fits = srv.questions.every((q) => D.photoById[q.photo] && D.photoById[q.photo].sp === q.species && q.options.length === 4 && q.options.every((id) => D.byId[id]));
     if (!fits) return null;
-    return { seed: 0, questions: srv.questions.map((q, i) => ({ n: i + 1, photo: q.photo, species: q.species, options: q.options.slice(), answer: q.options.indexOf(q.species) })) };
+    return { seed: 0, questions: srv.questions.map((q, i) => ({ n: i + 1, photo: q.photo, species: q.species, options: q.options.slice(), answer: q.options.indexOf(q.species), area: D.photoById[q.photo].region })) };
   }
 
   const quiz = (SQ.quiz = {
@@ -40,6 +48,8 @@
       starting = true;
       try {
         const o = Object.assign({ mode: 'quiz', count: 20, difficulty: 'beginner', region: 'all', timer: 0, hints: true, preferUnseen: true }, opts);
+        o.area = SQ.engine.areaOf(o);
+        if (o.mode === 'daily' && o.area === 'mix') o.area = 'in';          // each area has its own daily challenge
         const gate = await SQ.account.gate();
         if (!gate) return false;
         let built = null, ranked = false, runId = null;
@@ -49,29 +59,29 @@
           o.dateKey = o.dateKey || SQ.todayKey();
           if (gate.ranked) {
             try {
-              built = serverSet(await SQ.api.daily('sarpa'), o.dateKey);
+              built = serverSet(await SQ.api.daily('sarpa', o.area), o.dateKey);
               if (!built) SQ.ui.toast('A newer version of Sarpa is available. Reload the page to play today’s ranked challenge.', 'bad');
               else {
-                const run = await SQ.api.start('sarpa', 'daily');
+                const run = await SQ.api.start('sarpa', 'daily', 0, o.area);
                 ranked = true; runId = run.runId;
               }
             } catch (e) {
               built = null;
               if (e.code === 'daily_done') {
-                SQ.ui.toast('You have already played today’s challenge on this account. A new one arrives at midnight (India time).');
+                SQ.ui.toast(`You have already played today’s ${SQ.data.area(o.area).label} challenge on this account. A new one arrives at ${SQ.time.resetText()}.`);
                 SQ.go('/daily');
                 return false;
               }
               SQ.ui.toast('Cannot reach the Sarpa server. Today’s challenge will not be ranked.');
             }
           }
-          if (!built) built = SQ.engine.dailySet(o.dateKey);
+          if (!built) built = SQ.engine.dailySet(o.dateKey, o.area);
         } else if (o.mode === 'sudden') {
           o.timer = SQ.engine.SURVIVAL.timer;
           o.hints = false;
           o.count = SQ.engine.SURVIVAL.plan.reduce((a, p) => a + p[1], 0);
           o.difficulty = 'mixed';
-          built = SQ.engine.buildSurvival({ preferUnseen: o.preferUnseen });
+          built = SQ.engine.buildSurvival({ preferUnseen: o.preferUnseen, area: o.area });
         } else {
           built = SQ.engine.build(Object.assign({}, o, { personalise: true }));
         }
@@ -81,7 +91,7 @@
         }
         if (gate.ranked && o.mode !== 'daily') {
           try {
-            const run = await SQ.api.start('sarpa', o.mode, o.timer);
+            const run = await SQ.api.start('sarpa', o.mode, o.timer, o.area);
             ranked = true; runId = run.runId;
           } catch (e) {
             SQ.ui.toast(e.code === 'network' ? 'Cannot reach the Sarpa server. This quiz will not be ranked.' : 'This quiz will not be ranked: ' + e.message);
@@ -90,9 +100,10 @@
         quiz.session = {
           v: 1, id: Date.now().toString(36), mode: o.mode, title: o.title || '',
           config: {
-            count: built.questions.length, planned: o.count, difficulty: o.difficulty, region: o.region,
+            count: built.questions.length, planned: o.count, difficulty: o.difficulty, area: o.area, region: o.region,
             timer: o.timer, hints: o.hints, dateKey: o.dateKey || null, focus: o.focus || null,
           },
+          mixed: isMixed(o.area, built.questions),
           seed: built.seed, questions: built.questions, index: 0, answers: [], streak: 0, bestStreak: 0, points: 0,
           qHints: 0, removed: [], startedAt: Date.now(), activeMs: 0, ranked, runId, over: false,
         };
@@ -113,7 +124,7 @@
     finish(sess, early) {
       const items = sess.answers.map((a, i) => {
         const q = sess.questions[i];
-        return { n: q.n, photo: q.photo, species: q.species, options: q.options, chosen: a.chosen, correct: a.correct, hints: a.hints, points: a.points, ms: a.ms };
+        return { n: q.n, photo: q.photo, species: q.species, options: q.options, chosen: a.chosen, correct: a.correct, hints: a.hints, points: a.points, ms: a.ms, area: q.area };
       });
       const n = items.length;
       if (!n) { quiz.discard(); SQ.go('/'); return null; }
@@ -121,12 +132,12 @@
       const summary = {
         id: sess.id, mode: sess.mode, title: sess.title, n, planned: sess.config.planned || sess.questions.length, correct,
         points: sess.points, seconds: Math.round(sess.activeMs / 1000), bestStreak: sess.bestStreak,
-        difficulty: sess.config.difficulty, region: sess.config.region, timer: sess.config.timer,
+        difficulty: sess.config.difficulty, area: sess.config.area || 'in', mixed: !!sess.mixed, region: sess.config.region, timer: sess.config.timer,
         dateKey: sess.config.dateKey, config: sess.config, items, finishedAt: Date.now(), early: !!early,
       };
       SQ.store.recordGame(summary);
       if (sess.mode === 'daily' && sess.config.dateKey) {
-        SQ.store.recordDaily(sess.config.dateKey, { correct, n, points: sess.points, grid: items.map((x) => (x.correct ? 'G' : 'R')).join(''), ranked: !!sess.ranked });
+        SQ.store.recordDaily(sess.config.dateKey, { correct, n, points: sess.points, grid: items.map((x) => (x.correct ? 'G' : 'R')).join(''), ranked: !!sess.ranked }, sess.config.area);
       }
       summary.ranked = sess.ranked ? 'saving' : 'off';
       summary.newBadges = SQ.badges.evaluate(summary).map((b) => b.id);
@@ -174,6 +185,8 @@
     const timerFill = h('i.timer-fill');
     const timerEl = h('div.lcd.timer', { hidden: !timerSec, 'aria-label': 'Time left' }, h('span.legend', 'Time'), timerText, h('span.timer-bar', timerFill));
 
+    // (defined before the top bar below, which already needs it)
+    const areaName = (s) => SQ.data.area(s.config.area || 'in').label;
     const quitBtn = h('button.btn.btn-sm.quit-btn#quit-btn', { type: 'button', 'aria-label': 'Quit quiz' }, icon('x', { size: 16 }), h('span.quit-label', 'Quit'));
     const top = h('div.quiz-bar',
       h('div.qb-row',
@@ -193,7 +206,7 @@
     let progressText = null;
 
     function quizTitle(s) {
-      if (s.mode === 'daily') return 'Daily challenge';
+      if (s.mode === 'daily') return `Daily challenge · ${areaName(s)}`;
       if (s.mode === 'sudden') return 'Survival';
       if (s.mode === 'weak') return 'Weak-spot practice';
       if (s.mode === 'practice') return s.title || 'Practice';
@@ -261,7 +274,10 @@
       nextBar = h('div.next-bar', { hidden: true }, nextBtn);
 
       grid.append(photoCol, h('section.quiz-side',
-        h('div.q-head', h('p.legend', progressText, h('span.q-mode', ' · ' + quizTitle(sess)), sess.ranked ? h('span.q-ranked', ' · Ranked') : null), h('h1.q-title', 'Which snake is this?')),
+        h('div.q-head', h('p.legend', progressText, h('span.q-mode', ' · ' + quizTitle(sess)),
+          sess.mode !== 'daily' ? h('span.q-area', ' · ' + areaName(sess)) : null,
+          sess.mixed ? h('span.q-bonus', { title: 'Mixed games score 20% more' }, ' · ×1.2') : null,
+          sess.ranked ? h('span.q-ranked', ' · Ranked') : null), h('h1.q-title', 'Which snake is this?')),
         optsEl, actions, hintArea, explainEl, nextBar));
       updateTop();
 
@@ -328,7 +344,8 @@
       const correct = !timedOut && i === q.answer;
       const ms = Math.round(performance.now() - qStart);        // whole milliseconds, exactly as the server will see them
       const remaining = timerSec ? Math.max(0, timerSec - ms / 1000) : 0;
-      const pts = SQ.engine.score({ correct, hintsUsed: sess.qHints, remaining, timerSec, streak: sess.streak });
+      const pts = SQ.engine.score({ correct, hintsUsed: sess.qHints, remaining, timerSec, streak: sess.streak,
+        tier: D.byId[q.species].tier, hard: D.photoById[q.photo].hard, mixed: !!sess.mixed });
       sess.streak = correct ? sess.streak + 1 : 0;
       sess.bestStreak = Math.max(sess.bestStreak, sess.streak);
       sess.points += pts;

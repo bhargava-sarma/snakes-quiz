@@ -7,10 +7,11 @@
   const BASE = CFG.apiBase || '/api/sarpa';
 
   class ApiError extends Error {
-    constructor(message, status, code) {
+    constructor(message, status, code, data) {
       super(message);
       this.status = status;
       this.code = code || 'error';
+      this.data = data || null;          // the rest of the server's answer (for example the newer copy in a conflict)
     }
   }
 
@@ -64,7 +65,7 @@
     }
     if (!res.ok) {
       if (res.status === 401 && json.code === 'signed_out' && s) clearSession();
-      throw new ApiError(json.error || 'Something went wrong.', res.status, json.code);
+      throw new ApiError(json.error || 'Something went wrong.', res.status, json.code, json);
     }
     return json;
   }
@@ -154,12 +155,14 @@
       const j = await request('signup', { method: 'POST', body: { username, pin }, auth: false });
       setSession(j.token, j.user);
       status(true);
+      if (SQ.sync) SQ.sync.sync();             // progress made before signing up comes along
       return j.user;
     },
     async login(username, pin) {
       const j = await request('login', { method: 'POST', body: { username, pin }, auth: false });
       setSession(j.token, j.user);
       flush();
+      if (SQ.sync) SQ.sync.sync();             // bring this account's progress to this device
       return j.user;
     },
     async logout() {
@@ -174,8 +177,8 @@
     },
     me: () => request('me'),
     leaderboard: (board, period, day) => request('leaderboard', { query: { board, period, day }, auth: !!session() }),
-    daily: (game) => request('daily', { query: { game }, auth: false }),
-    start: (game, mode, timer) => request('start', { method: 'POST', body: { game, mode, timer: timer || 0 } }),
+    daily: (game, area) => request('daily', { query: { game, area: area || 'in' }, auth: false }),
+    start: (game, mode, timer, area) => request('start', { method: 'POST', body: { game, mode, timer: timer || 0, area: area || 'in' } }),
     submit,
     flush,
     pending: () => outbox().length,

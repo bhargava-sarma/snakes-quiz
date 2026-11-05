@@ -44,7 +44,9 @@ const base = (process.argv[2] || 'http://localhost:8765/index.html').replace(/#.
     if (size !== tags['og:image:width'] + 'x' + tags['og:image:height']) problems.push(`${route}: the image is ${size}, but the tags say ${tags['og:image:width']}x${tags['og:image:height']}`);
   } else problems.push(`${route}: og:image must be a full https:// address`);
 
-  const routes = ['/', '/play', '/daily', '/guide', '/learn', '/compare', '/stats', '/safety', '/about', '/credits']
+  const routes = ['/', '/play', '/daily', '/daily?area=na', '/herpdle', '/herpdle?area=na', '/herpdle?mode=practice&area=na', '/ranks',
+    '/ranks?board=herpdle-na', '/guide', '/guide?area=in', '/guide?area=na', '/learn', '/compare', '/me', '/safety', '/safety?area=in',
+    '/safety?area=na', '/about', '/credits', '/legal/terms', '/legal/privacy', '/legal/disclaimer', '/legal/licences', '/legal/takedown']
     .concat(ids.map((id) => '/guide/' + id))
     .concat([`/compare?a=${ids[0]}&b=${ids[1]}`]);
 

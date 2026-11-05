@@ -1,0 +1,1867 @@
+[
+  {
+    "id": "diadophis-punctatus",
+    "sci": "Diadophis punctatus",
+    "name": "Ring-necked Snake",
+    "aka": [
+      "Ringneck Snake",
+      "Ring-neck Snake"
+    ],
+    "family": "Colubridae",
+    "kind": "Ring-necked snake",
+    "tier": 1,
+    "venom": "mild",
+    "len": "0.25-0.45 m, rarely 0.7 m (10-18 in)",
+    "habitat": "Moist woodland, rocky hillsides, gardens and grassland, under logs, bark and stones",
+    "range": "Most of the USA and south-eastern Canada, from Nova Scotia to Florida and west to the Pacific coast; into Mexico",
+    "diet": "Salamanders, earthworms, slugs and small snakes",
+    "active": "Mostly at night; under cover by day",
+    "ids": [
+      "A small, slim snake, grey, black or olive above, with a bright yellow or orange ring around the neck.",
+      "The belly is bright yellow, orange or red, often with small black dots.",
+      "When disturbed it coils its tail into a corkscrew to flash the red underside.",
+      "Smooth scales and a small, flat head."
+    ],
+    "look": {
+      "colour": "Grey, black or olive; neck ring and belly yellow, orange or red",
+      "pattern": "Plain, with a bright neck ring",
+      "head": "Small and flat, with a bright collar behind it",
+      "body": "Small and slim"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "slender",
+      "size": 1,
+      "habit": "terrestrial",
+      "snout": "blunt",
+      "scales": "smooth",
+      "hue": [
+        "grey",
+        "black",
+        "olive",
+        "yellow",
+        "orange"
+      ]
+    },
+    "grp": [
+      "collared-small",
+      "small-brown"
+    ],
+    "fact": "Its saliva subdues salamanders, but it is far too small and gentle to harm people."
+  },
+  {
+    "id": "carphophis-amoenus",
+    "sci": "Carphophis amoenus",
+    "name": "Eastern Wormsnake",
+    "family": "Colubridae",
+    "kind": "Worm snake",
+    "tier": 2,
+    "venom": "none",
+    "len": "0.2-0.3 m (8-12 in)",
+    "habitat": "Damp woodland and forest edges, under logs, stones and leaf litter",
+    "range": "The eastern USA from Massachusetts to Georgia, west to Illinois and Alabama",
+    "diet": "Earthworms",
+    "active": "Hidden underground or under cover",
+    "ids": [
+      "A tiny, plain brown snake that looks like an earthworm.",
+      "A pink belly, the pink reaching only the lowest row of side scales.",
+      "Smooth, shiny scales, a pointed head and a tail tipped with a small spine."
+    ],
+    "look": {
+      "colour": "Plain brown above, pink below",
+      "pattern": "Plain",
+      "head": "Small and pointed",
+      "body": "Tiny, smooth and worm-like"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "bicolour",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "pointed",
+      "scales": "glossy",
+      "hue": [
+        "brown",
+        "pink"
+      ]
+    },
+    "grp": [
+      "small-brown"
+    ],
+    "fact": "It presses the spine on its tail tip into your hand when picked up; it cannot sting."
+  },
+  {
+    "id": "carphophis-vermis",
+    "sci": "Carphophis vermis",
+    "name": "Western Wormsnake",
+    "family": "Colubridae",
+    "kind": "Worm snake",
+    "tier": 3,
+    "venom": "none",
+    "len": "0.2-0.3 m (8-12 in)",
+    "habitat": "Damp woodland, rocky hillsides and forest edges",
+    "range": "The central USA: Missouri, Arkansas, Kansas, Oklahoma, Iowa, Illinois and Louisiana",
+    "diet": "Earthworms",
+    "active": "Hidden underground or under cover",
+    "ids": [
+      "A tiny, worm-like snake: dark purplish-black above and pink below.",
+      "The pink reaches up onto the lower sides.",
+      "Smooth, shiny scales and a spine on the tail tip."
+    ],
+    "look": {
+      "colour": "Dark purplish-black above, pink below",
+      "pattern": "Plain",
+      "head": "Small and pointed",
+      "body": "Tiny, smooth and worm-like"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "bicolour",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "pointed",
+      "scales": "glossy",
+      "hue": [
+        "black",
+        "pink"
+      ]
+    },
+    "grp": [
+      "small-brown"
+    ],
+    "fact": "It is a western twin of the Eastern Wormsnake, darker on the back."
+  },
+  {
+    "id": "farancia-abacura",
+    "sci": "Farancia abacura",
+    "name": "Red-bellied Mudsnake",
+    "aka": [
+      "Mud Snake",
+      "Hoop Snake"
+    ],
+    "family": "Colubridae",
+    "kind": "Mud snake",
+    "tier": 3,
+    "venom": "none",
+    "len": "1-1.4 m, rarely 2 m (3-4.5 ft)",
+    "habitat": "Swamps, marshes, slow streams and cypress ponds",
+    "range": "The south-east and Mississippi valley: Virginia to Florida, west to Texas and north to southern Illinois",
+    "diet": "Amphiumas and sirens (eel-like salamanders)",
+    "active": "Mostly at night",
+    "ids": [
+      "Large and glossy black above, with red or pink bars rising onto the sides from the belly.",
+      "A red-and-black checkered belly.",
+      "A short tail ending in a sharp spine."
+    ],
+    "look": {
+      "colour": "Glossy black with red or pink",
+      "pattern": "Red bars on the sides; checkered belly",
+      "head": "Small and rounded",
+      "body": "Thick and glossy"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "banded",
+      "build": "stout",
+      "size": 3,
+      "habit": "aquatic",
+      "snout": "blunt",
+      "scales": "glossy",
+      "hue": [
+        "black",
+        "red",
+        "pink"
+      ]
+    },
+    "grp": [
+      "water-snake",
+      "black-snake"
+    ],
+    "fact": "The legend of the \"hoop snake\" that rolls with its tail in its mouth comes from this harmless snake."
+  },
+  {
+    "id": "farancia-erytrogramma",
+    "sci": "Farancia erytrogramma",
+    "name": "Rainbow Snake",
+    "family": "Colubridae",
+    "kind": "Mud snake",
+    "tier": 4,
+    "venom": "none",
+    "len": "0.9-1.2 m, rarely 1.7 m (3-4 ft)",
+    "habitat": "Blackwater rivers, swamps and coastal marshes",
+    "range": "The south-eastern coastal plain from Virginia to Florida and Louisiana",
+    "diet": "American eels",
+    "active": "Mostly at night",
+    "ids": [
+      "Glossy blue-black with three red stripes along the back.",
+      "Yellow and red on the sides and belly, with rows of black spots.",
+      "A pointed tail spine."
+    ],
+    "look": {
+      "colour": "Blue-black, red and yellow",
+      "pattern": "Three red stripes",
+      "head": "Small and rounded",
+      "body": "Large, thick and glossy"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "striped",
+      "build": "stout",
+      "size": 3,
+      "habit": "aquatic",
+      "snout": "blunt",
+      "scales": "glossy",
+      "hue": [
+        "black",
+        "blue",
+        "red",
+        "yellow"
+      ]
+    },
+    "grp": [
+      "water-snake"
+    ],
+    "fact": "It eats almost nothing but eels and is rarely seen out of the water."
+  },
+  {
+    "id": "contia-tenuis",
+    "sci": "Contia tenuis",
+    "name": "Common Sharp-tailed Snake",
+    "aka": [
+      "Sharp-tailed Snake"
+    ],
+    "family": "Colubridae",
+    "kind": "Sharp-tailed snake",
+    "tier": 3,
+    "venom": "none",
+    "len": "0.2-0.45 m (8-18 in)",
+    "habitat": "Moist woodland, grassland edges and rocky hillsides, under logs and stones",
+    "range": "The Pacific coast: California, Oregon, Washington and southern British Columbia",
+    "diet": "Slugs",
+    "active": "Active in cool, wet weather; hidden in summer",
+    "ids": [
+      "A small reddish-brown or grey snake with a sharp spine at the tip of its tail.",
+      "A belly with bold black and white crossbars.",
+      "Smooth scales and a small head."
+    ],
+    "look": {
+      "colour": "Reddish-brown or grey",
+      "pattern": "Plain above; barred belly",
+      "head": "Small",
+      "body": "Small and slim"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "slender",
+      "size": 1,
+      "habit": "terrestrial",
+      "snout": "blunt",
+      "scales": "smooth",
+      "hue": [
+        "brown",
+        "red",
+        "grey"
+      ]
+    },
+    "grp": [
+      "small-brown"
+    ],
+    "fact": "Its long teeth are made for gripping slippery slugs."
+  },
+  {
+    "id": "contia-longicauda",
+    "sci": "Contia longicauda",
+    "name": "Forest Sharp-tailed Snake",
+    "family": "Colubridae",
+    "kind": "Sharp-tailed snake",
+    "tier": 4,
+    "venom": "none",
+    "len": "0.25-0.45 m (10-18 in)",
+    "habitat": "Moist coastal forests",
+    "range": "Northern California and south-western Oregon",
+    "diet": "Slugs",
+    "active": "Active in cool, wet weather",
+    "ids": [
+      "Like the Common Sharp-tailed Snake but with a longer tail.",
+      "Reddish-brown with a spine on the tail tip and a barred belly."
+    ],
+    "look": {
+      "colour": "Reddish-brown",
+      "pattern": "Plain above; barred belly",
+      "head": "Small",
+      "body": "Small and slim, with a long tail"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "slender",
+      "size": 1,
+      "habit": "terrestrial",
+      "snout": "blunt",
+      "scales": "smooth",
+      "hue": [
+        "brown",
+        "red"
+      ]
+    },
+    "grp": [
+      "small-brown"
+    ],
+    "fact": "It was described as a separate species only in 2010."
+  },
+  {
+    "id": "hypsiglena-chlorophaea",
+    "sci": "Hypsiglena chlorophaea",
+    "name": "Desert Nightsnake",
+    "family": "Colubridae",
+    "kind": "Night snake",
+    "tier": 3,
+    "venom": "mild",
+    "len": "0.3-0.5 m (12-20 in)",
+    "habitat": "Deserts, sagebrush, rocky hillsides and grassland",
+    "range": "The Great Basin and desert south-west: Washington and Idaho to Nevada, Utah, Arizona and California; into Mexico",
+    "diet": "Lizards, their eggs and small frogs",
+    "active": "At night",
+    "ids": [
+      "A small, pale grey or tan snake with rows of dark brown blotches.",
+      "Large dark patches on the neck, and a dark stripe behind each eye.",
+      "Vertical (cat-like) pupils and a flat head."
+    ],
+    "look": {
+      "colour": "Pale grey, tan or cream with brown blotches",
+      "pattern": "Dark blotches and neck patches",
+      "head": "Flat, with vertical pupils",
+      "body": "Small and slim"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "build": "slender",
+      "size": 1,
+      "habit": "terrestrial",
+      "snout": "blunt",
+      "scales": "smooth",
+      "hue": [
+        "grey",
+        "tan",
+        "brown",
+        "cream"
+      ],
+      "pupil": "vertical"
+    },
+    "grp": [
+      "cat-snake"
+    ],
+    "fact": "Its vertical pupils make it look like a tiny viper, but it is harmless to people."
+  },
+  {
+    "id": "hypsiglena-jani",
+    "sci": "Hypsiglena jani",
+    "name": "Chihuahuan Nightsnake",
+    "family": "Colubridae",
+    "kind": "Night snake",
+    "tier": 3,
+    "venom": "mild",
+    "len": "0.3-0.4 m (12-16 in)",
+    "habitat": "Desert, grassland, rocky hillsides and canyons",
+    "range": "The southern plains and Chihuahuan Desert: Kansas, Colorado, Oklahoma, New Mexico, Texas and Arizona; into Mexico",
+    "diet": "Lizards, their eggs, frogs and small snakes",
+    "active": "At night",
+    "ids": [
+      "A small, light grey or tan snake with dark brown blotches.",
+      "Dark neck patches and a dark stripe behind the eye.",
+      "Vertical pupils."
+    ],
+    "look": {
+      "colour": "Light grey or tan with brown blotches",
+      "pattern": "Dark blotches and neck patches",
+      "head": "Flat, with vertical pupils",
+      "body": "Small and slim"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "build": "slender",
+      "size": 1,
+      "habit": "terrestrial",
+      "snout": "blunt",
+      "scales": "smooth",
+      "hue": [
+        "grey",
+        "tan",
+        "brown"
+      ],
+      "pupil": "vertical"
+    },
+    "grp": [
+      "cat-snake"
+    ],
+    "fact": "It is the eastern member of the nightsnake group, reaching the Kansas prairies."
+  },
+  {
+    "id": "hypsiglena-ochrorhynchus",
+    "sci": "Hypsiglena ochrorhynchus",
+    "name": "Coast Nightsnake",
+    "family": "Colubridae",
+    "kind": "Night snake",
+    "tier": 3,
+    "venom": "mild",
+    "len": "0.3-0.5 m (12-20 in)",
+    "habitat": "Coastal scrub, chaparral, rocky hillsides and grassland",
+    "range": "Coastal and southern California; into Baja California",
+    "diet": "Lizards and their eggs, and frogs",
+    "active": "At night",
+    "ids": [
+      "A small, light grey or beige snake with dark brown blotches.",
+      "Dark neck patches and a dark stripe through the eye.",
+      "Vertical pupils."
+    ],
+    "look": {
+      "colour": "Light grey or beige",
+      "pattern": "Dark blotches and neck patches",
+      "head": "Flat, with vertical pupils",
+      "body": "Small and slim"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "build": "slender",
+      "size": 1,
+      "habit": "terrestrial",
+      "snout": "blunt",
+      "scales": "smooth",
+      "hue": [
+        "grey",
+        "cream",
+        "brown"
+      ],
+      "pupil": "vertical"
+    },
+    "grp": [
+      "cat-snake"
+    ],
+    "fact": "Like all nightsnakes, it hides under rocks by day and is often found on roads at night."
+  },
+  {
+    "id": "trimorphodon-lambda",
+    "sci": "Trimorphodon lambda",
+    "name": "Sonoran Lyresnake",
+    "family": "Colubridae",
+    "kind": "Lyre snake",
+    "tier": 3,
+    "venom": "mild",
+    "len": "0.6-1 m (2-3.5 ft)",
+    "habitat": "Rocky desert hillsides, canyons and cliffs",
+    "range": "Arizona, south-eastern California, Nevada, south-western Utah and New Mexico; into Mexico",
+    "diet": "Lizards, bats and rodents",
+    "active": "At night",
+    "ids": [
+      "Light brown or grey with dark brown saddles that have pale centres.",
+      "A lyre- or V-shaped dark mark on top of the head.",
+      "Vertical pupils and a broad head on a thin neck."
+    ],
+    "look": {
+      "colour": "Light brown or grey",
+      "pattern": "Pale-centred dark saddles",
+      "head": "Broad, with a V-shaped mark and vertical pupils",
+      "body": "Slim"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "build": "slender",
+      "size": 3,
+      "habit": "terrestrial",
+      "snout": "blunt",
+      "scales": "smooth",
+      "hue": [
+        "brown",
+        "grey",
+        "tan"
+      ],
+      "pupil": "vertical"
+    },
+    "grp": [
+      "cat-snake"
+    ],
+    "fact": "It climbs rock crevices to catch roosting bats."
+  },
+  {
+    "id": "trimorphodon-lyrophanes",
+    "sci": "Trimorphodon lyrophanes",
+    "name": "California Lyresnake",
+    "family": "Colubridae",
+    "kind": "Lyre snake",
+    "tier": 4,
+    "venom": "mild",
+    "len": "0.6-1 m (2-3.5 ft)",
+    "habitat": "Rocky hillsides, canyons and chaparral",
+    "range": "Southern California; into Baja California",
+    "diet": "Lizards, bats and rodents",
+    "active": "At night",
+    "ids": [
+      "Pale grey-brown with dark brown, pale-centred blotches.",
+      "A dark lyre-shaped mark on the head.",
+      "Vertical pupils."
+    ],
+    "look": {
+      "colour": "Grey-brown",
+      "pattern": "Dark blotches with pale centres",
+      "head": "Broad, with a lyre mark and vertical pupils",
+      "body": "Slim"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "build": "slender",
+      "size": 3,
+      "habit": "terrestrial",
+      "snout": "blunt",
+      "scales": "smooth",
+      "hue": [
+        "grey",
+        "brown",
+        "tan"
+      ],
+      "pupil": "vertical"
+    },
+    "grp": [
+      "cat-snake"
+    ],
+    "fact": "It was split from the Sonoran Lyresnake on the basis of its DNA."
+  },
+  {
+    "id": "trimorphodon-vilkinsonii",
+    "sci": "Trimorphodon vilkinsonii",
+    "name": "Texas Lyresnake",
+    "family": "Colubridae",
+    "kind": "Lyre snake",
+    "tier": 5,
+    "venom": "mild",
+    "len": "0.6-1 m (2-3.5 ft)",
+    "habitat": "Rocky desert mountains and canyons",
+    "range": "West Texas and southern New Mexico; into Mexico",
+    "diet": "Lizards and small mammals",
+    "active": "At night",
+    "ids": [
+      "Grey with widely spaced dark brown crossbands.",
+      "A faint lyre mark on the head and vertical pupils."
+    ],
+    "look": {
+      "colour": "Grey with brown bands",
+      "pattern": "Widely spaced dark bands",
+      "head": "Broad, with vertical pupils",
+      "body": "Slim"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "banded",
+      "build": "slender",
+      "size": 3,
+      "habit": "terrestrial",
+      "snout": "blunt",
+      "scales": "smooth",
+      "hue": [
+        "grey",
+        "brown"
+      ],
+      "pupil": "vertical"
+    },
+    "grp": [
+      "cat-snake"
+    ],
+    "fact": "It is one of the least-seen snakes of the Big Bend region."
+  },
+  {
+    "id": "tantilla-gracilis",
+    "sci": "Tantilla gracilis",
+    "name": "Flat-headed Snake",
+    "family": "Colubridae",
+    "kind": "Black-headed snake",
+    "tier": 3,
+    "venom": "mild",
+    "len": "0.15-0.25 m (6-10 in)",
+    "habitat": "Rocky hillsides, woodland and grassland, under stones and logs",
+    "range": "The south-central USA: Missouri, Arkansas, Kansas, Oklahoma, Louisiana and Texas",
+    "diet": "Centipedes, insect larvae and spiders",
+    "active": "Hidden under cover",
+    "ids": [
+      "A tiny, plain tan or grey-brown snake with a slightly darker, flattened head.",
+      "No sharp black cap, unlike the black-headed snakes.",
+      "A pink or salmon belly."
+    ],
+    "look": {
+      "colour": "Plain tan or grey-brown",
+      "pattern": "Plain",
+      "head": "Slightly darker and flat",
+      "body": "Tiny and slim"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "blunt",
+      "scales": "smooth",
+      "hue": [
+        "tan",
+        "brown",
+        "grey"
+      ]
+    },
+    "grp": [
+      "small-brown",
+      "black-headed"
+    ],
+    "fact": "It hunts centipedes under rocks, subduing them with a very mild venom."
+  },
+  {
+    "id": "tantilla-nigriceps",
+    "sci": "Tantilla nigriceps",
+    "name": "Plains Black-headed Snake",
+    "family": "Colubridae",
+    "kind": "Black-headed snake",
+    "tier": 3,
+    "venom": "mild",
+    "len": "0.18-0.38 m (7-15 in)",
+    "habitat": "Prairie, desert grassland and rocky hillsides",
+    "range": "The southern plains: Kansas, Colorado, Oklahoma, Texas, New Mexico and Arizona; into Mexico",
+    "diet": "Centipedes, insects and spiders",
+    "active": "Hidden under cover",
+    "ids": [
+      "A tiny tan snake with a black cap on the head that ends in a point on the neck.",
+      "No pale collar behind the cap.",
+      "A pink belly."
+    ],
+    "look": {
+      "colour": "Tan or light brown",
+      "pattern": "Plain, with a black cap",
+      "head": "Black-capped, pointed at the back",
+      "body": "Tiny and slim"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "blunt",
+      "scales": "smooth",
+      "hue": [
+        "tan",
+        "brown",
+        "black"
+      ]
+    },
+    "grp": [
+      "black-headed",
+      "small-brown"
+    ],
+    "fact": "It is the black-headed snake of the Great Plains."
+  },
+  {
+    "id": "tantilla-coronata",
+    "sci": "Tantilla coronata",
+    "name": "Southeastern Crowned Snake",
+    "aka": [
+      "Crowned Snake"
+    ],
+    "family": "Colubridae",
+    "kind": "Crowned snake",
+    "tier": 3,
+    "venom": "mild",
+    "len": "0.2-0.3 m (8-12 in)",
+    "habitat": "Dry woodland, pine forest and sandy hillsides",
+    "range": "The south-east: Virginia to north Florida, west to Mississippi and Kentucky",
+    "diet": "Centipedes and insect larvae",
+    "active": "Hidden under cover",
+    "ids": [
+      "A tiny tan or reddish-brown snake with a black head.",
+      "A pale band across the back of the head, then a black collar.",
+      "Smooth scales and a white belly."
+    ],
+    "look": {
+      "colour": "Tan or reddish-brown",
+      "pattern": "Plain, with a black head and collar",
+      "head": "Black, with a pale band behind it",
+      "body": "Tiny and slim"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "blunt",
+      "scales": "smooth",
+      "hue": [
+        "tan",
+        "brown",
+        "black"
+      ]
+    },
+    "grp": [
+      "black-headed",
+      "collared-small"
+    ],
+    "fact": "The pale band between the black cap and the black collar is its \"crown\"."
+  },
+  {
+    "id": "tantilla-hobartsmithi",
+    "sci": "Tantilla hobartsmithi",
+    "name": "Southwestern Black-headed Snake",
+    "family": "Colubridae",
+    "kind": "Black-headed snake",
+    "tier": 4,
+    "venom": "mild",
+    "len": "0.15-0.25 m (6-10 in)",
+    "habitat": "Desert, grassland and rocky canyons",
+    "range": "The south-west: Arizona, Utah, Nevada, California, New Mexico and west Texas; into Mexico",
+    "diet": "Beetle larvae and centipedes",
+    "active": "Hidden under cover",
+    "ids": [
+      "A tiny light brown or beige snake with a black cap.",
+      "Often a faint pale collar behind the cap.",
+      "A pink or orange stripe along the belly."
+    ],
+    "look": {
+      "colour": "Light brown or beige",
+      "pattern": "Plain, with a black cap",
+      "head": "Black-capped",
+      "body": "Tiny and slim"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "blunt",
+      "scales": "smooth",
+      "hue": [
+        "brown",
+        "tan",
+        "black"
+      ]
+    },
+    "grp": [
+      "black-headed",
+      "small-brown"
+    ],
+    "fact": "It is named after the American herpetologist Hobart M. Smith."
+  },
+  {
+    "id": "tantilla-planiceps",
+    "sci": "Tantilla planiceps",
+    "name": "Western Black-headed Snake",
+    "family": "Colubridae",
+    "kind": "Black-headed snake",
+    "tier": 4,
+    "venom": "mild",
+    "len": "0.15-0.3 m (6-12 in)",
+    "habitat": "Grassland, chaparral, woodland and rocky hillsides",
+    "range": "Coastal and southern California; into Baja California",
+    "diet": "Centipedes, insects and spiders",
+    "active": "Hidden under cover",
+    "ids": [
+      "A tiny olive-brown snake with a black cap that ends in a straight edge or points a little down the neck.",
+      "Often a thin pale collar behind the cap.",
+      "A pink or orange belly."
+    ],
+    "look": {
+      "colour": "Olive-brown",
+      "pattern": "Plain, with a black cap",
+      "head": "Black-capped",
+      "body": "Tiny and slim"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "blunt",
+      "scales": "smooth",
+      "hue": [
+        "olive",
+        "brown",
+        "black"
+      ]
+    },
+    "grp": [
+      "black-headed",
+      "small-brown"
+    ],
+    "fact": "It is California's commonest black-headed snake, but few people ever see one."
+  },
+  {
+    "id": "tantilla-relicta",
+    "sci": "Tantilla relicta",
+    "name": "Florida Crowned Snake",
+    "family": "Colubridae",
+    "kind": "Crowned snake",
+    "tier": 4,
+    "venom": "mild",
+    "len": "0.15-0.25 m (6-10 in)",
+    "habitat": "Sand pine scrub, sandhills and coastal dunes",
+    "range": "Florida and southern Georgia",
+    "diet": "Beetle larvae and centipedes",
+    "active": "Hidden in sand",
+    "ids": [
+      "A tiny tan snake with a black head; in some forms a pale band crosses the head.",
+      "A white belly.",
+      "Burrows in loose sand."
+    ],
+    "look": {
+      "colour": "Tan or light brown",
+      "pattern": "Plain, with a black head",
+      "head": "Black",
+      "body": "Tiny and slim"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "blunt",
+      "scales": "smooth",
+      "hue": [
+        "tan",
+        "brown",
+        "black"
+      ]
+    },
+    "grp": [
+      "black-headed",
+      "small-brown"
+    ],
+    "fact": "It \"swims\" through loose sand in the Florida scrub."
+  },
+  {
+    "id": "tantilla-cucullata",
+    "sci": "Tantilla cucullata",
+    "name": "Trans-Pecos Black-headed Snake",
+    "family": "Colubridae",
+    "kind": "Black-headed snake",
+    "tier": 5,
+    "venom": "mild",
+    "len": "0.2-0.45 m (8-18 in)",
+    "habitat": "Rocky desert mountains and grassland",
+    "range": "West Texas; into Mexico",
+    "diet": "Centipedes and insects",
+    "active": "Hidden under cover; out after rain",
+    "ids": [
+      "A small tan snake with a large black hood covering the head and neck.",
+      "The hood may have a pale collar across it."
+    ],
+    "look": {
+      "colour": "Tan or light brown",
+      "pattern": "Plain, with a black hood",
+      "head": "Black, hooded",
+      "body": "Small and slim"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "blunt",
+      "scales": "smooth",
+      "hue": [
+        "tan",
+        "brown",
+        "black"
+      ]
+    },
+    "grp": [
+      "black-headed",
+      "small-brown"
+    ],
+    "fact": "The largest black-headed snake in the USA, found only in the Big Bend region."
+  },
+  {
+    "id": "tantilla-yaquia",
+    "sci": "Tantilla yaquia",
+    "name": "Yaqui Black-headed Snake",
+    "family": "Colubridae",
+    "kind": "Black-headed snake",
+    "tier": 5,
+    "venom": "mild",
+    "len": "0.15-0.3 m (6-12 in)",
+    "habitat": "Rocky canyons and oak woodland",
+    "range": "South-eastern Arizona and south-western New Mexico; into Mexico",
+    "diet": "Centipedes and insects",
+    "active": "Hidden under cover",
+    "ids": [
+      "A tiny brown snake with a black cap, a white collar and a black band behind it.",
+      "White patches on the cheeks."
+    ],
+    "look": {
+      "colour": "Brown",
+      "pattern": "Plain, with a black cap and white collar",
+      "head": "Black, with white cheeks",
+      "body": "Tiny and slim"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "blunt",
+      "scales": "smooth",
+      "hue": [
+        "brown",
+        "black",
+        "white"
+      ]
+    },
+    "grp": [
+      "black-headed",
+      "collared-small"
+    ],
+    "fact": "In the USA it lives only in a few canyons near the border."
+  },
+  {
+    "id": "sonora-episcopa",
+    "sci": "Sonora episcopa",
+    "name": "Great Plains Groundsnake",
+    "family": "Colubridae",
+    "kind": "Ground snake",
+    "tier": 3,
+    "venom": "none",
+    "len": "0.2-0.4 m (8-16 in)",
+    "habitat": "Prairie, rocky hillsides and desert grassland, under rocks",
+    "range": "The southern plains: Kansas, Colorado, Oklahoma, Texas and New Mexico",
+    "diet": "Spiders, scorpions, centipedes and insects",
+    "active": "Hidden under cover",
+    "ids": [
+      "A small, very variable snake: plain brown, orange or grey, striped, or banded with black.",
+      "Often a dark spot at the front edge of each scale.",
+      "Smooth, glossy scales and a small head."
+    ],
+    "look": {
+      "colour": "Brown, orange, grey or banded",
+      "pattern": "Plain, striped or banded",
+      "head": "Small",
+      "body": "Small and slim"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "banded",
+      "build": "slender",
+      "size": 1,
+      "habit": "terrestrial",
+      "snout": "blunt",
+      "scales": "glossy",
+      "hue": [
+        "brown",
+        "orange",
+        "grey",
+        "black"
+      ]
+    },
+    "grp": [
+      "small-brown",
+      "coral-like"
+    ],
+    "fact": "Snakes from the same rock can look completely different: one plain, one striped, one banded."
+  },
+  {
+    "id": "sonora-semiannulata",
+    "sci": "Sonora semiannulata",
+    "name": "Western Groundsnake",
+    "family": "Colubridae",
+    "kind": "Ground snake",
+    "tier": 3,
+    "venom": "none",
+    "len": "0.2-0.45 m (8-18 in)",
+    "habitat": "Desert, rocky hillsides and grassland",
+    "range": "The Great Basin and south-west: Oregon, Idaho, Nevada, Utah, California and Arizona; into Mexico",
+    "diet": "Spiders, scorpions, centipedes and insects",
+    "active": "At night and at dusk",
+    "ids": [
+      "Very variable: plain orange, grey or brown, striped, or banded with black and orange.",
+      "Smooth, glossy scales.",
+      "Small and slim with a small head."
+    ],
+    "look": {
+      "colour": "Orange, grey, brown, or banded black and orange",
+      "pattern": "Plain, striped or banded",
+      "head": "Small",
+      "body": "Small and slim"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "banded",
+      "build": "slender",
+      "size": 1,
+      "habit": "terrestrial",
+      "snout": "blunt",
+      "scales": "glossy",
+      "hue": [
+        "orange",
+        "grey",
+        "brown",
+        "black"
+      ]
+    },
+    "grp": [
+      "small-brown",
+      "coral-like"
+    ],
+    "fact": "Its banded form is a coral-snake look-alike, but most have no bands at all."
+  },
+  {
+    "id": "sonora-occipitalis",
+    "sci": "Sonora occipitalis",
+    "name": "Western Shovel-nosed Snake",
+    "family": "Colubridae",
+    "kind": "Shovel-nosed snake",
+    "tier": 3,
+    "venom": "none",
+    "len": "0.25-0.4 m (10-16 in)",
+    "habitat": "Sandy desert, dunes and washes",
+    "range": "The Mojave and Sonoran Deserts of California, Nevada and Arizona; into Mexico",
+    "diet": "Insects, scorpions and spiders",
+    "active": "At night",
+    "ids": [
+      "Cream or yellow with black bands (and sometimes red patches between them).",
+      "A flat, shovel-shaped snout for swimming through sand.",
+      "Smooth, glossy scales."
+    ],
+    "look": {
+      "colour": "Cream or yellow with black bands, sometimes red",
+      "pattern": "Black bands",
+      "head": "Flat and shovel-shaped",
+      "body": "Small and slim"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "banded",
+      "build": "slender",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "wedge",
+      "scales": "glossy",
+      "hue": [
+        "cream",
+        "yellow",
+        "black",
+        "red"
+      ]
+    },
+    "grp": [
+      "coral-like",
+      "small-brown"
+    ],
+    "fact": "It \"swims\" through loose sand, with its jaw countersunk below its snout to keep the sand out."
+  },
+  {
+    "id": "sonora-annulata",
+    "sci": "Sonora annulata",
+    "name": "Colorado Desert Shovel-nosed Snake",
+    "family": "Colubridae",
+    "kind": "Shovel-nosed snake",
+    "tier": 4,
+    "venom": "none",
+    "len": "0.25-0.4 m (10-16 in)",
+    "habitat": "Sandy desert and dunes",
+    "range": "South-eastern California and western Arizona; into Mexico",
+    "diet": "Insects, scorpions and spiders",
+    "active": "At night",
+    "ids": [
+      "Cream or yellowish with black rings and red patches between them.",
+      "A flat, shovel-shaped snout.",
+      "Smooth, glossy scales."
+    ],
+    "look": {
+      "colour": "Cream, black and red",
+      "pattern": "Black rings with red between",
+      "head": "Flat and shovel-shaped",
+      "body": "Small and slim"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "ringed",
+      "build": "slender",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "wedge",
+      "scales": "glossy",
+      "hue": [
+        "cream",
+        "black",
+        "red"
+      ]
+    },
+    "grp": [
+      "coral-like",
+      "small-brown"
+    ],
+    "fact": "Its bright bands look like a coral snake's, though it is harmless."
+  },
+  {
+    "id": "sonora-cincta",
+    "sci": "Sonora cincta",
+    "name": "Variable Sandsnake",
+    "aka": [
+      "Sandsnake"
+    ],
+    "family": "Colubridae",
+    "kind": "Sand snake",
+    "tier": 4,
+    "venom": "none",
+    "len": "0.2-0.28 m (8-11 in)",
+    "habitat": "Sandy desert flats and washes",
+    "range": "Southern Arizona; into Mexico",
+    "diet": "Insects and centipedes",
+    "active": "At night",
+    "ids": [
+      "Tiny, cream or orange with black crossbands (some have none).",
+      "A flattened, shovel-like snout and a deeply sunk lower jaw.",
+      "Smooth, glossy scales."
+    ],
+    "look": {
+      "colour": "Cream or orange, banded black",
+      "pattern": "Black crossbands",
+      "head": "Flat and shovel-like",
+      "body": "Tiny"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "banded",
+      "build": "slender",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "wedge",
+      "scales": "glossy",
+      "hue": [
+        "cream",
+        "orange",
+        "black"
+      ]
+    },
+    "grp": [
+      "coral-like",
+      "small-brown"
+    ],
+    "fact": "It moves through sand so smoothly that it barely leaves a trace on the surface."
+  },
+  {
+    "id": "sonora-taylori",
+    "sci": "Sonora taylori",
+    "name": "South Texas Groundsnake",
+    "family": "Colubridae",
+    "kind": "Ground snake",
+    "tier": 5,
+    "venom": "none",
+    "len": "0.2-0.3 m (8-12 in)",
+    "habitat": "Thornscrub and sandy brushland",
+    "range": "South Texas; into north-eastern Mexico",
+    "diet": "Spiders, scorpions and insects",
+    "active": "Hidden under cover",
+    "ids": [
+      "A tiny brown or tan snake, sometimes with a faint pale stripe.",
+      "Smooth, glossy scales and a small head."
+    ],
+    "look": {
+      "colour": "Brown or tan",
+      "pattern": "Plain or faintly striped",
+      "head": "Small",
+      "body": "Tiny"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "slender",
+      "size": 1,
+      "habit": "terrestrial",
+      "snout": "blunt",
+      "scales": "glossy",
+      "hue": [
+        "brown",
+        "tan"
+      ]
+    },
+    "grp": [
+      "small-brown"
+    ],
+    "fact": "It was long treated as part of the Western Groundsnake."
+  },
+  {
+    "id": "phyllorhynchus-decurtatus",
+    "sci": "Phyllorhynchus decurtatus",
+    "name": "Spotted Leaf-nosed Snake",
+    "family": "Colubridae",
+    "kind": "Leaf-nosed snake",
+    "tier": 3,
+    "venom": "none",
+    "len": "0.3-0.5 m (12-20 in)",
+    "habitat": "Sandy and gravelly desert flats",
+    "range": "The Mojave and Sonoran Deserts of California, Nevada and Arizona; into Mexico",
+    "diet": "Lizard eggs and geckos",
+    "active": "At night",
+    "ids": [
+      "Pale pinkish or tan with many dark brown blotches.",
+      "A large, leaf-shaped scale on the tip of the snout.",
+      "Vertical pupils and a blunt head."
+    ],
+    "look": {
+      "colour": "Pale pink or tan",
+      "pattern": "Many dark blotches",
+      "head": "Blunt, with a leaf-like snout scale",
+      "body": "Small and stout"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "blotched",
+      "build": "medium",
+      "size": 1,
+      "habit": "terrestrial",
+      "snout": "wedge",
+      "scales": "smooth",
+      "hue": [
+        "pink",
+        "tan",
+        "brown"
+      ],
+      "pupil": "vertical"
+    },
+    "grp": [
+      "small-brown"
+    ],
+    "fact": "It uses its enlarged snout scale to dig up buried lizard eggs."
+  },
+  {
+    "id": "phyllorhynchus-browni",
+    "sci": "Phyllorhynchus browni",
+    "name": "Saddled Leaf-nosed Snake",
+    "family": "Colubridae",
+    "kind": "Leaf-nosed snake",
+    "tier": 5,
+    "venom": "none",
+    "len": "0.3-0.5 m (12-20 in)",
+    "habitat": "Sonoran Desert flats and foothills",
+    "range": "South-central Arizona; into Mexico",
+    "diet": "Lizard eggs and geckos",
+    "active": "At night",
+    "ids": [
+      "Pinkish or cream with large, dark brown saddles.",
+      "A leaf-shaped scale on the snout.",
+      "Vertical pupils."
+    ],
+    "look": {
+      "colour": "Pink or cream with brown saddles",
+      "pattern": "Large dark saddles",
+      "head": "Blunt, with a leaf-like snout scale",
+      "body": "Small and stout"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "blotched",
+      "build": "medium",
+      "size": 1,
+      "habit": "terrestrial",
+      "snout": "wedge",
+      "scales": "smooth",
+      "hue": [
+        "pink",
+        "cream",
+        "brown"
+      ],
+      "pupil": "vertical"
+    },
+    "grp": [
+      "small-brown"
+    ],
+    "fact": "Its fewer, larger saddles tell it apart from the Spotted Leaf-nosed Snake."
+  },
+  {
+    "id": "gyalopion-canum",
+    "sci": "Gyalopion canum",
+    "name": "Chihuahuan Hook-nosed Snake",
+    "family": "Colubridae",
+    "kind": "Hook-nosed snake",
+    "tier": 4,
+    "venom": "none",
+    "len": "0.15-0.3 m (6-12 in)",
+    "habitat": "Desert grassland and rocky hillsides",
+    "range": "West Texas, southern New Mexico and south-eastern Arizona; into Mexico",
+    "diet": "Spiders, scorpions and centipedes",
+    "active": "At night, after rain",
+    "ids": [
+      "A small, stout snake with an upturned, hooked snout.",
+      "Grey or tan with brown crossbands.",
+      "Makes popping sounds from its vent when alarmed."
+    ],
+    "look": {
+      "colour": "Grey or tan with brown bands",
+      "pattern": "Brown crossbands",
+      "head": "With an upturned hook on the snout",
+      "body": "Small and stout"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "banded",
+      "build": "medium",
+      "size": 1,
+      "habit": "terrestrial",
+      "snout": "upturned",
+      "scales": "smooth",
+      "hue": [
+        "grey",
+        "tan",
+        "brown"
+      ]
+    },
+    "grp": [
+      "small-brown"
+    ],
+    "fact": "Its alarm \"pop\" is made by pushing air out of its vent."
+  },
+  {
+    "id": "ficimia-streckeri",
+    "sci": "Ficimia streckeri",
+    "name": "Tamaulipan Hook-nosed Snake",
+    "family": "Colubridae",
+    "kind": "Hook-nosed snake",
+    "tier": 5,
+    "venom": "none",
+    "len": "0.15-0.3 m (6-12 in)",
+    "habitat": "Thornscrub and brushland",
+    "range": "The lower Rio Grande valley of Texas; into Mexico",
+    "diet": "Spiders and centipedes",
+    "active": "Hidden underground; out after rain",
+    "ids": [
+      "A small grey snake with faint dark crossbars.",
+      "A sharply upturned, pointed snout."
+    ],
+    "look": {
+      "colour": "Grey with faint bars",
+      "pattern": "Faint crossbars",
+      "head": "Sharply upturned",
+      "body": "Small and stout"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "banded",
+      "build": "medium",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "upturned",
+      "scales": "smooth",
+      "hue": [
+        "grey",
+        "brown"
+      ]
+    },
+    "grp": [
+      "small-brown"
+    ],
+    "fact": "It is mostly seen on roads after heavy rain in south Texas."
+  },
+  {
+    "id": "rhadinaea-flavilata",
+    "sci": "Rhadinaea flavilata",
+    "name": "Pine Woods Littersnake",
+    "aka": [
+      "Pine Woods Snake"
+    ],
+    "family": "Colubridae",
+    "kind": "Litter snake",
+    "tier": 3,
+    "venom": "mild",
+    "len": "0.25-0.33 m (10-13 in)",
+    "habitat": "Pine flatwoods and hammocks, under bark and in leaf litter",
+    "range": "The south-eastern coastal plain from North Carolina to Florida and Louisiana",
+    "diet": "Small frogs, lizards and salamanders",
+    "active": "Hidden under cover",
+    "ids": [
+      "A small, glossy golden-brown or reddish snake.",
+      "A dark stripe through the eye and pale lips.",
+      "A plain yellowish belly."
+    ],
+    "look": {
+      "colour": "Glossy golden-brown or reddish",
+      "pattern": "Plain, with an eye stripe",
+      "head": "Small, with a dark eye stripe",
+      "body": "Small and slim"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "slender",
+      "size": 1,
+      "habit": "terrestrial",
+      "snout": "blunt",
+      "scales": "glossy",
+      "hue": [
+        "brown",
+        "red",
+        "yellow"
+      ]
+    },
+    "grp": [
+      "small-brown"
+    ],
+    "fact": "Its mild venom helps it overpower small frogs; it is harmless to people."
+  },
+  {
+    "id": "leptodeira-septentrionalis",
+    "sci": "Leptodeira septentrionalis",
+    "name": "Northern Cat-eyed Snake",
+    "family": "Colubridae",
+    "kind": "Cat-eyed snake",
+    "tier": 5,
+    "venom": "mild",
+    "len": "0.45-0.9 m (18-36 in)",
+    "habitat": "Thornscrub, woodland and stream edges",
+    "range": "The lower Rio Grande valley of Texas; through Mexico to Central America",
+    "diet": "Frogs, their eggs and tadpoles",
+    "active": "At night",
+    "ids": [
+      "Tan or yellowish with large dark brown saddles.",
+      "Large eyes with vertical pupils.",
+      "A broad head on a slim neck."
+    ],
+    "look": {
+      "colour": "Tan or yellow with dark saddles",
+      "pattern": "Large dark saddles",
+      "head": "Broad, with big cat-like eyes",
+      "body": "Slim"
+    },
+    "t": {
+      "hood": false,
+      "head": "distinct",
+      "pat": "blotched",
+      "build": "slender",
+      "size": 3,
+      "habit": "semi-arboreal",
+      "snout": "blunt",
+      "scales": "smooth",
+      "hue": [
+        "tan",
+        "yellow",
+        "brown"
+      ],
+      "pupil": "vertical"
+    },
+    "grp": [
+      "cat-snake"
+    ],
+    "fact": "It climbs into trees over ponds to eat frog eggs laid on leaves."
+  },
+  {
+    "id": "coniophanes-imperialis",
+    "sci": "Coniophanes imperialis",
+    "name": "Black-striped Snake",
+    "family": "Colubridae",
+    "kind": "Black-striped snake",
+    "tier": 5,
+    "venom": "mild",
+    "len": "0.3-0.5 m (12-20 in)",
+    "habitat": "Thornscrub, woodland and gardens",
+    "range": "The lower Rio Grande valley of Texas; through Mexico to Central America",
+    "diet": "Frogs, lizards and small snakes",
+    "active": "At night",
+    "ids": [
+      "Brown with three dark stripes along the back.",
+      "A pale stripe from the snout over the eye.",
+      "A red or orange belly."
+    ],
+    "look": {
+      "colour": "Brown with dark stripes; red belly",
+      "pattern": "Three dark stripes",
+      "head": "With a pale stripe over the eye",
+      "body": "Small and slim"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "striped",
+      "build": "slender",
+      "size": 2,
+      "habit": "terrestrial",
+      "snout": "blunt",
+      "scales": "smooth",
+      "hue": [
+        "brown",
+        "black",
+        "red"
+      ]
+    },
+    "grp": [
+      "striped-snake",
+      "small-brown"
+    ],
+    "fact": "Its bite can cause pain and swelling, so it is best left alone."
+  },
+  {
+    "id": "oxybelis-microphthalmus",
+    "sci": "Oxybelis microphthalmus",
+    "name": "Thornscrub Vinesnake",
+    "aka": [
+      "Brown Vinesnake",
+      "Mexican Vinesnake"
+    ],
+    "family": "Colubridae",
+    "kind": "Vine snake",
+    "tier": 5,
+    "venom": "mild",
+    "len": "0.9-1.5 m (3-5 ft)",
+    "habitat": "Oak woodland, thornscrub and canyons",
+    "range": "South-central Arizona; into Mexico",
+    "diet": "Lizards and birds",
+    "active": "By day, in bushes and trees",
+    "ids": [
+      "Extremely thin, grey or brown, like a twig or vine.",
+      "A long, pointed head.",
+      "A dark stripe through the eye."
+    ],
+    "look": {
+      "colour": "Grey or brown",
+      "pattern": "Plain",
+      "head": "Long and pointed",
+      "body": "Extremely thin"
+    },
+    "t": {
+      "hood": false,
+      "head": "pointed",
+      "pat": "plain",
+      "build": "thin",
+      "size": 3,
+      "habit": "arboreal",
+      "snout": "pointed",
+      "scales": "smooth",
+      "hue": [
+        "grey",
+        "brown"
+      ]
+    },
+    "grp": [
+      "vine-snake"
+    ],
+    "fact": "It holds perfectly still among branches, looking just like a dead twig."
+  },
+  {
+    "id": "charina-bottae",
+    "sci": "Charina bottae",
+    "name": "Northern Rubber Boa",
+    "aka": [
+      "Rubber Boa"
+    ],
+    "family": "Boidae",
+    "kind": "Boa",
+    "tier": 2,
+    "venom": "none",
+    "len": "0.35-0.7 m (14-28 in)",
+    "habitat": "Moist forests, woodland, meadows and rocky hillsides",
+    "range": "The west: British Columbia, Washington, Oregon, Idaho, Montana, Wyoming, Utah, Nevada and California",
+    "diet": "Baby mice and shrews, and lizards",
+    "active": "At dusk and night",
+    "ids": [
+      "A short, thick snake with smooth, rubbery-looking skin: plain olive, brown or tan above, yellow below.",
+      "A blunt tail shaped like its head.",
+      "When threatened it hides its head in its coils and waves its tail like a fake head."
+    ],
+    "look": {
+      "colour": "Plain olive, brown or tan; yellow below",
+      "pattern": "Plain",
+      "head": "Small and blunt, like the tail",
+      "body": "Short, thick and rubbery"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "stout",
+      "size": 2,
+      "habit": "fossorial",
+      "snout": "blunt",
+      "scales": "smooth",
+      "hue": [
+        "olive",
+        "brown",
+        "tan"
+      ]
+    },
+    "grp": [
+      "sand-boa"
+    ],
+    "fact": "Many rubber boas have scarred tails from mother mice biting the decoy \"head\" while the boa eats their young."
+  },
+  {
+    "id": "charina-umbratica",
+    "sci": "Charina umbratica",
+    "name": "Southern Rubber Boa",
+    "family": "Boidae",
+    "kind": "Boa",
+    "tier": 5,
+    "venom": "none",
+    "len": "0.35-0.5 m (14-20 in)",
+    "habitat": "Mountain forests",
+    "range": "The San Bernardino and San Jacinto Mountains of southern California",
+    "diet": "Baby mammals and lizards",
+    "active": "At night",
+    "ids": [
+      "A short, rubbery-looking boa, plain brown to pinkish-tan.",
+      "A blunt tail like the head."
+    ],
+    "look": {
+      "colour": "Plain brown to pinkish-tan",
+      "pattern": "Plain",
+      "head": "Small and blunt",
+      "body": "Short and thick"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "stout",
+      "size": 2,
+      "habit": "fossorial",
+      "snout": "blunt",
+      "scales": "smooth",
+      "hue": [
+        "brown",
+        "tan",
+        "pink"
+      ]
+    },
+    "grp": [
+      "sand-boa"
+    ],
+    "fact": "It is a threatened species known from just two mountain ranges."
+  },
+  {
+    "id": "lichanura-orcutti",
+    "sci": "Lichanura orcutti",
+    "name": "Rosy Boa",
+    "aka": [
+      "Coastal Rosy Boa",
+      "Desert Rosy Boa"
+    ],
+    "family": "Boidae",
+    "kind": "Boa",
+    "tier": 2,
+    "venom": "none",
+    "len": "0.6-0.9 m (2-3 ft)",
+    "habitat": "Rocky desert hillsides, canyons and coastal sage scrub",
+    "range": "Southern California, Arizona and southern Nevada; into Mexico",
+    "diet": "Rodents, birds and lizards",
+    "active": "At dusk and night",
+    "ids": [
+      "A heavy, slow boa with three broad stripes along the body: rosy, orange, reddish-brown or grey on a cream, grey or bluish background.",
+      "Small, smooth scales and tiny eyes.",
+      "A blunt head barely wider than the neck."
+    ],
+    "look": {
+      "colour": "Grey, cream or bluish with rosy, orange or brown stripes",
+      "pattern": "Three broad stripes",
+      "head": "Blunt, with small eyes",
+      "body": "Stout and slow"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "striped",
+      "build": "stout",
+      "size": 3,
+      "habit": "terrestrial",
+      "snout": "blunt",
+      "scales": "smooth",
+      "hue": [
+        "grey",
+        "pink",
+        "orange",
+        "brown"
+      ]
+    },
+    "grp": [
+      "sand-boa"
+    ],
+    "fact": "One of only two boa species native to the USA, along with the rubber boas."
+  },
+  {
+    "id": "lichanura-trivirgata",
+    "sci": "Lichanura trivirgata",
+    "name": "Three-lined Boa",
+    "aka": [
+      "Mexican Rosy Boa"
+    ],
+    "family": "Boidae",
+    "kind": "Boa",
+    "tier": 5,
+    "venom": "none",
+    "len": "0.6-0.9 m (2-3 ft)",
+    "habitat": "Rocky desert and thornscrub",
+    "range": "South-western Arizona; into Sonora and Baja California",
+    "diet": "Rodents and birds",
+    "active": "At dusk and night",
+    "ids": [
+      "Three bold dark brown or black stripes on a cream or pale grey body.",
+      "Smooth scales, small eyes and a blunt head."
+    ],
+    "look": {
+      "colour": "Cream or pale grey with dark stripes",
+      "pattern": "Three bold stripes",
+      "head": "Blunt",
+      "body": "Stout"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "striped",
+      "build": "stout",
+      "size": 3,
+      "habit": "terrestrial",
+      "snout": "blunt",
+      "scales": "smooth",
+      "hue": [
+        "cream",
+        "grey",
+        "brown",
+        "black"
+      ]
+    },
+    "grp": [
+      "sand-boa"
+    ],
+    "fact": "In the USA it is found only in the Organ Pipe Cactus area of Arizona."
+  },
+  {
+    "id": "rena-dulcis",
+    "sci": "Rena dulcis",
+    "name": "Texas Threadsnake",
+    "aka": [
+      "Texas Blind Snake",
+      "Texas Slender Blind Snake"
+    ],
+    "family": "Leptotyphlopidae",
+    "kind": "Blind snake",
+    "tier": 3,
+    "venom": "none",
+    "len": "0.15-0.27 m (6-11 in)",
+    "habitat": "Grassland, rocky hillsides and gardens with loose soil",
+    "range": "Texas, Oklahoma, Kansas, New Mexico and Arizona; into Mexico",
+    "diet": "Ants and termites, their larvae and pupae",
+    "active": "Underground; on the surface after rain",
+    "ids": [
+      "A tiny, shiny pinkish-brown snake as thin as a strand of spaghetti, looking like an earthworm.",
+      "Its eyes are just dark spots under the head scales.",
+      "Blunt at both ends, with a tiny spine on the tail."
+    ],
+    "look": {
+      "colour": "Shiny pinkish-brown or silvery",
+      "pattern": "Plain",
+      "head": "Blunt, with tiny eyespots",
+      "body": "Tiny, very thin and worm-like"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "blunt",
+      "scales": "glossy",
+      "hue": [
+        "pink",
+        "brown",
+        "silver"
+      ]
+    },
+    "grp": [
+      "blind-snake"
+    ],
+    "fact": "Screech owls carry live threadsnakes to their nests, where the snakes eat the insects that would harm the chicks."
+  },
+  {
+    "id": "rena-humilis",
+    "sci": "Rena humilis",
+    "name": "Western Threadsnake",
+    "aka": [
+      "Western Blind Snake"
+    ],
+    "family": "Leptotyphlopidae",
+    "kind": "Blind snake",
+    "tier": 4,
+    "venom": "none",
+    "len": "0.18-0.3 m (7-12 in)",
+    "habitat": "Desert and scrub with loose soil, rock crevices and washes",
+    "range": "The south-west: California, Nevada, Utah, Arizona, New Mexico and west Texas; into Mexico",
+    "diet": "Ants and termites",
+    "active": "Underground; on the surface on warm nights",
+    "ids": [
+      "A tiny, shiny, worm-like snake, purplish-brown or pink above and paler below.",
+      "Eyes are dark spots under the scales.",
+      "Blunt head and tail."
+    ],
+    "look": {
+      "colour": "Shiny purplish-brown or pink",
+      "pattern": "Plain",
+      "head": "Blunt, with tiny eyespots",
+      "body": "Tiny, very thin and worm-like"
+    },
+    "t": {
+      "hood": false,
+      "head": "indistinct",
+      "pat": "plain",
+      "build": "worm",
+      "size": 1,
+      "habit": "fossorial",
+      "snout": "blunt",
+      "scales": "glossy",
+      "hue": [
+        "pink",
+        "brown",
+        "silver"
+      ]
+    },
+    "grp": [
+      "blind-snake"
+    ],
+    "fact": "It follows the scent trails of ants to find their nests."
+  }
+]

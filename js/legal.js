@@ -7,7 +7,7 @@
   const { h, icon } = SQ;
   SQ.views = SQ.views || {};
 
-  const UPDATED = '30 October 2026';
+  const UPDATED = '4 November 2026';
 
   const CFG = () => window.SQ_CONFIG || {};
 
@@ -40,7 +40,7 @@
       ico: 'file',
       body: () => [
         sec('1. About Sarpa',
-          h('p', 'Sarpa is a free website for learning to identify the snakes of India: a photo quiz, the Herpdle clue game, a field guide, flashcards and snakebite first-aid information. It is a non-commercial hobby project, made and run in spare time by one person, ', runBy(), '. It has no adverts, no paid features and no payments of any kind, and it does not make money.'),
+          h('p', 'Sarpa is a free website for learning to identify the snakes of India and North America (the USA and Canada): a photo quiz, the Herpdle clue game, a field guide, flashcards and snakebite first-aid information. It is a non-commercial hobby project, made and run in spare time by one person, ', runBy(), '. It has no adverts, no paid features and no payments of any kind, and it does not make money.'),
           h('p', 'By using Sarpa you agree to these terms. If you do not agree, please do not use it.')),
         sec('2. Using Sarpa',
           h('p', 'You are welcome to use Sarpa for free, for your own learning, in classrooms and in nature education. Please do not use its photos commercially (see section 7), and do not try to break, overload or misuse the website or its accounts.')),
@@ -50,6 +50,7 @@
             : CFG().requireAccountForGames
               ? 'You can use the field guide, flashcards, safety pages and everything else without an account. Playing the games (Sarpa and Herpdle) needs a free account, so that every game can count on the leaderboards.'
               : 'Accounts are optional. With one, your games count on the leaderboards.',
+          'When you are signed in, your progress (snake-dex, badges, quiz history and daily results) is saved with your account so that it follows you to your other devices.',
           'An account is just a username and a 6-digit PIN. Keep your PIN secret. There is no e-mail address on an account, so a forgotten PIN cannot be reset.',
           'One person per account. Do not share or sell accounts, and do not sign in to someone else’s.',
           'Your username is shown publicly on the leaderboards, so choose a respectful one and do not use your full real name. Usernames that are offensive, hateful, misleading or that pretend to be someone else may be removed.',
@@ -59,7 +60,7 @@
         sec('5. Fair play',
           h('p', 'Leaderboards are for fun and only work if everyone plays fairly. Do not use scripts, bots, other people’s answers or anything else that gets around the rules. Results or accounts that break these rules may be removed without notice.')),
         sec('6. Not a safety tool',
-          h('p', 'Sarpa is for learning only. Do not use it to decide whether a real snake is dangerous, and never touch, catch or corner a wild snake. Telling snakes apart from a photo is unreliable, even for experts. A snakebite is always a medical emergency: call 108 or 112 and go to a hospital. See the ', h('a', { href: '#/legal/disclaimer' }, 'safety disclaimer'), '.')),
+          h('p', 'Sarpa is for learning only. Do not use it to decide whether a real snake is dangerous, and never touch, catch or corner a wild snake. Telling snakes apart from a photo is unreliable, even for experts. A snakebite is always a medical emergency: call 108 or 112 in India, or 911 in the USA and Canada, and go to a hospital. See the ', h('a', { href: '#/legal/disclaimer' }, 'safety disclaimer'), '.')),
         sec('7. Photos, text and code',
           h('p', 'The photographs belong to their photographers and are used under the Creative Commons licence each of them chose. Many of those licences allow only non-commercial use. The species texts are shared under Creative Commons Attribution 4.0 and the code under the MIT licence. See ', h('a', { href: '#/legal/licences' }, 'licences and credits'), ' for the details.')),
         sec('8. No guarantees',
@@ -76,11 +77,12 @@
       short: 'Privacy',
       ico: 'lock',
       body: () => [
-        h('p.lead-p', 'Short version: Sarpa collects as little as it can. Your progress stays in your own browser. If you make an account, the site stores your username, a scrambled form of your PIN and your game results, and shows your username and scores on public leaderboards. Visits are counted with cookie-free statistics that cannot follow you from day to day or across websites. No adverts, no cookies, and your data is never sold.'),
+        h('p.lead-p', 'Short version: Sarpa collects as little as it can. Your progress is kept in your own browser. If you make an account, the site stores your username, a scrambled form of your PIN, your game results and a copy of your progress (so it follows you to your other devices), and shows your username and scores on public leaderboards. Visits are counted with cookie-free statistics that cannot follow you from day to day or across websites. No adverts, no cookies, and your data is never sold.'),
         sec('Who is responsible',
           h('p', 'Sarpa is a non-commercial hobby project run by ', runBy(), ', who decides how its data is used (in legal terms, the data fiduciary or controller). Questions and requests: ', contactBits(), '.', publicNote())),
-        sec('What stays on your device',
-          h('p', 'Your quiz history, snake-dex, badges, Herpdle games and settings are kept only in your browser’s local storage, on your device, and are not sent anywhere. If you sign in, your username and a random sign-in key are kept there too, along with any finished games still waiting to be saved. On your profile page you can download a backup or erase your progress (“Download backup”, “Reset progress”). Signing out removes the sign-in key, and clearing your browser’s data for this site removes everything.')),
+        sec('What is kept on your device',
+          h('p', 'Your quiz history, snake-dex, badges, Herpdle games and settings are kept in your browser’s local storage, on your device. Without an account they are not sent anywhere. If you sign in, your username and a random sign-in key are kept there too, along with any finished games still waiting to be saved, and your progress is also saved with your account (see below). Your settings, the list of photos you have already seen and the game you are in the middle of are not part of that copy.'),
+          h('p', 'On your profile page you can download a backup or erase your progress (“Download backup”, “Reset progress”; when you are signed in, a reset also clears the copy saved with your account). Signing out first saves your progress to your account, then removes it and the sign-in key from this browser. Clearing your browser’s data for this site removes everything stored on the device.')),
         sec('When you visit',
           ul(h('span', b('Hosting. '), 'Sarpa is hosted by Vercel. As with any website, Vercel’s servers receive your IP address and basic browser details with every request, to deliver the pages and protect the site, and may keep them for a short time in technical logs.'),
             h('span', b('Visitor statistics. '), 'Vercel Web Analytics counts visits. For each page view it records the page address, the website that linked to it, your approximate location (country, region and city, worked out from your IP address; the address itself is not recorded with it), and your browser, operating system and type of device. It uses no cookies and stores nothing on your device. Visitors are told apart only by a code made from the request, which is thrown away after 24 hours, so nobody can follow you from day to day or across websites. Only the totals are looked at.'),
@@ -92,6 +94,7 @@
           ul(h('span', b('Your username'), ', and when you created the account and last changed its PIN. Your username is public: it appears on the leaderboards.'),
             h('span', b('Your PIN, in scrambled form only.'), ' It is stored as a salted one-way hash (scrypt), so nobody can read your PIN from the database, including the person who runs the site.'),
             h('span', b('Your games:'), ' for each ranked game, the date, the game and mode, the points, how many answers were right or how many guesses you needed, and how long it took. From these come your streaks, totals and leaderboard places; a list of your last 50 games is kept for your profile page. The answers you sent are checked and then thrown away.'),
+            h('span', b('Your progress:'), ' a copy of what you have learned, so that it follows you to every browser and device you sign in on: how many times you have answered each species and how often correctly, your totals and best streak, which snakes you mixed up, your last 60 quizzes, your badges, your daily challenge results, your Herpdle games and the photos you reported. Each device’s share is filed under a random device code that says nothing about the device. It is only ever given back to your own account.'),
             h('span', b('Sign-in sessions:'), ' only a one-way hash of each sign-in key. A session ends when you sign out, when you change your PIN (on your other devices), or after 180 days without use.'))),
         sec('Security records',
           h('p', 'To stop people guessing PINs or flooding the site with accounts, the server counts recent attempts for each account and for each network. A network is recorded only as a one-way code made from its IP address with a secret key, never as the address itself, and these counters delete themselves within two days.')),
@@ -99,16 +102,16 @@
           h('p', 'The website runs on Vercel, and the accounts database on Upstash (connected through Vercel). They store and carry the data only so that the site can run, under their own security and privacy terms, and their servers may be outside India. Nobody else receives it: your data is never sold, never shared for advertising and never used to profile you.')),
         sec('How long it is kept',
           ul('Daily leaderboards: about 140 days. Weekly leaderboards: about 400 days.',
-            'Your account, statistics and all-time leaderboard places: until you delete your account, or until the site closes. Accounts are not deleted for being unused.',
+            'Your account, statistics, saved progress and all-time leaderboard places: until you delete your account (or, for your progress, reset it), or until the site closes. Accounts are not deleted for being unused.',
             'Unfinished games: up to two days. Sign-in sessions: up to 180 days after you last used them.')),
         sec('Your choices and rights',
           ul(h('span', b('No account needed: '), 'the field guide, flashcards, safety pages and everything except the ranked games work without one.'),
-            h('span', b('See your data: '), 'your profile page shows your account, statistics and recent games.'),
-            h('span', b('Delete it: '), '“Delete account” on your profile page removes your username, PIN, sessions, statistics and leaderboard places straight away. Only short-lived technical records (unfinished games and attempt counters) are left until they expire, within two days, and your username becomes free for others. This cannot be undone.'),
+            h('span', b('See your data: '), 'your profile page shows your account, statistics, recent games and progress, and “Download backup” gives you a copy of your progress as a file.'),
+            h('span', b('Delete it: '), '“Delete account” on your profile page removes your username, PIN, sessions, statistics, saved progress and leaderboard places straight away. Only short-lived technical records (unfinished games and attempt counters) are left until they expire, within two days, and your username becomes free for others. This cannot be undone.'),
             h('span', b('Ask: '), 'for anything else, such as a correction, a question or a complaint, contact ', contactBits(), '.', publicNote())),
-          h('p', 'Data protection laws, such as India’s Digital Personal Data Protection Act, 2023, may give you further rights, including to access, correct and erase your personal data and to have a grievance dealt with. Ask, and your request will be handled as quickly as possible. In India you can also take a complaint to the Data Protection Board of India.')),
+          h('p', 'Data protection laws, such as India’s Digital Personal Data Protection Act, 2023, Canada’s privacy laws and the laws of some US states, may give you further rights, including to access, correct and erase your personal data and to have a grievance dealt with. Ask, and your request will be handled as quickly as possible. In India you can also take a complaint to the Data Protection Board of India, and in Canada to the Office of the Privacy Commissioner of Canada.')),
         sec('Children',
-          h('p', 'Children under 18 may create an account only with the agreement of a parent or guardian. Sarpa collects no more from children than from anyone else (a username, a scrambled PIN and game results), and never shows them adverts, tracks them or profiles them. A child or a parent can delete the account from its profile page at any time, or ask for it to be removed through ', contactBits(), ' (give only the username).')),
+          h('p', 'Children under 18 may create an account only with the agreement of a parent or guardian. Sarpa collects no more from children than from anyone else (a username, a scrambled PIN, game results and progress), and never shows them adverts, tracks them or profiles them. A child or a parent can delete the account from its profile page at any time, or ask for it to be removed through ', contactBits(), ' (give only the username).')),
         sec('What Sarpa never does',
           ul('No adverts and no advertising trackers.',
             'No cookies: Sarpa sets none. (Your browser’s local storage is used only for the things listed above.)',
@@ -124,14 +127,14 @@
       short: 'Disclaimer',
       ico: 'warn',
       body: () => [
-        h('div.notice.danger', icon('warn', { size: 22 }), h('div', h('strong', 'In a snakebite emergency, call 108 (ambulance) or 112 and go to the nearest hospital with anti-snake venom straight away. '),
+        h('div.notice.danger', icon('warn', { size: 22 }), h('div', h('strong', 'In a snakebite emergency, call 108 (ambulance) or 112 in India, or 911 in the USA and Canada, and go to the nearest hospital straight away. '),
           'Do not wait for symptoms, and do not use home remedies, tourniquets or traditional healers. ', h('a', { href: '#/safety' }, 'Read the first-aid guide'), '.')),
         sec('For learning only',
-          h('p', 'Sarpa teaches general snake identification. It is not medical advice, not a professional identification service and not a safety tool. Never decide whether a real snake is dangerous from this site, a photo or a quick look: many harmless snakes look like venomous ones and the other way round. Keep your distance from every wild snake, and call a trained local rescuer or the forest department if one needs moving.')),
+          h('p', 'Sarpa teaches general snake identification. It is not medical advice, not a professional identification service and not a safety tool. Never decide whether a real snake is dangerous from this site, a photo or a quick look: many harmless snakes look like venomous ones and the other way round. Keep your distance from every wild snake, and call a trained local rescuer, the forest department or the local wildlife authorities if one needs moving.')),
         sec('Accuracy',
           h('p', 'The photos are community observations from iNaturalist that other naturalists agreed on, and the species texts are written from standard field-guide knowledge. Even so, some photos may be mislabelled and some facts may be incomplete or out of date; snake names and classifications also change as science moves on. If you spot a mistake, please report it: there is a “Report photo” button on every question, or contact ', contactBits(), '.')),
         sec('First aid information',
-          h('p', 'The safety page follows the widely used “Do it R.I.G.H.T.” approach of the national and WHO South-East Asia snakebite guidelines, but it is general information. Always follow the advice of doctors and emergency services.')),
+          h('p', 'For India, the safety page follows the widely used “Do it R.I.G.H.T.” approach of the national and WHO South-East Asia snakebite guidelines; for North America, the advice of the US Centers for Disease Control and Prevention and current emergency-medicine practice. It is general information. Always follow the advice of doctors, Poison Control and emergency services.')),
       ],
     },
 
@@ -153,7 +156,7 @@
             })),
             h('p.muted', 'Licences marked NC allow only non-commercial use, which is one reason Sarpa is, and stays, non-commercial. Copies of its photos must stay non-commercial too. Sarpa is not affiliated with or endorsed by iNaturalist or the photographers.')),
           sec('Text and data',
-            h('p', 'The species descriptions, identification notes and quiz explanations were written for Sarpa and are shared under ', h('a', { href: 'https://creativecommons.org/licenses/by/4.0/', target: '_blank', rel: 'noopener' }, 'Creative Commons Attribution 4.0'), '. State names for photos come from boundaries based on OpenStreetMap data, © OpenStreetMap contributors (ODbL).')),
+            h('p', 'The species descriptions, identification notes and quiz explanations were written for Sarpa and are shared under ', h('a', { href: 'https://creativecommons.org/licenses/by/4.0/', target: '_blank', rel: 'noopener' }, 'Creative Commons Attribution 4.0'), '. Indian state names for photos come from boundaries based on OpenStreetMap data, © OpenStreetMap contributors (ODbL); US state and Canadian province names from Natural Earth’s public-domain boundaries.')),
           sec('Code, fonts and icons',
             ul(h('span', 'The website code is open source under the ', h('a', { href: (CFG().repoUrl || '') + '/blob/main/LICENSE', target: '_blank', rel: 'noopener' }, 'MIT licence'), '.'),
               'Fonts: Geist and Geist Mono (Vercel) and Doto, all under the SIL Open Font Licence 1.1, bundled with the site.',

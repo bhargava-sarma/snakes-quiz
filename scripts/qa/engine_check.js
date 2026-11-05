@@ -20,9 +20,13 @@ const base = process.argv[2] || 'http://localhost:8765/index.html';
     const problems = [];
     const stats = { quizzes: 0, questions: 0, minPool: 1e9 };
     const configs = [];
-    for (const difficulty of ['beginner', 'intermediate', 'expert', 'mixed'])
-      for (const count of [20, 50, 100]) configs.push({ difficulty, count, region: 'all' });
-    for (const r of D.regions(12).slice(0, 4)) configs.push({ difficulty: 'mixed', count: 20, region: r.state });
+    const areas = ['in', ...(D.byArea.na.length ? ['na', 'mix'] : [])];
+    for (const area of areas)
+      for (const difficulty of ['beginner', 'intermediate', 'expert', 'mixed'])
+        for (const count of [20, 50, 100]) configs.push({ difficulty, count, area, region: 'all' });
+    // a few states and provinces, each in its own region
+    for (const area of areas.filter((a) => a !== 'mix'))
+      for (const r of D.regions(12, area).slice(0, 4)) configs.push({ difficulty: 'mixed', count: 20, area, region: r.state });
 
     for (const cfg of configs) {
       for (let rep = 0; rep < 6; rep++) {
@@ -30,11 +34,21 @@ const base = process.argv[2] || 'http://localhost:8765/index.html';
         stats.quizzes++;
         const qs = built.questions;
         if (qs.length !== cfg.count) problems.push(`${JSON.stringify(cfg)}: got ${qs.length} questions`);
+        // every photo is from the game's region; a mixed game takes about half from each
+        if (cfg.area !== 'mix') {
+          if (qs.some((q) => D.photoById[q.photo].region !== cfg.area)) problems.push(`${JSON.stringify(cfg)}: a photo from another region`);
+          if (qs.some((q) => q.options.some((id) => !D.inArea(D.byId[id], cfg.area)))) problems.push(`${JSON.stringify(cfg)}: an option from another region`);
+        } else {
+          const nIn = qs.filter((q) => D.photoById[q.photo].region === 'in').length;
+          if (Math.abs(nIn - qs.length / 2) > 1) problems.push(`${JSON.stringify(cfg)}: ${nIn} of ${qs.length} photos from India`);
+          if (!SQ.isMixedGame('mix', qs)) problems.push(`${JSON.stringify(cfg)}: not counted as a mixed game`);
+          if (qs.some((q) => q.area !== D.photoById[q.photo].region)) problems.push(`${JSON.stringify(cfg)}: a question's region does not match its photo`);
+        }
         const photos = new Set();
         const perSpecies = {};
         for (const q of qs) {
           stats.questions++;
-          const where = `${cfg.difficulty}/${cfg.count}/${cfg.region} Q${q.n}`;
+          const where = `${cfg.area}/${cfg.difficulty}/${cfg.count}/${cfg.region} Q${q.n}`;
           if (q.options.length !== 4) problems.push(`${where}: ${q.options.length} options`);
           if (new Set(q.options).size !== q.options.length) problems.push(`${where}: duplicate options`);
           if (q.options[q.answer] !== q.species) problems.push(`${where}: answer index does not point at the species`);
@@ -52,7 +66,7 @@ const base = process.argv[2] || 'http://localhost:8765/index.html';
           if (cfg.difficulty === 'beginner' && q.options.some((id) => D.byId[id].tier > 3)) problems.push(`${where}: obscure option in a beginner quiz`);
           if (cfg.region !== 'all' && !D.speciesInState(cfg.region).has(q.species)) problems.push(`${where}: species not recorded in ${cfg.region}`);
         }
-        const poolSize = E.poolSize(cfg.difficulty, cfg.region);
+        const poolSize = E.poolSize(cfg.difficulty, cfg.region, cfg.area);
         stats.minPool = Math.min(stats.minPool, poolSize);
         const limit = Math.ceil(cfg.count / Math.max(poolSize, 1)) + 1;
         const worst = Math.max(...Object.values(perSpecies));
@@ -61,10 +75,20 @@ const base = process.argv[2] || 'http://localhost:8765/index.html';
       }
     }
 
-    // determinism of the daily challenge
+    // determinism of the daily challenge, in each region
     const key = 'sarpa-daily-test';
     const mk = () => E.build({ mode: 'daily', count: 10, difficulty: 'intermediate', region: 'all', preferUnseen: false, personalise: false, seed: SQ.hashSeed(key) });
     if (JSON.stringify(mk()) !== JSON.stringify(mk())) problems.push('daily challenge is not deterministic');
+    for (const area of areas.filter((a) => a !== 'mix')) {
+      const day = SQ.todayKey();
+      const d1 = E.dailySet(day, area), d2 = E.dailySet(day, area);
+      if (JSON.stringify(d1) !== JSON.stringify(d2)) problems.push(`${area} daily is not deterministic`);
+      if (d1.questions.length !== 10) problems.push(`${area} daily has ${d1.questions.length} questions`);
+      if (d1.questions.some((q) => D.photoById[q.photo].region !== area)) problems.push(`${area} daily has a photo from another region`);
+      const h1 = SQ.herpdle.dailyPick(day, area);
+      if (!h1 || !D.inArea(D.byId[h1.species], area)) problems.push(`${area} Herpdle answer is not from the region`);
+    }
+    if (areas.length > 1 && E.dailySet(SQ.todayKey(), 'in').questions[0].photo === E.dailySet(SQ.todayKey(), 'na').questions[0].photo) problems.push('the two regions share a daily');
 
     // variety between games
     const a = new Set(E.build({ mode: 'quiz', count: 50, difficulty: 'mixed', region: 'all', preferUnseen: false }).questions.map((q) => q.photo));
@@ -74,8 +98,9 @@ const base = process.argv[2] || 'http://localhost:8765/index.html';
     // every species has the data the explanations need
     for (const sp of D.species) {
       if (!sp.ids || sp.ids.length < 2) problems.push(`${sp.id}: fewer than 2 identification points`);
-      if (D.photosOf(sp.id).length < 6) problems.push(`${sp.id}: fewer than 6 photos`);
-      for (const o of D.lookalikes(sp.id, 3)) {
+      if (!sp.regions || !sp.regions.length) problems.push(`${sp.id}: no region`);
+      for (const r of sp.regions || []) if (D.photosOf(sp.id, false, r).length < 6) problems.push(`${sp.id}: fewer than 6 photos in ${r}`);
+      for (const o of D.lookalikes(sp.id, 3, sp.regions[0])) {
         const w = SQ.explain.whyNot(sp, o);
         if (!w.lead || /undefined|NaN/.test(w.lead + JSON.stringify(w.diffs))) problems.push(`${sp.id} vs ${o.id}: bad explanation text`);
       }

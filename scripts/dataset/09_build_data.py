@@ -5,9 +5,12 @@ Reads
   data/kb/*.json        species knowledge base (hand written, one array per file)
   data/kb/_pairs.json   hand-written "how to tell A from B" notes + sets of look-alikes
                         that can not be told apart from a photo (never asked together)
-  pool.json             candidate photos (step 5)
+  pool.json             candidate photos (step 5), one per region: give --pool and --work once per region, in the
+                        same order (for example India, then North America)
   work/                 processed images (step 6), metrics.jsonl (step 6), scores.jsonl (step 7)
-  rejects.json          optional: photo ids rejected after looking at them
+  rejects.json          optional: photo ids rejected after looking at them (repeatable, one per region)
+
+Photos are chosen per species and region, so adding a region never changes the photos chosen for another one.
 
 and writes
   images/<species-id>/<photo-id>.avif   the selected photos
@@ -17,7 +20,8 @@ and writes
 
 Usage:
   09_build_data.py --repo . --pool pool.json --work work/ [--rejects rejects.json]
-                   [--max-per-species 60] [--min-per-species 6] [--min-snake 0.2]
+                   [--pool pool_na.json --work work_na/ --rejects rejects_na.json]
+                   [--max-per-species 60] [--max-in-region na=60] [--min-per-species 6] [--min-snake 0.2]
                    [--commercial-ok]       # keep only CC0 / CC-BY / CC-BY-SA photos
 """
 import argparse
@@ -51,6 +55,7 @@ T_ENUMS = {
 HUES = {"black", "brown", "grey", "green", "yellow", "red", "orange", "blue", "white", "olive", "pink", "cream", "silver", "tan"}
 COMMERCIAL_OK = {"CC0", "CC-BY", "CC-BY-SA"}
 EXT_CODE = {"jpg": 0, "jpeg": 1, "png": 2}
+REGIONS = ["in", "na"]          # India, North America (the USA and Canada); the order photos are listed in
 
 
 def load_kb(kb_dir):
@@ -105,22 +110,40 @@ def hamming(a, b):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--repo", required=True)
-    ap.add_argument("--pool", required=True)
-    ap.add_argument("--work", required=True)
-    ap.add_argument("--rejects")
-    ap.add_argument("--hard", help="JSON list of photo ids that are identifiable but difficult (kept, flagged hard)")
-    ap.add_argument("--reviewed", help="JSON list of photo ids a person has looked at")
-    ap.add_argument("--quality", help="work/quality.jsonl from step 7c (predicted quality for photos nobody has reviewed)")
+    ap.add_argument("--pool", required=True, action="append", help="repeat once per region")
+    ap.add_argument("--work", required=True, action="append", help="the work folder of each --pool, in the same order")
+    ap.add_argument("--rejects", action="append", default=[])
+    ap.add_argument("--hard", action="append", default=[], help="JSON list of photo ids that are identifiable but difficult (kept, flagged hard)")
+    ap.add_argument("--reviewed", action="append", default=[], help="JSON list of photo ids a person has looked at")
+    ap.add_argument("--quality", action="append", default=[], help="work/quality.jsonl from step 7c (predicted quality for photos nobody has reviewed)")
     ap.add_argument("--unreviewed-keep", type=float, default=0.5, help="min predicted P(keep) for an unreviewed photo")
     ap.add_argument("--fill-below", type=int, default=14, help="use unreviewed photos only for species with fewer reviewed keepers")
+    ap.add_argument("--auto", action="append", default=[], metavar="REGION=P",
+                    help="in this region, trust the 7c model for photos nobody reviewed: keep those with P(keep) >= P "
+                         "(reviewed photos still follow --rejects and --hard), e.g. na=0.3")
+    ap.add_argument("--auto-hard", type=float, default=0.35, help="with --auto: flag a photo hard below this P(good)")
+    ap.add_argument("--clear", action="append", default=[], help="with --auto: JSON list of photo ids a person judged clear (never flagged hard by the model)")
     ap.add_argument("--max-per-species", type=int, default=60)
+    ap.add_argument("--max-in-region", action="append", default=[], metavar="REGION=N",
+                    help="a different cap for one region, e.g. na=60")
     ap.add_argument("--min-per-species", type=int, default=6)
     ap.add_argument("--min-snake", type=float, default=0.2, help="min ImageNet snake probability (step 7)")
     ap.add_argument("--min-sharp", type=float, default=120)
     ap.add_argument("--commercial-ok", action="store_true")
     ap.add_argument("--no-write", action="store_true", help="only report what would be built")
     ap.add_argument("--report", action="store_true", help="print the number of photos chosen for every species")
+    ap.add_argument("--list-chosen", help="write the chosen photos as JSON ({species: [[photo, region, hard], ...]}), e.g. to review them")
     args = ap.parse_args()
+    if len(args.pool) != len(args.work):
+        sys.exit("give one --work folder for every --pool")
+    caps = {}
+    for item in args.max_in_region:
+        region, _, n = item.partition("=")
+        caps[region] = int(n)
+    auto = {}
+    for item in args.auto:
+        region, _, n = item.partition("=")
+        auto[region] = float(n)
 
     kb = load_kb(os.path.join(args.repo, "data", "kb"))
     errors = {sp["id"]: validate_species(sp) for sp in kb}
@@ -140,63 +163,78 @@ def main():
             if sid not in ids:
                 sys.exit(f"noPair refers to unknown species {sid}")
 
-    rejects = set(json.load(open(args.rejects))) if args.rejects and os.path.exists(args.rejects) else set()
-    hard = set(json.load(open(args.hard))) if args.hard and os.path.exists(args.hard) else set()
-    reviewed = set(json.load(open(args.reviewed))) if args.reviewed and os.path.exists(args.reviewed) else set()
+    def id_set(paths):
+        out = set()
+        for path in paths:
+            if path and os.path.exists(path):
+                out |= set(json.load(open(path)))
+        return out
+    rejects, hard, reviewed, clear = id_set(args.rejects), id_set(args.hard), id_set(args.reviewed), id_set(args.clear)
     predicted = {}
-    if args.quality and os.path.exists(args.quality):
-        for line in open(args.quality):
-            q = json.loads(line)
-            predicted[q["photo"]] = q
-    metrics = {}
-    for line in open(os.path.join(args.work, "metrics.jsonl")):
-        m = json.loads(line)
-        metrics[m["photo"]] = m
-    scores = {}
-    sp_path = os.path.join(args.work, "scores.jsonl")
-    if os.path.exists(sp_path):
-        for line in open(sp_path):
-            s = json.loads(line)
-            scores[s["photo"]] = s
+    for path in args.quality:
+        if path and os.path.exists(path):
+            for line in open(path):
+                q = json.loads(line)
+                predicted[q["photo"]] = q
+    metrics, scores, image_dir = {}, {}, {}
+    for work in args.work:
+        for line in open(os.path.join(work, "metrics.jsonl")):
+            m = json.loads(line)
+            metrics[m["photo"]] = m
+            image_dir[m["photo"]] = os.path.join(work, "img")
+        sp_path = os.path.join(work, "scores.jsonl")
+        if os.path.exists(sp_path):
+            for line in open(sp_path):
+                s = json.loads(line)
+                scores[s["photo"]] = s
 
-    pool = json.load(open(args.pool))
     by_inat = defaultdict(list)
-    for p in pool:
-        by_inat[p["species"]].append(p)
+    for path in args.pool:
+        for p in json.load(open(path)):
+            p.setdefault("region", "in")
+            by_inat[p["species"]].append(p)
 
-    chosen_by_species, dropped = {}, []
-    used_inat = set()
-    for sp in kb:
-        names = sp.get("inat") or [sp["sci"]]
-        used_inat.update(names)
+    def choose(sp, region, photos):
+        """The photos to use for one species in one region, best first."""
         cands, fallback = [], []
-        for n in names:
-            for p in by_inat.get(n, []):
-                pid = p["photo"]
-                if pid in rejects or pid not in metrics or p["license"] not in (COMMERCIAL_OK if args.commercial_ok else {"CC0", "CC-BY", "CC-BY-SA", "CC-BY-NC", "CC-BY-NC-SA"}):
+        for p in photos:
+            pid = p["photo"]
+            if pid in rejects or pid not in metrics or p["license"] not in (COMMERCIAL_OK if args.commercial_ok else {"CC0", "CC-BY", "CC-BY-SA", "CC-BY-NC", "CC-BY-NC-SA"}):
+                continue
+            snake = scores.get(pid, {}).get("snake", 1.0)
+            if metrics[pid]["sharp"] < args.min_sharp:
+                continue
+            # a person who looked at the photo and kept it overrides the automatic "is a snake visible" score
+            if snake < args.min_snake and pid not in reviewed:
+                continue
+            # quality score: prominence of the snake, sharpness (log), resolution, primary photo
+            q = 2.2 * snake + 0.35 * min(math.log10(max(metrics[pid]["sharp"], 10)) / 4, 1) + (0.15 if p["pos"] == 0 else 0)
+            if region in auto:
+                # the model decides for photos nobody has looked at; a person who looked at one and kept it (it is not
+                # in --rejects) overrides the model's doubts. Hard: listed in --hard, or the model says so (unless --clear)
+                pred = predicted.get(pid)
+                if pid not in reviewed and (not pred or pred["keep"] < auto[region]):
                     continue
-                snake = scores.get(pid, {}).get("snake", 1.0)
-                if metrics[pid]["sharp"] < args.min_sharp:
-                    continue
-                # a person who looked at the photo and kept it overrides the automatic "is a snake visible" score
-                if snake < args.min_snake and pid not in reviewed:
-                    continue
-                # quality score: prominence of the snake, sharpness (log), resolution, primary photo
-                q = 2.2 * snake + 0.35 * min(math.log10(max(metrics[pid]["sharp"], 10)) / 4, 1) + (0.15 if p["pos"] == 0 else 0)
-                if reviewed and pid not in reviewed:
-                    # nobody has looked at this photo: only usable if the model thinks it is fine
-                    k = predicted.get(pid, {}).get("keep", 0)
-                    if k >= args.unreviewed_keep:
-                        fallback.append((q + k, p))
-                    continue
-                p["_hard"] = 1 if pid in hard else 0
-                cands.append((q - (0.6 if p["_hard"] else 0), p))
+                model_hard = bool(pred) and pred["good"] < args.auto_hard
+                p["_hard"] = 1 if pid in hard or (model_hard and pid not in clear) else 0
+                sure = 1 if pid in reviewed else (pred["keep"] if pred else 0)
+                cands.append((q + sure - (0.6 if p["_hard"] else 0), p))
+                continue
+            if reviewed and pid not in reviewed:
+                # nobody has looked at this photo: only usable if the model thinks it is fine
+                k = predicted.get(pid, {}).get("keep", 0)
+                if k >= args.unreviewed_keep:
+                    fallback.append((q + k, p))
+                continue
+            p["_hard"] = 1 if pid in hard else 0
+            cands.append((q - (0.6 if p["_hard"] else 0), p))
         if len(cands) < args.fill_below:
             for q, p in sorted(fallback, key=lambda x: -x[0]):
                 p["_hard"] = 1
                 cands.append((q - 0.6, p))
         cands.sort(key=lambda x: -x[0])
         keep, hashes, per_observer = [], [], Counter()
+        cap = caps.get(region, args.max_per_species)
         for q, p in cands:
             h = metrics[p["photo"]]["dhash"]
             if any(hamming(h, x) <= 4 for x in hashes):
@@ -206,12 +244,27 @@ def main():
             per_observer[p["observer_id"]] += 1
             hashes.append(h)
             keep.append(p)
-            if len(keep) >= args.max_per_species:
+            if len(keep) >= cap:
                 break
-        if len(keep) < args.min_per_species:
-            dropped.append((sp["id"], len(keep)))
+        return keep
+
+    chosen_by_species, dropped = {}, []
+    used_inat = set()
+    for sp in kb:
+        names = sp.get("inat") or [sp["sci"]]
+        used_inat.update(names)
+        keep_all = []
+        for region in REGIONS:
+            keep = choose(sp, region, [p for n in names for p in by_inat.get(n, []) if p["region"] == region])
+            if keep and len(keep) < args.min_per_species:
+                dropped.append((f"{sp['id']} in {region}", len(keep)))
+            elif keep:
+                keep_all.extend(keep)
+        if not keep_all:
+            if not any(d[0].startswith(sp["id"] + " ") for d in dropped):
+                dropped.append((sp["id"], 0))
             continue
-        chosen_by_species[sp["id"]] = keep
+        chosen_by_species[sp["id"]] = keep_all
 
     kept_species = [sp for sp in kb if sp["id"] in chosen_by_species]
     kept_species.sort(key=lambda s: s["name"].lower())
@@ -225,6 +278,9 @@ def main():
             print(f"  {len(keep):3d}  {sid}")
     unused = sorted(set(by_inat) - used_inat)
     print(f"{len(unused)} pool species not covered by the knowledge base")
+    if args.list_chosen:
+        with open(args.list_chosen, "w") as fh:
+            json.dump({sid: [[p["photo"], p["region"], p.get("_hard", 0)] for p in keep] for sid, keep in chosen_by_species.items()}, fh)
     if args.no_write:
         return
 
@@ -237,16 +293,25 @@ def main():
     states, licenses, credits, inat_names = [], [], [], []
     idx = lambda lst, v: lst.index(v) if v in lst else (lst.append(v) or len(lst) - 1)
     rows, species_out, catalog = [], [], []
+    state_region = {}
     for sp_index, sp in enumerate(kept_species):
         photos = chosen_by_species[sp["id"]]
         os.makedirs(os.path.join(img_root, sp["id"]), exist_ok=True)
         state_count = Counter()
-        best = max(photos, key=lambda p: 2.2 * scores.get(p["photo"], {}).get("snake", 1.0) + 0.3 * min(math.log10(max(metrics[p["photo"]]["sharp"], 10)) / 4, 1) - 1.5 * p.get("_hard", 0) + 0.4 * (p["w"] >= p["h"]))
+        regions = [r for r in REGIONS if any(p["region"] == r for p in photos)]
+        # the cover comes from the species' first region, so a species shared by two regions keeps its old cover
+        home = [p for p in photos if p["region"] == regions[0]]
+        # in a region the 7c model rates (--auto), its "clear, easy photo" score helps pick an attractive cover
+        rated = regions[0] in auto
+        best = max(home, key=lambda p: 2.2 * scores.get(p["photo"], {}).get("snake", 1.0) + 0.3 * min(math.log10(max(metrics[p["photo"]]["sharp"], 10)) / 4, 1) - 1.5 * p.get("_hard", 0) + 0.4 * (p["w"] >= p["h"])
+                   + (1.2 * predicted.get(p["photo"], {}).get("good", 0) + (0.3 if p["photo"] in clear else 0) if rated else 0))
         cover = sp.get("cover") or best["photo"]
         for p in photos:
-            src = os.path.join(args.work, "img", f"{p['photo']}.avif")
+            src = os.path.join(image_dir[p["photo"]], f"{p['photo']}.avif")
             shutil.copyfile(src, os.path.join(img_root, sp["id"], f"{p['photo']}.avif"))
             state_count[p["state"]] += 1
+            if p["state"]:
+                state_region[p["state"]] = p["region"]
             inat = p["species"] if (sp.get("inat") and len(sp["inat"]) > 1) else ""
             rows.append([
                 p["photo"], sp_index, idx(states, p["state"]) if p["state"] else -1, idx(credits, credit_for(p)),
@@ -254,19 +319,22 @@ def main():
                 idx(inat_names, inat) if inat else -1, EXT_CODE.get(p["ext"], 0), p.get("_hard", 0),
             ])
             catalog.append([p["photo"], sp["id"], sp["name"], sp["sci"], p["species"], p["state"], credit_for(p), p["license"],
-                            f"https://www.inaturalist.org/photos/{p['photo']}"])
+                            f"https://www.inaturalist.org/photos/{p['photo']}", p["region"]])
         # cover thumbnail
-        im = Image.open(os.path.join(args.work, "img", f"{cover}.avif")).convert("RGB")
+        im = Image.open(os.path.join(image_dir[cover], f"{cover}.avif")).convert("RGB")
         im.thumbnail((360, 360), Image.LANCZOS)
         im.save(os.path.join(img_root, "thumbs", f"{sp['id']}.avif"), "AVIF", quality=48, speed=6)
         entry = {k: v for k, v in sp.items() if not k.startswith("_") and k not in ("inat", "cover")}
         entry["cover"] = cover
         entry["states"] = [[idx(states, s), n] for s, n in state_count.most_common() if s]
+        entry["regions"] = regions
         species_out.append(entry)
 
     meta = {
         "generated": datetime.date.today().isoformat(), "version": 1,
         "photos": total, "species": len(kept_species),
+        "regions": {r: {"species": sum(1 for e in species_out if r in e["regions"]),
+                        "photos": sum(1 for v in chosen_by_species.values() for p in v if p["region"] == r)} for r in REGIONS},
         "source": "iNaturalist open data (research-grade observations, Creative Commons licences)",
     }
     species_js = {"meta": meta, "noPair": pairs_meta.get("noPair", []), "pairs": pairs_meta.get("pairs", []), "species": species_out}
@@ -277,11 +345,12 @@ def main():
         fh.write(";\n")
     with open(os.path.join(data_dir, "photos.js"), "w") as fh:
         fh.write("/* Generated by scripts/dataset/09_build_data.py - do not edit by hand. */\nwindow.SQ_PHOTOS = ")
-        json.dump({"states": states, "licenses": licenses, "credits": credits, "inat": inat_names, "rows": rows}, fh, ensure_ascii=False, separators=(",", ":"))
+        json.dump({"states": states, "regions": REGIONS, "stateRegion": [REGIONS.index(state_region[st]) for st in states],
+                   "licenses": licenses, "credits": credits, "inat": inat_names, "rows": rows}, fh, ensure_ascii=False, separators=(",", ":"))
         fh.write(";\n")
     with open(os.path.join(data_dir, "catalog.csv"), "w", newline="") as fh:
         w = csv.writer(fh)
-        w.writerow(["photo_id", "species_id", "common_name", "scientific_name", "inaturalist_taxon", "state", "photographer", "license", "source_url"])
+        w.writerow(["photo_id", "species_id", "common_name", "scientific_name", "inaturalist_taxon", "state", "photographer", "license", "source_url", "region"])
         w.writerows(sorted(catalog, key=lambda r: (r[1], r[0])))
     # CREDITS.md: licence summary and every photographer
     lic_count = Counter(r[7] for r in catalog)
@@ -295,8 +364,8 @@ def main():
         fh.write("Licences used: " + ", ".join(f"{k} ({v:,})" for k, v in lic_count.most_common()) + ".\n\n")
         fh.write("`CC BY-NC` and `CC BY-NC-SA` photos may not be used commercially. "
                  "Rebuild the data set with `--commercial-ok` for a commercial site.\n\n")
-        fh.write("State names were derived from each photo's location using OpenStreetMap-based boundaries "
-                 "\u00a9 OpenStreetMap contributors.\n\n")
+        fh.write("State names were derived from each photo's location: in India with OpenStreetMap-based boundaries "
+                 "\u00a9 OpenStreetMap contributors, in the USA and Canada with Natural Earth's public-domain boundaries.\n\n")
         fh.write(f"## {len(who):,} photographers\n\n")
         fh.write(", ".join(f"{name} ({n})" if n > 1 else name for name, n in sorted(who.items(), key=lambda kv: kv[0].lower())) + "\n")
     size = sum(os.path.getsize(os.path.join(dp, f)) for dp, _, fs in os.walk(img_root) for f in fs)

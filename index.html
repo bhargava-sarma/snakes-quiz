@@ -6,8 +6,8 @@
        scripts, no other sites. vercel.json adds the protections a page cannot set itself (no framing, and more). -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://inaturalist-open-data.s3.amazonaws.com; font-src 'self'; connect-src 'self'; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Sarpa · Indian Snake Quiz</title>
-  <meta name="description" content="Spot the snake! A free photo quiz and a daily clue game (Herpdle) on the snakes of India, with thousands of real photos, an explanation for every answer and daily, weekly and all-time leaderboards.">
+  <title>Sarpa · Snake Quiz</title>
+  <meta name="description" content="Spot the snake! A free photo quiz and a daily clue game (Herpdle) on the snakes of India and North America, with thousands of real photos, an explanation for every answer and daily, weekly and all-time leaderboards.">
   <meta name="theme-color" content="#e8e7e2">
   <meta name="color-scheme" content="light dark">
   <meta name="mobile-web-app-capable" content="yes">
@@ -20,15 +20,15 @@
        scripts/assets/make-social-preview.js draws the image. -->
   <link rel="canonical" href="https://snakes-quiz.vercel.app/">
   <meta property="og:site_name" content="Sarpa">
-  <meta property="og:title" content="Sarpa · Indian Snake Quiz">
-  <meta property="og:description" content="A free photo quiz and a daily clue game (Herpdle) on the snakes of India. Learn exactly why each answer is right or wrong.">
+  <meta property="og:title" content="Sarpa · Snake Quiz">
+  <meta property="og:description" content="A free photo quiz and a daily clue game (Herpdle) on the snakes of India and North America. Learn exactly why each answer is right or wrong.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://snakes-quiz.vercel.app/">
   <meta property="og:image" content="https://snakes-quiz.vercel.app/assets/social-preview.jpg">
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Sarpa, the Indian snake quiz: how well do you know India's snakes?">
+  <meta property="og:image:alt" content="Sarpa, the snake ID quiz for India and North America: how well do you know your snakes?">
   <meta property="og:locale" content="en_IN">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
@@ -69,6 +69,7 @@
   <script defer src="js/herpdle-core.js"></script>
   <script defer src="js/ui.js"></script>
   <script defer src="js/api.js"></script>
+  <script defer src="js/sync.js"></script>
   <script defer src="js/account.js"></script>
   <script defer src="js/explainpanel.js"></script>
   <script defer src="js/badges.js"></script>

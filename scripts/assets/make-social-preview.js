@@ -50,11 +50,11 @@ const html = `<!doctype html>
   }
   .lcd i { width: 9px; height: 9px; border-radius: 2px; background: #1b2417; opacity: .55; }
 </style></head><body>
-  <div class="label"><b>SQ-1</b> &nbsp;Snakes of the Indian subcontinent</div>
-  <div class="brand">${icon}<div class="word"><strong>SARPA</strong><small>Indian snake quiz</small></div></div>
-  <h1>How well do you know India’s snakes?</h1>
+  <div class="label"><b>SQ-1</b> &nbsp;Snakes of India and North America</div>
+  <div class="brand">${icon}<div class="word"><strong>SARPA</strong><small>Snake ID quiz</small></div></div>
+  <h1>How well do you know your snakes?</h1>
   <p>Spot the snake in real photos, and learn why each answer is right or wrong.</p>
-  <div class="lcd"><span>Photo quiz</span><i></i><span>Herpdle</span><i></i><span>Daily</span><i></i><span>Leaderboards</span></div>
+  <div class="lcd"><span>India</span><i></i><span>North America</span><i></i><span>Herpdle</span><i></i><span>Leaderboards</span></div>
 </body></html>`;
 
 (async () => {

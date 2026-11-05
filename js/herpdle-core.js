@@ -7,7 +7,9 @@
 
   const MAX_GUESSES = 6;
   const POINTS = [600, 500, 400, 300, 200, 100];
-  const EPOCH = '2026-10-29';            // Herpdle #1
+  const EPOCH = '2026-10-29';            // Herpdle #1 (India)
+  const EPOCHS = { in: EPOCH, na: '2026-11-05' };   // each area numbers its own puzzles
+  const areaKey = (area) => (area === 'na' ? 'na' : 'in');
 
   const LEVELS = {
     easy: { label: 'Easy', blurb: 'Famous, widespread snakes.', maxTier: 2 },
@@ -16,7 +18,7 @@
   };
   const DAILY_LEVEL = 'medium';
 
-  /* ----- parts of India, for the Region tile ----- */
+  /* ----- parts of each area, for the Region tile ----- */
 
   const ZONES = {
     N: { label: 'North', states: ['Jammu and Kashmir', 'Ladakh', 'Himachal Pradesh', 'Punjab', 'Chandigarh', 'Haryana', 'Delhi', 'Uttarakhand', 'Uttar Pradesh'] },
@@ -27,9 +29,24 @@
     S: { label: 'South', states: ['Karnataka', 'Kerala', 'Tamil Nadu', 'Andhra Pradesh', 'Telangana', 'Puducherry', 'Lakshadweep'] },
     AN: { label: 'Andaman & Nicobar', states: ['Andaman and Nicobar Islands'] },
   };
+  const NA_ZONES = {
+    PNW: { label: 'Pacific Northwest', states: ['Washington', 'Oregon', 'British Columbia', 'Alaska', 'Yukon'] },
+    CA: { label: 'California', states: ['California'] },
+    SW: { label: 'Southwest', states: ['Arizona', 'New Mexico', 'Nevada', 'Utah'] },
+    RM: { label: 'Rockies', states: ['Idaho', 'Montana', 'Wyoming', 'Colorado', 'Alberta'] },
+    PL: { label: 'Great Plains', states: ['North Dakota', 'South Dakota', 'Nebraska', 'Kansas', 'Saskatchewan', 'Manitoba', 'Northwest Territories'] },
+    TX: { label: 'Texas & Oklahoma', states: ['Texas', 'Oklahoma'] },
+    MW: { label: 'Midwest', states: ['Minnesota', 'Iowa', 'Missouri', 'Wisconsin', 'Illinois', 'Indiana', 'Michigan', 'Ohio', 'Ontario'] },
+    SE: { label: 'Southeast', states: ['Florida', 'Georgia', 'Alabama', 'Mississippi', 'Louisiana', 'Arkansas', 'Tennessee', 'Kentucky', 'South Carolina', 'North Carolina'] },
+    NE: { label: 'Northeast', states: ['Virginia', 'West Virginia', 'Maryland', 'Delaware', 'District of Columbia', 'Pennsylvania', 'New Jersey', 'New York',
+      'Connecticut', 'Rhode Island', 'Massachusetts', 'Vermont', 'New Hampshire', 'Maine', 'Quebec', 'New Brunswick', 'Nova Scotia',
+      'Prince Edward Island', 'Newfoundland and Labrador', 'Nunavut'] },
+  };
+  const ZONE_SETS = { in: ZONES, na: NA_ZONES };
   const ZONE_ORDER = Object.keys(ZONES);
+  const ZONE_ORDERS = { in: ZONE_ORDER, na: Object.keys(NA_ZONES) };
   const ZONE_OF = {};
-  ZONE_ORDER.forEach((z) => ZONES[z].states.forEach((st) => { ZONE_OF[st] = z; }));
+  [ZONES, NA_ZONES].forEach((set) => Object.keys(set).forEach((z) => set[z].states.forEach((st) => { ZONE_OF[st] = z; })));
 
   /* ----- labels for the comparison tiles ----- */
 
@@ -59,6 +76,8 @@
   };
   const FAMILY_NOTE = {
     Elapidae: 'cobras, kraits, coral snakes and sea snakes',
+    Boidae: 'boas',
+    Leptotyphlopidae: 'threadsnakes, tiny burrowing blind snakes',
     Viperidae: 'vipers and pit vipers',
     Colubridae: 'the large family of typical snakes',
     Natricidae: 'keelbacks and their relatives',
@@ -88,59 +107,65 @@
   /* ----- species pools and picks ----- */
 
   const poolCache = {};
-  function pool(level) {
+  /** The snakes Herpdle can ask about at a level, in one area. */
+  function pool(level, area) {
     const D = SQ.data;
     const lv = LEVELS[level] || LEVELS[DAILY_LEVEL];
-    if (!poolCache[level]) {
-      poolCache[level] = D.species
-        .filter((sp) => sp.tier <= lv.maxTier && (D.bySpecies[sp.id] || []).length > 0 && sp.ids.length && sp.look)
-        .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));   // independent of the order of the data files
+    const a = areaKey(area);
+    const key = level + '|' + a;
+    if (!poolCache[key]) {
+      poolCache[key] = D.species
+        .filter((sp) => sp.tier <= lv.maxTier && D.inArea(sp, a) && D.photosOf(sp.id, true, a).length > 0 && sp.ids.length && sp.look)
+        .sort((x, y) => (x.id < y.id ? -1 : x.id > y.id ? 1 : 0));   // independent of the order of the data files
     }
-    return poolCache[level];
+    return poolCache[key];
   }
 
-  /** A clear photo that shows the snake well, picked with the given random function. */
-  function photoFor(sp, rnd) {
+  /** A clear photo that shows the snake well (taken in the area), picked with the given random function. */
+  function photoFor(sp, rnd, area) {
     const D = SQ.data;
-    const all = D.bySpecies[sp.id] || [];
+    const all = D.photosOf(sp.id, true, areaKey(area));
     const clear = all.filter((p) => !p.hard);
     const wide = clear.filter((p) => p.w && p.h && p.w / p.h >= 1.15 && p.w / p.h <= 1.85);
     const from = wide.length >= 3 ? wide : clear.length ? clear : all;
     return SQ.pick(from, rnd);
   }
 
-  const dayNumber = (day) => SQ.time.dayIndex(day) - SQ.time.dayIndex(EPOCH) + 1;
+  const dayNumber = (day, area) => SQ.time.dayIndex(day) - SQ.time.dayIndex(EPOCHS[areaKey(area)]) + 1;
+  // India keeps the seeds it has always used, so its puzzles stay the same
+  const seedTag = (area) => (areaKey(area) === 'na' ? 'herpdle-na-' : 'herpdle-');
 
   /** Order of the daily snakes within one pass through the pool. No snake comes back until all the others have had a turn. */
-  function cycleOrder(list, cycle) {
-    return SQ.shuffle(list.map((sp) => sp.id), SQ.rng(SQ.hashSeed('herpdle-cycle-' + cycle)));
+  function cycleOrder(list, cycle, area) {
+    return SQ.shuffle(list.map((sp) => sp.id), SQ.rng(SQ.hashSeed(seedTag(area) + 'cycle-' + cycle)));
   }
 
-  /** The day's snake and photo: { species, photo, number }. The same for everyone. */
-  function dailyPick(day) {
+  /** The day's snake and photo in an area: { species, photo, number }. The same for everyone. */
+  function dailyPick(day, area) {
     const D = SQ.data;
-    const list = pool(DAILY_LEVEL);
+    const a = areaKey(area);
+    const list = pool(DAILY_LEVEL, a);
     const n = list.length;
-    const i = SQ.time.dayIndex(day) - SQ.time.dayIndex(EPOCH);
+    const i = SQ.time.dayIndex(day) - SQ.time.dayIndex(EPOCHS[a]);
     const cycle = Math.floor(i / n), pos = ((i % n) + n) % n;
-    const order = cycleOrder(list, cycle);
+    const order = cycleOrder(list, cycle, a);
     if (n > 1) {
       // the last snake of one pass must not be the first of the next
-      const prevLast = cycleOrder(list, cycle - 1)[n - 1];
+      const prevLast = cycleOrder(list, cycle - 1, a)[n - 1];
       if (order[0] === prevLast) [order[0], order[1]] = [order[1], order[0]];
     }
     const sp = D.byId[order[pos]];
-    const photo = photoFor(sp, SQ.rng(SQ.hashSeed('herpdle-photo-' + day)));
-    return { species: sp.id, photo: photo.id, number: dayNumber(day) };
+    const photo = photoFor(sp, SQ.rng(SQ.hashSeed(seedTag(a) + 'photo-' + day)), a);
+    return { species: sp.id, photo: photo.id, number: dayNumber(day, a) };
   }
 
-  /** A practice snake at a level, avoiding the recently played ones when possible. */
-  function randomPick(level, avoid = []) {
-    const list = pool(level);
+  /** A practice snake at a level in an area, avoiding the recently played ones when possible. */
+  function randomPick(level, avoid = [], area) {
+    const list = pool(level, area);
     const skip = new Set(avoid);
     const fresh = list.filter((sp) => !skip.has(sp.id));
     const sp = SQ.pick(fresh.length ? fresh : list);
-    return { species: sp.id, photo: photoFor(sp, Math.random).id };
+    return { species: sp.id, photo: photoFor(sp, Math.random, area).id };
   }
 
   /* ----- clues ----- */
@@ -149,7 +174,10 @@
     'south', 'north', 'east', 'west', 'eastern', 'western', 'northern', 'southern', 'great', 'greater', 'lesser', 'little',
     'large', 'small', 'big', 'tree', 'sea', 'water', 'green', 'black', 'brown', 'red', 'yellow', 'white', 'grey', 'gray',
     'striped', 'banded', 'spotted', 'mountain', 'hill', 'forest', 'sand', 'rat', 'wolf', 'cat', 'pit', 'rock', 'ground', 'house',
-    'blue', 'olive', 'orange', 'pink', 'purple', 'silver', 'tan', 'cream']);
+    'blue', 'olive', 'orange', 'pink', 'purple', 'silver', 'tan', 'cream',
+    // places, so that "Found in" still says where (Texas Coral Snake: Texas, Louisiana ...)
+    'american', 'america', 'canada', 'canadian', 'mexican', 'mexico', 'texas', 'florida', 'california', 'arizona', 'desert',
+    'plains', 'prairie', 'coast', 'coastal', 'pacific', 'gulf', 'central', 'southwestern', 'northwestern', 'southeastern']);
 
   /** Words that would give the answer away: its names (common, other, scientific), but not everyday words. */
   function secretWords(sp) {
@@ -223,26 +251,29 @@
   /* ----- comparing a guess with the answer ----- */
 
   const zoneCache = {};
-  /** Parts of India where a species has been photographed (ignoring stray records). */
-  function zones(sp) {
-    if (!zoneCache[sp.id]) {
+  /** Parts of an area where a species has been photographed (ignoring stray records). */
+  function zones(sp, area) {
+    const a = areaKey(area);
+    const key = sp.id + '|' + a;
+    if (!zoneCache[key]) {
+      const order = ZONE_ORDERS[a];
       const counts = {};
       let total = 0;
       (sp.stateCounts || []).forEach(([state, n]) => {
         const z = ZONE_OF[state];
-        if (!z) return;
+        if (!z || !ZONE_SETS[a][z]) return;
         counts[z] = (counts[z] || 0) + n;
         total += n;
       });
-      let list = ZONE_ORDER.filter((z) => counts[z] && (counts[z] >= 3 || counts[z] / total >= 0.1));
-      if (!list.length) list = ZONE_ORDER.filter((z) => counts[z]);
-      zoneCache[sp.id] = list;
+      let list = order.filter((z) => counts[z] && (counts[z] >= 3 || counts[z] / total >= 0.1));
+      if (!list.length) list = order.filter((z) => counts[z]);
+      zoneCache[key] = list;
     }
-    return zoneCache[sp.id];
+    return zoneCache[key];
   }
 
   const zoneText = (list) => (list.length > 2 ? `${list.length} zones` : list.join('+') || '?');
-  const zoneLabel = (list) => SQ.listJoin(list.map((z) => ZONES[z].label)) || 'unknown';
+  const zoneLabel = (list, area) => SQ.listJoin(list.map((z) => ZONE_SETS[areaKey(area)][z].label)) || 'unknown';
 
   function ordinal(a, b) {
     if (a === b) return { state: 'hit', dir: null };
@@ -254,7 +285,7 @@
    * [{ key, label, value, state: 'hit' | 'near' | 'miss', dir: 'up' | 'down' | null, say }]
    * `dir` points at the answer: 'up' means the answer is more venomous / bigger.
    */
-  function compare(guess, answer) {
+  function compare(guess, answer, area) {
     const V = SQ.data.VENOM;
     const g = guess.t, a = answer.t;
     const venomG = (V[guess.venom] || V.none), venomA = (V[answer.venom] || V.none);
@@ -281,11 +312,11 @@
     tiles.push({ key: 'pattern', label: 'Pattern', value: PATTERN[g.pat] || SQ.cap(g.pat || '?'), state: patHit ? 'hit' : patNear ? 'near' : 'miss', dir: null,
       say: `Pattern: ${PATTERN[g.pat] || g.pat}. ${patHit ? 'Same' : patNear ? 'Similar' : 'Different'}` });
 
-    const zg = zones(guess), za = zones(answer);
+    const zg = zones(guess, area), za = zones(answer, area);
     const same = zg.length === za.length && zg.every((z) => za.includes(z));
     const overlap = zg.some((z) => za.includes(z));
     tiles.push({ key: 'region', label: 'Region', value: zoneText(zg), state: same ? 'hit' : overlap ? 'near' : 'miss', dir: null,
-      say: `Region: ${zoneLabel(zg)}. ${same ? 'Same parts of India' : overlap ? 'Overlaps with the answer' : 'Lives elsewhere'}` });
+      say: `Region: ${zoneLabel(zg, area)}. ${same ? `Same parts of ${SQ.data.area(areaKey(area)).label}` : overlap ? 'Overlaps with the answer' : 'Lives elsewhere'}` });
     return tiles;
   }
 
@@ -302,7 +333,7 @@
   }
 
   SQ.herpdle = {
-    MAX_GUESSES, POINTS, EPOCH, LEVELS, DAILY_LEVEL, ZONES, ZONE_ORDER, SIZE, HABIT, PATTERN, PIXELS,
+    MAX_GUESSES, POINTS, EPOCH, EPOCHS, LEVELS, DAILY_LEVEL, ZONES, ZONE_ORDER, ZONE_SETS, ZONE_ORDERS, SIZE, HABIT, PATTERN, PIXELS,
     pool, photoFor, dayNumber, dailyPick, randomPick, clues, mask, secretWords, compare, zones, zoneLabel, points, searchText, familyShort,
   };
 })();

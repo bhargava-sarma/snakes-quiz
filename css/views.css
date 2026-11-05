@@ -729,3 +729,7 @@ kbd {
   .credits-table td[data-label="Source"] { grid-area: src; text-align: right; }
   .credits-table td a { display: inline-flex; align-items: center; min-height: 40px; min-width: 44px; }
 }
+#flash-area { min-width: min(100%, 190px); }
+/* four timer keys fit on one row, even on a small phone */
+.opt .seg { flex-wrap: nowrap; gap: 8px; }
+.opt .seg-btn { flex: 1 1 0; padding-inline: 6px; }

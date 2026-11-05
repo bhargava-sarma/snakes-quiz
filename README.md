@@ -1,7 +1,8 @@
-# Sarpa · Indian Snake Quiz
+# Sarpa · Snake Quiz for India and North America
 
-A free photo quiz that teaches you to recognise the snakes of India, and **explains every answer**. Two games:
-**Sarpa**, the photo quiz, and **Herpdle**, a daily puzzle where you name a mystery snake from clues.
+A free photo quiz that teaches you to recognise the snakes of **India** and **North America** (the USA and Canada),
+and **explains every answer**. Two games: **Sarpa**, the photo quiz, and **Herpdle**, a daily puzzle where you name a
+mystery snake from clues. Play one region, or **Mixed** for both at once.
 
 <p align="center">
   <img src="docs/screens/home-desktop.jpg" alt="The Sarpa home page: a quiz screen preview, an LCD with the numbers and big keys to start a quiz" width="49%">
@@ -29,12 +30,21 @@ on your computer) everything still works, just without accounts and leaderboards
 
 ## Features
 
+**Two regions**
+- **India** (162 species) and **North America** (160 species, the USA and Canada); a few snakes, such as the
+  Burmese python and the Brahminy blind snake, are in both
+- **Mixed** quizzes take half their snakes from each region, with look-alikes from either, for **20% more points**
+  (the server checks that both regions really were in the game)
+- Each region has its own daily challenge, its own daily Herpdle and their own leaderboards; anyone can play either.
+  Quiz points are one board for every region
+
 **Sarpa, the photo quiz**
 - 20, 50 or 100 questions, four options each, or **Survival**: one mistake ends the run, and it gets harder as you go
 - Four difficulty levels: *Beginner* (famous snakes, look-alikes kept apart), *Intermediate*, *Expert*
   (most options are genuine look-alikes) and *All species*
 - Optional timer with bonus points for speed, hints (where the photo was taken, the snake's group and
   venom status, and a 50/50), streaks and points
+- **Points follow difficulty**: rarer, trickier snakes (+10% per difficulty step) and hard photos (+15%) are worth more
 - **Reasoning after every answer**: why it is the right snake, why each other option is wrong, how those
   snakes differ from the one in the photo, how dangerous each one is
 - Every game is different: questions are built from thousands of photos, species are balanced, and photos
@@ -47,8 +57,9 @@ on your computer) everything still works, just without accounts and leaderboards
 - One mystery snake a day, the same for everyone, and six goes to name it
 - Six clues, one more after every guess (where it lives, venom, habits, looks, a tell-tale sign, a last clue); words
   that would give the name away are blacked out
-- Every guess shows six tiles that say how close you are: family, venom, size, lifestyle, pattern and region of India
-  (green = same, yellow = close, arrows for bigger/smaller and more/less venomous)
+- Every guess shows six tiles that say how close you are: family, venom, size, lifestyle, pattern and region (zones of
+  India, or of the USA and Canada) (green = same, yellow = close, arrows for bigger/smaller and more/less venomous)
+- A separate daily Herpdle for each region
 - A pixelated photo of the snake sharpens with every guess; a shareable result grid; practice mode with three levels
 
 **Accounts and leaderboards**
@@ -57,16 +68,21 @@ on your computer) everything still works, just without accounts and leaderboards
   flashcards, safety pages and everything else never ask for one
 - **Daily, weekly and all-time leaderboards** for the Sarpa daily challenge, Herpdle and quiz points, with your own
   place shown even when you are not in the top list; streaks and statistics on your profile
-- Change your PIN, sign out everywhere, or delete the account and every score at any time
+- **Progress follows you**: when you are signed in, your snake-dex, badges, quiz history, daily results and Herpdle
+  games are saved with your account and merged across every browser and device you use
+- Change your PIN, sign out everywhere, or delete the account, every score and the saved progress at any time
 
 **Everything else**
-- **Daily** page with both daily puzzles (new every midnight, India time), streaks and the last two weeks at a glance
-- **Field guide** of all 162 species: identification tips, size, habitat, range, look-alikes, photo gallery with credits, where in India it was photographed
+- **Daily** page with both daily puzzles of each region (new every midnight India time, shown in your own time), streaks
+  and the last two weeks at a glance
+- **Field guide** of all 320 species, filtered by region: identification tips, size, habitat, range, look-alikes, photo
+  gallery with credits, and the states and provinces where it was photographed
 - **Compare tool**: pick any two snakes and see how they differ
 - **Flashcards** for relaxed studying
-- **Region filter**: quiz yourself on the snakes recorded in your own state
+- **State filter**: quiz yourself on the snakes recorded in your own state or province
 - **My progress**: stats, a snake-dex of species you have mastered, weak-spot practice, badges, and a backup/restore file
-- **Snakebite first aid** (the national "Do it R.I.G.H.T." guidance), the "Big Four", and myths vs facts
+- **Snakebite first aid** for each region: India (the national "Do it R.I.G.H.T." guidance and the "Big Four") and North
+  America (911, Poison Control, the CDC's advice, pit vipers and coral snakes), with myths vs facts
 - **Legal** pages: terms of use, privacy policy, safety disclaimer, photo licences and how to ask for a photo to be removed
 - Dark mode, installable as an app, works offline after the first visit, no ads, no cookies, only cookie-free visit counts
 
@@ -136,9 +152,25 @@ link's preview for a while, so to see a change straight away, share the address 
   server's schedule (`server/generated/data.json`, made by `scripts/dataset/10_server_data.js` with the website's
   own code), each account can play each daily once, and impossible timings are refused. As in any browser game,
   a determined cheat can still read the answers from the website's code, so the boards are for fun.
-- The database holds usernames, PIN hashes, game results and leaderboard entries; old results expire (see the
-  privacy page). There are no cookies or ads; visits are counted with Vercel's cookie-free Web Analytics and Speed
-  Insights.
+- Points are worked out by the server too: `(base + speed + streak) × difficulty × Mixed bonus`, where the difficulty
+  is 1 + 0.1 per difficulty step of the snake above the easiest, + 0.15 for a hard photo, and the Mixed bonus (×1.2)
+  is given only when at least 30% of the answers came from each region.
+- The database holds usernames, PIN hashes, game results, leaderboard entries and the saved progress of signed-in
+  players; old results expire (see the privacy page). There are no cookies or ads; visits are counted with Vercel's
+  cookie-free Web Analytics and Speed Insights.
+
+### Saved progress (the same progress on every device)
+
+- The browser keeps the progress as before; for a signed-in player it also saves a copy on the server
+  ([`js/sync.js`](js/sync.js), [`server/progress.js`](server/progress.js)) a few seconds after something changes, when
+  the page is hidden, and before signing out, and fetches it when the site opens and when the player comes back to it.
+- Two devices never count anything twice: each device has its own counts (under a random device code), a merge keeps
+  the larger value of each device's count, and lists (badges, games, daily results) are merged. A revision number stops
+  two devices from overwriting each other: the later one merges first and saves again.
+- A reset (or restoring a backup) starts a new "epoch", which then wins on every device. Progress made before signing in
+  goes into the first account that signs in on that browser; another account's progress is never mixed in, and signing
+  out removes the progress from the browser (it stays safe on the server).
+- Settings, the list of photos already seen and a game in progress stay on each device.
 
 ### Security and privacy
 
@@ -166,12 +198,13 @@ cheats.
 The photographs are **real, community-identified observations from [iNaturalist](https://www.inaturalist.org)**:
 
 - only *research grade* observations (other naturalists agreed with the species identification)
-- only photos taken **in India**, labelled with the state they were taken in
+- only photos taken **in India, the USA or Canada**, labelled with the state or province they were taken in
 - only photos whose photographer chose an open **Creative Commons** licence
 - cleaned in three ways: an image classifier removes photos where no snake is clearly visible, a person
   looked at the candidate photos on contact sheets and removed unusable ones (dead or crushed animals, a
   speck in a landscape, shed skins, collages ...), and near-duplicates are dropped. Awkward but identifiable
-  photos are kept, flagged *hard*, and only shown at the harder levels
+  photos are kept, flagged *hard*, and only shown at the harder levels. For North America, a model trained on the
+  India labels (step 7c) rated every photo, and a person reviewed every chosen photo the model was not sure about
 
 Every photo is credited under the picture, in the in-app **Photo credits** page and in
 [`CREDITS.md`](CREDITS.md) / [`data/catalog.csv`](data/catalog.csv).
@@ -216,14 +249,17 @@ Playwright installed:
 
 ```bash
 node scripts/qa/api_test.js       # the accounts API against an in-memory database: sign-up, PINs, sessions, rate limits,
-                                  # daily puzzles, scoring, anti-cheat checks, leaderboards, deleting an account, and the
-                                  # security checks (JSON only, PIN limits, pepper upgrade, name races, keyed address hashes)
-node scripts/qa/engine_check.js   # 4,500+ generated questions: 4 unique options, right answer, no look-alike clashes, balance...
+                                  # daily puzzles of both regions, scoring and the Mixed bonus, saved progress and conflicts,
+                                  # anti-cheat checks, leaderboards, deleting an account, and the security checks (JSON only,
+                                  # PIN limits, pepper upgrade, name races, keyed address hashes)
+node scripts/qa/engine_check.js   # 13,000+ generated questions in India, North America and Mixed: 4 unique options, right
+                                  # answer, no look-alike clashes, balance, photos and options from the right region...
 node scripts/qa/smoke.js          # every page and species page: no stray "null"/"undefined", no errors, no broken photos;
                                   # the link-preview tags and image
-node scripts/qa/e2e.js            # 50-step run-through: account sign-up, timer, hints, explanations, reload-and-resume,
-                                  # results, daily parity between two players, region filter, reporting a photo, phone
-                                  # layout, Herpdle
+node scripts/qa/e2e.js            # 70-step run-through: account sign-up, timer, hints, explanations, reload-and-resume,
+                                  # results, daily parity between two players, state filter, North America and Mixed
+                                  # quizzes, reporting a photo, phone layout, Herpdle, and progress following a player to
+                                  # another browser (and signing out and in again)
 node scripts/qa/layout.js         # design checks on every page at phone, tablet, laptop and ultrawide sizes, light and dark:
                                   # nothing overflows or is clipped, tap targets, WCAG contrast, broken images, tab bar overlap
                                   # (--quick for fewer sizes, --shots <dir> to save screenshots)
@@ -239,14 +275,16 @@ css/                                styling: fonts.css, tokens.css (colours, typ
                                     base.css (page frame, header, tab bar), components.css (keys, LCD, panels ...),
                                     views.css (every screen), games.css (Herpdle, accounts, leaderboards)
 js/                                 the app: engine (question building), explain (why-not logic), quiz, guide, results,
-                                    herpdle-core + herpdle (the clue game), api + account (accounts), ranks, legal ...
+                                    herpdle-core + herpdle (the clue game), api + account (accounts), sync (saved
+                                    progress), ranks, legal ...
 js/config.js                        site settings: API address, accounts on/off, who runs the site (for the legal pages)
 api/sarpa.js                        the Vercel serverless function (accounts and leaderboards); its code is in server/
-server/                             the API: app (actions), auth (PINs, sessions), games (scoring, boards), store (Upstash)
+server/                             the API: app (actions), auth (PINs, sessions), games (scoring, boards), progress (saved
+                                    progress), store (Upstash)
 server/generated/data.json          species, photos and the daily puzzles the server checks against (generated)
 data/kb/*.json                      the species knowledge base (hand-written)
 data/species.js  data/photos.js     generated for the app by scripts/dataset/09_build_data.py
-data/catalog.csv                    every photo with species, state, photographer, licence and source link
+data/catalog.csv                    every photo with species, region, state, photographer, licence and source link
 images/<species>/<photo-id>.avif    the photos (800 px, AVIF) and images/thumbs/ for the cover pictures
 assets/                             app icons and the link-preview image (drawn by scripts/assets/) and the bundled fonts
 scripts/dataset/                    the data-set pipeline (iNaturalist open data -> photos -> server schedule)
@@ -257,7 +295,8 @@ scripts/qa/                         API and browser-based tests
 ## Safety
 
 Identifying a snake from a photo is a learning game, **not a safety tool**. Never touch, corner or try to catch a
-wild snake. After a bite, go to a hospital immediately (the app has a first-aid page).
+wild snake. After a bite, call for help (108 or 112 in India, 911 in the USA and Canada) and go to a hospital
+immediately (the app has a first-aid page for each region).
 
 ## Licences and credits
 
@@ -266,4 +305,6 @@ wild snake. After a bite, go to a hospital immediately (the app has a first-aid 
 - Species descriptions (`data/kb`): CC BY 4.0
 - Photographs: © their photographers, under the Creative Commons licence shown with each photo
   (see [`CREDITS.md`](CREDITS.md))
-- State names are derived from each photo's location using OpenStreetMap-based boundaries © OpenStreetMap contributors
+- Indian state names are derived from each photo's location using OpenStreetMap-based boundaries © OpenStreetMap
+  contributors; US state and Canadian province names use [Natural Earth](https://www.naturalearthdata.com)'s
+  public-domain boundaries

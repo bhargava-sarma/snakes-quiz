@@ -5,10 +5,14 @@
  * then sends the answers (submit). The server re-checks every answer against its own copy of the data, works out the
  * points itself and only then updates the leaderboards. Each daily puzzle can be submitted once per account.
  *
+ * Games are played in an area: India ('in'), North America ('na') or, for Sarpa quizzes, both ('mix'). Each area has
+ * its own daily puzzles. Points grow with how hard each question is (the snake's tier, a hard photo), and a mixed
+ * quiz earns a bonus when both areas really take part.
+ *
  * Leaderboards (Redis sorted sets, member = display name):
- *   sarpa-daily    the Sarpa daily challenge   day: points, ties broken by speed   week / all: points added up
- *   herpdle        the daily Herpdle           day: points (fewer guesses = more), ties by speed
- *   sarpa-points   every ranked Sarpa game     points earned in the day / week / all time
+ *   sarpa-daily, sarpa-daily-na   the Sarpa daily challenge (India, North America)   day: points, ties by speed
+ *   herpdle, herpdle-na           the daily Herpdle (India, North America)            day: points, ties by speed
+ *   sarpa-points                  every ranked Sarpa game, in any area                 points in the day / week / all time
  */
 const crypto = require('crypto');
 const { HttpError } = require('./http');
@@ -17,10 +21,17 @@ const DATA = require('./data');
 const { rateLimit } = require('./auth');
 
 const BOARDS = {
-  'sarpa-daily': { game: 'sarpa', daily: true },
-  herpdle: { game: 'herpdle', daily: true },
+  'sarpa-daily': { game: 'sarpa', daily: true, area: 'in' },
+  'sarpa-daily-na': { game: 'sarpa', daily: true, area: 'na' },
+  herpdle: { game: 'herpdle', daily: true, area: 'in' },
+  'herpdle-na': { game: 'herpdle', daily: true, area: 'na' },
   'sarpa-points': { game: 'sarpa', daily: false },
 };
+const AREAS = ['in', 'na'];
+/** The daily leaderboard of a game in an area (India keeps the names it has always had). */
+const dailyBoard = (game, area) => (game === 'sarpa' ? 'sarpa-daily' : 'herpdle') + (area === 'na' ? '-na' : '');
+/** The prefix of a player's daily statistics (streaks, games played) for a game in an area. */
+const statPrefix = (game, area) => (game === 'sarpa' ? 'sd' : 'h') + (area === 'na' ? 'n' : '');
 const PERIODS = ['day', 'week', 'all'];
 const DAY_TTL = 140 * 86400;
 const WEEK_TTL = 400 * 86400;
@@ -28,7 +39,7 @@ const TOP = 50;
 
 const K = {
   run: (id) => `sq:run:${id}`,
-  dailyStatus: (game, day) => `sq:dly:${game}:${day}`,
+  dailyStatus: (game, day, area) => `sq:dly:${game}${area === 'na' ? '-na' : ''}:${day}`,
   board: (board, period, key) => (period === 'all' ? `sq:lb:${board}:all` : `sq:lb:${board}:${period === 'day' ? 'd' : 'w'}:${key}`),
   detail: (board, day) => `sq:lbd:${board}:${day}`,
   userBoards: (u) => `sq:ulb:${u}`,
@@ -46,13 +57,17 @@ const RANKED_PER_DAY = 20;          // quizzes per player and day that count for
 const composite = (points, seconds) => points * 100000 + Math.max(0, 99999 - Math.min(99999, Math.round(seconds)));
 const splitComposite = (score) => ({ points: Math.floor(score / 100000), seconds: 99999 - (score % 100000) });
 
+const MIX_BONUS = 1.2;
+/** How much a question is worth compared with an easy one (js/engine.js difficultyFactor). */
+const difficultyFactor = (tier, hard) => 1 + 0.1 * (Math.max(1, Math.min(5, tier || 1)) - 1) + (hard ? 0.15 : 0);
+
 /** The same scoring as js/engine.js (score). */
-function sarpaPoints({ correct, hints, remaining, timer, streak }) {
+function sarpaPoints({ correct, hints, remaining, timer, streak, tier, hard, mixed }) {
   if (!correct) return 0;
   let pts = Math.max(30, 100 - 25 * hints);
   if (timer > 0) pts += Math.round(40 * Math.max(0, Math.min(1, remaining / timer)));
   pts += 5 * Math.min(streak, 10);
-  return pts;
+  return Math.round(pts * difficultyFactor(tier, hard) * (mixed ? MIX_BONUS : 1));
 }
 
 const int = (v, lo, hi) => {
@@ -70,13 +85,15 @@ async function start(store, user, body) {
   if (game === 'sarpa' ? !SARPA_MODES.has(mode) : game === 'herpdle' ? !HERPDLE_MODES.has(mode) : true) {
     throw new HttpError(400, 'Unknown game.', 'bad_game');
   }
+  const area = body.area == null ? 'in' : body.area;
+  if (!(AREAS.includes(area) || (area === 'mix' && game === 'sarpa' && mode !== 'daily'))) throw new HttpError(400, 'Unknown region.', 'bad_area');
   await rateLimit(store, 'start', user.key, 150, 3600, 'You are starting games very fast. Please wait a little.');
   const now = Date.now();
   const today = time.dayKey(now);
 
   if (mode === 'daily') {
-    if (!DATA.daily(game, today)) throw new HttpError(409, 'Today’s puzzle is not available for ranking.', 'no_daily');
-    const statusKey = K.dailyStatus(game, today);
+    if (!DATA.daily(game, today, area)) throw new HttpError(409, 'Today’s puzzle is not available for ranking.', 'no_daily');
+    const statusKey = K.dailyStatus(game, today, area);
     const status = await store.cmd('HGET', statusKey, user.key);
     if (status && status.startsWith('d:')) {
       throw new HttpError(409, 'You have already played today’s puzzle. A new one comes at midnight (India time).', 'daily_done');
@@ -84,26 +101,26 @@ async function start(store, user, body) {
     if (status && status.startsWith('s:')) {
       const runId = status.slice(2);
       const run = await store.cmd('HGETALL', K.run(runId));
-      if (run && run.length) return { runId, day: today, resumed: true };
+      if (run && run.length) return { runId, day: today, area, resumed: true };
     }
     const runId = crypto.randomBytes(12).toString('base64url');
     await store.pipe([
-      ['HSET', K.run(runId), 'u', user.key, 'g', game, 'm', mode, 'd', today, 't', now],
+      ['HSET', K.run(runId), 'u', user.key, 'g', game, 'm', mode, 'a', area, 'd', today, 't', now],
       ['EXPIRE', K.run(runId), 2 * 86400],
       ['HSET', statusKey, user.key, 's:' + runId],
       ['EXPIRE', statusKey, 4 * 86400],
     ]);
-    return { runId, day: today, resumed: false };
+    return { runId, day: today, area, resumed: false };
   }
 
   const timer = int(body.timer || 0, 0, 45);
   if (!TIMERS.has(timer)) throw new HttpError(400, 'Unknown timer.', 'bad_timer');
   const runId = crypto.randomBytes(12).toString('base64url');
   await store.pipe([
-    ['HSET', K.run(runId), 'u', user.key, 'g', game, 'm', mode, 'd', today, 't', now, 'timer', timer],
+    ['HSET', K.run(runId), 'u', user.key, 'g', game, 'm', mode, 'a', area, 'd', today, 't', now, 'timer', timer],
     ['EXPIRE', K.run(runId), 12 * 3600],
   ]);
-  return { runId, day: today, resumed: false };
+  return { runId, day: today, area, resumed: false };
 }
 
 /* ------------------------------------------------------------------ */
@@ -112,34 +129,43 @@ async function start(store, user, body) {
 
 function checkSarpa(run, body) {
   const answers = Array.isArray(body.answers) ? body.answers : null;
-  if (!answers || !answers.length || answers.length > MAX_ANSWERS) throw new HttpError(422, 'This game could not be checked.', 'bad_answers');
+  const bad = () => new HttpError(422, 'This game could not be checked.', 'bad_answers');
+  if (!answers || !answers.length || answers.length > MAX_ANSWERS) throw bad();
   const timer = Number(run.timer) || 0;
+  const area = run.a || 'in';
   let questions = null;
   if (run.m === 'daily') {
-    questions = DATA.daily('sarpa', run.d).questions;
+    questions = DATA.daily('sarpa', run.d, area).questions;
     if (answers.length !== questions.length) throw new HttpError(422, 'This daily challenge is not complete.', 'bad_answers');
   }
   const seen = new Set();
-  let streak = 0, best = 0, points = 0, correct = 0, totalMs = 0;
-  answers.forEach((a, i) => {
+  const rows = answers.map((a, i) => {
     const photo = int(a && a.p, 1, 2 ** 40);
     const chosen = typeof (a && a.c) === 'string' ? a.c : '';
     const hints = int(a && a.h != null ? a.h : 0, 0, 4);
     const ms = int(a && a.ms != null ? Math.round(a.ms) : -1, 0, 3600 * 1000);
-    if (photo == null || hints == null || ms == null || seen.has(photo)) throw new HttpError(422, 'This game could not be checked.', 'bad_answers');
+    if (photo == null || hints == null || ms == null || seen.has(photo)) throw bad();
     seen.add(photo);
-    const truth = DATA.photoSpecies(photo);
-    if (!truth) throw new HttpError(422, 'This game used a photo that is no longer in the collection.', 'bad_photo');
-    if (chosen && !DATA.speciesExists(chosen)) throw new HttpError(422, 'This game could not be checked.', 'bad_answers');
+    const info = DATA.photoInfo(photo);
+    if (!info) throw new HttpError(422, 'This game used a photo that is no longer in the collection.', 'bad_photo');
+    if (area !== 'mix' && info.area !== area) throw new HttpError(422, 'This game used photos from another region.', 'bad_area');
+    if (chosen && !DATA.speciesExists(chosen)) throw bad();
     if (questions) {
       const q = questions[i];
       if (q.photo !== photo || (chosen && !q.options.includes(chosen))) throw new HttpError(422, 'These are not today’s questions.', 'not_daily');
     }
-    const ok = !!chosen && chosen === truth;
-    if (run.m === 'sudden' && !ok && i !== answers.length - 1) throw new HttpError(422, 'This game could not be checked.', 'bad_answers');
+    return { photo, chosen, hints, ms, info };
+  });
+  // the Mixed bonus needs both areas, each with at least 30% of the questions
+  const inArea = (a) => rows.filter((r) => r.info.area === a).length;
+  const mixed = area === 'mix' && Math.min(inArea('in'), inArea('na')) >= Math.max(1, 0.3 * rows.length);
+  let streak = 0, best = 0, points = 0, correct = 0, totalMs = 0;
+  rows.forEach(({ chosen, hints, ms, info }, i) => {
+    const ok = !!chosen && chosen === info.species;
+    if (run.m === 'sudden' && !ok && i !== rows.length - 1) throw bad();
     const remaining = timer ? Math.max(0, timer - ms / 1000) : 0;
-    if (timer && ms > timer * 1000 + 1500 && chosen) throw new HttpError(422, 'This game could not be checked.', 'bad_answers');
-    points += sarpaPoints({ correct: ok, hints, remaining, timer, streak });
+    if (timer && ms > timer * 1000 + 1500 && chosen) throw bad();
+    points += sarpaPoints({ correct: ok, hints, remaining, timer, streak, tier: DATA.speciesTier(info.species), hard: info.hard, mixed });
     streak = ok ? streak + 1 : 0;
     best = Math.max(best, streak);
     if (ok) correct += 1;
@@ -148,13 +174,13 @@ function checkSarpa(run, body) {
   const elapsed = Date.now() - Number(run.t);
   if (totalMs > elapsed + 5000) throw new HttpError(422, 'The timings of this game do not add up.', 'bad_timing');
   if (totalMs < MIN_MS_PER_ANSWER * answers.length) throw new HttpError(422, 'That was faster than anyone can answer.', 'bad_timing');
-  return { points, correct, n: answers.length, bestStreak: best, seconds: Math.round(totalMs / 1000) };
+  return { points, correct, n: answers.length, bestStreak: best, seconds: Math.round(totalMs / 1000), area, mixed };
 }
 
 function checkHerpdle(run, body) {
   const guesses = Array.isArray(body.guesses) ? body.guesses : null;
   if (!guesses || !guesses.length || guesses.length > 6) throw new HttpError(422, 'This puzzle could not be checked.', 'bad_guesses');
-  const answer = DATA.daily('herpdle', run.d).species;
+  const answer = DATA.daily('herpdle', run.d, run.a || 'in').species;
   const seen = new Set();
   let won = false;
   guesses.forEach((g, i) => {
@@ -171,7 +197,7 @@ function checkHerpdle(run, body) {
   if (!won && guesses.length !== 6) throw new HttpError(422, 'This puzzle is not finished yet.', 'unfinished');
   const n = guesses.length;
   const seconds = Math.round((Date.now() - Number(run.t)) / 1000);
-  return { points: won ? HERPDLE_POINTS[n - 1] : 0, won, n, seconds };
+  return { points: won ? HERPDLE_POINTS[n - 1] : 0, won, n, seconds, area: run.a || 'in' };
 }
 
 /* ------------------------------------------------------------------ */
@@ -206,6 +232,8 @@ async function submit(store, user, body) {
   if (Number(claim) !== 1) throw new HttpError(409, 'This game has already been saved.', 'already_saved');
 
   const game = run.g, mode = run.m, isDaily = mode === 'daily';
+  const area = run.a || 'in';
+  const dboard = dailyBoard(game, area), pre = statPrefix(game, area);
   const day = isDaily ? run.d : time.dayKey();
   const week = time.weekKey(day);
   if (game === 'sarpa' && !isDaily) {
@@ -215,7 +243,7 @@ async function submit(store, user, body) {
   try {
     result = game === 'herpdle' ? checkHerpdle(run, body) : checkSarpa(run, body);
   } catch (e) {
-    if (isDaily) await store.cmd('HSET', K.dailyStatus(game, day), user.key, 'd:x');      // a daily cannot be retried
+    if (isDaily) await store.cmd('HSET', K.dailyStatus(game, day, area), user.key, 'd:x');      // a daily cannot be retried
     throw e;
   }
 
@@ -239,48 +267,48 @@ async function submit(store, user, body) {
     if (result.bestStreak > (Number(stats.s_best_streak) || 0)) cmds.push(['HSET', K.stats(user.key), 's_best_streak', result.bestStreak]);
     if (mode === 'sudden' && result.correct > (Number(stats.s_sudden_best) || 0)) cmds.push(['HSET', K.stats(user.key), 's_sudden_best', result.correct]);
     if (isDaily) {
-      const dk = K.board('sarpa-daily', 'day', day);
+      const dk = K.board(dboard, 'day', day);
       cmds.push(['ZADD', dk, composite(result.points, result.seconds), name]);
       touch(dk, DAY_TTL);
-      const det = K.detail('sarpa-daily', day);
+      const det = K.detail(dboard, day);
       cmds.push(['HSET', det, name, JSON.stringify({ c: result.correct, n: result.n, s: result.seconds })]);
       touch(det, DAY_TTL);
       for (const [period, key, ttl] of [['week', week, WEEK_TTL], ['all', '', 0]]) {
-        const k = K.board('sarpa-daily', period, key);
+        const k = K.board(dboard, period, key);
         cmds.push(['ZINCRBY', k, result.points, name]);
         touch(k, ttl);
       }
-      const [streak, best] = streakAfter(stats, 'sd', day, true);
-      cmds.push(['HSET', K.stats(user.key), 'sd_last', day, 'sd_streak', streak, 'sd_best', best], ['HINCRBY', K.stats(user.key), 'sd_played', 1]);
+      const [streak, best] = streakAfter(stats, pre, day, true);
+      cmds.push(['HSET', K.stats(user.key), `${pre}_last`, day, `${pre}_streak`, streak, `${pre}_best`, best], ['HINCRBY', K.stats(user.key), `${pre}_played`, 1]);
       result.streak = streak;
     }
     addPoints('sarpa-points');
   } else {
-    const dk = K.board('herpdle', 'day', day);
+    const dk = K.board(dboard, 'day', day);
     cmds.push(['ZADD', dk, composite(result.points, result.seconds), name]);
     touch(dk, DAY_TTL);
-    const det = K.detail('herpdle', day);
+    const det = K.detail(dboard, day);
     cmds.push(['HSET', det, name, JSON.stringify({ g: result.n, w: result.won ? 1 : 0, s: result.seconds })]);
     touch(det, DAY_TTL);
     for (const [period, key, ttl] of [['week', week, WEEK_TTL], ['all', '', 0]]) {
       if (!result.points) break;
-      const k = K.board('herpdle', period, key);
+      const k = K.board(dboard, period, key);
       cmds.push(['ZINCRBY', k, result.points, name]);
       touch(k, ttl);
     }
-    const [streak, best] = streakAfter(stats, 'h', day, result.won);
-    cmds.push(['HSET', K.stats(user.key), 'h_last', day, 'h_streak', streak, 'h_best', best], ['HINCRBY', K.stats(user.key), 'h_played', 1]);
-    if (result.won) cmds.push(['HINCRBY', K.stats(user.key), 'h_won', 1], ['HINCRBY', K.stats(user.key), 'h_d' + result.n, 1]);
+    const [streak, best] = streakAfter(stats, pre, day, result.won);
+    cmds.push(['HSET', K.stats(user.key), `${pre}_last`, day, `${pre}_streak`, streak, `${pre}_best`, best], ['HINCRBY', K.stats(user.key), `${pre}_played`, 1]);
+    if (result.won) cmds.push(['HINCRBY', K.stats(user.key), `${pre}_won`, 1], ['HINCRBY', K.stats(user.key), `${pre}_d` + result.n, 1]);
     result.streak = streak;
   }
-  if (isDaily) cmds.push(['HSET', K.dailyStatus(game, day), user.key, 'd:' + result.points]);
+  if (isDaily) cmds.push(['HSET', K.dailyStatus(game, day, area), user.key, 'd:' + result.points]);
   if (boards.length) cmds.push(['SADD', K.userBoards(user.key), ...boards]);
-  cmds.push(['LPUSH', K.recent(user.key), JSON.stringify({ g: game, m: mode, d: day, p: result.points, c: result.correct, n: result.n, w: result.won ? 1 : 0, t: Date.now() })],
+  cmds.push(['LPUSH', K.recent(user.key), JSON.stringify({ g: game, m: mode, a: area, x: result.mixed ? 1 : 0, d: day, p: result.points, c: result.correct, n: result.n, w: result.won ? 1 : 0, t: Date.now() })],
     ['LTRIM', K.recent(user.key), 0, 49]);
   await store.pipe(cmds);
 
   // where the player now stands (equal scores share a rank)
-  const rankBoards = game === 'sarpa' ? (isDaily ? ['sarpa-daily', 'sarpa-points'] : ['sarpa-points']) : ['herpdle'];
+  const rankBoards = game === 'sarpa' ? (isDaily ? [dboard, 'sarpa-points'] : ['sarpa-points']) : [dboard];
   const rankKeys = [];
   rankBoards.forEach((b) => PERIODS.forEach((p) => rankKeys.push([b, p, K.board(b, p, p === 'day' ? day : p === 'week' ? week : '')])));
   const scores = await store.pipe(rankKeys.map(([, , k]) => ['ZSCORE', k, name]));
@@ -346,12 +374,13 @@ async function leaderboard(store, viewer, q) {
 async function profile(store, user) {
   const [stats, recent] = await store.pipe([['HGETALL', K.stats(user.key)], ['LRANGE', K.recent(user.key), 0, 19]]);
   const today = time.dayKey();
-  const [s1, s2] = await store.pipe([['HGET', K.dailyStatus('sarpa', today), user.key], ['HGET', K.dailyStatus('herpdle', today), user.key]]);
+  const [s1, s2, s3, s4] = await store.pipe([['HGET', K.dailyStatus('sarpa', today, 'in'), user.key], ['HGET', K.dailyStatus('herpdle', today, 'in'), user.key],
+    ['HGET', K.dailyStatus('sarpa', today, 'na'), user.key], ['HGET', K.dailyStatus('herpdle', today, 'na'), user.key]]);
   const st = toObj(stats);
   const numbers = {};
   Object.entries(st).forEach(([k, v]) => { numbers[k] = /_last$/.test(k) ? v : Number(v); });
   // a streak only counts if it reaches yesterday or today
-  for (const p of ['sd', 'h']) {
+  for (const p of ['sd', 'h', 'sdn', 'hn']) {
     const last = st[p + '_last'];
     if (last !== today && last !== time.shiftDay(today, -1)) numbers[p + '_streak'] = 0;
   }
@@ -359,20 +388,22 @@ async function profile(store, user) {
   return {
     user: { name: user.name, created: user.created },
     stats: numbers,
-    today: { day: today, sarpa: status(s1), herpdle: status(s2) },
+    today: { day: today, sarpa: status(s1), herpdle: status(s2), sarpaNa: status(s3), herpdleNa: status(s4) },
     recent: (recent || []).map((r) => { try { return JSON.parse(r); } catch (e) { return null; } }).filter(Boolean),
   };
 }
 
-/** Removes everything a player has in the game tables (used when an account is deleted). */
+/** Removes everything a player has in the game tables and their saved progress (used when an account is deleted). */
 async function removePlayer(store, uname, name) {
   const boards = await store.cmd('SMEMBERS', K.userBoards(uname));
   const cmds = boards.map((k) => (k.startsWith('sq:lbd:') ? ['HDEL', k, name] : ['ZREM', k, name]));
-  cmds.push(['DEL', K.userBoards(uname)], ['DEL', K.stats(uname)], ['DEL', K.recent(uname)]);
+  cmds.push(['DEL', K.userBoards(uname)], ['DEL', K.stats(uname)], ['DEL', K.recent(uname)], ['DEL', `sq:pg:${uname}`]);   // and the saved progress
   // the "already played today" marks of the last few days (they would expire by themselves after 4 days)
   const today = time.dayKey();
-  for (let i = 0; i <= 4; i++) ['sarpa', 'herpdle'].forEach((g) => cmds.push(['HDEL', K.dailyStatus(g, time.shiftDay(today, -i)), uname]));
+  for (let i = 0; i <= 4; i++) {
+    for (const g of ['sarpa', 'herpdle']) AREAS.forEach((a) => cmds.push(['HDEL', K.dailyStatus(g, time.shiftDay(today, -i), a), uname]));
+  }
   await store.pipe(cmds);
 }
 
-module.exports = { BOARDS, PERIODS, K, sarpaPoints, composite, splitComposite, start, submit, leaderboard, profile, removePlayer, checkSarpa, checkHerpdle };
+module.exports = { BOARDS, PERIODS, K, MIX_BONUS, difficultyFactor, sarpaPoints, composite, splitComposite, start, submit, leaderboard, profile, removePlayer, checkSarpa, checkHerpdle };

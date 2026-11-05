@@ -1,0 +1,2564 @@
+[
+ {
+  "id": "coluber-constrictor",
+  "sci": "Coluber constrictor",
+  "name": "North American Racer",
+  "aka": [
+   "Black Racer",
+   "Blue Racer",
+   "Yellow-bellied Racer",
+   "Southern Black Racer"
+  ],
+  "family": "Colubridae",
+  "kind": "Racer",
+  "tier": 1,
+  "venom": "none",
+  "len": "0.9-1.5 m, rarely 1.8 m (3-5 ft)",
+  "habitat": "Fields, meadows, open woodland, brushy edges, dunes and suburbs",
+  "range": "Most of the USA and southern Canada (Ontario, British Columbia and the prairies), except the driest south-west; into Mexico and Central America",
+  "diet": "Insects, frogs, lizards, rodents, birds and other snakes",
+  "active": "By day; very active hunter",
+  "ids": [
+   "Long, slim and very fast, often holding its head high as it hunts.",
+   "Adults are plain: black in the east, blue-grey in the Midwest, olive, brown or grey in the west, with a paler chin and throat.",
+   "Large eyes and smooth, satiny scales.",
+   "Young are grey with a row of red-brown blotches, quite unlike the adults, and change colour in their second year."
+  ],
+  "look": {
+   "colour": "Black, blue-grey, olive, brown or grey; chin white or yellow",
+   "pattern": "Plain (young blotched)",
+   "head": "Rounded, with big eyes",
+   "body": "Long, slim and smooth"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "plain",
+   "build": "slender",
+   "size": 3,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "smooth",
+   "hue": [
+    "black",
+    "blue",
+    "olive",
+    "grey"
+   ]
+  },
+  "grp": [
+   "racer",
+   "black-snake"
+  ],
+  "fact": "Despite the scientific name it does not constrict; it simply overpowers prey and swallows it alive.",
+  "cover": 557594330
+ },
+ {
+  "id": "masticophis-flagellum",
+  "sci": "Masticophis flagellum",
+  "name": "Coachwhip",
+  "aka": [
+   "Eastern Coachwhip"
+  ],
+  "family": "Colubridae",
+  "kind": "Racer",
+  "tier": 2,
+  "venom": "none",
+  "len": "1.2-1.8 m, rarely 2.6 m (4-6 ft)",
+  "habitat": "Open sandy country: sandhills, pine scrub, prairie, desert grassland and old fields",
+  "range": "Southern USA from North Carolina and Florida west to Texas, Oklahoma, Kansas and New Mexico; into Mexico",
+  "diet": "Lizards, snakes, rodents, birds and large insects",
+  "active": "By day, even in the heat",
+  "ids": [
+   "Extremely long and slender, with a long, thin tail.",
+   "In the east the front of the body is dark brown or black, fading to tan or reddish towards the tail.",
+   "The tail scales look braided, like the plaited leather of a whip.",
+   "Large eyes, smooth scales and a narrow head; it races off at the slightest disturbance."
+  ],
+  "look": {
+   "colour": "Dark brown to black in front, tan or reddish behind",
+   "pattern": "Plain, darker at the front",
+   "head": "Narrow, with big eyes",
+   "body": "Very long and whip-thin"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "plain",
+   "build": "thin",
+   "size": 4,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "smooth",
+   "hue": [
+    "black",
+    "brown",
+    "tan",
+    "red"
+   ]
+  },
+  "grp": [
+   "racer",
+   "black-snake"
+  ],
+  "fact": "Old stories say a coachwhip chases people and whips them with its tail; it does neither."
+ },
+ {
+  "id": "masticophis-piceus",
+  "sci": "Masticophis piceus",
+  "name": "Red Coachwhip",
+  "aka": [
+   "Western Coachwhip",
+   "Red Racer"
+  ],
+  "family": "Colubridae",
+  "kind": "Racer",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.9-1.8 m (3-6 ft)",
+  "habitat": "Desert scrub, grassland, chaparral and open rocky hillsides",
+  "range": "The south-west: California, Arizona, Nevada, Utah and New Mexico; into Mexico",
+  "diet": "Lizards, snakes, rodents and birds",
+  "active": "By day",
+  "ids": [
+   "Very long and slender, often pink, red or tan, sometimes black in southern Arizona.",
+   "Wide dark crossbars on the neck in many snakes, fading down the body.",
+   "Braided-looking tail scales, large eyes and a narrow head."
+  ],
+  "look": {
+   "colour": "Pink, red, tan or black",
+   "pattern": "Dark neck bands, otherwise plain",
+   "head": "Narrow, with big eyes",
+   "body": "Very long and whip-thin"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "plain",
+   "build": "thin",
+   "size": 4,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "smooth",
+   "hue": [
+    "pink",
+    "red",
+    "tan",
+    "black"
+   ]
+  },
+  "grp": [
+   "racer"
+  ],
+  "fact": "It hunts with its head raised above the plants, watching for lizards to move.",
+  "cover": 710757736
+ },
+ {
+  "id": "masticophis-lateralis",
+  "sci": "Masticophis lateralis",
+  "name": "California Striped Racer",
+  "aka": [
+   "Striped Racer",
+   "California Whipsnake"
+  ],
+  "family": "Colubridae",
+  "kind": "Racer",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.75-1.5 m (2.5-5 ft)",
+  "habitat": "Chaparral, coastal sage scrub, oak woodland and rocky hillsides",
+  "range": "California, mainly west of the deserts; into Baja California",
+  "diet": "Lizards, frogs, snakes, rodents and insects",
+  "active": "By day",
+  "ids": [
+   "Black or dark brown, with a single cream, yellow or orange stripe along each side.",
+   "Slim and fast, with large eyes.",
+   "The throat and belly are pale, often pinkish under the tail."
+  ],
+  "look": {
+   "colour": "Black or dark brown with a pale yellow stripe on each side",
+   "pattern": "One pale side stripe",
+   "head": "Narrow, with big eyes",
+   "body": "Long and slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "striped",
+   "build": "slender",
+   "size": 3,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "smooth",
+   "hue": [
+    "black",
+    "brown",
+    "yellow"
+   ]
+  },
+  "grp": [
+   "racer",
+   "striped-snake"
+  ],
+  "fact": "The Alameda Striped Racer, a form with orange stripes from the San Francisco Bay area, is a threatened species."
+ },
+ {
+  "id": "masticophis-taeniatus",
+  "sci": "Masticophis taeniatus",
+  "name": "Striped Whipsnake",
+  "family": "Colubridae",
+  "kind": "Racer",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.9-1.5 m (3-5 ft)",
+  "habitat": "Sagebrush, desert grassland, canyons and juniper woodland",
+  "range": "The Great Basin and south-west: Washington, Oregon, Idaho, Nevada, Utah, Arizona, New Mexico and west Texas; into Mexico",
+  "diet": "Lizards, snakes, rodents and birds",
+  "active": "By day",
+  "ids": [
+   "Slim and fast, dark grey, black or olive on the back.",
+   "A cream stripe along each side, split lengthwise by a thin dark line.",
+   "Large eyes; the belly turns yellow then pink towards the tail."
+  ],
+  "look": {
+   "colour": "Dark grey or olive with cream stripes",
+   "pattern": "Pale side stripes split by a dark line",
+   "head": "Narrow, with big eyes",
+   "body": "Long and slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "striped",
+   "build": "slender",
+   "size": 3,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "smooth",
+   "hue": [
+    "grey",
+    "black",
+    "olive",
+    "cream"
+   ]
+  },
+  "grp": [
+   "racer",
+   "striped-snake"
+  ],
+  "fact": "It often climbs into bushes to hunt and to bask."
+ },
+ {
+  "id": "masticophis-bilineatus",
+  "sci": "Masticophis bilineatus",
+  "name": "Sonoran Whipsnake",
+  "family": "Colubridae",
+  "kind": "Racer",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.9-1.7 m (3-5.5 ft)",
+  "habitat": "Rocky desert foothills, canyons, oak woodland and thornscrub",
+  "range": "Arizona and south-western New Mexico; into Mexico",
+  "diet": "Lizards, frogs, birds and their eggs",
+  "active": "By day; climbs well",
+  "ids": [
+   "Olive, grey or bluish, with two or three pale stripes on each side of the front half of the body.",
+   "The stripes fade towards the tail.",
+   "Very slim with large eyes; often climbs into bushes and trees."
+  ],
+  "look": {
+   "colour": "Olive, grey or bluish",
+   "pattern": "Pale side stripes on the front half",
+   "head": "Narrow, with big eyes",
+   "body": "Long and very slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "striped",
+   "build": "thin",
+   "size": 3,
+   "habit": "semi-arboreal",
+   "snout": "blunt",
+   "scales": "smooth",
+   "hue": [
+    "olive",
+    "grey",
+    "blue"
+   ]
+  },
+  "grp": [
+   "racer",
+   "striped-snake"
+  ],
+  "fact": "It hunts birds in the branches of desert trees."
+ },
+ {
+  "id": "masticophis-schotti",
+  "sci": "Masticophis schotti",
+  "name": "Schott's Whipsnake",
+  "family": "Colubridae",
+  "kind": "Racer",
+  "tier": 4,
+  "venom": "none",
+  "len": "0.9-1.5 m (3-5 ft)",
+  "habitat": "Thornscrub, brushland and grassland",
+  "range": "South and west Texas; into north-eastern Mexico",
+  "diet": "Lizards, snakes and rodents",
+  "active": "By day",
+  "ids": [
+   "Grey-green to bluish, with two pale stripes along each side.",
+   "Often reddish or orange on the sides of the neck.",
+   "Slim and fast with large eyes."
+  ],
+  "look": {
+   "colour": "Grey-green or bluish",
+   "pattern": "Two pale side stripes",
+   "head": "Narrow, with big eyes",
+   "body": "Long and slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "striped",
+   "build": "slender",
+   "size": 3,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "smooth",
+   "hue": [
+    "grey",
+    "green",
+    "blue"
+   ]
+  },
+  "grp": [
+   "racer",
+   "striped-snake"
+  ],
+  "fact": "The Ruthven's Whipsnake of the Rio Grande valley is now treated as part of this species."
+ },
+ {
+  "id": "masticophis-fuliginosus",
+  "sci": "Masticophis fuliginosus",
+  "name": "Baja California Coachwhip",
+  "family": "Colubridae",
+  "kind": "Racer",
+  "tier": 5,
+  "venom": "none",
+  "len": "0.9-1.5 m (3-5 ft)",
+  "habitat": "Desert scrub, rocky hillsides and coastal scrub",
+  "range": "Far southern California near the Mexican border; mainly Baja California",
+  "diet": "Lizards, snakes and rodents",
+  "active": "By day",
+  "ids": [
+   "A coachwhip that is either dark grey-brown with pale crossbars or pale yellowish with dark bars on the neck.",
+   "Long, slender and fast, with large eyes."
+  ],
+  "look": {
+   "colour": "Grey-brown or pale yellow",
+   "pattern": "Pale or dark neck bars",
+   "head": "Narrow, with big eyes",
+   "body": "Very long and thin"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "banded",
+   "build": "thin",
+   "size": 4,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "smooth",
+   "hue": [
+    "grey",
+    "brown",
+    "yellow"
+   ]
+  },
+  "grp": [
+   "racer"
+  ],
+  "fact": "In the USA it is found only in a small corner of San Diego County.",
+  "cover": 75716564
+ },
+ {
+  "id": "salvadora-hexalepis",
+  "sci": "Salvadora hexalepis",
+  "name": "Western Patch-nosed Snake",
+  "family": "Colubridae",
+  "kind": "Patch-nosed snake",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.6-1.1 m (2-3.5 ft)",
+  "habitat": "Desert scrub, chaparral, sandy flats and rocky canyons",
+  "range": "California, Nevada, Utah and Arizona; into Mexico",
+  "diet": "Lizards and their eggs, and small snakes",
+  "active": "By day, even when hot",
+  "ids": [
+   "A thick, flap-like scale curves over the tip of the snout, like a patch.",
+   "A broad pale stripe down the middle of the back, bordered by dark brown stripes.",
+   "Slim and fast."
+  ],
+  "look": {
+   "colour": "Grey-brown with a cream or yellow back stripe",
+   "pattern": "Pale back stripe between dark stripes",
+   "head": "With a patch-like scale on the snout",
+   "body": "Slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "striped",
+   "build": "slender",
+   "size": 2,
+   "habit": "terrestrial",
+   "snout": "upturned",
+   "scales": "smooth",
+   "hue": [
+    "grey",
+    "brown",
+    "cream",
+    "yellow"
+   ]
+  },
+  "grp": [
+   "racer",
+   "striped-snake"
+  ],
+  "fact": "It uses the enlarged snout scale to dig up buried lizard eggs.",
+  "cover": 370388039
+ },
+ {
+  "id": "salvadora-lineata",
+  "sci": "Salvadora lineata",
+  "name": "Texas Patch-nosed Snake",
+  "family": "Colubridae",
+  "kind": "Patch-nosed snake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.5-1 m (20-40 in)",
+  "habitat": "Brushland, rocky hills, grassland and woodland edges",
+  "range": "Texas and southern Oklahoma; into Mexico",
+  "diet": "Lizards, their eggs and small rodents",
+  "active": "By day",
+  "ids": [
+   "A pale orange or tan stripe down the middle of the back, bordered by broad dark stripes.",
+   "A raised patch-like scale on the snout.",
+   "Slim and fast."
+  ],
+  "look": {
+   "colour": "Brown with an orange or tan back stripe",
+   "pattern": "Pale back stripe between dark stripes",
+   "head": "With a patch-like snout scale",
+   "body": "Slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "striped",
+   "build": "slender",
+   "size": 2,
+   "habit": "terrestrial",
+   "snout": "upturned",
+   "scales": "smooth",
+   "hue": [
+    "brown",
+    "orange",
+    "tan"
+   ]
+  },
+  "grp": [
+   "racer",
+   "striped-snake"
+  ],
+  "fact": "It was split from the Mountain Patch-nosed Snake in 2016.",
+  "cover": 3512942
+ },
+ {
+  "id": "salvadora-grahamiae",
+  "sci": "Salvadora grahamiae",
+  "name": "Mountain Patch-nosed Snake",
+  "family": "Colubridae",
+  "kind": "Patch-nosed snake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.5-1 m (20-40 in)",
+  "habitat": "Rocky canyons, oak and pine woodland in mountains",
+  "range": "Arizona, New Mexico and west Texas; into Mexico",
+  "diet": "Lizards and their eggs",
+  "active": "By day",
+  "ids": [
+   "A cream or pale grey stripe down the back between two dark stripes.",
+   "A raised scale over the snout.",
+   "Slim, smooth and quick."
+  ],
+  "look": {
+   "colour": "Grey-brown with a pale back stripe",
+   "pattern": "Pale back stripe between dark stripes",
+   "head": "With a patch-like snout scale",
+   "body": "Slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "striped",
+   "build": "slender",
+   "size": 2,
+   "habit": "terrestrial",
+   "snout": "upturned",
+   "scales": "smooth",
+   "hue": [
+    "grey",
+    "brown",
+    "cream"
+   ]
+  },
+  "grp": [
+   "racer",
+   "striped-snake"
+  ],
+  "fact": "It lives higher in the mountains than its desert relatives."
+ },
+ {
+  "id": "salvadora-deserticola",
+  "sci": "Salvadora deserticola",
+  "name": "Big Bend Patch-nosed Snake",
+  "family": "Colubridae",
+  "kind": "Patch-nosed snake",
+  "tier": 4,
+  "venom": "none",
+  "len": "0.5-1 m (20-40 in)",
+  "habitat": "Desert flats, rocky foothills and creosote scrub",
+  "range": "Arizona, New Mexico and west Texas; into Mexico",
+  "diet": "Lizards and their eggs",
+  "active": "By day",
+  "ids": [
+   "A pale orange or tan back stripe with thin dark stripes on each side.",
+   "A large, flap-like scale on the snout.",
+   "Slim and fast."
+  ],
+  "look": {
+   "colour": "Tan or grey with an orange-tinged back stripe",
+   "pattern": "Pale back stripe with thin dark borders",
+   "head": "With a patch-like snout scale",
+   "body": "Slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "striped",
+   "build": "slender",
+   "size": 2,
+   "habit": "terrestrial",
+   "snout": "upturned",
+   "scales": "smooth",
+   "hue": [
+    "tan",
+    "grey",
+    "orange"
+   ]
+  },
+  "grp": [
+   "racer",
+   "striped-snake"
+  ],
+  "fact": "It is a snake of the Chihuahuan and Sonoran Deserts, active even at midday."
+ },
+ {
+  "id": "drymobius-margaritiferus",
+  "sci": "Drymobius margaritiferus",
+  "name": "Speckled Racer",
+  "family": "Colubridae",
+  "kind": "Racer",
+  "tier": 5,
+  "venom": "none",
+  "len": "0.75-1 m (30-40 in)",
+  "habitat": "Thornscrub and dense woodland near water",
+  "range": "The far south of Texas (the lower Rio Grande valley); through Mexico to South America",
+  "diet": "Frogs and toads",
+  "active": "By day",
+  "ids": [
+   "Black, with a yellow or green spot in the middle of nearly every scale, giving a speckled look.",
+   "A dark stripe behind the eye.",
+   "Slim and fast, with large eyes."
+  ],
+  "look": {
+   "colour": "Black with yellow-green spots",
+   "pattern": "Speckled: one pale spot per scale",
+   "head": "With big eyes and a dark eye stripe",
+   "body": "Slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "speckled",
+   "build": "slender",
+   "size": 3,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "smooth",
+   "hue": [
+    "black",
+    "yellow",
+    "green"
+   ]
+  },
+  "grp": [
+   "racer"
+  ],
+  "fact": "In the USA it lives only in the last patches of thornscrub along the lower Rio Grande."
+ },
+ {
+  "id": "opheodrys-aestivus",
+  "sci": "Opheodrys aestivus",
+  "name": "Rough Greensnake",
+  "family": "Colubridae",
+  "kind": "Green snake",
+  "tier": 1,
+  "venom": "none",
+  "len": "0.55-0.8 m, rarely 1.1 m (22-32 in)",
+  "habitat": "Shrubs, vines and trees along lake shores, streams and woodland edges",
+  "range": "South-eastern and central USA, from New Jersey and Florida west to Kansas and Texas",
+  "diet": "Caterpillars, crickets, spiders and other insects",
+  "active": "By day; sleeps coiled in branches at night",
+  "ids": [
+   "Bright, plain green above and yellow or cream below.",
+   "Very slender, with a long tail; spends most of its time in shrubs and vines.",
+   "Its scales are keeled (ridged), unlike the Smooth Greensnake's.",
+   "Large eyes and a narrow head."
+  ],
+  "look": {
+   "colour": "Bright green above, yellow or cream below",
+   "pattern": "Plain",
+   "head": "Narrow, with big eyes",
+   "body": "Very slender, with a long tail"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "plain",
+   "build": "thin",
+   "size": 2,
+   "habit": "arboreal",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "green",
+    "yellow"
+   ]
+  },
+  "grp": [
+   "green-arboreal",
+   "green-snake"
+  ],
+  "fact": "It sways like a vine in the breeze, which makes it very hard to spot among leaves."
+ },
+ {
+  "id": "opheodrys-vernalis",
+  "sci": "Opheodrys vernalis",
+  "name": "Smooth Greensnake",
+  "family": "Colubridae",
+  "kind": "Green snake",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.3-0.5 m (12-20 in)",
+  "habitat": "Meadows, prairie, open grassy woodland and marsh edges",
+  "range": "Southern Canada (Nova Scotia to Saskatchewan) and the northern USA, south along the Appalachians; isolated groups in the west",
+  "diet": "Caterpillars, crickets, grasshoppers and spiders",
+  "active": "By day",
+  "ids": [
+   "Small and bright plain green, with a white or pale yellow belly.",
+   "Smooth, unridged scales.",
+   "Lives on the ground in grass rather than in bushes."
+  ],
+  "look": {
+   "colour": "Bright green above, white below",
+   "pattern": "Plain",
+   "head": "Small and narrow",
+   "body": "Small and slender"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "plain",
+   "build": "slender",
+   "size": 1,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "smooth",
+   "hue": [
+    "green"
+   ]
+  },
+  "grp": [
+   "green-arboreal",
+   "green-snake"
+  ],
+  "fact": "After it dies its green colour fades to blue, because the yellow pigment breaks down first."
+ },
+ {
+  "id": "drymarchon-melanurus",
+  "sci": "Drymarchon melanurus",
+  "name": "Central American Indigo Snake",
+  "aka": [
+   "Texas Indigo Snake",
+   "Black-tailed Indigo Snake"
+  ],
+  "family": "Colubridae",
+  "kind": "Indigo snake",
+  "tier": 3,
+  "venom": "none",
+  "len": "1.5-2.4 m (5-8 ft)",
+  "habitat": "Thornscrub, brushland, riverside woods and coastal plains",
+  "range": "South Texas; through Mexico and Central America",
+  "diet": "Snakes (including rattlesnakes), lizards, frogs, rodents and birds",
+  "active": "By day",
+  "ids": [
+   "A huge, glossy snake, brownish or olive at the front shading to black on the rear and tail.",
+   "Dark diagonal \"tear marks\" run down from the eye across the lips.",
+   "Smooth, shiny scales and a large head."
+  ],
+  "look": {
+   "colour": "Brownish in front, glossy black behind",
+   "pattern": "Plain, with dark marks below the eye",
+   "head": "Large, with dark tear-like streaks",
+   "body": "Very long and heavy"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "plain",
+   "build": "medium",
+   "size": 5,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "glossy",
+   "hue": [
+    "black",
+    "brown",
+    "olive"
+   ]
+  },
+  "grp": [
+   "black-snake",
+   "rat-snake"
+  ],
+  "fact": "It eats rattlesnakes and is largely resistant to their venom."
+ },
+ {
+  "id": "drymarchon-couperi",
+  "sci": "Drymarchon couperi",
+  "name": "Eastern Indigo Snake",
+  "family": "Colubridae",
+  "kind": "Indigo snake",
+  "tier": 4,
+  "venom": "none",
+  "len": "1.5-2.6 m (5-8.5 ft)",
+  "habitat": "Longleaf pine sandhills with gopher tortoise burrows, flatwoods, hammocks and wetland edges",
+  "range": "Florida and south-eastern Georgia; a few reintroduced in Alabama",
+  "diet": "Snakes (including venomous ones), frogs, small mammals and birds",
+  "active": "By day",
+  "ids": [
+   "The longest native snake in the USA: glossy blue-black all over.",
+   "The chin and throat are often reddish or orange-brown.",
+   "Smooth scales with a blue sheen in sunlight."
+  ],
+  "look": {
+   "colour": "Glossy blue-black; reddish chin",
+   "pattern": "Plain",
+   "head": "Large and rounded",
+   "body": "Very long and heavy"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "plain",
+   "build": "medium",
+   "size": 5,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "glossy",
+   "hue": [
+    "black",
+    "blue",
+    "red"
+   ]
+  },
+  "grp": [
+   "black-snake",
+   "rat-snake"
+  ],
+  "fact": "It is a threatened species that depends on gopher tortoise burrows for winter shelter."
+ },
+ {
+  "id": "pantherophis-alleghaniensis",
+  "sci": "Pantherophis alleghaniensis",
+  "name": "Eastern Ratsnake",
+  "aka": [
+   "Black Ratsnake",
+   "Black Rat Snake",
+   "Gray Ratsnake"
+  ],
+  "family": "Colubridae",
+  "kind": "Rat snake",
+  "tier": 1,
+  "venom": "none",
+  "len": "1.1-1.8 m, rarely 2.4 m (3.5-6 ft)",
+  "habitat": "Forests, farmland, barns, suburbs and rocky hillsides; a superb climber",
+  "range": "Eastern USA from Vermont and New York to Georgia, west to the Mississippi; southern Ontario",
+  "diet": "Rats, mice, squirrels, birds and their eggs",
+  "active": "By day in spring and autumn, at night in summer",
+  "ids": [
+   "A long, powerful climber; adults are usually shiny black, with traces of a blotched pattern showing between the scales.",
+   "The chin and throat are white, and the belly has black and white checks near the head.",
+   "In cross-section the body is shaped like a loaf of bread, with corners on the belly edges that help it climb bark.",
+   "Young snakes are pale grey with dark grey blotches."
+  ],
+  "look": {
+   "colour": "Shiny black (young grey with blotches)",
+   "pattern": "Faint blotches; plain in old adults",
+   "head": "Squarish, a little wider than the neck",
+   "body": "Long and muscular, with a flat belly"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "plain",
+   "build": "medium",
+   "size": 4,
+   "habit": "semi-arboreal",
+   "snout": "blunt",
+   "scales": "smooth",
+   "hue": [
+    "black",
+    "grey",
+    "white"
+   ]
+  },
+  "grp": [
+   "rat-snake",
+   "black-snake"
+  ],
+  "fact": "When threatened it freezes in a series of kinks and may vibrate its tail in dry leaves."
+ },
+ {
+  "id": "pantherophis-obsoletus",
+  "sci": "Pantherophis obsoletus",
+  "name": "Western Ratsnake",
+  "aka": [
+   "Texas Ratsnake",
+   "Black Ratsnake"
+  ],
+  "family": "Colubridae",
+  "kind": "Rat snake",
+  "tier": 1,
+  "venom": "none",
+  "len": "1.1-1.8 m, rarely 2.2 m (3.5-6 ft)",
+  "habitat": "Forests, rocky hills, river woods, farmland and towns",
+  "range": "West of the Mississippi: Missouri, Arkansas, Louisiana, Iowa, Kansas, Oklahoma and Texas",
+  "diet": "Rodents, birds and their eggs",
+  "active": "By day and at night",
+  "ids": [
+   "In the north, black with a faint blotched pattern; in Texas, yellowish or grey-brown with dark brown blotches.",
+   "Texas snakes often show reddish or orange skin between the scales and a grey head.",
+   "A long, strong climber with a white or grey chin.",
+   "Young are grey with dark blotches."
+  ],
+  "look": {
+   "colour": "Black, or yellow-grey with dark blotches",
+   "pattern": "Dark blotches, faint in black adults",
+   "head": "Squarish and grey or black",
+   "body": "Long and muscular"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "blotched",
+   "build": "medium",
+   "size": 4,
+   "habit": "semi-arboreal",
+   "snout": "blunt",
+   "scales": "smooth",
+   "hue": [
+    "black",
+    "grey",
+    "yellow",
+    "brown"
+   ]
+  },
+  "grp": [
+   "rat-snake",
+   "black-snake"
+  ],
+  "fact": "Texas Ratsnakes are notorious raiders of chicken coops and bird nests."
+ },
+ {
+  "id": "pantherophis-quadrivittatus",
+  "sci": "Pantherophis quadrivittatus",
+  "name": "Yellow Ratsnake",
+  "aka": [
+   "Eastern Ratsnake (coastal plain)",
+   "Everglades Ratsnake",
+   "Chicken Snake"
+  ],
+  "family": "Colubridae",
+  "kind": "Rat snake",
+  "tier": 2,
+  "venom": "none",
+  "len": "1.1-1.8 m (3.5-6 ft)",
+  "habitat": "Pine woods, hammocks, swamps, farmland and suburbs of the coastal plain",
+  "range": "The south-eastern coastal plain, from Virginia and North Carolina to Florida and the Gulf coast",
+  "diet": "Rodents, birds and their eggs, and frogs",
+  "active": "By day and at night",
+  "ids": [
+   "Yellow, orange or olive with four dark stripes running along the body.",
+   "In the north of its range many are darker or blackish with faint stripes.",
+   "A long climber with a squarish body and a pale, unmarked chin.",
+   "Young are grey with dark blotches."
+  ],
+  "look": {
+   "colour": "Yellow, orange or olive (some darker)",
+   "pattern": "Four dark stripes",
+   "head": "Squarish",
+   "body": "Long and muscular"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "striped",
+   "build": "medium",
+   "size": 4,
+   "habit": "semi-arboreal",
+   "snout": "blunt",
+   "scales": "smooth",
+   "hue": [
+    "yellow",
+    "orange",
+    "olive",
+    "black"
+   ]
+  },
+  "grp": [
+   "rat-snake",
+   "striped-snake"
+  ],
+  "fact": "The orange \"Everglades\" form of south Florida is the most colourful ratsnake in North America."
+ },
+ {
+  "id": "pantherophis-guttatus",
+  "sci": "Pantherophis guttatus",
+  "name": "Red Cornsnake",
+  "aka": [
+   "Corn Snake",
+   "Cornsnake",
+   "Red Rat Snake"
+  ],
+  "family": "Colubridae",
+  "kind": "Rat snake",
+  "tier": 1,
+  "venom": "none",
+  "len": "0.75-1.2 m, rarely 1.8 m (2.5-4 ft)",
+  "habitat": "Pine woods, overgrown fields, farmland, rocky hillsides and suburbs",
+  "range": "South-eastern USA, from New Jersey to Florida, west to Louisiana and Kentucky",
+  "diet": "Mice, rats, birds and lizards",
+  "active": "At dusk and night; also by day in spring",
+  "ids": [
+   "Orange, red or brownish saddle-shaped blotches outlined in black on a paler orange or grey body.",
+   "A spear-point mark on top of the head reaching between the eyes.",
+   "A bold black-and-white checkerboard belly, like Indian corn.",
+   "Round pupils and smooth to weakly ridged scales."
+  ],
+  "look": {
+   "colour": "Orange, red and grey",
+   "pattern": "Black-edged red saddles; checkered belly",
+   "head": "With a spear-point mark on top",
+   "body": "Slender to medium"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "blotched",
+   "build": "medium",
+   "size": 3,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "smooth",
+   "hue": [
+    "orange",
+    "red",
+    "grey"
+   ]
+  },
+  "grp": [
+   "rat-snake",
+   "copperhead-like"
+  ],
+  "fact": "It is the world's most popular pet snake, and is often killed in the wild by people who mistake it for a copperhead."
+ },
+ {
+  "id": "pantherophis-emoryi",
+  "sci": "Pantherophis emoryi",
+  "name": "Great Plains Ratsnake",
+  "aka": [
+   "Emory's Ratsnake",
+   "Great Plains Rat Snake"
+  ],
+  "family": "Colubridae",
+  "kind": "Rat snake",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.75-1.4 m (2.5-4.5 ft)",
+  "habitat": "Rocky hillsides, prairie, canyons, farmland and riverside woods",
+  "range": "The plains and south-west: Texas, Oklahoma, Kansas, Nebraska, Missouri, Colorado and New Mexico; into Mexico",
+  "diet": "Rodents, bats, birds and lizards",
+  "active": "Mostly at night",
+  "ids": [
+   "Grey or tan with dark grey-brown, dark-edged blotches down the back.",
+   "A spear-point mark on top of the head, like the cornsnake's.",
+   "A grey-and-white checkered belly."
+  ],
+  "look": {
+   "colour": "Grey or tan with brown blotches",
+   "pattern": "Dark-edged blotches",
+   "head": "With a spear-point mark on top",
+   "body": "Medium"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "blotched",
+   "build": "medium",
+   "size": 3,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "smooth",
+   "hue": [
+    "grey",
+    "brown",
+    "tan"
+   ]
+  },
+  "grp": [
+   "rat-snake",
+   "copperhead-like"
+  ],
+  "fact": "It is a western relative of the cornsnake, with muted greys instead of reds."
+ },
+ {
+  "id": "pantherophis-slowinskii",
+  "sci": "Pantherophis slowinskii",
+  "name": "Slowinski's Cornsnake",
+  "family": "Colubridae",
+  "kind": "Rat snake",
+  "tier": 4,
+  "venom": "none",
+  "len": "0.75-1.2 m (2.5-4 ft)",
+  "habitat": "Pine and hardwood forests, often on sandy soil",
+  "range": "Western Louisiana, eastern Texas and southern Arkansas",
+  "diet": "Rodents, birds and lizards",
+  "active": "At dusk and night",
+  "ids": [
+   "Like a cornsnake but browner: brown-red blotches on a grey-brown body.",
+   "A spear-point mark on the head.",
+   "Checkered belly."
+  ],
+  "look": {
+   "colour": "Grey-brown with brownish-red blotches",
+   "pattern": "Dark-edged blotches",
+   "head": "With a spear-point mark on top",
+   "body": "Medium"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "blotched",
+   "build": "medium",
+   "size": 3,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "smooth",
+   "hue": [
+    "brown",
+    "red",
+    "grey"
+   ]
+  },
+  "grp": [
+   "rat-snake",
+   "copperhead-like"
+  ],
+  "fact": "It is named after Joseph Slowinski, a herpetologist who died of a krait bite in Myanmar in 2001."
+ },
+ {
+  "id": "pantherophis-vulpinus",
+  "sci": "Pantherophis vulpinus",
+  "name": "Eastern Foxsnake",
+  "aka": [
+   "Foxsnake",
+   "Fox Snake"
+  ],
+  "family": "Colubridae",
+  "kind": "Rat snake",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.9-1.4 m (3-4.5 ft)",
+  "habitat": "Marshes, wet meadows, shorelines, farmland and woodland edges",
+  "range": "Around the Great Lakes: southern Ontario, Michigan, Ohio, Indiana, Illinois and Wisconsin",
+  "diet": "Mice, voles, birds and their eggs",
+  "active": "By day and at dusk",
+  "ids": [
+   "Yellowish to tan with large dark brown or black blotches down the back and smaller ones on the sides.",
+   "An unmarked orange-brown or reddish head, which leads people to mistake it for a copperhead.",
+   "A yellow belly checked with black.",
+   "When alarmed it vibrates its tail and gives off a musky smell."
+  ],
+  "look": {
+   "colour": "Yellow-tan with dark brown blotches; head orange-brown",
+   "pattern": "Large dark blotches",
+   "head": "Plain orange-brown, rather blunt",
+   "body": "Medium-heavy"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "blotched",
+   "build": "medium",
+   "size": 3,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "smooth",
+   "hue": [
+    "yellow",
+    "tan",
+    "brown",
+    "orange"
+   ]
+  },
+  "grp": [
+   "rat-snake",
+   "copperhead-like"
+  ],
+  "fact": "Its name comes from its musk, said to smell like a fox; there are no copperheads in most of its range."
+ },
+ {
+  "id": "pantherophis-ramspotti",
+  "sci": "Pantherophis ramspotti",
+  "name": "Western Foxsnake",
+  "family": "Colubridae",
+  "kind": "Rat snake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.9-1.4 m (3-4.5 ft)",
+  "habitat": "Prairie, farmland, river valleys and woodland edges",
+  "range": "The upper Midwest: Iowa, Minnesota, Nebraska, South Dakota, Wisconsin, Illinois and Missouri",
+  "diet": "Mice, voles, birds and eggs",
+  "active": "By day and at dusk",
+  "ids": [
+   "Yellow-tan with large dark brown blotches.",
+   "A plain reddish or brown head.",
+   "A yellow belly checked with black."
+  ],
+  "look": {
+   "colour": "Yellow-tan with brown blotches",
+   "pattern": "Large dark blotches",
+   "head": "Plain reddish-brown",
+   "body": "Medium-heavy"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "blotched",
+   "build": "medium",
+   "size": 3,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "smooth",
+   "hue": [
+    "yellow",
+    "tan",
+    "brown"
+   ]
+  },
+  "grp": [
+   "rat-snake",
+   "copperhead-like"
+  ],
+  "fact": "It and the Eastern Foxsnake look alike; the two were separated by their DNA and the Mississippi River.",
+  "cover": 592540840
+ },
+ {
+  "id": "pantherophis-bairdi",
+  "sci": "Pantherophis bairdi",
+  "name": "Baird's Ratsnake",
+  "family": "Colubridae",
+  "kind": "Rat snake",
+  "tier": 4,
+  "venom": "none",
+  "len": "0.75-1.4 m (2.5-4.5 ft)",
+  "habitat": "Rocky canyons, wooded hills and limestone country",
+  "range": "West and central Texas; into north-eastern Mexico",
+  "diet": "Rodents, bats and birds",
+  "active": "At dusk and night",
+  "ids": [
+   "Orange-grey to yellowish, with four faint dark stripes along the body.",
+   "Each scale often looks orange at the base with a grey tip, giving a glowing look.",
+   "Young are grey with dark crossbars."
+  ],
+  "look": {
+   "colour": "Orange-grey to yellow",
+   "pattern": "Four faint stripes",
+   "head": "Grey, squarish",
+   "body": "Long and slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "striped",
+   "build": "medium",
+   "size": 3,
+   "habit": "semi-arboreal",
+   "snout": "blunt",
+   "scales": "smooth",
+   "hue": [
+    "orange",
+    "grey",
+    "yellow"
+   ]
+  },
+  "grp": [
+   "rat-snake"
+  ],
+  "fact": "It is a snake of the Edwards Plateau and the Big Bend, where it climbs cliffs and trees."
+ },
+ {
+  "id": "bogertophis-subocularis",
+  "sci": "Bogertophis subocularis",
+  "name": "Trans-Pecos Ratsnake",
+  "family": "Colubridae",
+  "kind": "Rat snake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.9-1.5 m (3-5 ft)",
+  "habitat": "Rocky desert, canyons and desert flats",
+  "range": "West Texas and southern New Mexico; into Mexico",
+  "diet": "Rodents, bats and birds",
+  "active": "At night",
+  "ids": [
+   "Yellow or tan with dark brown H-shaped blotches down the back.",
+   "Very large, bulging eyes, with a row of small scales beneath each eye.",
+   "A plain, rounded head."
+  ],
+  "look": {
+   "colour": "Yellow, tan or straw-coloured",
+   "pattern": "Dark H-shaped blotches",
+   "head": "Rounded, with huge eyes",
+   "body": "Long and slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "blotched",
+   "build": "slender",
+   "size": 3,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "smooth",
+   "hue": [
+    "yellow",
+    "tan",
+    "brown"
+   ]
+  },
+  "grp": [
+   "rat-snake"
+  ],
+  "fact": "It is almost never seen by day; road-cruising at night in the Big Bend is the classic way to find one."
+ },
+ {
+  "id": "senticolis-triaspis",
+  "sci": "Senticolis triaspis",
+  "name": "Green Ratsnake",
+  "family": "Colubridae",
+  "kind": "Rat snake",
+  "tier": 4,
+  "venom": "none",
+  "len": "0.6-1.2 m (2-4 ft)",
+  "habitat": "Wooded canyons and pine-oak forest in mountains",
+  "range": "South-eastern Arizona and south-western New Mexico; through Mexico and Central America",
+  "diet": "Rodents, birds and lizards",
+  "active": "By day and at dusk",
+  "ids": [
+   "Plain olive-green or greenish-grey above, with a pale yellowish belly.",
+   "Young are grey or tan with dark blotches.",
+   "A long, slim climber with a fairly narrow head."
+  ],
+  "look": {
+   "colour": "Olive-green or greenish-grey",
+   "pattern": "Plain (young blotched)",
+   "head": "Narrow, with large eyes",
+   "body": "Long and slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "plain",
+   "build": "slender",
+   "size": 3,
+   "habit": "semi-arboreal",
+   "snout": "blunt",
+   "scales": "smooth",
+   "hue": [
+    "green",
+    "olive",
+    "grey"
+   ]
+  },
+  "grp": [
+   "rat-snake",
+   "green-snake"
+  ],
+  "fact": "In the USA it lives only in a few mountain ranges near the Mexican border."
+ },
+ {
+  "id": "pituophis-catenifer",
+  "sci": "Pituophis catenifer",
+  "name": "Gophersnake",
+  "aka": [
+   "Bullsnake",
+   "Pacific Gophersnake",
+   "Sonoran Gophersnake",
+   "Gopher Snake"
+  ],
+  "family": "Colubridae",
+  "kind": "Gopher snake",
+  "tier": 1,
+  "venom": "none",
+  "len": "0.9-1.8 m, rarely 2.5 m (3-6 ft)",
+  "habitat": "Grassland, prairie, desert scrub, farmland, open woodland and chaparral",
+  "range": "Western and central North America, from British Columbia, Alberta and Saskatchewan to California, the Great Plains and Texas; into Mexico",
+  "diet": "Gophers, ground squirrels, mice, rabbits, birds and eggs",
+  "active": "By day; at night in hot weather",
+  "ids": [
+   "A large, heavy snake, yellow, cream or tan with dark brown or black squarish blotches down the back.",
+   "A dark band across the head between the eyes, and a dark stripe from each eye to the jaw.",
+   "A narrow head with round pupils and a pointed tail without a rattle.",
+   "When threatened it hisses loudly, flattens its head and shakes its tail, imitating a rattlesnake."
+  ],
+  "look": {
+   "colour": "Yellow, cream or tan",
+   "pattern": "Dark squarish blotches; smaller ones on the sides",
+   "head": "Narrow, with a dark band between the eyes",
+   "body": "Large and heavy, with keeled scales"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "blotched",
+   "build": "stout",
+   "size": 4,
+   "habit": "terrestrial",
+   "snout": "pointed",
+   "scales": "keeled",
+   "hue": [
+    "yellow",
+    "tan",
+    "brown",
+    "cream"
+   ]
+  },
+  "grp": [
+   "gopher-pine",
+   "viper-like"
+  ],
+  "fact": "Its rattlesnake act is so convincing that many are killed by mistake; it is a valuable catcher of rodents."
+ },
+ {
+  "id": "pituophis-melanoleucus",
+  "sci": "Pituophis melanoleucus",
+  "name": "Pinesnake",
+  "aka": [
+   "Northern Pinesnake",
+   "Florida Pinesnake",
+   "Black Pinesnake",
+   "Pine Snake"
+  ],
+  "family": "Colubridae",
+  "kind": "Gopher snake",
+  "tier": 3,
+  "venom": "none",
+  "len": "1.2-1.8 m, rarely 2.3 m (4-6 ft)",
+  "habitat": "Sandy pine barrens, longleaf pine sandhills and dry oak woods",
+  "range": "South-eastern USA: New Jersey, the Carolinas, Georgia, Florida, Alabama, Mississippi, Tennessee and Kentucky",
+  "diet": "Pocket gophers, moles, mice and eggs",
+  "active": "By day; spends much time in burrows",
+  "ids": [
+   "A large, powerful snake: in the north white or cream with black blotches, in Florida tan with brown blotches, and black in Mississippi.",
+   "A large, pointed snout scale used for digging.",
+   "Hisses loudly with a vibrating flap in the throat, and keeled scales."
+  ],
+  "look": {
+   "colour": "White, cream or tan with black or brown blotches; some all black",
+   "pattern": "Bold dark blotches",
+   "head": "Small and pointed, made for digging",
+   "body": "Large and heavy"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "blotched",
+   "build": "stout",
+   "size": 4,
+   "habit": "fossorial",
+   "snout": "pointed",
+   "scales": "keeled",
+   "hue": [
+    "white",
+    "cream",
+    "black",
+    "brown"
+   ]
+  },
+  "grp": [
+   "gopher-pine",
+   "viper-like"
+  ],
+  "fact": "Pinesnakes dig their own nest tunnels in sand, unusual among snakes."
+ },
+ {
+  "id": "lampropeltis-getula",
+  "sci": "Lampropeltis getula",
+  "name": "Eastern Kingsnake",
+  "aka": [
+   "Chain Kingsnake",
+   "Common Kingsnake"
+  ],
+  "family": "Colubridae",
+  "kind": "Kingsnake",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.9-1.5 m, rarely 2 m (3-5 ft)",
+  "habitat": "Pine woods, swamp edges, fields, farmland and stream banks",
+  "range": "The eastern USA from New Jersey to north Florida and west to the Appalachians and Alabama",
+  "diet": "Other snakes (including copperheads and rattlesnakes), lizards, rodents and turtle eggs",
+  "active": "By day, often after rain",
+  "ids": [
+   "Glossy black or dark brown with narrow white or yellow crossbands that join along the sides like a chain.",
+   "Smooth, shiny scales and a small, rounded head.",
+   "A black-and-white or yellow checkered belly."
+  ],
+  "look": {
+   "colour": "Glossy black with white or yellow chain links",
+   "pattern": "Chain-like crossbands",
+   "head": "Small and rounded",
+   "body": "Medium, smooth and glossy"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "chain",
+   "build": "medium",
+   "size": 3,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "glossy",
+   "hue": [
+    "black",
+    "white",
+    "yellow"
+   ]
+  },
+  "grp": [
+   "kingsnake",
+   "black-snake"
+  ],
+  "fact": "Kingsnakes are immune to the venom of North American pit vipers and eat them.",
+  "cover": 56260160
+ },
+ {
+  "id": "lampropeltis-holbrooki",
+  "sci": "Lampropeltis holbrooki",
+  "name": "Speckled Kingsnake",
+  "aka": [
+   "Salt-and-pepper Snake"
+  ],
+  "family": "Colubridae",
+  "kind": "Kingsnake",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.9-1.2 m (3-4 ft)",
+  "habitat": "Prairies, swamp edges, river bottoms, farmland and suburbs",
+  "range": "The central USA: the Mississippi valley from Iowa and Illinois to the Gulf coast, Texas, Oklahoma and Kansas",
+  "diet": "Snakes, lizards, rodents, birds and eggs",
+  "active": "By day",
+  "ids": [
+   "Black or dark brown, with a small yellow or white spot on almost every scale: a \"salt and pepper\" look.",
+   "Glossy, smooth scales and a rounded head.",
+   "Faint pale crossbands may show through the speckles."
+  ],
+  "look": {
+   "colour": "Black with yellow speckles",
+   "pattern": "One pale spot per scale",
+   "head": "Rounded, speckled",
+   "body": "Medium, smooth and glossy"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "speckled",
+   "build": "medium",
+   "size": 3,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "glossy",
+   "hue": [
+    "black",
+    "yellow",
+    "white"
+   ]
+  },
+  "grp": [
+   "kingsnake",
+   "black-snake"
+  ],
+  "fact": "When grabbed it smears a smelly musk and pecks with a twisting body, but it rarely bites."
+ },
+ {
+  "id": "lampropeltis-nigra",
+  "sci": "Lampropeltis nigra",
+  "name": "Black Kingsnake",
+  "family": "Colubridae",
+  "kind": "Kingsnake",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.9-1.2 m (3-4 ft)",
+  "habitat": "Wooded hills, fields, stream banks and farmland",
+  "range": "The Ohio and Tennessee valleys: Ohio, Indiana, Illinois, Kentucky, Tennessee, Alabama and nearby states",
+  "diet": "Snakes, lizards, rodents and eggs",
+  "active": "By day",
+  "ids": [
+   "Mostly glossy black, with faint white or yellow specks or traces of thin chain bands.",
+   "A black-and-white or yellow checked belly.",
+   "Smooth, shiny scales and a rounded head."
+  ],
+  "look": {
+   "colour": "Glossy black",
+   "pattern": "Mostly plain, faint speckles or chain marks",
+   "head": "Small and rounded",
+   "body": "Medium, smooth and glossy"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "plain",
+   "build": "medium",
+   "size": 3,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "glossy",
+   "hue": [
+    "black",
+    "white"
+   ]
+  },
+  "grp": [
+   "kingsnake",
+   "black-snake"
+  ],
+  "fact": "Black Kingsnakes are often confused with black ratsnakes and racers, which have duller or ridged scales."
+ },
+ {
+  "id": "lampropeltis-californiae",
+  "sci": "Lampropeltis californiae",
+  "name": "California Kingsnake",
+  "family": "Colubridae",
+  "kind": "Kingsnake",
+  "tier": 1,
+  "venom": "none",
+  "len": "0.75-1.2 m (2.5-4 ft)",
+  "habitat": "Almost anywhere: desert, chaparral, woodland, grassland, farmland and gardens",
+  "range": "California, Oregon, Nevada, Utah and Arizona; into Mexico",
+  "diet": "Snakes (including rattlesnakes), lizards, rodents, birds and eggs",
+  "active": "By day; at night in summer",
+  "ids": [
+   "Bold bands of white or cream on black or brown, the bands widening on the belly.",
+   "Some snakes are striped instead, with one pale stripe down the back.",
+   "Smooth, glossy scales and a rounded head."
+  ],
+  "look": {
+   "colour": "Black or brown with white or cream",
+   "pattern": "Pale bands (some striped)",
+   "head": "Small and rounded",
+   "body": "Medium, smooth and glossy"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "banded",
+   "build": "medium",
+   "size": 3,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "glossy",
+   "hue": [
+    "black",
+    "white",
+    "brown",
+    "cream"
+   ]
+  },
+  "grp": [
+   "kingsnake",
+   "krait-like"
+  ],
+  "fact": "Its black-and-white bands look strikingly like those of the deadly Asian kraits, though the two are unrelated."
+ },
+ {
+  "id": "lampropeltis-splendida",
+  "sci": "Lampropeltis splendida",
+  "name": "Desert Kingsnake",
+  "family": "Colubridae",
+  "kind": "Kingsnake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.9-1.2 m (3-4 ft)",
+  "habitat": "Desert grassland, thornscrub, river valleys and farmland",
+  "range": "Arizona, New Mexico and west Texas; into Mexico",
+  "diet": "Snakes, lizards, rodents and eggs",
+  "active": "By day and at dusk",
+  "ids": [
+   "Dark brown or black, with yellow speckles on the sides.",
+   "Narrow yellow crossbars across the back.",
+   "Glossy, smooth scales."
+  ],
+  "look": {
+   "colour": "Black or brown with yellow speckles",
+   "pattern": "Yellow speckles and thin crossbars",
+   "head": "Small and rounded",
+   "body": "Medium, smooth and glossy"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "speckled",
+   "build": "medium",
+   "size": 3,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "glossy",
+   "hue": [
+    "black",
+    "brown",
+    "yellow"
+   ]
+  },
+  "grp": [
+   "kingsnake",
+   "black-snake"
+  ],
+  "fact": "It is the desert member of the common kingsnake group, between the Speckled and the California Kingsnake."
+ },
+ {
+  "id": "lampropeltis-triangulum",
+  "sci": "Lampropeltis triangulum",
+  "name": "Eastern Milksnake",
+  "aka": [
+   "Milk Snake",
+   "Milksnake"
+  ],
+  "family": "Colubridae",
+  "kind": "Kingsnake",
+  "tier": 1,
+  "venom": "none",
+  "len": "0.6-0.9 m, rarely 1.3 m (2-3 ft)",
+  "habitat": "Woodland, fields, rocky hillsides, barns, old buildings and gardens",
+  "range": "South-eastern Canada (Ontario, Quebec) and the north-eastern USA, south along the Appalachians and west to Minnesota",
+  "diet": "Mice, voles, small snakes and lizards",
+  "active": "Mostly at night; under boards and stones by day",
+  "ids": [
+   "Grey or tan with large reddish-brown blotches edged in black down the back, and smaller ones on the sides.",
+   "Often a pale Y- or V-shaped mark on the back of the neck.",
+   "A black-and-white checkerboard belly.",
+   "Smooth, glossy scales and round pupils."
+  ],
+  "look": {
+   "colour": "Grey or tan with reddish-brown blotches",
+   "pattern": "Black-edged saddles; checkered belly",
+   "head": "With a pale Y or V mark on the neck",
+   "body": "Slender to medium, smooth"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "blotched",
+   "build": "slender",
+   "size": 3,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "glossy",
+   "hue": [
+    "grey",
+    "tan",
+    "red",
+    "brown"
+   ]
+  },
+  "grp": [
+   "kingsnake",
+   "copperhead-like"
+  ],
+  "fact": "The old myth that it milks cows comes from finding it in barns, where it hunts mice."
+ },
+ {
+  "id": "lampropeltis-gentilis",
+  "sci": "Lampropeltis gentilis",
+  "name": "Western Milksnake",
+  "aka": [
+   "Milksnake",
+   "Pale Milksnake",
+   "Central Plains Milksnake"
+  ],
+  "family": "Colubridae",
+  "kind": "Kingsnake",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.5-0.9 m (20-36 in)",
+  "habitat": "Prairie, rocky hillsides, river valleys and open woodland",
+  "range": "The Great Plains and south-west: Kansas, Nebraska, Colorado, Oklahoma, Texas, New Mexico, Arizona, Utah and nearby states",
+  "diet": "Lizards, small snakes and rodents",
+  "active": "At night",
+  "ids": [
+   "Rings of red, black and white or yellow; the red rings touch the black, not the yellow.",
+   "A black snout and head, often with pale flecks.",
+   "Glossy, smooth scales."
+  ],
+  "look": {
+   "colour": "Red, black and white or yellow",
+   "pattern": "Rings: red touches black",
+   "head": "Black, small and rounded",
+   "body": "Slim and glossy"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "ringed",
+   "build": "slender",
+   "size": 2,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "glossy",
+   "hue": [
+    "red",
+    "black",
+    "white",
+    "yellow"
+   ]
+  },
+  "grp": [
+   "coral-like",
+   "kingsnake"
+  ],
+  "fact": "Its coral-snake colours are a bluff: it is harmless, though few predators want to find out."
+ },
+ {
+  "id": "lampropeltis-annulata",
+  "sci": "Lampropeltis annulata",
+  "name": "Mexican Milksnake",
+  "family": "Colubridae",
+  "kind": "Kingsnake",
+  "tier": 4,
+  "venom": "none",
+  "len": "0.6-0.9 m (2-3 ft)",
+  "habitat": "Thornscrub, grassland and river valleys",
+  "range": "South and west Texas; into north-eastern Mexico",
+  "diet": "Lizards, small snakes and rodents",
+  "active": "At night",
+  "ids": [
+   "Very wide red rings bordered by black, separated by narrow yellow or white rings.",
+   "A black head and snout.",
+   "Glossy, smooth scales."
+  ],
+  "look": {
+   "colour": "Red, black and yellow",
+   "pattern": "Wide red rings: red touches black",
+   "head": "Black",
+   "body": "Slim and glossy"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "ringed",
+   "build": "slender",
+   "size": 2,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "glossy",
+   "hue": [
+    "red",
+    "black",
+    "yellow"
+   ]
+  },
+  "grp": [
+   "coral-like",
+   "kingsnake"
+  ],
+  "fact": "In Texas it shares its range with the Texas Coral Snake, where red touches yellow instead."
+ },
+ {
+  "id": "lampropeltis-elapsoides",
+  "sci": "Lampropeltis elapsoides",
+  "name": "Scarlet Kingsnake",
+  "aka": [
+   "Scarlet Milksnake"
+  ],
+  "family": "Colubridae",
+  "kind": "Kingsnake",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.35-0.6 m (14-24 in)",
+  "habitat": "Pine flatwoods and hammocks, often under the bark of dead pines",
+  "range": "South-eastern USA, from Virginia and Kentucky to Florida and west to the Mississippi",
+  "diet": "Lizards (especially skinks), small snakes and eggs",
+  "active": "At night; by day hides under bark and logs",
+  "ids": [
+   "Small, with rings of red, black and yellow or white; red touches black.",
+   "A red snout (the coral snake's snout is black).",
+   "Glossy and slim."
+  ],
+  "look": {
+   "colour": "Red, black and yellow or white",
+   "pattern": "Rings: red touches black",
+   "head": "Red snout",
+   "body": "Small, slim and glossy"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "ringed",
+   "build": "slender",
+   "size": 1,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "glossy",
+   "hue": [
+    "red",
+    "black",
+    "yellow"
+   ]
+  },
+  "grp": [
+   "coral-like",
+   "kingsnake"
+  ],
+  "fact": "Where coral snakes live, scarlet kingsnakes are most convincing mimics: same colours, different order.",
+  "cover": 114521276
+ },
+ {
+  "id": "lampropeltis-calligaster",
+  "sci": "Lampropeltis calligaster",
+  "name": "Prairie Kingsnake",
+  "aka": [
+   "Yellow-bellied Kingsnake"
+  ],
+  "family": "Colubridae",
+  "kind": "Kingsnake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.75-1.1 m (2.5-3.5 ft)",
+  "habitat": "Prairie, old fields, farmland and open woodland",
+  "range": "The central USA: from Maryland and Kentucky to Florida, and west to Nebraska, Kansas, Oklahoma and Texas",
+  "diet": "Rodents, lizards, frogs and small snakes",
+  "active": "By day and at night; often under cover",
+  "ids": [
+   "Grey-brown or tan with small brown or reddish dark-edged blotches down the back.",
+   "Some old snakes fade to plain brown with faint stripes.",
+   "A small head and smooth, glossy scales."
+  ],
+  "look": {
+   "colour": "Grey-brown or tan",
+   "pattern": "Small dark-edged blotches",
+   "head": "Small and rounded",
+   "body": "Medium, smooth"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "blotched",
+   "build": "medium",
+   "size": 3,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "glossy",
+   "hue": [
+    "grey",
+    "brown",
+    "tan",
+    "red"
+   ]
+  },
+  "grp": [
+   "kingsnake",
+   "rat-snake"
+  ],
+  "fact": "It is a secretive burrower and is most often seen crossing roads after spring rain."
+ },
+ {
+  "id": "lampropeltis-rhombomaculata",
+  "sci": "Lampropeltis rhombomaculata",
+  "name": "Mole Kingsnake",
+  "family": "Colubridae",
+  "kind": "Kingsnake",
+  "tier": 4,
+  "venom": "none",
+  "len": "0.75-1 m (30-40 in)",
+  "habitat": "Fields, pine woods and farmland on loose soil",
+  "range": "The south-east: Maryland and Virginia to north Florida, west to Tennessee and Mississippi",
+  "diet": "Moles, mice, lizards and small snakes",
+  "active": "Mostly underground; seen at night and after rain",
+  "ids": [
+   "Brown with small reddish-brown blotches edged in dark brown.",
+   "Small head and smooth, glossy scales.",
+   "Old snakes may darken and lose their pattern."
+  ],
+  "look": {
+   "colour": "Brown or reddish-brown",
+   "pattern": "Small dark-edged blotches",
+   "head": "Small and rounded",
+   "body": "Medium, smooth"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "blotched",
+   "build": "medium",
+   "size": 3,
+   "habit": "fossorial",
+   "snout": "blunt",
+   "scales": "glossy",
+   "hue": [
+    "brown",
+    "red"
+   ]
+  },
+  "grp": [
+   "kingsnake",
+   "rat-snake"
+  ],
+  "fact": "It spends so much time underground that many people in its range never see one."
+ },
+ {
+  "id": "lampropeltis-pyromelana",
+  "sci": "Lampropeltis pyromelana",
+  "name": "Sonoran Mountain Kingsnake",
+  "family": "Colubridae",
+  "kind": "Kingsnake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.5-1 m (20-40 in)",
+  "habitat": "Rocky canyons, streams and pine-oak woodland in mountains",
+  "range": "Arizona, Utah, Nevada and New Mexico; into Mexico",
+  "diet": "Lizards, small snakes, rodents and nestling birds",
+  "active": "By day in spring, at dusk in summer",
+  "ids": [
+   "Rings of red, black and white; red touches black.",
+   "A white or pale snout.",
+   "Glossy and slim."
+  ],
+  "look": {
+   "colour": "Red, black and white",
+   "pattern": "Rings: red touches black",
+   "head": "With a white snout",
+   "body": "Slim and glossy"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "ringed",
+   "build": "slender",
+   "size": 2,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "glossy",
+   "hue": [
+    "red",
+    "black",
+    "white"
+   ]
+  },
+  "grp": [
+   "coral-like",
+   "kingsnake"
+  ],
+  "fact": "It is a snake of the \"sky island\" mountains of the south-west."
+ },
+ {
+  "id": "lampropeltis-knoblochi",
+  "sci": "Lampropeltis knoblochi",
+  "name": "Madrean Mountain Kingsnake",
+  "aka": [
+   "Chihuahuan Mountain Kingsnake"
+  ],
+  "family": "Colubridae",
+  "kind": "Kingsnake",
+  "tier": 4,
+  "venom": "none",
+  "len": "0.5-1 m (20-40 in)",
+  "habitat": "Pine-oak woodland and canyons in mountains",
+  "range": "South-eastern Arizona and south-western New Mexico; into Mexico",
+  "diet": "Lizards, small snakes and rodents",
+  "active": "By day and at dusk",
+  "ids": [
+   "Rings of red, black and white, with more black than its relatives; red touches black.",
+   "A pale snout.",
+   "Glossy and slim."
+  ],
+  "look": {
+   "colour": "Red, black and white",
+   "pattern": "Rings: red touches black",
+   "head": "Pale snout",
+   "body": "Slim and glossy"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "ringed",
+   "build": "slender",
+   "size": 2,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "glossy",
+   "hue": [
+    "red",
+    "black",
+    "white"
+   ]
+  },
+  "grp": [
+   "coral-like",
+   "kingsnake"
+  ],
+  "fact": "It was split from the Sonoran Mountain Kingsnake in 2011."
+ },
+ {
+  "id": "lampropeltis-zonata",
+  "sci": "Lampropeltis zonata",
+  "name": "California Mountain Kingsnake",
+  "aka": [
+   "Sierra Mountain Kingsnake"
+  ],
+  "family": "Colubridae",
+  "kind": "Kingsnake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.5-0.9 m (20-36 in)",
+  "habitat": "Mountain forests of pine and oak, often near streams and rocky slopes",
+  "range": "California, Oregon and southern Washington; into Baja California",
+  "diet": "Lizards, small snakes, nestling birds and eggs",
+  "active": "By day and at dusk",
+  "ids": [
+   "Rings of red, black and white; red touches black.",
+   "A black snout.",
+   "The red rings are often split by black across the back."
+  ],
+  "look": {
+   "colour": "Red, black and white",
+   "pattern": "Rings: red touches black",
+   "head": "Black snout",
+   "body": "Slim and glossy"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "ringed",
+   "build": "slender",
+   "size": 2,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "glossy",
+   "hue": [
+    "red",
+    "black",
+    "white"
+   ]
+  },
+  "grp": [
+   "coral-like",
+   "kingsnake"
+  ],
+  "fact": "There are no coral snakes in California, yet it still copies their warning colours."
+ },
+ {
+  "id": "lampropeltis-multifasciata",
+  "sci": "Lampropeltis multifasciata",
+  "name": "Coast Mountain Kingsnake",
+  "family": "Colubridae",
+  "kind": "Kingsnake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.5-0.9 m (20-36 in)",
+  "habitat": "Coastal and mountain forests, chaparral and canyons",
+  "range": "Coastal and southern California; into Baja California",
+  "diet": "Lizards, small snakes, birds and eggs",
+  "active": "By day and at dusk",
+  "ids": [
+   "Rings of red, black and white; red touches black.",
+   "The snout is often red or flecked with red.",
+   "Glossy and slim."
+  ],
+  "look": {
+   "colour": "Red, black and white",
+   "pattern": "Rings: red touches black",
+   "head": "Snout often red",
+   "body": "Slim and glossy"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "ringed",
+   "build": "slender",
+   "size": 2,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "glossy",
+   "hue": [
+    "red",
+    "black",
+    "white"
+   ]
+  },
+  "grp": [
+   "coral-like",
+   "kingsnake"
+  ],
+  "fact": "It was recognised as separate from the California Mountain Kingsnake in 2016."
+ },
+ {
+  "id": "lampropeltis-alterna",
+  "sci": "Lampropeltis alterna",
+  "name": "Gray-banded Kingsnake",
+  "family": "Colubridae",
+  "kind": "Kingsnake",
+  "tier": 4,
+  "venom": "none",
+  "len": "0.5-0.9 m (20-36 in)",
+  "habitat": "Rocky limestone canyons, cliffs and desert hills",
+  "range": "West Texas and south-eastern New Mexico; into Mexico",
+  "diet": "Lizards and their eggs, and small rodents",
+  "active": "At night",
+  "ids": [
+   "Grey, with black crossbands; in many snakes the bands have orange-red centres.",
+   "Large eyes and a broad head.",
+   "Very variable from place to place."
+  ],
+  "look": {
+   "colour": "Grey with black and orange bands",
+   "pattern": "Black crossbands, some with orange centres",
+   "head": "Broad, with big eyes",
+   "body": "Slim and smooth"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "banded",
+   "build": "slender",
+   "size": 2,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "smooth",
+   "hue": [
+    "grey",
+    "black",
+    "orange"
+   ]
+  },
+  "grp": [
+   "kingsnake"
+  ],
+  "fact": "It was once so rarely seen that collectors searched rock cuts in the Big Bend night after night to find one."
+ },
+ {
+  "id": "cemophora-coccinea",
+  "sci": "Cemophora coccinea",
+  "name": "Scarletsnake",
+  "family": "Colubridae",
+  "kind": "Scarlet snake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.35-0.6 m (14-24 in)",
+  "habitat": "Sandy pine woods, sandhills and fields",
+  "range": "South-eastern USA from New Jersey to Florida, west to Louisiana and Oklahoma",
+  "diet": "Reptile eggs, which it slits open with enlarged rear teeth",
+  "active": "At night; burrows by day",
+  "ids": [
+   "Red blotches (saddles) edged in black on a white, cream or yellow body; the marks do not go round the belly.",
+   "A pointed red snout.",
+   "The belly is plain white or cream."
+  ],
+  "look": {
+   "colour": "Red, black and white or yellow",
+   "pattern": "Black-edged red saddles over a pale body",
+   "head": "Pointed, with a red snout",
+   "body": "Small and slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "blotched",
+   "build": "slender",
+   "size": 1,
+   "habit": "fossorial",
+   "snout": "pointed",
+   "scales": "smooth",
+   "hue": [
+    "red",
+    "black",
+    "white"
+   ]
+  },
+  "grp": [
+   "coral-like",
+   "kingsnake"
+  ],
+  "fact": "Its marks stop at the sides, leaving a white belly: one quick way to tell it from coral snakes and kingsnakes."
+ },
+ {
+  "id": "arizona-elegans",
+  "sci": "Arizona elegans",
+  "name": "Eastern Glossy Snake",
+  "aka": [
+   "Glossy Snake",
+   "Kansas Glossy Snake"
+  ],
+  "family": "Colubridae",
+  "kind": "Glossy snake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.6-1 m (2-3.5 ft)",
+  "habitat": "Sandy prairie, grassland and desert scrub",
+  "range": "The southern plains: Kansas, Colorado, Oklahoma, Texas and New Mexico; into Mexico",
+  "diet": "Lizards, rodents and small snakes",
+  "active": "At night",
+  "ids": [
+   "Pale tan or cream with brown, dark-edged blotches down the back: like a faded gophersnake.",
+   "Very smooth, shiny scales (gophersnakes have ridged ones).",
+   "A narrow head with a slightly overhanging snout, and a plain white belly."
+  ],
+  "look": {
+   "colour": "Pale tan or cream",
+   "pattern": "Brown dark-edged blotches",
+   "head": "Narrow, with an overhanging snout",
+   "body": "Medium, smooth and glossy"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "blotched",
+   "build": "medium",
+   "size": 3,
+   "habit": "terrestrial",
+   "snout": "pointed",
+   "scales": "glossy",
+   "hue": [
+    "tan",
+    "cream",
+    "brown"
+   ]
+  },
+  "grp": [
+   "gopher-pine",
+   "rat-snake"
+  ],
+  "fact": "It burrows in sand by day and is mostly seen crossing roads on warm nights."
+ },
+ {
+  "id": "arizona-occidentalis",
+  "sci": "Arizona occidentalis",
+  "name": "Western Glossy Snake",
+  "aka": [
+   "California Glossy Snake",
+   "Desert Glossy Snake"
+  ],
+  "family": "Colubridae",
+  "kind": "Glossy snake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.6-1 m (2-3.5 ft)",
+  "habitat": "Desert flats, sandy scrub and grassland",
+  "range": "California, Nevada, Utah and Arizona; into Mexico",
+  "diet": "Lizards, rodents and small snakes",
+  "active": "At night",
+  "ids": [
+   "Pale cream, buff or grey with brown dark-edged blotches.",
+   "Very smooth, glossy scales and a plain belly.",
+   "A narrow head with an overhanging snout and large eyes."
+  ],
+  "look": {
+   "colour": "Pale cream, buff or grey",
+   "pattern": "Brown dark-edged blotches",
+   "head": "Narrow, with an overhanging snout",
+   "body": "Medium, smooth and glossy"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "blotched",
+   "build": "medium",
+   "size": 3,
+   "habit": "terrestrial",
+   "snout": "pointed",
+   "scales": "glossy",
+   "hue": [
+    "cream",
+    "grey",
+    "brown",
+    "tan"
+   ]
+  },
+  "grp": [
+   "gopher-pine",
+   "rat-snake"
+  ],
+  "fact": "The western glossy snakes were separated from the eastern ones in 2021."
+ },
+ {
+  "id": "rhinocheilus-lecontei",
+  "sci": "Rhinocheilus lecontei",
+  "name": "Long-nosed Snake",
+  "family": "Colubridae",
+  "kind": "Long-nosed snake",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.5-0.9 m (20-36 in)",
+  "habitat": "Desert scrub, grassland and sandy or rocky flats",
+  "range": "The south-west and southern plains: California, Nevada, Utah, Arizona, New Mexico, Colorado, Kansas, Oklahoma and Texas; into Mexico",
+  "diet": "Lizards and their eggs, and small rodents",
+  "active": "At night",
+  "ids": [
+   "Black saddles and red patches on a cream body, with white or yellow specks inside the black and black specks in the red.",
+   "A long, pointed snout that juts past the lower jaw.",
+   "Smooth scales; the belly is plain cream."
+  ],
+  "look": {
+   "colour": "Black, red and cream, speckled",
+   "pattern": "Speckled black saddles and red patches",
+   "head": "Long and pointed",
+   "body": "Medium, smooth"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "banded",
+   "build": "slender",
+   "size": 2,
+   "habit": "terrestrial",
+   "snout": "pointed",
+   "scales": "smooth",
+   "hue": [
+    "black",
+    "red",
+    "cream"
+   ]
+  },
+  "grp": [
+   "coral-like",
+   "kingsnake"
+  ],
+  "fact": "When handled it may bleed from its vent and smear a foul musk to discourage predators."
+ },
+ {
+  "id": "heterodon-platirhinos",
+  "sci": "Heterodon platirhinos",
+  "name": "Eastern Hog-nosed Snake",
+  "aka": [
+   "Puff Adder",
+   "Spreading Adder",
+   "Hognose Snake"
+  ],
+  "family": "Colubridae",
+  "kind": "Hognose snake",
+  "tier": 1,
+  "venom": "mild",
+  "len": "0.5-0.85 m, rarely 1.15 m (20-33 in)",
+  "habitat": "Sandy woods, fields, beaches, dunes and open pine forest",
+  "range": "Eastern North America, from southern Ontario and New England to Florida, west to Minnesota, Kansas and Texas",
+  "diet": "Toads, frogs and salamanders",
+  "active": "By day",
+  "ids": [
+   "A thick-bodied snake with an upturned, shovel-like snout.",
+   "Very variable colour: yellow, tan, grey, olive, orange or all black, usually with dark blotches.",
+   "When threatened it flattens its neck like a cobra, hisses loudly, and then rolls over and plays dead with its mouth open.",
+   "Keeled scales; the underside of the tail is paler than the belly."
+  ],
+  "look": {
+   "colour": "Yellow, tan, grey, orange or black",
+   "pattern": "Dark blotches (some plain black)",
+   "head": "Upturned, shovel-like snout",
+   "body": "Thick and stout"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "blotched",
+   "build": "stout",
+   "size": 2,
+   "habit": "terrestrial",
+   "snout": "upturned",
+   "scales": "keeled",
+   "hue": [
+    "yellow",
+    "tan",
+    "brown",
+    "black",
+    "orange"
+   ]
+  },
+  "grp": [
+   "cobra-like",
+   "copperhead-like",
+   "viper-like"
+  ],
+  "fact": "Its rear teeth and mild saliva help it deal with toads; it almost never bites people, preferring to play dead."
+ },
+ {
+  "id": "heterodon-nasicus",
+  "sci": "Heterodon nasicus",
+  "name": "Plains Hog-nosed Snake",
+  "aka": [
+   "Western Hog-nosed Snake",
+   "Western Hognose"
+  ],
+  "family": "Colubridae",
+  "kind": "Hognose snake",
+  "tier": 2,
+  "venom": "mild",
+  "len": "0.4-0.6 m (15-25 in)",
+  "habitat": "Sandy and gravelly prairie, grassland and river floodplains",
+  "range": "The Great Plains, from Alberta and Saskatchewan to Texas and New Mexico",
+  "diet": "Toads, frogs, lizards, mice and reptile eggs",
+  "active": "By day",
+  "ids": [
+   "A stout snake with a sharply upturned, pointed snout.",
+   "Tan or grey with darker brown blotches down the back.",
+   "A black belly with yellow or white patches.",
+   "Flattens its neck, hisses and plays dead when threatened."
+  ],
+  "look": {
+   "colour": "Tan or grey with brown blotches",
+   "pattern": "Dark blotches; black belly",
+   "head": "Sharply upturned snout",
+   "body": "Short and stout"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "blotched",
+   "build": "stout",
+   "size": 2,
+   "habit": "terrestrial",
+   "snout": "upturned",
+   "scales": "keeled",
+   "hue": [
+    "tan",
+    "grey",
+    "brown"
+   ]
+  },
+  "grp": [
+   "cobra-like",
+   "viper-like"
+  ],
+  "fact": "It uses its snout like a shovel to dig up toads and buried turtle eggs."
+ },
+ {
+  "id": "heterodon-kennerlyi",
+  "sci": "Heterodon kennerlyi",
+  "name": "Mexican Hog-nosed Snake",
+  "family": "Colubridae",
+  "kind": "Hognose snake",
+  "tier": 4,
+  "venom": "mild",
+  "len": "0.4-0.6 m (15-25 in)",
+  "habitat": "Desert grassland, sandy flats and thornscrub",
+  "range": "South and west Texas, southern New Mexico and south-eastern Arizona; into Mexico",
+  "diet": "Toads, lizards and reptile eggs",
+  "active": "By day",
+  "ids": [
+   "A stout snake with an upturned snout, tan with brown blotches.",
+   "Mostly black belly.",
+   "Told apart from the Plains Hog-nosed Snake mainly by where it lives."
+  ],
+  "look": {
+   "colour": "Tan or grey with brown blotches",
+   "pattern": "Dark blotches",
+   "head": "Upturned snout",
+   "body": "Short and stout"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "blotched",
+   "build": "stout",
+   "size": 2,
+   "habit": "terrestrial",
+   "snout": "upturned",
+   "scales": "keeled",
+   "hue": [
+    "tan",
+    "grey",
+    "brown"
+   ]
+  },
+  "grp": [
+   "cobra-like",
+   "viper-like"
+  ],
+  "fact": "Like other hognoses, it puts on a dramatic death act, even smelling of decay."
+ },
+ {
+  "id": "heterodon-simus",
+  "sci": "Heterodon simus",
+  "name": "Southern Hog-nosed Snake",
+  "family": "Colubridae",
+  "kind": "Hognose snake",
+  "tier": 4,
+  "venom": "mild",
+  "len": "0.35-0.5 m (14-20 in)",
+  "habitat": "Sandhills, longleaf pine and scrub on deep sand",
+  "range": "The south-eastern coastal plain: the Carolinas, Georgia, Florida and Alabama",
+  "diet": "Toads and frogs",
+  "active": "By day",
+  "ids": [
+   "The smallest hognose, with a very sharply upturned snout.",
+   "Grey, tan or reddish with dark blotches.",
+   "A plain pale belly, unlike the Eastern Hog-nosed Snake's."
+  ],
+  "look": {
+   "colour": "Grey, tan or reddish with dark blotches",
+   "pattern": "Dark blotches",
+   "head": "Sharply upturned",
+   "body": "Small and stout"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "blotched",
+   "build": "stout",
+   "size": 1,
+   "habit": "terrestrial",
+   "snout": "upturned",
+   "scales": "keeled",
+   "hue": [
+    "grey",
+    "tan",
+    "red",
+    "brown"
+   ]
+  },
+  "grp": [
+   "cobra-like",
+   "viper-like"
+  ],
+  "fact": "It has disappeared from much of its range and is now a rare snake of the sandhills."
+ }
+]

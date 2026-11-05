@@ -213,6 +213,7 @@
       try {
         await SQ.api.deleteAccount(pin.input.value);
         SQ.store.remove('lastName');
+        SQ.store.remove('owner');          // what is on this device now belongs to no account
         SQ.ui.closeModal();
         SQ.ui.toast('Your account has been deleted.');
         SQ.go('/me');
@@ -221,16 +222,26 @@
         err.textContent = friendly(ex); err.hidden = false;
       }
     } },
-    h('p', `This permanently deletes the account `, h('strong', name), ', its PIN, its statistics and its places on every leaderboard. It cannot be undone. Your progress on this device (snake-dex, badges) is kept.'),
+    h('p', `This permanently deletes the account `, h('strong', name), ', its PIN, its statistics, its saved progress and its places on every leaderboard. It cannot be undone. The progress on this device (snake-dex, badges) stays here, on this device only.'),
     pin.el, err, go);
     SQ.ui.modal({ title: 'Delete your account?', body: form, className: 'acct', place: 'top' });
     setTimeout(() => pin.input.focus(), 40);
   }
 
   async function signOut() {
-    const ok = await SQ.ui.confirm({ title: 'Sign out?', text: 'You can sign in again with your username and PIN. Your progress on this device stays.', confirmLabel: 'Sign out' });
+    const ok = await SQ.ui.confirm({ title: 'Sign out?', text: 'Your progress is saved to your account and comes back when you sign in again, on this or any other device. Signing out removes it from this device.', confirmLabel: 'Sign out' });
     if (!ok) return;
+    await SQ.api.flush();
+    if (!(await SQ.sync.beforeSignOut())) {
+      const anyway = await SQ.ui.confirm({
+        title: 'Your latest progress is not saved yet',
+        text: 'The Sarpa server cannot be reached, so progress made on this device since it was last saved would be lost. Sign out anyway?',
+        confirmLabel: 'Sign out anyway', danger: true,
+      });
+      if (!anyway) return;
+    }
     await SQ.api.logout();
+    SQ.sync.clearLocal();
     SQ.ui.toast('Signed out');
     SQ.go('/me');
   }
@@ -251,8 +262,8 @@
           h('div', h('p.legend', icon('user', { size: 13 }), ' Account'),
             h('h2', 'Play for the leaderboards'),
             h('p.muted', CFG.requireAccountForGames
-              ? 'Sarpa and Herpdle need a free account: just a username and a 6-digit PIN. Your progress below stays on this device either way.'
-              : 'Sign in to put your games on the daily, weekly and all-time leaderboards.')),
+              ? 'Sarpa and Herpdle need a free account: just a username and a 6-digit PIN. Your progress is then saved with your account, so it follows you to every browser and device.'
+              : 'Sign in to put your games on the daily, weekly and all-time leaderboards and to keep your progress on every device.')),
           h('div.btn-row',
             h('button.btn.btn-primary', { type: 'button', onclick: () => open({ mode: 'signup' }).then((ok) => ok && SQ.go('/me')) }, 'Create account'),
             h('button.btn', { type: 'button', onclick: () => open({ mode: 'signin' }).then((ok) => ok && SQ.go('/me')) }, 'Sign in'))));
@@ -275,15 +286,27 @@
     SQ.api.me().then((me) => {
       const st = me.stats || {};
       SQ.clear(stats);
-      const hPlayed = st.h_played || 0, hWon = st.h_won || 0;
-      const dist = [1, 2, 3, 4, 5, 6].map((n) => st['h_d' + n] || 0);
+      // the daily games of each region have their own streaks (India's keep their old names: sd_, h_)
+      const PRE = { in: { s: 'sd', h: 'h' }, na: { s: 'sdn', h: 'hn' } };
+      const playedIn = (a) => (st[PRE[a].s + '_played'] || 0) + (st[PRE[a].h + '_played'] || 0) > 0;
+      let areas = SQ.data.AREA_ORDER.filter(playedIn);
+      if (!areas.length) areas = [SQ.homeArea ? SQ.homeArea() : 'in'];
+      const tag = (a) => (areas.length > 1 ? ` · ${SQ.data.area(a).short}` : '');
+      const hPlayed = (st.h_played || 0) + (st.hn_played || 0), hWon = (st.h_won || 0) + (st.hn_won || 0);
+      const dist = [1, 2, 3, 4, 5, 6].map((n) => (st['h_d' + n] || 0) + (st['hn_d' + n] || 0));
       const maxD = Math.max(1, ...dist);
+      const today = me.today || null;
+      const todayText = today ? areas.map((a) => {
+        const sd = a === 'na' ? today.sarpaNa : today.sarpa, hd = a === 'na' ? today.herpdleNa : today.herpdle;
+        return `${areas.length > 1 ? SQ.data.area(a).label + ': ' : ''}Sarpa daily ${sd === 'done' ? 'played' : 'not played yet'} · Herpdle ${hd === 'done' ? 'played' : 'not played yet'}`;
+      }).join(' · ') : '';
       stats.append(
         h('div.lcd.acct-lcd',
-          SQ.ui.readout('Sarpa daily streak', st.sd_streak || 0),
-          SQ.ui.readout('Best', st.sd_best || 0),
-          SQ.ui.readout('Herpdle streak', st.h_streak || 0),
-          SQ.ui.readout('Best', st.h_best || 0),
+          areas.map((a) => [
+            SQ.ui.readout('Sarpa daily streak' + tag(a), st[PRE[a].s + '_streak'] || 0),
+            SQ.ui.readout('Best', st[PRE[a].s + '_best'] || 0),
+            SQ.ui.readout('Herpdle streak' + tag(a), st[PRE[a].h + '_streak'] || 0),
+            SQ.ui.readout('Best', st[PRE[a].h + '_best'] || 0)]),
           SQ.ui.readout('Ranked quizzes', st.s_games || 0),
           SQ.ui.readout('Ranked points', (st.s_points || 0).toLocaleString()),
           SQ.ui.readout('Accuracy', pctOf(st.s_correct || 0, st.s_answered || 0) + '%'),
@@ -291,9 +314,7 @@
         hPlayed ? h('div.acct-dist',
           h('p.legend', `Herpdle · ${hPlayed} played · ${pctOf(hWon, hPlayed)}% solved`),
           h('div.dist', dist.map((n, i) => h('div.dist-row', h('span.dist-n', String(i + 1)), h('span.dist-bar', h('i', { style: { width: Math.max(4, (100 * n) / maxD) + '%' } }, String(n))))))) : null,
-        h('p.muted.small', me.today
-          ? `Today: Sarpa daily ${me.today.sarpa === 'done' ? 'played' : 'not played yet'} · Herpdle ${me.today.herpdle === 'done' ? 'played' : 'not played yet'}`
-          : ''));
+        h('p.muted.small', todayText ? 'Today: ' + todayText : ''));
     }).catch((e) => {
       SQ.clear(stats);
       stats.append(h('p.muted', e.code === 'signed_out' ? 'You have been signed out. Please sign in again.' : 'Your statistics could not be loaded right now. ' + friendly(e)));

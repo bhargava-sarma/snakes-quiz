@@ -20,6 +20,15 @@
     none: { rank: 0, label: 'Non-venomous', short: 'Harmless', icon: 'check', note: 'non-venomous' },
   };
 
+  /* The regions of the data set ("areas"): where the photos were taken. A game is played in one area or in both
+   * ('mix'). Species shared by both areas (an introduced python, a blind snake carried in plant pots) have photos in each. */
+  const AREAS = {
+    in: { key: 'in', label: 'India', short: 'India', adj: 'Indian', where: 'India' },
+    na: { key: 'na', label: 'North America', short: 'N. America', adj: 'North American', where: 'the USA and Canada' },
+  };
+  const AREA_ORDER = ['in', 'na'];
+  const MIX = { key: 'mix', label: 'Mixed', short: 'Mixed', adj: 'mixed', where: 'India and North America' };
+
   const DEFAULT_TAGS = { hood: false, head: 'indistinct', snout: 'blunt', pupil: 'round', scales: 'smooth', habit: 'terrestrial', build: 'medium', size: 3 };
 
   const data = {
@@ -31,7 +40,11 @@
     bySpecies: {},
     states: [],
     meta: {},
+    byArea: { in: [], na: [] },
     VENOM,
+    AREAS,
+    AREA_ORDER,
+    MIX,
   };
 
   data.init = function () {
@@ -43,6 +56,9 @@
     data.meta = S.meta || {};
     data.noPair = S.noPair || [];
     data.states = P.states;
+    const regionOfState = (i) => (P.regions && P.stateRegion ? P.regions[P.stateRegion[i]] : 'in') || 'in';
+    data.stateArea = {};
+    P.states.forEach((st, i) => { data.stateArea[st] = regionOfState(i); });
 
     data.species = S.species.map((sp) => {
       sp.t = Object.assign({}, DEFAULT_TAGS, sp.t || {});
@@ -51,6 +67,7 @@
       sp.ids = sp.ids || [];
       sp.look = sp.look || {};
       sp.stateCounts = (sp.states || []).map(([i, n]) => [P.states[i], n]);
+      sp.regions = sp.regions && sp.regions.length ? sp.regions : ['in'];
       return sp;
     });
     data.species.forEach((sp, i) => { sp.index = i; data.byId[sp.id] = sp; data.bySpecies[sp.id] = []; });
@@ -63,7 +80,8 @@
       const sp = data.species[spIdx];
       const lic = P.licenses[licIdx];
       const photo = {
-        id, sp: sp.id, state: stateIdx >= 0 ? P.states[stateIdx] : '', credit: P.credits[creditIdx],
+        id, sp: sp.id, state: stateIdx >= 0 ? P.states[stateIdx] : '', region: stateIdx >= 0 ? regionOfState(stateIdx) : 'in',
+        credit: P.credits[creditIdx],
         license: lic, licenseUrl: LICENSE_URL[lic] || '', w, h, hard: hard ? 1 : 0,
         inat: inatIdx >= 0 ? P.inat[inatIdx] : '',
         url: `images/${sp.id}/${id}.avif`,
@@ -78,6 +96,7 @@
     data.species.forEach((sp) => {
       sp.thumb = `images/thumbs/${sp.id}.avif`;
       sp.photoCount = data.bySpecies[sp.id].length;
+      sp.regions.forEach((a) => { if (data.byArea[a]) data.byArea[a].push(sp); });
     });
 
     // species per state
@@ -94,9 +113,19 @@
 
   data.sp = (id) => data.byId[id];
 
-  /** Photos of a species the player has not reported. */
-  data.photosOf = (id, ignoreFlags) => {
-    const all = data.bySpecies[id] || [];
+  /** The area code if it is one region ('in', 'na'); null for both ('mix') or none. */
+  const oneArea = (area) => (area && AREAS[area] ? area : null);
+  data.oneArea = oneArea;
+  data.area = (key) => AREAS[key] || (key === 'mix' ? MIX : AREAS.in);
+
+  /** Is the species found in the area ('mix' or nothing: anywhere)? */
+  data.inArea = (sp, area) => !oneArea(area) || (sp && sp.regions.includes(area));
+  data.areaSpecies = (area) => (oneArea(area) ? data.byArea[area] : data.species);
+
+  /** Photos of a species the player has not reported, optionally only those taken in one area. */
+  data.photosOf = (id, ignoreFlags, area) => {
+    let all = data.bySpecies[id] || [];
+    if (oneArea(area)) all = all.filter((p) => p.region === area);
     if (ignoreFlags) return all;
     const flagged = SQ.store ? SQ.store.flaggedList() : [];
     if (!flagged.length) return all;
@@ -105,14 +134,17 @@
     return kept.length ? kept : all;   // never leave a species without any photo
   };
 
-  data.coverOf = (id) => {
+  data.coverOf = (id, area) => {
     const sp = data.byId[id];
-    return (sp && data.photoById[sp.cover]) || (data.bySpecies[id] || [])[0];
+    const cover = sp && data.photoById[sp.cover];
+    if (cover && (!oneArea(area) || cover.region === area)) return cover;
+    return data.photosOf(id, true, area)[0] || cover || (data.bySpecies[id] || [])[0];
   };
 
-  /** [{ state, species, photos }] for states with at least `minSpecies` species. */
-  data.regions = function (minSpecies = 12) {
+  /** [{ state, species, photos }] for states (in one area, if given) with at least `minSpecies` species. */
+  data.regions = function (minSpecies = 12, area) {
     return Object.entries(data.stateIndex)
+      .filter(([state]) => !oneArea(area) || data.stateArea[state] === area)
       .map(([state, m]) => ({ state, species: Object.keys(m).length, photos: Object.values(m).reduce((a, b) => a + b, 0) }))
       .filter((r) => r.species >= minSpecies)
       .sort((a, b) => b.species - a.species);
@@ -145,17 +177,18 @@
     return s;
   };
 
-  /** Ordered list of the species that look most like `id`. */
-  data.lookalikes = function (id, limit = 6) {
+  /** Ordered list of the species that look most like `id`, among the species of an area (or all of them). */
+  data.lookalikes = function (id, limit = 6, area) {
     const cache = (data._lookCache = data._lookCache || {});
-    if (!cache[id]) {
-      cache[id] = data.species
+    const key = id + '|' + (oneArea(area) || 'all');
+    if (!cache[key]) {
+      cache[key] = data.areaSpecies(area)
         .filter((s) => s.id !== id && !data.isCryptic(id, s.id))
         .map((s) => [s, data.similarity(id, s.id)])
         .sort((x, y) => y[1] - x[1])
         .map((x) => x[0]);
     }
-    return cache[id].slice(0, limit);
+    return cache[key].slice(0, limit);
   };
 
   /** Image src with a graceful fallback to iNaturalist's own JPEG if AVIF fails to load. */

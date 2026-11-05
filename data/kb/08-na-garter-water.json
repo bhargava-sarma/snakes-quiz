@@ -1,0 +1,1692 @@
+[
+ {
+  "id": "thamnophis-sirtalis",
+  "sci": "Thamnophis sirtalis",
+  "name": "Common Garter Snake",
+  "aka": [
+   "Eastern Garter Snake",
+   "Red-sided Garter Snake",
+   "Garden Snake",
+   "Gartersnake"
+  ],
+  "family": "Colubridae",
+  "kind": "Garter snake",
+  "tier": 1,
+  "venom": "none",
+  "len": "0.45-0.75 m, rarely 1.2 m (18-30 in)",
+  "habitat": "Almost anywhere damp: meadows, marshes, stream banks, woodland edges, parks and gardens",
+  "range": "Across most of North America, from the Atlantic to the Pacific and from Florida to the Northwest Territories; the most widespread snake on the continent",
+  "diet": "Earthworms, frogs, toads, salamanders, fish and slugs",
+  "active": "By day; active even in cool weather",
+  "ids": [
+   "Three pale stripes, yellow, green or blue, one down the back and one along each lower side, on a dark body.",
+   "The side stripes sit on the second and third rows of scales above the belly.",
+   "Often a checkerboard of dark spots between the stripes, and red or orange flecks on the sides in many areas.",
+   "Keeled scales, a slim body and round pupils."
+  ],
+  "look": {
+   "colour": "Black, brown, olive or green, with yellow, green or blue stripes",
+   "pattern": "Three stripes, often with dark checks between",
+   "head": "Slightly wider than the neck, with pale lips",
+   "body": "Slim, with keeled scales"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "striped",
+   "build": "slender",
+   "size": 2,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "black",
+    "yellow",
+    "green",
+    "brown"
+   ]
+  },
+  "grp": [
+   "garter",
+   "striped-snake",
+   "keelback"
+  ],
+  "fact": "In Manitoba, tens of thousands crawl out of the same limestone dens each spring, the largest gatherings of snakes on Earth."
+ },
+ {
+  "id": "thamnophis-elegans",
+  "sci": "Thamnophis elegans",
+  "name": "Western Terrestrial Garter Snake",
+  "aka": [
+   "Wandering Garter Snake",
+   "Mountain Garter Snake",
+   "Western Garter Snake"
+  ],
+  "family": "Colubridae",
+  "kind": "Garter snake",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.45-0.9 m (18-36 in)",
+  "habitat": "Meadows, streams, lakes, sagebrush and forest clearings, up into high mountains",
+  "range": "Western North America: British Columbia and Alberta south through the Rockies, Great Basin and California to New Mexico",
+  "diet": "Slugs, frogs, fish, small mammals, lizards and leeches",
+  "active": "By day",
+  "ids": [
+   "A pale yellow or cream stripe down the back, often dull or wavy, and a pale stripe along each side.",
+   "Dark spots between the stripes; some snakes are mostly dark.",
+   "Keeled scales and a fairly broad head."
+  ],
+  "look": {
+   "colour": "Brown, grey or olive with yellow stripes",
+   "pattern": "Three stripes with dark spots between",
+   "head": "Broad, wider than the neck",
+   "body": "Medium-slim, with keeled scales"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "striped",
+   "build": "slender",
+   "size": 2,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "brown",
+    "grey",
+    "olive",
+    "yellow"
+   ]
+  },
+  "grp": [
+   "garter",
+   "striped-snake",
+   "keelback"
+  ],
+  "fact": "Its saliva is mildly toxic to small prey; a bite can cause a little local swelling in people but is not dangerous.",
+  "cover": 35810271
+ },
+ {
+  "id": "thamnophis-proximus",
+  "sci": "Thamnophis proximus",
+  "name": "Western Ribbonsnake",
+  "aka": [
+   "Ribbon Snake"
+  ],
+  "family": "Colubridae",
+  "kind": "Ribbon snake",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.5-0.9 m (20-36 in)",
+  "habitat": "Edges of ponds, marshes, streams and wet meadows",
+  "range": "The central USA from Wisconsin and Indiana to Louisiana, Texas, Oklahoma, Kansas and New Mexico; into Mexico",
+  "diet": "Frogs, tadpoles, toads and small fish",
+  "active": "By day and at dusk",
+  "ids": [
+   "Very slender, with a long tail about a third of its length.",
+   "A bright orange or yellow stripe down the back and yellow side stripes on a black or brown body.",
+   "Plain, unmarked pale lips, and a white mark in front of the eye.",
+   "Keeled scales and large eyes."
+  ],
+  "look": {
+   "colour": "Black or brown with an orange or yellow back stripe",
+   "pattern": "Three bright stripes",
+   "head": "Narrow, with plain pale lips",
+   "body": "Very slender, with a long tail"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "striped",
+   "build": "thin",
+   "size": 2,
+   "habit": "semi-arboreal",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "black",
+    "orange",
+    "yellow"
+   ]
+  },
+  "grp": [
+   "garter",
+   "striped-snake",
+   "keelback"
+  ],
+  "fact": "Ribbonsnakes often flee across the surface of the water and into vegetation rather than diving."
+ },
+ {
+  "id": "thamnophis-ordinoides",
+  "sci": "Thamnophis ordinoides",
+  "name": "Northwestern Garter Snake",
+  "family": "Colubridae",
+  "kind": "Garter snake",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.35-0.6 m (14-24 in)",
+  "habitat": "Meadows, forest clearings, gardens and coastal thickets",
+  "range": "The Pacific north-west: south-western British Columbia, western Washington and Oregon, and north-western California",
+  "diet": "Slugs and earthworms",
+  "active": "By day",
+  "ids": [
+   "Small and very variable: the back stripe can be red, orange, yellow, blue or missing.",
+   "Dark brown, black or green body.",
+   "A small head and keeled scales."
+  ],
+  "look": {
+   "colour": "Brown, black or green; stripes red, orange, yellow or blue",
+   "pattern": "Back and side stripes (sometimes none)",
+   "head": "Small and narrow",
+   "body": "Small and slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "striped",
+   "build": "slender",
+   "size": 1,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "brown",
+    "black",
+    "red",
+    "orange",
+    "yellow"
+   ]
+  },
+  "grp": [
+   "garter",
+   "striped-snake",
+   "keelback"
+  ],
+  "fact": "It is the slug-eating garter snake of Pacific north-west gardens."
+ },
+ {
+  "id": "thamnophis-saurita",
+  "sci": "Thamnophis saurita",
+  "name": "Eastern Ribbonsnake",
+  "aka": [
+   "Ribbon Snake",
+   "Northern Ribbon Snake"
+  ],
+  "family": "Colubridae",
+  "kind": "Ribbon snake",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.45-0.8 m (18-32 in)",
+  "habitat": "Edges of ponds, marshes, bogs, streams and wet meadows",
+  "range": "The eastern USA from Maine and southern Ontario to Florida, west to Wisconsin and Louisiana; Nova Scotia",
+  "diet": "Frogs, tadpoles, salamanders and small fish",
+  "active": "By day",
+  "ids": [
+   "Very slender with a long tail, about a third of its length.",
+   "Three bright yellow stripes on a black or dark brown body.",
+   "Plain pale lips and a pale crescent in front of the eye."
+  ],
+  "look": {
+   "colour": "Black or dark brown with yellow stripes",
+   "pattern": "Three bright stripes",
+   "head": "Narrow, with plain lips",
+   "body": "Very slender, with a long tail"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "striped",
+   "build": "thin",
+   "size": 2,
+   "habit": "semi-arboreal",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "black",
+    "brown",
+    "yellow"
+   ]
+  },
+  "grp": [
+   "garter",
+   "striped-snake",
+   "keelback"
+  ],
+  "fact": "It is told from the Common Garter Snake by its slimmer build, longer tail and unmarked lips."
+ },
+ {
+  "id": "thamnophis-radix",
+  "sci": "Thamnophis radix",
+  "name": "Plains Garter Snake",
+  "family": "Colubridae",
+  "kind": "Garter snake",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.4-0.7 m (16-28 in)",
+  "habitat": "Wet prairie, marshes, pond edges and vacant lots, even in cities",
+  "range": "The Great Plains and Midwest, from Alberta, Saskatchewan and Manitoba to Illinois, Colorado, Kansas and New Mexico",
+  "diet": "Earthworms, frogs, salamanders and small fish",
+  "active": "By day",
+  "ids": [
+   "A bright yellow or orange stripe down the back and pale stripes on the sides.",
+   "The side stripes sit on the third and fourth rows of scales near the head.",
+   "Two rows of dark spots between the stripes and black bars on the lips."
+  ],
+  "look": {
+   "colour": "Black or olive with yellow or orange stripes",
+   "pattern": "Three stripes with dark checks",
+   "head": "With black bars on the lips",
+   "body": "Slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "striped",
+   "build": "slender",
+   "size": 2,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "black",
+    "olive",
+    "yellow",
+    "orange"
+   ]
+  },
+  "grp": [
+   "garter",
+   "striped-snake",
+   "keelback"
+  ],
+  "fact": "It is one of the snakes most likely to be found in city parks in Chicago and Denver."
+ },
+ {
+  "id": "thamnophis-marcianus",
+  "sci": "Thamnophis marcianus",
+  "name": "Checkered Garter Snake",
+  "family": "Colubridae",
+  "kind": "Garter snake",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.45-0.75 m (18-30 in)",
+  "habitat": "Streams, ditches, ponds and irrigated land in dry country",
+  "range": "The south-west and southern plains: Kansas, Oklahoma, Texas, New Mexico, Arizona and south-eastern California; into Mexico",
+  "diet": "Frogs, toads, tadpoles, fish and earthworms",
+  "active": "At dusk and night in hot weather, by day otherwise",
+  "ids": [
+   "A bold black checkerboard pattern on an olive or tan body.",
+   "A pale back stripe and pale side stripes.",
+   "A pale crescent behind the corner of the mouth, followed by a dark blotch."
+  ],
+  "look": {
+   "colour": "Olive, tan or yellowish",
+   "pattern": "Black checkerboard between pale stripes",
+   "head": "With a pale crescent and dark blotch behind the jaw",
+   "body": "Medium-slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "checkered",
+   "build": "slender",
+   "size": 2,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "olive",
+    "tan",
+    "yellow",
+    "black"
+   ]
+  },
+  "grp": [
+   "garter",
+   "striped-snake",
+   "keelback"
+  ],
+  "fact": "It manages to live in deserts by following irrigation ditches and stock tanks."
+ },
+ {
+  "id": "thamnophis-atratus",
+  "sci": "Thamnophis atratus",
+  "name": "Aquatic Garter Snake",
+  "aka": [
+   "Santa Cruz Garter Snake",
+   "Oregon Garter Snake"
+  ],
+  "family": "Colubridae",
+  "kind": "Garter snake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.45-0.9 m (18-36 in)",
+  "habitat": "Streams, ponds and coastal creeks in grassland and woodland",
+  "range": "Coastal California and south-western Oregon",
+  "diet": "Fish, frogs, tadpoles and salamanders",
+  "active": "By day",
+  "ids": [
+   "A yellow or orange stripe down the back, with a dark body; the throat is often bright yellow.",
+   "Side stripes are faint or missing in some areas.",
+   "Keeled scales and a narrow head."
+  ],
+  "look": {
+   "colour": "Dark olive or black; back stripe yellow or orange",
+   "pattern": "Back stripe, faint side stripes",
+   "head": "Narrow, with a yellow throat",
+   "body": "Slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "striped",
+   "build": "slender",
+   "size": 2,
+   "habit": "aquatic",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "black",
+    "olive",
+    "yellow",
+    "orange"
+   ]
+  },
+  "grp": [
+   "garter",
+   "striped-snake",
+   "keelback"
+  ],
+  "fact": "It dives readily and hunts fish under water."
+ },
+ {
+  "id": "thamnophis-cyrtopsis",
+  "sci": "Thamnophis cyrtopsis",
+  "name": "Black-necked Garter Snake",
+  "family": "Colubridae",
+  "kind": "Garter snake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.4-0.8 m (16-32 in)",
+  "habitat": "Rocky streams, canyons and ponds in mountains and desert grassland",
+  "range": "The south-west: Utah, Colorado, Arizona, New Mexico and Texas; into Mexico",
+  "diet": "Frogs, tadpoles and toads",
+  "active": "By day",
+  "ids": [
+   "Two large black blotches on the neck behind a grey head.",
+   "A yellow or orange stripe down the back and pale side stripes.",
+   "Dark checks between the stripes."
+  ],
+  "look": {
+   "colour": "Olive-grey with yellow stripes",
+   "pattern": "Stripes with dark checks; black neck blotches",
+   "head": "Grey, with black patches behind it",
+   "body": "Slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "striped",
+   "build": "slender",
+   "size": 2,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "grey",
+    "olive",
+    "yellow",
+    "black"
+   ]
+  },
+  "grp": [
+   "garter",
+   "striped-snake",
+   "keelback"
+  ],
+  "fact": "It often hunts tadpoles in drying pools along desert streams."
+ },
+ {
+  "id": "thamnophis-hammondii",
+  "sci": "Thamnophis hammondii",
+  "name": "Two-striped Garter Snake",
+  "family": "Colubridae",
+  "kind": "Garter snake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.6-1 m (2-3 ft)",
+  "habitat": "Streams, pools and ponds with dense plants along the banks",
+  "range": "Coastal and southern California; into Baja California",
+  "diet": "Fish, tadpoles, frogs and toads",
+  "active": "By day and at dusk",
+  "ids": [
+   "Usually no stripe down the back: just a pale yellow stripe along each side.",
+   "Olive, brown or grey body with small dark spots.",
+   "Some snakes are almost plain dark."
+  ],
+  "look": {
+   "colour": "Olive, brown or grey",
+   "pattern": "Two pale side stripes, no back stripe",
+   "head": "Narrow",
+   "body": "Medium"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "striped",
+   "build": "slender",
+   "size": 3,
+   "habit": "aquatic",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "olive",
+    "brown",
+    "grey",
+    "yellow"
+   ]
+  },
+  "grp": [
+   "garter",
+   "striped-snake",
+   "keelback"
+  ],
+  "fact": "Its lack of a back stripe sets it apart from almost every other garter snake."
+ },
+ {
+  "id": "thamnophis-couchii",
+  "sci": "Thamnophis couchii",
+  "name": "Sierra Garter Snake",
+  "family": "Colubridae",
+  "kind": "Garter snake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.45-1 m (18-40 in)",
+  "habitat": "Rocky streams, rivers and lakes in the Sierra Nevada and Cascades",
+  "range": "California and western Nevada",
+  "diet": "Fish, tadpoles and frogs",
+  "active": "By day",
+  "ids": [
+   "Dark olive or brown with a checkerboard of dark blotches.",
+   "The back stripe is faint or missing; side stripes are dull.",
+   "A narrow, pointed head."
+  ],
+  "look": {
+   "colour": "Olive or brown",
+   "pattern": "Dark blotches, faint stripes",
+   "head": "Narrow and pointed",
+   "body": "Medium"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "checkered",
+   "build": "slender",
+   "size": 2,
+   "habit": "aquatic",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "olive",
+    "brown",
+    "black"
+   ]
+  },
+  "grp": [
+   "garter",
+   "striped-snake",
+   "keelback"
+  ],
+  "fact": "It hunts fish and tadpoles under water among stream boulders."
+ },
+ {
+  "id": "thamnophis-butleri",
+  "sci": "Thamnophis butleri",
+  "name": "Butler's Garter Snake",
+  "family": "Colubridae",
+  "kind": "Garter snake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.35-0.5 m (14-20 in)",
+  "habitat": "Wet meadows, prairie, marsh edges and vacant lots",
+  "range": "Around the Great Lakes: Michigan, Ohio, Indiana, Wisconsin and southern Ontario",
+  "diet": "Earthworms and leeches",
+  "active": "By day",
+  "ids": [
+   "Small, with a small head barely wider than the neck.",
+   "Three yellow or orange stripes; the side stripes are on the third row of scales.",
+   "Wriggles from side to side when picked up instead of biting."
+  ],
+  "look": {
+   "colour": "Black or dark olive with yellow stripes",
+   "pattern": "Three stripes",
+   "head": "Very small",
+   "body": "Small and slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "striped",
+   "build": "slender",
+   "size": 1,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "black",
+    "olive",
+    "yellow"
+   ]
+  },
+  "grp": [
+   "garter",
+   "striped-snake",
+   "keelback"
+  ],
+  "fact": "Its tiny head is the best clue that it is not a young Common Garter Snake."
+ },
+ {
+  "id": "thamnophis-brachystoma",
+  "sci": "Thamnophis brachystoma",
+  "name": "Short-headed Garter Snake",
+  "family": "Colubridae",
+  "kind": "Garter snake",
+  "tier": 4,
+  "venom": "none",
+  "len": "0.35-0.5 m (14-20 in)",
+  "habitat": "Old fields, meadows and stream edges",
+  "range": "North-western Pennsylvania and south-western New York; introduced near Pittsburgh and in Ohio",
+  "diet": "Earthworms",
+  "active": "By day",
+  "ids": [
+   "A very small head, no wider than the neck.",
+   "Three yellow or tan stripes on a brown body.",
+   "Small and slim."
+  ],
+  "look": {
+   "colour": "Brown with yellow-tan stripes",
+   "pattern": "Three stripes",
+   "head": "Very small and short",
+   "body": "Small and slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "striped",
+   "build": "slender",
+   "size": 1,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "brown",
+    "yellow",
+    "tan"
+   ]
+  },
+  "grp": [
+   "garter",
+   "striped-snake",
+   "keelback"
+  ],
+  "fact": "Almost its whole world range lies within the Allegheny Plateau."
+ },
+ {
+  "id": "thamnophis-gigas",
+  "sci": "Thamnophis gigas",
+  "name": "Giant Garter Snake",
+  "family": "Colubridae",
+  "kind": "Garter snake",
+  "tier": 5,
+  "venom": "none",
+  "len": "0.9-1.6 m (3-5 ft)",
+  "habitat": "Marshes, sloughs, rice fields and irrigation canals",
+  "range": "The Central Valley of California",
+  "diet": "Fish and frogs",
+  "active": "By day",
+  "ids": [
+   "The largest garter snake: long and heavy-bodied.",
+   "Dark brown or olive with a yellow back stripe and checkered dark spots.",
+   "Keeled scales and a long head."
+  ],
+  "look": {
+   "colour": "Dark brown or olive with a yellow back stripe",
+   "pattern": "Checkered spots; yellow stripe",
+   "head": "Long and narrow",
+   "body": "Long and heavy"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "striped",
+   "build": "medium",
+   "size": 4,
+   "habit": "aquatic",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "brown",
+    "olive",
+    "yellow"
+   ]
+  },
+  "grp": [
+   "garter",
+   "striped-snake",
+   "keelback"
+  ],
+  "fact": "Most of its marsh habitat is gone; it now survives largely in rice fields."
+ },
+ {
+  "id": "thamnophis-rufipunctatus",
+  "sci": "Thamnophis rufipunctatus",
+  "name": "Narrow-headed Garter Snake",
+  "family": "Colubridae",
+  "kind": "Garter snake",
+  "tier": 5,
+  "venom": "none",
+  "len": "0.45-0.85 m (18-34 in)",
+  "habitat": "Clear rocky streams in pine and oak forest",
+  "range": "Central and eastern Arizona and western New Mexico",
+  "diet": "Fish, especially trout and suckers",
+  "active": "By day",
+  "ids": [
+   "Olive or tan with rows of dark brown or reddish spots; no stripes.",
+   "A long, narrow, pointed head with eyes set high.",
+   "Keeled scales."
+  ],
+  "look": {
+   "colour": "Olive or tan",
+   "pattern": "Rows of dark spots, no stripes",
+   "head": "Long, narrow and pointed",
+   "body": "Medium"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "spotted",
+   "build": "slender",
+   "size": 2,
+   "habit": "aquatic",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "olive",
+    "tan",
+    "brown",
+    "red"
+   ]
+  },
+  "grp": [
+   "garter",
+   "striped-snake",
+   "keelback"
+  ],
+  "fact": "It hunts fish among stream boulders and is threatened by introduced crayfish and bass."
+ },
+ {
+  "id": "nerodia-sipedon",
+  "sci": "Nerodia sipedon",
+  "name": "Common Watersnake",
+  "aka": [
+   "Northern Watersnake",
+   "Northern Water Snake",
+   "Midland Watersnake",
+   "Lake Erie Watersnake"
+  ],
+  "family": "Colubridae",
+  "kind": "Water snake",
+  "tier": 1,
+  "venom": "none",
+  "len": "0.6-1.1 m, rarely 1.4 m (2-3.5 ft)",
+  "habitat": "Lakes, ponds, rivers, streams, marshes and canals",
+  "range": "Eastern and central North America, from southern Ontario and Quebec to the Gulf coast and west to Colorado",
+  "diet": "Fish, frogs and salamanders",
+  "active": "By day and at night",
+  "ids": [
+   "Brown or grey with dark crossbands on the front of the body that break into alternating blotches towards the tail.",
+   "Often looks plain dark when dry and muddy.",
+   "A belly with reddish or black half-moons.",
+   "Round pupils and keeled scales; flattens its body and bites hard if grabbed."
+  ],
+  "look": {
+   "colour": "Brown, grey or reddish",
+   "pattern": "Crossbands in front, blotches behind",
+   "head": "Rather broad, with round pupils",
+   "body": "Heavy, with keeled scales"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "banded",
+   "build": "stout",
+   "size": 3,
+   "habit": "aquatic",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "brown",
+    "grey",
+    "red"
+   ]
+  },
+  "grp": [
+   "water-snake",
+   "copperhead-like"
+  ],
+  "fact": "It is the snake most often mistaken for a cottonmouth or copperhead, though it is harmless."
+ },
+ {
+  "id": "nerodia-erythrogaster",
+  "sci": "Nerodia erythrogaster",
+  "name": "Plain-bellied Watersnake",
+  "aka": [
+   "Red-bellied Watersnake",
+   "Yellow-bellied Watersnake",
+   "Copper-bellied Watersnake"
+  ],
+  "family": "Colubridae",
+  "kind": "Water snake",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.75-1.2 m (2.5-4 ft)",
+  "habitat": "Rivers, swamps, ponds, lakes and wet woodland; wanders far from water",
+  "range": "The south-east and south-central USA, from Delaware and Michigan to Florida, west to Kansas and Texas; into Mexico",
+  "diet": "Frogs, toads, fish and salamanders",
+  "active": "By day and at night",
+  "ids": [
+   "Plain brown, grey or olive above, with no clear pattern.",
+   "A plain, unmarked belly: red, orange or yellow.",
+   "Young snakes are boldly blotched."
+  ],
+  "look": {
+   "colour": "Plain brown, grey or olive; belly red, orange or yellow",
+   "pattern": "Plain (young blotched)",
+   "head": "Broad, with round pupils",
+   "body": "Heavy, with keeled scales"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "plain",
+   "build": "stout",
+   "size": 3,
+   "habit": "aquatic",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "brown",
+    "grey",
+    "olive",
+    "red"
+   ]
+  },
+  "grp": [
+   "water-snake"
+  ],
+  "fact": "It is more of a frog-eater than other watersnakes and often wanders through woods between ponds."
+ },
+ {
+  "id": "nerodia-fasciata",
+  "sci": "Nerodia fasciata",
+  "name": "Banded Watersnake",
+  "aka": [
+   "Southern Watersnake",
+   "Florida Watersnake",
+   "Broad-banded Watersnake"
+  ],
+  "family": "Colubridae",
+  "kind": "Water snake",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.6-1.1 m (2-3.5 ft)",
+  "habitat": "Marshes, swamps, ponds, lakes, ditches and canals",
+  "range": "The south-eastern coastal plain from North Carolina to Florida, west to Texas, and up the Mississippi to Illinois",
+  "diet": "Fish and frogs",
+  "active": "By day and at night",
+  "ids": [
+   "Dark crossbands run the whole length of the body, on a grey, tan, red or yellowish background.",
+   "A dark stripe from the eye to the corner of the jaw.",
+   "A belly with dark squares or wavy marks."
+  ],
+  "look": {
+   "colour": "Grey, tan, red or yellow with dark bands",
+   "pattern": "Crossbands all the way down",
+   "head": "With a dark stripe from eye to jaw",
+   "body": "Heavy, with keeled scales"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "banded",
+   "build": "stout",
+   "size": 3,
+   "habit": "aquatic",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "brown",
+    "red",
+    "grey",
+    "yellow"
+   ]
+  },
+  "grp": [
+   "water-snake",
+   "copperhead-like"
+  ],
+  "fact": "The Florida form is often bright red or orange and is often confused with cottonmouths."
+ },
+ {
+  "id": "nerodia-rhombifer",
+  "sci": "Nerodia rhombifer",
+  "name": "Diamond-backed Watersnake",
+  "aka": [
+   "Diamondback Watersnake"
+  ],
+  "family": "Colubridae",
+  "kind": "Water snake",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.75-1.2 m, rarely 1.7 m (2.5-4 ft)",
+  "habitat": "Rivers, lakes, ponds, bayous and swamps",
+  "range": "The Mississippi valley and Gulf states: Illinois and Indiana to Louisiana, Texas, Oklahoma and Kansas; into Mexico",
+  "diet": "Fish and frogs",
+  "active": "By day and at night",
+  "ids": [
+   "A dark net-like pattern that leaves pale diamond-shaped patches along the back.",
+   "Brown, olive or yellowish, with a yellow belly marked with dark half-moons.",
+   "A large, heavy watersnake."
+  ],
+  "look": {
+   "colour": "Brown, olive or yellow",
+   "pattern": "Dark chain-like net with pale diamonds",
+   "head": "Broad",
+   "body": "Large and heavy"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "chain",
+   "build": "stout",
+   "size": 3,
+   "habit": "aquatic",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "brown",
+    "olive",
+    "yellow"
+   ]
+  },
+  "grp": [
+   "water-snake"
+  ],
+  "fact": "It is often called a \"water moccasin\" and killed, though it is harmless."
+ },
+ {
+  "id": "nerodia-taxispilota",
+  "sci": "Nerodia taxispilota",
+  "name": "Brown Watersnake",
+  "family": "Colubridae",
+  "kind": "Water snake",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.75-1.5 m (2.5-5 ft)",
+  "habitat": "Rivers, cypress swamps, lakes and canals; basks on branches over the water",
+  "range": "The south-eastern coastal plain: Virginia to Florida and Alabama",
+  "diet": "Fish, especially catfish",
+  "active": "By day and at night",
+  "ids": [
+   "Brown, with large dark squarish blotches down the back and alternating ones on the sides.",
+   "A wide head that is distinctly broader than the neck.",
+   "Heavy body with keeled scales."
+  ],
+  "look": {
+   "colour": "Brown with darker squares",
+   "pattern": "Large squarish blotches",
+   "head": "Broad and somewhat triangular",
+   "body": "Heavy"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "blotched",
+   "build": "stout",
+   "size": 4,
+   "habit": "aquatic",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "brown",
+    "tan",
+    "black"
+   ]
+  },
+  "grp": [
+   "water-snake"
+  ],
+  "fact": "It basks on branches high above the water and drops in when disturbed."
+ },
+ {
+  "id": "nerodia-floridana",
+  "sci": "Nerodia floridana",
+  "name": "Florida Green Watersnake",
+  "family": "Colubridae",
+  "kind": "Water snake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.75-1.4 m, rarely 1.9 m (2.5-4.5 ft)",
+  "habitat": "Marshes, lakes, swamps, ditches and canals with dense plants",
+  "range": "Florida, south-eastern Georgia and the coastal Carolinas",
+  "diet": "Fish and frogs",
+  "active": "By day and at night",
+  "ids": [
+   "Large and heavy, plain olive-green or brown with faint dark bars.",
+   "A row of small scales below the eye (most watersnakes have none).",
+   "A pale, mostly unmarked belly."
+  ],
+  "look": {
+   "colour": "Olive-green or brown",
+   "pattern": "Faint bars, mostly plain",
+   "head": "Broad, with small scales under the eye",
+   "body": "Large and heavy"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "plain",
+   "build": "stout",
+   "size": 4,
+   "habit": "aquatic",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "olive",
+    "green",
+    "brown"
+   ]
+  },
+  "grp": [
+   "water-snake"
+  ],
+  "fact": "It is one of the largest watersnakes in North America.",
+  "cover": 521730770
+ },
+ {
+  "id": "nerodia-clarkii",
+  "sci": "Nerodia clarkii",
+  "name": "Salt Marsh Snake",
+  "aka": [
+   "Gulf Salt Marsh Snake",
+   "Mangrove Salt Marsh Snake"
+  ],
+  "family": "Colubridae",
+  "kind": "Water snake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.4-0.8 m (16-30 in)",
+  "habitat": "Salt and brackish marshes, mangroves and tidal flats",
+  "range": "Gulf and Atlantic coasts from Texas to Florida",
+  "diet": "Small fish and crabs",
+  "active": "Mostly at night",
+  "ids": [
+   "On the Gulf coast: four dark stripes on a tan or grey body.",
+   "In Florida mangroves: banded or plain, often reddish.",
+   "A small watersnake that lives in salt water."
+  ],
+  "look": {
+   "colour": "Tan, grey or reddish",
+   "pattern": "Four dark stripes, or bands",
+   "head": "Narrow",
+   "body": "Medium-small"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "striped",
+   "build": "medium",
+   "size": 2,
+   "habit": "aquatic",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "tan",
+    "grey",
+    "red",
+    "brown"
+   ]
+  },
+  "grp": [
+   "water-snake",
+   "striped-snake"
+  ],
+  "fact": "It does not drink salt water; it waits for rain and drinks fresh water from the surface."
+ },
+ {
+  "id": "nerodia-cyclopion",
+  "sci": "Nerodia cyclopion",
+  "name": "Mississippi Green Watersnake",
+  "family": "Colubridae",
+  "kind": "Water snake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.75-1.2 m (2.5-4 ft)",
+  "habitat": "Swamps, marshes, bayous and slow rivers",
+  "range": "The lower Mississippi valley and Gulf coast: Illinois to Louisiana, Texas and Alabama",
+  "diet": "Fish and frogs",
+  "active": "By day and at night",
+  "ids": [
+   "Olive-green or brown with faint dark bars.",
+   "A row of small scales between the eye and the lip scales.",
+   "A dark belly with pale half-moon spots."
+  ],
+  "look": {
+   "colour": "Olive-green or brown",
+   "pattern": "Faint bars",
+   "head": "Broad, with small scales under the eye",
+   "body": "Heavy"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "plain",
+   "build": "stout",
+   "size": 3,
+   "habit": "aquatic",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "olive",
+    "green",
+    "brown"
+   ]
+  },
+  "grp": [
+   "water-snake"
+  ],
+  "fact": "It and the Florida Green Watersnake are the only North American watersnakes with scales beneath the eye."
+ },
+ {
+  "id": "nerodia-harteri",
+  "sci": "Nerodia harteri",
+  "name": "Brazos Watersnake",
+  "family": "Colubridae",
+  "kind": "Water snake",
+  "tier": 5,
+  "venom": "none",
+  "len": "0.5-0.8 m (20-32 in)",
+  "habitat": "Rocky shallows and riffles of rivers",
+  "range": "Only the upper Brazos River basin in north-central Texas",
+  "diet": "Small fish",
+  "active": "By day",
+  "ids": [
+   "A small watersnake, light brown or olive with rows of alternating dark spots.",
+   "A pinkish or orange belly.",
+   "Keeled scales."
+  ],
+  "look": {
+   "colour": "Light brown or olive",
+   "pattern": "Alternating rows of dark spots",
+   "head": "Narrow",
+   "body": "Small and slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "spotted",
+   "build": "slender",
+   "size": 2,
+   "habit": "aquatic",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "brown",
+    "olive",
+    "orange"
+   ]
+  },
+  "grp": [
+   "water-snake"
+  ],
+  "fact": "It lives in a single river system and is one of the rarest snakes in the USA."
+ },
+ {
+  "id": "regina-septemvittata",
+  "sci": "Regina septemvittata",
+  "name": "Queen Snake",
+  "family": "Colubridae",
+  "kind": "Crayfish snake",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.4-0.8 m (16-32 in)",
+  "habitat": "Clean, rocky streams and rivers with plenty of crayfish",
+  "range": "The eastern USA from Pennsylvania and southern Ontario to the Florida panhandle, west to Wisconsin and Arkansas",
+  "diet": "Crayfish that have just moulted",
+  "active": "By day",
+  "ids": [
+   "Brown or olive, with a yellow stripe along each lower side.",
+   "A yellow belly with four brown stripes running along it.",
+   "Slim, with keeled scales."
+  ],
+  "look": {
+   "colour": "Brown or olive",
+   "pattern": "Yellow side stripes; striped belly",
+   "head": "Narrow",
+   "body": "Slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "striped",
+   "build": "slender",
+   "size": 2,
+   "habit": "aquatic",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "brown",
+    "olive",
+    "yellow"
+   ]
+  },
+  "grp": [
+   "water-snake",
+   "striped-snake"
+  ],
+  "fact": "It eats almost nothing but soft crayfish that have just shed their shells."
+ },
+ {
+  "id": "regina-grahamii",
+  "sci": "Regina grahamii",
+  "name": "Graham's Crayfish Snake",
+  "family": "Colubridae",
+  "kind": "Crayfish snake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.45-0.8 m (18-32 in)",
+  "habitat": "Ponds, marshes, ditches and slow streams in prairie",
+  "range": "The Mississippi valley and plains: Iowa and Illinois to Louisiana, Texas, Oklahoma and Kansas",
+  "diet": "Crayfish",
+  "active": "By day and at night",
+  "ids": [
+   "A broad yellow stripe along each lower side, below a dark brown back.",
+   "A plain yellow belly.",
+   "A narrow, small head."
+  ],
+  "look": {
+   "colour": "Dark brown with yellow side stripes",
+   "pattern": "Broad yellow side stripe",
+   "head": "Narrow and small",
+   "body": "Medium-slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "striped",
+   "build": "slender",
+   "size": 2,
+   "habit": "aquatic",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "brown",
+    "yellow"
+   ]
+  },
+  "grp": [
+   "water-snake",
+   "striped-snake"
+  ],
+  "fact": "It hides in crayfish burrows and comes out to hunt on warm, wet nights."
+ },
+ {
+  "id": "liodytes-alleni",
+  "sci": "Liodytes alleni",
+  "name": "Striped Crayfish Snake",
+  "family": "Colubridae",
+  "kind": "Crayfish snake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.35-0.6 m (14-24 in)",
+  "habitat": "Marshes, lakes and ditches thick with water hyacinth and other floating plants",
+  "range": "Florida and southern Georgia",
+  "diet": "Crayfish",
+  "active": "By day and at night",
+  "ids": [
+   "Glossy brown with three faint dark stripes and a pale yellowish stripe low on each side.",
+   "Smooth, shiny scales.",
+   "A yellow or orange belly, sometimes with dark spots."
+  ],
+  "look": {
+   "colour": "Glossy brown",
+   "pattern": "Faint dark stripes",
+   "head": "Small and narrow",
+   "body": "Slim and glossy"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "striped",
+   "build": "slender",
+   "size": 2,
+   "habit": "aquatic",
+   "snout": "blunt",
+   "scales": "glossy",
+   "hue": [
+    "brown",
+    "yellow",
+    "orange"
+   ]
+  },
+  "grp": [
+   "water-snake",
+   "small-brown"
+  ],
+  "fact": "It has specially hinged teeth for gripping the hard shells of crayfish."
+ },
+ {
+  "id": "liodytes-rigida",
+  "sci": "Liodytes rigida",
+  "name": "Glossy Crayfish Snake",
+  "family": "Colubridae",
+  "kind": "Crayfish snake",
+  "tier": 4,
+  "venom": "none",
+  "len": "0.35-0.6 m (14-24 in)",
+  "habitat": "Swamps, marshes and slow streams",
+  "range": "The Gulf and Atlantic coastal plain from Virginia to Florida and Texas",
+  "diet": "Crayfish and sirens",
+  "active": "Mostly at night",
+  "ids": [
+   "Glossy brown with faint darker stripes.",
+   "A yellow belly with two rows of dark spots.",
+   "Smooth, shiny scales."
+  ],
+  "look": {
+   "colour": "Glossy brown",
+   "pattern": "Faint stripes; spotted belly",
+   "head": "Small and narrow",
+   "body": "Slim and glossy"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "plain",
+   "build": "slender",
+   "size": 2,
+   "habit": "aquatic",
+   "snout": "blunt",
+   "scales": "glossy",
+   "hue": [
+    "brown",
+    "olive"
+   ]
+  },
+  "grp": [
+   "water-snake",
+   "small-brown"
+  ],
+  "fact": "It is so secretive that it is mostly found by searching wetland plants at night."
+ },
+ {
+  "id": "seminatrix-pygaea",
+  "sci": "Seminatrix pygaea",
+  "name": "Black Swampsnake",
+  "family": "Colubridae",
+  "kind": "Swamp snake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.25-0.45 m (10-18 in)",
+  "habitat": "Swamps, marshes, ponds and wet ditches, among floating plants",
+  "range": "The coastal plain of the Carolinas, Georgia, Florida and Alabama",
+  "diet": "Small fish, tadpoles, salamanders and leeches",
+  "active": "Mostly at night",
+  "ids": [
+   "Small and glossy black above.",
+   "A bright red or orange belly.",
+   "Smooth, shiny scales."
+  ],
+  "look": {
+   "colour": "Glossy black above, red below",
+   "pattern": "Plain",
+   "head": "Small and rounded",
+   "body": "Small and glossy"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "bicolour",
+   "build": "slender",
+   "size": 1,
+   "habit": "aquatic",
+   "snout": "blunt",
+   "scales": "glossy",
+   "hue": [
+    "black",
+    "red"
+   ]
+  },
+  "grp": [
+   "water-snake",
+   "small-brown"
+  ],
+  "fact": "It can survive droughts by waiting out the dry season in mud and crayfish burrows."
+ },
+ {
+  "id": "storeria-dekayi",
+  "sci": "Storeria dekayi",
+  "name": "DeKay's Brownsnake",
+  "aka": [
+   "Brown Snake",
+   "Dekay's Brown Snake",
+   "Brownsnake"
+  ],
+  "family": "Colubridae",
+  "kind": "Brown snake",
+  "tier": 1,
+  "venom": "none",
+  "len": "0.23-0.35 m, rarely 0.5 m (9-14 in)",
+  "habitat": "Gardens, parks, vacant lots, woodland and wet meadows; common in cities",
+  "range": "Eastern North America from southern Quebec and Ontario to Florida, west to Minnesota and Texas; into Mexico",
+  "diet": "Earthworms and slugs",
+  "active": "By day and at night",
+  "ids": [
+   "A small brown or grey snake with two rows of small dark spots down the back, often joined by thin lines.",
+   "A paler band along the spine.",
+   "A dark mark on the side of the head and neck; keeled scales."
+  ],
+  "look": {
+   "colour": "Brown or grey",
+   "pattern": "Two rows of small dark spots",
+   "head": "Small, with a dark mark behind the eye",
+   "body": "Small and slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "spotted",
+   "build": "slender",
+   "size": 1,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "brown",
+    "grey",
+    "tan"
+   ]
+  },
+  "grp": [
+   "small-brown",
+   "keelback"
+  ],
+  "fact": "It thrives in city lots and backyards, eating the slugs that gardeners dislike."
+ },
+ {
+  "id": "storeria-occipitomaculata",
+  "sci": "Storeria occipitomaculata",
+  "name": "Red-bellied Snake",
+  "family": "Colubridae",
+  "kind": "Brown snake",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.2-0.3 m (8-12 in)",
+  "habitat": "Woodland, forest clearings, bogs and meadows",
+  "range": "Eastern North America from Nova Scotia and Saskatchewan to Florida and east Texas",
+  "diet": "Slugs, snails and earthworms",
+  "active": "By day and at night",
+  "ids": [
+   "A tiny snake, brown, grey or black above with a bright red or orange belly.",
+   "Three pale spots on the back of the neck, often joined into a collar.",
+   "Keeled scales and a small head."
+  ],
+  "look": {
+   "colour": "Brown, grey or black above; red belly",
+   "pattern": "Plain or faint stripes; pale neck spots",
+   "head": "Small, with a pale nape",
+   "body": "Tiny and slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "plain",
+   "build": "slender",
+   "size": 1,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "brown",
+    "grey",
+    "black",
+    "red"
+   ]
+  },
+  "grp": [
+   "small-brown",
+   "collared-small"
+  ],
+  "fact": "When frightened it curls its upper lip to show its teeth, a bluff it never follows through."
+ },
+ {
+  "id": "storeria-victa",
+  "sci": "Storeria victa",
+  "name": "Florida Brownsnake",
+  "family": "Colubridae",
+  "kind": "Brown snake",
+  "tier": 4,
+  "venom": "none",
+  "len": "0.15-0.3 m (6-12 in)",
+  "habitat": "Marshes, wet prairie, pine flatwoods and under debris",
+  "range": "Florida and south Georgia",
+  "diet": "Slugs, snails and earthworms",
+  "active": "By day and at night",
+  "ids": [
+   "A tiny grey-brown snake with a pale band across the back of the head.",
+   "A pale back stripe and small dark spots.",
+   "Keeled scales."
+  ],
+  "look": {
+   "colour": "Grey-brown",
+   "pattern": "Pale back band; small dark spots",
+   "head": "Small, with a pale band behind it",
+   "body": "Tiny and slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "spotted",
+   "build": "slender",
+   "size": 1,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "grey",
+    "brown"
+   ]
+  },
+  "grp": [
+   "small-brown"
+  ],
+  "fact": "It was treated as a form of DeKay's Brownsnake until 2006."
+ },
+ {
+  "id": "virginia-striatula",
+  "sci": "Virginia striatula",
+  "name": "Rough Earthsnake",
+  "family": "Colubridae",
+  "kind": "Earth snake",
+  "tier": 2,
+  "venom": "none",
+  "len": "0.18-0.25 m, rarely 0.3 m (7-10 in)",
+  "habitat": "Woodland, gardens and fields, under leaf litter, logs and stones",
+  "range": "The south-east and south-central USA, from Virginia and Florida to Kansas and Texas",
+  "diet": "Earthworms and ant larvae",
+  "active": "Mostly hidden; seen after rain",
+  "ids": [
+   "A tiny, plain brown or grey snake with a pointed snout.",
+   "Keeled scales and often a faint pale band across the back of the head.",
+   "A plain cream belly."
+  ],
+  "look": {
+   "colour": "Plain brown or grey",
+   "pattern": "Plain",
+   "head": "Small and cone-shaped",
+   "body": "Tiny and slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "plain",
+   "build": "slender",
+   "size": 1,
+   "habit": "fossorial",
+   "snout": "pointed",
+   "scales": "keeled",
+   "hue": [
+    "brown",
+    "grey"
+   ]
+  },
+  "grp": [
+   "small-brown"
+  ],
+  "fact": "It is one of the snakes most often dug up in gardens and flowerbeds in Texas."
+ },
+ {
+  "id": "virginia-valeriae",
+  "sci": "Virginia valeriae",
+  "name": "Smooth Earthsnake",
+  "family": "Colubridae",
+  "kind": "Earth snake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.18-0.3 m (7-12 in)",
+  "habitat": "Damp woodland, under leaf litter, logs and stones",
+  "range": "The eastern USA from New Jersey to Florida, west to Iowa and Texas",
+  "diet": "Earthworms and insects",
+  "active": "Mostly hidden; seen after rain",
+  "ids": [
+   "A tiny, plain grey or light brown snake, sometimes with faint black specks on the back.",
+   "Smooth or only faintly ridged scales.",
+   "A small, rounded head."
+  ],
+  "look": {
+   "colour": "Plain grey or light brown",
+   "pattern": "Plain, sometimes faint specks",
+   "head": "Small and rounded",
+   "body": "Tiny and slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "plain",
+   "build": "slender",
+   "size": 1,
+   "habit": "fossorial",
+   "snout": "blunt",
+   "scales": "smooth",
+   "hue": [
+    "grey",
+    "brown"
+   ]
+  },
+  "grp": [
+   "small-brown"
+  ],
+  "fact": "It spends nearly all its life hidden under logs and in loose soil."
+ },
+ {
+  "id": "tropidoclonion-lineatum",
+  "sci": "Tropidoclonion lineatum",
+  "name": "Lined Snake",
+  "family": "Colubridae",
+  "kind": "Garter snake",
+  "tier": 3,
+  "venom": "none",
+  "len": "0.2-0.4 m (8-15 in)",
+  "habitat": "Prairie, vacant lots, parks and gardens; often in towns",
+  "range": "The Great Plains and Midwest: from South Dakota and Illinois to Texas, Kansas, Colorado and New Mexico",
+  "diet": "Earthworms",
+  "active": "At night; under cover by day",
+  "ids": [
+   "Looks like a small garter snake: grey-brown with a pale stripe down the back and one on each side.",
+   "Two rows of bold black half-moons along the belly.",
+   "A small head and keeled scales."
+  ],
+  "look": {
+   "colour": "Grey-brown with pale stripes",
+   "pattern": "Three pale stripes; black half-moons on the belly",
+   "head": "Small",
+   "body": "Small and slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "striped",
+   "build": "slender",
+   "size": 1,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "grey",
+    "brown",
+    "tan"
+   ]
+  },
+  "grp": [
+   "garter",
+   "striped-snake",
+   "small-brown"
+  ],
+  "fact": "The double row of black half-moons on its belly tells it apart from garter snakes."
+ },
+ {
+  "id": "clonophis-kirtlandii",
+  "sci": "Clonophis kirtlandii",
+  "name": "Kirtland's Snake",
+  "family": "Colubridae",
+  "kind": "Water snake",
+  "tier": 4,
+  "venom": "none",
+  "len": "0.3-0.5 m (12-20 in)",
+  "habitat": "Wet meadows, prairie fens, marsh edges and city lots near water",
+  "range": "The Midwest: Indiana, Ohio, Illinois, Kentucky, Michigan and Pennsylvania",
+  "diet": "Earthworms and slugs",
+  "active": "Mostly at night; often in crayfish burrows",
+  "ids": [
+   "Small, grey-brown with four rows of round dark blotches.",
+   "A bright red or pink belly with a row of black dots along each edge.",
+   "Flattens its body to look bigger when threatened."
+  ],
+  "look": {
+   "colour": "Grey-brown; belly red or pink",
+   "pattern": "Rows of round dark blotches",
+   "head": "Small and dark",
+   "body": "Small and slim"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "spotted",
+   "build": "slender",
+   "size": 1,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "keeled",
+   "hue": [
+    "brown",
+    "grey",
+    "red"
+   ]
+  },
+  "grp": [
+   "small-brown",
+   "water-snake"
+  ],
+  "fact": "It is a rare snake of Midwestern wet prairies, many of which have been drained."
+ }
+]

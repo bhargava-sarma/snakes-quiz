@@ -54,7 +54,9 @@ const ROUTES = [
   { r: '/', name: 'home' },
   { r: '/play', name: 'setup' },
   { r: '/daily', name: 'daily' },
+  { r: '/daily?area=na', name: 'daily-na' },
   { r: '/herpdle', name: 'herpdle' },
+  { r: '/herpdle?area=na', name: 'herpdle-na' },
   { r: '/herpdle?mode=practice', name: 'herpdle-practice' },
   { r: 'herpdle-board', name: 'herpdle-board' },
   { r: 'herpdle-result', name: 'herpdle-result' },
@@ -67,11 +69,14 @@ const ROUTES = [
   { r: '/legal/privacy', name: 'legal-privacy' },
   { r: '/legal/licences', name: 'legal-licences' },
   { r: '/guide', name: 'guide' },
+  { r: '/guide?area=na', name: 'guide-na' },
   { r: '/guide/naja-naja', name: 'species' },
+  { r: '/guide/crotalus-atrox', name: 'species-na' },
   { r: '/guide/lycodon-fasciolatus', name: 'species-hard' },
   { r: '/compare?a=naja-naja&b=ptyas-mucosa', name: 'compare' },
   { r: '/learn', name: 'flashcards' },
   { r: '/safety', name: 'safety' },
+  { r: '/safety?area=na', name: 'safety-na' },
   { r: '/about', name: 'about' },
   { r: '/credits', name: 'credits' },
   { r: '/me', name: 'profile', after: 'play-one' },
@@ -290,12 +295,13 @@ async function herpdleGuess(page, name) {
 async function openRoute(page, route) {
   if (route.r === 'herpdle-board' || route.r === 'herpdle-result') {
     await page.goto(`${base}#/herpdle?mode=practice`, { waitUntil: 'load' });
-    await page.evaluate(() => { const st = SQ.herpdleState.load(); st.seenHelp = true; st.practice = null; SQ.herpdleState.save(st); });
+    // (the page plays in the region last chosen, which earlier pages may have changed)
+    await page.evaluate(() => { const a = SQ.homeArea(); const st = SQ.herpdleState.load(a); st.seenHelp = true; st.practice = null; SQ.herpdleState.save(st, a); });
     await page.goto(`${base}#/play`, { waitUntil: 'load' });
     await page.goto(`${base}#/herpdle?mode=practice`, { waitUntil: 'load' });
     await page.click('button:has-text("Start a practice game")');
     await page.waitForSelector('#hd-input');
-    const names = await page.evaluate(() => { const g = SQ.herpdleState.load().practice; return { right: SQ.data.byId[g.sp].name, wrong: SQ.data.species.find((x) => x.id !== g.sp && x.tier <= 2).name }; });
+    const names = await page.evaluate(() => { const a = SQ.homeArea(); const g = SQ.herpdleState.load(a).practice; return { right: SQ.data.byId[g.sp].name, wrong: SQ.data.areaSpecies(a).find((x) => x.id !== g.sp && x.tier <= 2).name }; });
     await herpdleGuess(page, names.wrong);
     await page.waitForSelector('.hd-row');
     if (route.r === 'herpdle-result') { await herpdleGuess(page, names.right); await page.waitForSelector('.hd-result'); }
@@ -310,7 +316,7 @@ async function openRoute(page, route) {
       await play.click();
       const started = await page.waitForSelector('#hd-input', { timeout: 6000 }).then(() => true, () => false);
       if (started) {
-        const right = await page.evaluate(() => { const g = SQ.herpdleState.load().days[SQ.todayKey()]; return SQ.data.byId[g.sp].name; });
+        const right = await page.evaluate(() => { const g = SQ.herpdleState.load(SQ.homeArea()).days[SQ.todayKey()]; return SQ.data.byId[g.sp].name; });
         await page.waitForTimeout(700);        // ranked games must not be answered impossibly fast
         await herpdleGuess(page, right);
         await page.waitForSelector('.hd-result');

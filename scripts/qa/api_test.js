@@ -46,6 +46,11 @@ function call(store, method, action, { body, token, query = {}, ip = '10.0.0.1',
   });
 }
 
+/** Points the server should give: (base + speed + streak) times the question's difficulty (its snake's tier, a hard photo). */
+const worth = (photo, species) => games.difficultyFactor(DATA.speciesTier(species), DATA.photoInfo(photo).hard);
+/** Daily points for getting the first `right` questions right (no timer, no hints). */
+const dailyPoints = (questions, right) => questions.slice(0, right).reduce((a, q, k) => a + Math.round((100 + 5 * k) * worth(q.photo, q.species)), 0);
+
 /** Answers for a Sarpa daily: right for the first `right` questions, wrong after that. */
 function sarpaAnswers(questions, right, ms = 4000) {
   return questions.map((q, i) => ({ p: q.photo, c: i < right ? q.species : q.options.find((o) => o !== q.species), h: 0, ms }));
@@ -155,8 +160,9 @@ async function main() {
   advance(50000);
   r = await call(store, 'POST', 'submit', { token: tokC, body: { runId: runC, answers: sarpaAnswers(questions, 8, 4500) } });
   eq(r.status, 200, 'daily submitted');
-  // 8 right in a row from the start: 100 + 105 + ... + 135, then two wrong
-  eq(r.body.points, [0, 1, 2, 3, 4, 5, 6, 7].reduce((a, k) => a + 100 + 5 * k, 0), 'daily points worked out by the server');
+  // 8 right in a row from the start: 100 + 105 + ... + 135, each times its difficulty, then two wrong
+  const pointsC = dailyPoints(questions, 8);
+  eq(r.body.points, pointsC, 'daily points worked out by the server');
   eq(r.body.correct, 8, 'daily correct');
   eq(r.body.rank['sarpa-daily'].day, 1, 'rank on the day');
   eq(r.body.streak, 1, 'daily streak');
@@ -177,7 +183,7 @@ async function main() {
   eq(r.body.me.rank, 1, 'my row');
   ok(/private/.test(r.headers['cache-control']), 'personal boards are not shared by caches');
   r = await call(store, 'GET', 'leaderboard', { query: { board: 'sarpa-daily', period: 'week' } });
-  eq(r.body.entries[0].points, 940, 'weekly total');
+  eq(r.body.entries[0].points, pointsC, 'weekly total');
   r = await call(store, 'GET', 'leaderboard', { query: { board: 'nope', period: 'day' } });
   eq(r.status, 400, 'unknown board');
   r = await call(store, 'GET', 'leaderboard', { query: { board: 'herpdle', period: 'day', day: '2020-01-01' } });
@@ -230,8 +236,8 @@ async function main() {
   advance(65000);
   r = await call(store, 'POST', 'submit', { token: tokB, body: { runId: qB, answers: quizAnswers } });
   eq(r.status, 200, 'quiz submitted');
-  // 20 right: base 100, time bonus round(40 * 12/15) = 32, streak bonus 5 * min(k, 10)
-  const expect = quizAnswers.reduce((a, _, k) => a + 100 + 32 + 5 * Math.min(k, 10), 0);
+  // 20 right: base 100, time bonus round(40 * 12/15) = 32, streak bonus 5 * min(k, 10), times each question's difficulty
+  const expect = quizAnswers.reduce((a, x, k) => a + Math.round((100 + 32 + 5 * Math.min(k, 10)) * worth(x.p, x.c)), 0);
   eq(r.body.points, expect, 'quiz points worked out by the server');
   eq(r.body.rank['sarpa-points'].all, 1, 'points board rank');
   r = await call(store, 'POST', 'start', { token: tokB, body: { game: 'sarpa', mode: 'quiz', timer: 20 } });
@@ -271,13 +277,105 @@ async function main() {
   r = await call(store, 'GET', 'leaderboard', { query: { board: 'sarpa-daily', period: 'day', day: today } });
   eq(r.body.entries[0].name, 'Ranger_C', 'yesterday can still be viewed');
   r = await call(store, 'GET', 'leaderboard', { query: { board: 'sarpa-daily', period: 'all' } });
-  eq(r.body.entries[0].points, 940 + 1225, 'all-time total');
+  eq(r.body.entries[0].points, pointsC + dailyPoints(q2, 10), 'all-time total');
 
   console.log('ties share a rank');
   const tieStore = storeLib.memory();
   await tieStore.cmd('ZADD', 'sq:lb:sarpa-points:all', 500, 'a', 500, 'b', 300, 'c');
   r = await call(tieStore, 'GET', 'leaderboard', { query: { board: 'sarpa-points', period: 'all' } });
   eq(r.body.entries.map((e) => e.rank).join(','), '1,1,3', 'tie ranks');
+
+  console.log('saved progress');
+  r = await call(store, 'GET', 'progress');
+  eq(r.status, 401, 'progress needs an account');
+  r = await call(store, 'GET', 'progress', { token: tokC });
+  eq(r.status, 200, 'progress of a new account');
+  ok(r.body.doc === null && r.body.rev === 0, 'is empty at revision 0', r.body);
+  const doc1 = { v: 2, epoch: 0, dev: { dev1: { sp: { 'naja-naja': [3, 2, 1] }, tot: { games: 1 }, conf: {}, u: now } }, games: [], flagged: [], unflagged: {}, daily: {}, dailyNa: {}, badges: {}, herpdle: {} };
+  r = await call(store, 'POST', 'progress', { token: tokC, body: { doc: { v: 1 }, rev: 0 } });
+  eq(r.body.code, 'bad_progress', 'something that is not Sarpa progress is refused');
+  r = await call(store, 'POST', 'progress', { token: tokC, body: { doc: [doc1], rev: 0 } });
+  eq(r.body.code, 'bad_progress', 'a list is refused');
+  r = await call(store, 'POST', 'progress', { token: tokC, body: { doc: doc1, rev: 0 } });
+  eq(r.status, 200, 'progress saved');
+  eq(r.body.rev, 1, 'at revision 1');
+  r = await call(store, 'GET', 'progress', { token: tokC });
+  eq(JSON.stringify(r.body.doc), JSON.stringify(doc1), 'and given back unchanged');
+  eq(r.body.rev, 1, 'with its revision');
+  r = await call(store, 'GET', 'progress', { token: tokA });
+  eq(r.body.doc, null, 'another account cannot see it');
+  const doc2 = Object.assign({}, doc1, { badges: { 'first-quiz': now } });
+  r = await call(store, 'POST', 'progress', { token: tokC, body: { doc: doc2, rev: 0 } });
+  eq(r.status, 409, 'a save based on an old revision is refused');
+  eq(r.body.code, 'progress_conflict', 'as a conflict');
+  ok(r.body.rev === 1 && r.body.doc && r.body.doc.dev.dev1, 'and the newer copy comes back to merge with', r.body);
+  r = await call(store, 'POST', 'progress', { token: tokC, body: { doc: doc2, rev: 1 } });
+  eq(r.body.rev, 2, 'a save on the latest revision works');
+  const big = Object.assign({}, doc1, { games: Array.from({ length: 4000 }, (_, i) => ({ ts: i, mode: 'quiz', pad: 'x'.repeat(60) })) });
+  r = await call(store, 'POST', 'progress', { token: tokC, body: { doc: big, rev: 2 } });
+  eq(r.status, 413, 'a copy over 200 KB is refused');
+  r = await call(store, 'POST', 'progress', { token: tokC, body: { doc: doc2, rev: 2 }, headers: { 'content-type': 'text/plain' } });
+  eq(r.status, 415, 'a save that is not sent as JSON is refused');
+  r = await call(store, 'GET', 'progress', { token: tokC });
+  eq(r.body.rev, 2, 'refused saves change nothing');
+
+  console.log('North America and Mixed');
+  const raw = DATA.load().raw;
+  const hasNa = raw.photos.some((row) => raw.areas[row[3]] === 'na');
+  if (!hasNa) console.log('  (no North America photos in this data set: skipped)');
+  else {
+    r = await call(store, 'GET', 'daily', { query: { game: 'sarpa', area: 'na' } });
+    eq(r.status, 200, 'the North America daily');
+    const naQ = r.body.questions;
+    ok(naQ.every((q) => DATA.photoInfo(q.photo).area === 'na'), 'has only North America photos');
+    r = await call(store, 'GET', 'daily', { query: { game: 'sarpa' } });
+    ok(r.body.questions[0].photo !== naQ[0].photo, 'and differs from the India daily');
+    r = await call(store, 'GET', 'daily', { query: { game: 'sarpa', area: 'mars' } });
+    eq(r.status, 400, 'an unknown region is refused');
+    r = await call(store, 'POST', 'start', { token: tokA, body: { game: 'sarpa', mode: 'daily', area: 'na' } });
+    eq(r.status, 200, 'North America daily started');
+    const naRun = r.body.runId;
+    advance(60000);
+    r = await call(store, 'POST', 'submit', { token: tokA, body: { runId: naRun, answers: sarpaAnswers(naQ, 10, 3000) } });
+    eq(r.status, 200, 'North America daily saved');
+    eq(r.body.points, dailyPoints(naQ, 10), 'its points');
+    ok(r.body.rank['sarpa-daily-na'] && r.body.rank['sarpa-daily-na'].day === 1, 'it is on the North America board', r.body.rank);
+    ok(!r.body.rank['sarpa-daily'], 'not on the India board');
+    r = await call(store, 'POST', 'start', { token: tokA, body: { game: 'sarpa', mode: 'daily', area: 'na' } });
+    eq(r.status, 409, 'the North America daily cannot be played twice');
+    r = await call(store, 'GET', 'me', { token: tokA });
+    eq(r.body.today.sarpaNa, 'done', 'the profile knows it was played');
+    // a ranked quiz with photos from the wrong region is refused
+    const naPhotos = raw.photos.filter((row) => raw.areas[row[3]] === 'na').slice(0, 10);
+    const inPhotos = raw.photos.filter((row) => raw.areas[row[3]] === 'in').slice(0, 10);
+    const answersOf = (rows) => rows.map(([pid, sp]) => ({ p: pid, c: raw.species[sp], h: 0, ms: 3000 }));
+    r = await call(store, 'POST', 'start', { token: tokA, body: { game: 'sarpa', mode: 'quiz', timer: 0, area: 'in' } });
+    let run = r.body.runId;
+    advance(60000);
+    r = await call(store, 'POST', 'submit', { token: tokA, body: { runId: run, answers: answersOf(naPhotos) } });
+    eq(r.body.code, 'bad_area', 'North America photos in an India quiz are refused');
+    // a mixed quiz with both regions earns the bonus; one with a single region does not
+    const both = [];
+    naPhotos.forEach((row, i) => both.push(row, inPhotos[i]));
+    r = await call(store, 'POST', 'start', { token: tokA, body: { game: 'sarpa', mode: 'quiz', timer: 0, area: 'mix' } });
+    run = r.body.runId;
+    advance(120000);
+    r = await call(store, 'POST', 'submit', { token: tokA, body: { runId: run, answers: answersOf(both) } });
+    eq(r.status, 200, 'a mixed quiz is saved');
+    eq(r.body.mixed, true, 'and gets the Mixed bonus');
+    const mixedExpect = answersOf(both).reduce((a, x, k) => a + Math.round((100 + 5 * Math.min(k, 10)) * worth(x.p, x.c) * games.MIX_BONUS), 0);
+    eq(r.body.points, mixedExpect, 'Mixed points are 20% more');
+    r = await call(store, 'POST', 'start', { token: tokA, body: { game: 'sarpa', mode: 'quiz', timer: 0, area: 'mix' } });
+    run = r.body.runId;
+    advance(60000);
+    r = await call(store, 'POST', 'submit', { token: tokA, body: { runId: run, answers: answersOf(inPhotos.concat(naPhotos.slice(0, 1))) } });
+    eq(r.status, 200, 'a lopsided mixed quiz is saved');
+    eq(r.body.mixed, false, 'but without the bonus');
+    r = await call(store, 'GET', 'daily', { query: { game: 'herpdle', area: 'na' } });
+    eq(r.status, 200, 'the North America Herpdle');
+    r = await call(store, 'POST', 'start', { token: tokA, body: { game: 'herpdle', mode: 'daily', area: 'na' } });
+    eq(r.status, 200, 'North America Herpdle started');
+  }
 
   console.log('account changes');
   r = await call(store, 'POST', 'change-pin', { token: tokA, body: { pin: '111111', newPin: '529017' } });

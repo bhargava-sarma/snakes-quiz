@@ -1,4 +1,4 @@
-/* Field guide: searchable species list and species detail pages. */
+/* Field guide: searchable species list (India, North America or both) and species detail pages. */
 (function () {
   'use strict';
   const SQ = (window.SQ = window.SQ || {});
@@ -8,7 +8,7 @@
   const FAMILY_LABEL = {
     Elapidae: 'Cobras, kraits, coral & sea snakes',
     Viperidae: 'Vipers & pit vipers',
-    Colubridae: 'Colubrids (rat, cat, vine & trinket snakes ...)',
+    Colubridae: 'Colubrids (rat snakes, racers, kingsnakes, garter & water snakes ...)',
     Natricidae: 'Keelbacks & water snakes',
     Homalopsidae: 'Mud & mangrove water snakes',
     Pythonidae: 'Pythons',
@@ -17,6 +17,7 @@
     Uropeltidae: 'Shieldtail snakes',
     Typhlopidae: 'Blind snakes',
     Gerrhopilidae: 'Blind snakes',
+    Leptotyphlopidae: 'Slender blind snakes',
     Pareidae: 'Snail-eating snakes',
     Acrochordidae: 'File snakes',
     Xenodermidae: 'Odd-scaled snakes',
@@ -40,23 +41,23 @@
     return sp.venom === f;
   }
 
-  const state = { q: '', family: 'all', venom: 'all', region: 'all', status: 'all', sort: 'name' };
+  const state = { q: '', area: 'all', family: 'all', venom: 'all', region: 'all', status: 'all', sort: 'name' };
 
   /* ------------------------------------------------------------------ */
   /*  List                                                                */
   /* ------------------------------------------------------------------ */
 
-  SQ.views.guide = function () {
+  SQ.views.guide = function ({ query }) {
     const D = SQ.data, S = SQ.store;
-    const families = {};
-    D.species.forEach((s) => { families[s.family] = (families[s.family] || 0) + 1; });
-    const famList = Object.entries(families).sort((a, b) => b[1] - a[1]);
-    const regions = D.regions(1);
+    const qa = query && query.get('area');
+    if (qa === 'all' || D.oneArea(qa)) state.area = qa;
+    const inView = () => D.species.filter((sp) => state.area === 'all' || D.inArea(sp, state.area));
 
     const count = h('p.result-count');
     const grid = h('div.species-grid');
 
     function matches(sp) {
+      if (state.area !== 'all' && !D.inArea(sp, state.area)) return false;
       if (state.family !== 'all' && sp.family !== state.family) return false;
       if (!venomMatch(sp, state.venom)) return false;
       if (state.region !== 'all' && !(D.stateIndex[state.region] && D.stateIndex[state.region][sp.id])) return false;
@@ -80,7 +81,8 @@
       else if (state.sort === 'hard') list.sort((a, b) => b.tier - a.tier || a.name.localeCompare(b.name));
       else if (state.sort === 'venom') list.sort((a, b) => SQ.data.VENOM[b.venom].rank - SQ.data.VENOM[a.venom].rank || a.name.localeCompare(b.name));
       else if (state.sort === 'photos') list.sort((a, b) => b.photoCount - a.photoCount);
-      count.textContent = `${list.length} of ${D.species.length} species`;
+      const total = inView().length;
+      count.textContent = `${list.length} of ${total} species` + (state.area === 'all' ? '' : ` in ${D.area(state.area).label}`);
       SQ.clear(grid);
       if (!list.length) { grid.appendChild(SQ.ui.empty('No snakes match', 'Try clearing a filter or searching for something else.')); return; }
       list.forEach((sp) => {
@@ -90,16 +92,19 @@
           h('div.sc-body',
             h('h3', sp.name),
             h('i.sci', sp.sci),
-            h('div.badges', SQ.ui.venomBadge(sp, { short: true }), SQ.ui.big4Badge(sp)))));
+            h('div.badges', SQ.ui.venomBadge(sp, { short: true }), SQ.ui.big4Badge(sp), state.area === 'all' ? SQ.ui.areaBadge(sp, { short: true }) : null))));
       });
     }
 
     const search = h('input#guide-search', { type: 'search', placeholder: 'Search by any name', value: state.q, 'aria-label': 'Search snakes', autocomplete: 'off' });
     search.addEventListener('input', SQ.debounce(() => { state.q = search.value.trim(); draw(); }, 120));
 
+    // an option list, or groups of options ({ group, options }) shown under a heading each
+    const optionNodes = (key, options) => options.map((o) => (o.group
+      ? h('optgroup', { label: o.group }, optionNodes(key, o.options))
+      : h('option', { value: o.value, selected: o.value === state[key] }, o.label)));
     const select = (label, key, options) => h('label.filter', h('span.legend', label),
-      h('select', { onchange: (e) => { state[key] = e.target.value; draw(); countActive(); } },
-        options.map((o) => h('option', { value: o.value, selected: o.value === state[key] }, o.label))));
+      h('select', { onchange: (e) => { state[key] = e.target.value; draw(); countActive(); } }, optionNodes(key, options)));
 
     const filterSummary = h('span.filter-count');
     function countActive() {
@@ -107,23 +112,51 @@
       filterSummary.textContent = n ? String(n) : '';
       filterSummary.hidden = !n;
     }
-    const panel = h('details.filter-panel',
-      h('summary', icon('sliders', { size: 16 }), 'Filters and sorting', filterSummary),
-      h('div.filter-row',
+    const filterRow = h('div.filter-row');
+    /** The family and state lists depend on the region in view, so they are rebuilt when it changes. */
+    function drawFilters() {
+      const families = {};
+      inView().forEach((sp) => { families[sp.family] = (families[sp.family] || 0) + 1; });
+      const famList = Object.entries(families).sort((a, b) => b[1] - a[1]);
+      if (state.family !== 'all' && !families[state.family]) state.family = 'all';
+      const stateOpts = (area) => D.regions(1, area).map((r) => ({ value: r.state, label: `${r.state} (${r.species})` }));
+      const regionOpts = state.area === 'all'
+        ? [{ value: 'all', label: 'Anywhere' }, ...D.AREA_ORDER.map((a) => ({ group: D.area(a).label, options: stateOpts(a) })).filter((g) => g.options.length)]
+        : [{ value: 'all', label: `All of ${D.area(state.area).label}` }, ...stateOpts(state.area)];
+      if (state.region !== 'all' && !(state.area === 'all' || D.stateArea[state.region] === state.area)) state.region = 'all';
+      SQ.clear(filterRow);
+      filterRow.append(
         select('Family', 'family', [{ value: 'all', label: 'All families' }, ...famList.map(([f, n]) => ({ value: f, label: `${FAMILY_LABEL[f] || f} (${n})` }))]),
         select('Venom', 'venom', VENOM_FILTERS),
-        select('Region', 'region', [{ value: 'all', label: 'All of India' }, ...regions.map((r) => ({ value: r.state, label: `${r.state} (${r.species})` }))]),
+        select(state.area === 'in' ? 'State' : 'State or province', 'region', regionOpts),
         select('Progress', 'status', [{ value: 'all', label: 'All snakes' }, { value: 'spotted', label: 'Ones I have met in quizzes' }, { value: 'new', label: 'Ones I have not met yet' }]),
-        select('Sort', 'sort', [{ value: 'name', label: 'Name' }, { value: 'easy', label: 'Easiest first' }, { value: 'hard', label: 'Hardest first' }, { value: 'venom', label: 'Most dangerous first' }, { value: 'photos', label: 'Most photos' }])));
+        select('Sort', 'sort', [{ value: 'name', label: 'Name' }, { value: 'easy', label: 'Easiest first' }, { value: 'hard', label: 'Hardest first' }, { value: 'venom', label: 'Most dangerous first' }, { value: 'photos', label: 'Most photos' }]));
+      countActive();
+    }
+    const panel = h('details.filter-panel',
+      h('summary', icon('sliders', { size: 16 }), 'Filters and sorting', filterSummary),
+      filterRow);
     if (window.matchMedia && window.matchMedia('(min-width: 860px)').matches) panel.setAttribute('open', '');
-    countActive();
+    drawFilters();
+
+    const areaTabs = SQ.ui.segmented({
+      name: 'Region', value: state.area, className: 'seg-area guide-areas',
+      options: [{ value: 'all', label: 'All', sub: `${D.species.length} species` },
+        ...D.AREA_ORDER.map((a) => ({ value: a, label: D.area(a).label, sub: `${D.byArea[a].length} species` }))],
+      onChange: (v) => {
+        state.area = v;
+        try { history.replaceState(null, '', '#/guide' + (v === 'all' ? '' : '?area=' + v)); } catch (e) { /* ignore */ }
+        drawFilters(); draw();
+      },
+    });
 
     const filters = h('div.filters.panel',
+      areaTabs,
       h('div.search-box', icon('search', { size: 18 }), search),
       panel);
 
     const node = h('div.page.wrap.guide',
-      SQ.ui.pageHead('Field guide', `${D.species.length} snakes of India with identification tips, look-alikes and photos.`,
+      SQ.ui.pageHead('Field guide', `${D.species.length} snakes of India and North America with identification tips, look-alikes and photos.`,
         h('div.btn-row', h('a.btn.btn-sm', { href: '#/learn' }, icon('eye', { size: 16 }), 'Flashcards'), h('a.btn.btn-sm', { href: '#/compare' }, icon('compare', { size: 16 }), 'Compare snakes')),
         [h('b', '05'), 'Field guide']),
       filters, count, h('h2.sr-only', 'Species'), grid);
@@ -141,7 +174,8 @@
     const withNotes = (SQ.data.noteIndex && SQ.data.noteIndex[sp.id]) || [];
     const ordered = [];
     withNotes.forEach((id) => { if (D.byId[id] && !ordered.includes(D.byId[id])) ordered.push(D.byId[id]); });
-    D.lookalikes(sp.id, 8).forEach((s) => { if (!ordered.includes(s)) ordered.push(s); });
+    // the closest look-alikes where the snake lives (hand-written notes can still compare it with a snake elsewhere)
+    D.lookalikes(sp.id, 8, sp.regions.length === 1 ? sp.regions[0] : undefined).forEach((s) => { if (!ordered.includes(s)) ordered.push(s); });
     return ordered.slice(0, 4).map((other) => {
       const w = SQ.explain.whyNot(sp, other);
       return h('a.look-card', { href: '#/guide/' + other.id },
@@ -202,7 +236,7 @@
           h('p.mastery', h('span.mastery-chip.m' + mastery, ['', 'Learning', 'Getting there', 'Mastered'][mastery])))
         : h('p.muted', 'You have not met this snake in a quiz yet.'),
       h('button.btn.btn-primary.btn-block', { type: 'button', onclick: () => SQ.quiz.start({
-        mode: 'practice', title: `Practice: ${sp.name}`, count: 10, difficulty: 'expert', region: 'all', timer: 0, hints: true, preferUnseen: true, focus: [sp.id],
+        mode: 'practice', title: `Practice: ${sp.name}`, count: 10, difficulty: 'expert', area: sp.regions.length === 1 ? sp.regions[0] : 'mix', region: 'all', timer: 0, hints: true, preferUnseen: true, focus: [sp.id],
       }) }, icon('target', { size: 18 }), `Practise the ${sp.name}`),
       h('a.btn.btn-block', { href: `#/compare?a=${sp.id}` }, icon('compare', { size: 18 }), 'Compare with another snake'));
 
@@ -237,7 +271,7 @@
         h('div.species-title',
           h('p.legend', h('b', String(sp.index + 1).padStart(3, '0')), `${sp.family} · ${sp.kind || 'snake'}`),
           h('h1', sp.name), h('p.sci-big', h('i', sp.sci)), akaLine),
-        h('div.badges.big', SQ.ui.venomBadge(sp), SQ.ui.big4Badge(sp), h('span.badge.fam', sp.family), h('span.badge.tier', 'Difficulty ', SQ.ui.tierDots(sp)))),
+        h('div.badges.big', SQ.ui.venomBadge(sp), SQ.ui.big4Badge(sp), SQ.ui.areaBadge(sp), h('span.badge.fam', sp.family), h('span.badge.tier', 'Difficulty ', SQ.ui.tierDots(sp)))),
       h('div.species-grid2',
         h('div.col-main',
           h('div.gallery', stage, credit, strip),
@@ -250,7 +284,7 @@
           progressCard,
           h('section.card', h('p.legend.card-tag.neutral', 'Quick facts'), facts),
           namesCard,
-          h('section.card', h('p.legend.card-tag.neutral', 'Where our photos were taken'), h('p.muted.small', 'States where community members photographed this snake.'), stateChips))));
+          h('section.card', h('p.legend.card-tag.neutral', 'Where our photos were taken'), h('p.muted.small', sp.regions.includes('na') ? 'States and provinces where community members photographed this snake.' : 'States where community members photographed this snake.'), stateChips))));
     show(0);
     return { node, title: sp.name, view: 'species' };
   };

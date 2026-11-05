@@ -401,3 +401,34 @@ a.hd-row-name:hover { color: var(--accent-text); }
 .legal-foot { display: flex; gap: 8px; align-items: flex-start; font-size: .88rem; max-width: 900px; }
 .legal-foot .ico { margin-top: 3px; }
 @media (max-width: 519.98px) { .legal-tab { flex: 1 1 auto; justify-content: center; padding: 0 10px; } }
+
+/* ==========================================================================
+   Regions (India, North America, Mixed)
+   ========================================================================== */
+
+/* the region chooser: words, not LCD digits, so the big keys use a smaller face */
+.seg-area .seg-btn { flex-basis: 96px; }
+.seg-big.seg-area .seg-main { font: 800 clamp(1.15rem, 1rem + .6vw, 1.5rem)/1.1 var(--font-ui); letter-spacing: -.02em; font-variation-settings: normal; text-align: center; }
+.seg-big.seg-area .seg-btn { min-height: 84px; padding-inline: 10px; }
+.area-note { margin: 12px 0 0; font-size: .9rem; line-height: 1.45; max-width: 68ch; }
+.state-opt select { width: 100%; }
+.q-area { white-space: nowrap; }
+.q-bonus { color: var(--accent-text); font-weight: 650; white-space: nowrap; }
+
+/* page-head tools: the region keys and a button side by side, wrapping on narrow screens */
+.head-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; }
+.head-tools .seg { flex: 1 1 auto; padding-bottom: 0; gap: 8px; flex-wrap: nowrap; }
+.head-tools .seg-btn { flex: 1 0 auto; min-height: 44px; padding: 6px 16px; }
+.head-tools .seg-main { font-size: .95rem; white-space: nowrap; }
+@media (max-width: 599.98px) {
+  .page-head-actions:has(> .head-tools) { flex: 1 1 100%; }
+  .head-tools { width: 100%; }
+  .head-tools .seg { flex-basis: 100%; }
+  .head-tools .seg-btn { flex: 1 1 0; padding-inline: 10px; }
+}
+.lb-areas { flex: 1 1 260px; min-width: 0; }
+.lb-areas .seg-btn { min-height: 50px; }
+.lb-areas[hidden] { display: none; }
+.dex-areas { margin: 2px 0 14px; max-width: 520px; }
+.guide-areas .seg-btn { min-height: 54px; }
+.hd-help .why-list + .legend { margin-top: 18px; }
