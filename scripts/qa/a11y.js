@@ -15,18 +15,20 @@ if (!axePath) { console.error('axe-core is not installed. Run:  npm install --no
 const axeSrc = fs.readFileSync(axePath, 'utf8');
 const base = (process.argv[2] || 'http://localhost:8765/index.html').replace(/#.*$/, '');
 
-const ROUTES = ['/', '/play', '/daily', '/herpdle', '/herpdle?mode=practice', 'herpdle-board', '/ranks', 'account', '/guide', '/guide/naja-naja',
-  '/compare?a=naja-naja&b=ptyas-mucosa', '/learn', '/safety', '/me', '/about', '/credits', '/legal', '/legal/privacy', 'quiz', 'quiz-answered', '/results'];
+const ROUTES = ['/', '/play', '/daily', '/daily?area=na', '/herpdle', '/herpdle?area=na', '/herpdle?mode=practice', 'herpdle-board', '/ranks', 'account',
+  '/guide', '/guide?area=na', '/guide/naja-naja', '/guide/crotalus-atrox', '/compare?a=naja-naja&b=ptyas-mucosa', '/learn', '/safety', '/safety?area=na',
+  '/me', '/about', '/credits', '/legal', '/legal/privacy', 'quiz', 'quiz-answered', '/results'];
 
 /** Herpdle practice with one wrong guess on the board. */
 async function herpdleBoard(page) {
   await page.goto(`${base}#/herpdle?mode=practice`, { waitUntil: 'load' });
-  await page.evaluate(() => { const st = SQ.herpdleState.load(); st.seenHelp = true; st.practice = null; SQ.herpdleState.save(st); });
+  // (the page plays in the region last chosen, which earlier pages may have changed)
+  await page.evaluate(() => { const a = SQ.homeArea(); const st = SQ.herpdleState.load(a); st.seenHelp = true; st.practice = null; SQ.herpdleState.save(st, a); });
   await page.goto(`${base}#/play`, { waitUntil: 'load' });
   await page.goto(`${base}#/herpdle?mode=practice`, { waitUntil: 'load' });
   await page.click('button:has-text("Start a practice game")');
   await page.waitForSelector('#hd-input');
-  const wrong = await page.evaluate(() => { const g = SQ.herpdleState.load().practice; return SQ.data.species.find((x) => x.id !== g.sp && x.tier <= 2).name; });
+  const wrong = await page.evaluate(() => { const a = SQ.homeArea(); const g = SQ.herpdleState.load(a).practice; return SQ.data.areaSpecies(a).find((x) => x.id !== g.sp && x.tier <= 2).name; });
   await page.fill('#hd-input', wrong);
   await page.click('.hd-go');
   await page.waitForSelector('.hd-row');

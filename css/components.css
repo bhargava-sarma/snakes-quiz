@@ -95,6 +95,8 @@
 .badge.big4 { background: var(--bad-solid); color: #fff; border-color: var(--bad-solid); }
 .badge.you { background: var(--accent); color: var(--accent-ink); border-color: var(--accent-deep); }
 .badge.fam, .badge.tier { background: transparent; }
+.badge.area { background: transparent; gap: 4px; }
+.badge.area .ico { color: var(--accent-text); }
 .dots { display: inline-flex; gap: 3px; vertical-align: middle; }
 .dots i { width: 7px; height: 7px; border-radius: 2px; background: var(--line-2); background: color-mix(in srgb, var(--ink) 18%, transparent); }
 .dots i.on { background: var(--accent); }

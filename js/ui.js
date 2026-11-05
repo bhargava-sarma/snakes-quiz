@@ -18,6 +18,14 @@
 
   ui.big4Badge = (sp) => (sp.big4 ? h('span.badge.big4', { title: 'One of the "Big Four" snakes responsible for most snakebite deaths in India' }, 'Big Four') : null);
 
+  /** Where a snake is in the game: India, North America or both (a pin and the region's name). */
+  ui.areaBadge = function (sp, opts = {}) {
+    const regions = (sp && sp.regions) || ['in'];
+    const both = regions.length > 1;
+    const text = both ? (opts.short ? 'IN + NA' : 'India & North America') : opts.short ? SQ.data.area(regions[0]).short : SQ.data.area(regions[0]).label;
+    return h('span.badge.area' + (both ? '.both' : '.' + regions[0]), { title: both ? 'In the game for India and for North America' : 'In the game for ' + SQ.data.area(regions[0]).label }, icon('pin', { size: 11 }), text);
+  };
+
   ui.tierDots = function (sp) {
     const label = ['', 'Very easy', 'Easy', 'Moderate', 'Hard', 'Very hard'][sp.tier] || '';
     const dots = h('span.dots', { title: `Identification difficulty: ${label}`, role: 'img', 'aria-label': `Difficulty ${sp.tier} of 5: ${label}` });
@@ -246,18 +254,34 @@
   /* ---------- small widgets ---------- */
 
   /** Single-choice row of keys. */
+  /** A row of keys of which one is chosen (a radio group: Tab reaches the chosen key, the arrow keys move along). */
   ui.segmented = function ({ options, value, onChange, name, className }) {
-    const wrap = h('div.seg' + (className ? '.' + className : ''), { role: 'radiogroup', 'aria-label': name || '' });
+    const classes = String(className || '').split(/\s+/).filter(Boolean).map((c) => '.' + c).join('');
+    const wrap = h('div.seg' + classes, { role: 'radiogroup', 'aria-label': name || '' });
+    const choose = (v, focus) => {
+      value = v;
+      draw();
+      if (focus) { const on = wrap.querySelector('.seg-btn.on'); if (on) on.focus(); }
+      if (onChange) onChange(value);
+    };
     const draw = () => {
       SQ.clear(wrap);
-      options.forEach((o) => {
+      const any = options.some((o) => o.value === value);
+      options.forEach((o, i) => {
         const on = o.value === value;
         wrap.appendChild(h('button.seg-btn' + (on ? '.on' : ''), {
-          type: 'button', role: 'radio', 'aria-checked': on ? 'true' : 'false',
-          onclick: () => { value = o.value; draw(); onChange && onChange(value); },
+          type: 'button', role: 'radio', 'aria-checked': on ? 'true' : 'false', tabindex: on || (!any && i === 0) ? '0' : '-1',
+          onclick: () => choose(o.value, false),
         }, h('span.seg-main', o.label), o.sub ? h('span.seg-sub', o.sub) : null));
       });
     };
+    wrap.addEventListener('keydown', (e) => {
+      const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+      if (!step) return;
+      e.preventDefault();
+      const at = Math.max(0, options.findIndex((o) => o.value === value));
+      choose(options[(at + step + options.length) % options.length].value, true);
+    });
     draw();
     return wrap;
   };

@@ -11,17 +11,21 @@
   /*  Saved games (on this device)                                        */
   /* ------------------------------------------------------------------ */
 
-  const blank = () => ({ v: 1, days: {}, practice: null, recent: [], pstats: { played: 0, won: 0 }, seenHelp: false });
+  // each area has its own games: India under 'herpdle' (as it always was), North America under 'herpdle-na'
+  const keyOf = (area) => (area === 'na' ? 'herpdle-na' : 'herpdle');
+  const blank = () => ({ v: 1, days: {}, practice: null, recent: [], pstats: { played: 0, won: 0 }, pdev: {}, seenHelp: false });
 
-  function load() {
-    const raw = SQ.store.get('herpdle', null);
+  function load(area) {
+    const raw = SQ.store.get(keyOf(area), null);
     const s = Object.assign(blank(), raw && typeof raw === 'object' ? raw : {});
     if (!s.days || typeof s.days !== 'object') s.days = {};
     if (!Array.isArray(s.recent)) s.recent = [];
     s.pstats = Object.assign({ played: 0, won: 0 }, s.pstats || {});
+    // practice counts per device, so that two devices' games can be merged (see js/sync.js)
+    if (!s.pdev || typeof s.pdev !== 'object' || !Object.keys(s.pdev).length) s.pdev = { [SQ.store.deviceId()]: { played: s.pstats.played, won: s.pstats.won } };
     return s;
   }
-  const save = (s) => SQ.store.set('herpdle', s);
+  const save = (s, area) => { SQ.store.set(keyOf(area), s); if (SQ.sync) SQ.sync.soon(); };
 
   /** A saved game is only usable if its snake, photo and guesses are still in the data. */
   function usable(g) {
@@ -132,22 +136,24 @@
   const norm = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
     .replace(/[^a-z0-9ऀ-෿]+/g, ' ').trim();
 
-  let index = null;
-  function searchIndex() {
-    if (!index) {
-      index = SQ.data.species.map((sp) => ({
+  const indexes = {};
+  /** Every snake that can be guessed: those of the game's area. */
+  function searchIndex(area) {
+    const key = area === 'na' ? 'na' : 'in';
+    if (!indexes[key]) {
+      indexes[key] = SQ.data.areaSpecies(key).map((sp) => ({
         sp, name: norm(sp.name), sci: norm(sp.sci), hay: norm(SQ.herpdle.searchText(sp)),
         exact: new Set([sp.name, sp.sci].concat(sp.aka || []).map(norm)),
       }));
     }
-    return index;
+    return indexes[key];
   }
 
-  function search(q, exclude) {
+  function search(q, exclude, area) {
     const qn = norm(q);
     if (!qn) return [];
     const tokens = qn.split(' ');
-    return searchIndex()
+    return searchIndex(area)
       .filter((x) => !exclude.has(x.sp.id) && tokens.every((t) => x.hay.includes(t)))
       .map((x) => {
         let rank = 3;
@@ -161,13 +167,13 @@
       .map((x) => x[1].sp);
   }
 
-  function exactMatch(q, exclude) {
+  function exactMatch(q, exclude, area) {
     const qn = norm(q);
-    const hit = searchIndex().find((x) => !exclude.has(x.sp.id) && x.exact.has(qn));
+    const hit = searchIndex(area).find((x) => !exclude.has(x.sp.id) && x.exact.has(qn));
     return hit ? hit.sp : null;
   }
 
-  function guessBox({ exclude, onGuess, guessesLeft }) {
+  function guessBox({ exclude, onGuess, guessesLeft, area }) {
     const input = h('input#hd-input', {
       type: 'text', role: 'combobox', 'aria-autocomplete': 'list', 'aria-expanded': 'false', 'aria-controls': 'hd-list',
       autocomplete: 'off', autocapitalize: 'off', autocorrect: 'off', spellcheck: 'false', enterkeyhint: 'go',
@@ -193,7 +199,7 @@
 
     function render() {
       SQ.clear(list);
-      items = search(input.value, exclude);
+      items = search(input.value, exclude, area);
       if (!input.value.trim()) { close(); return; }
       if (!items.length) {
         list.appendChild(h('li.hd-none', { role: 'option', 'aria-disabled': 'true', 'aria-selected': 'false' }, 'No snake by that name. Try another spelling.'));
@@ -215,7 +221,7 @@
 
     function submit() {
       msg.textContent = '';
-      const sp = chosen && !exclude.has(chosen.id) ? chosen : exactMatch(input.value, exclude) || (items.length === 1 ? items[0] : null);
+      const sp = chosen && !exclude.has(chosen.id) ? chosen : exactMatch(input.value, exclude, area) || (items.length === 1 ? items[0] : null);
       if (!sp) {
         msg.textContent = input.value.trim() ? 'Pick a snake from the list.' : 'Type the name of a snake first.';
         input.focus();
@@ -285,7 +291,7 @@
     const nameEl = opts.links ? h('a.hd-row-name', { href: '#/guide/' + sp.id }, sp.name) : h('span.hd-row-name', sp.name);
     return h('li.hd-row' + (win ? '.win' : ''),
       h('div.hd-row-head', h('span.hd-row-n', String(n)), nameEl, h('i.sci', sp.sci), win ? h('span.badge.ok-badge', icon('check', { size: 12, stroke: 3 }), 'Got it') : null),
-      h('div.hd-tiles', SQ.herpdle.compare(sp, answer).map((t, i) => tileEl(t, i, opts.animate))));
+      h('div.hd-tiles', SQ.herpdle.compare(sp, answer, opts.area).map((t, i) => tileEl(t, i, opts.animate))));
   }
 
   /** One clue. Revealed clues fold open and shut (on phones only the newest starts open, to keep the list short). */
@@ -302,27 +308,31 @@
           h('dd', r.parts.map((p) => (p.hide ? (unmask ? h('mark.hd-word', p.w) : h('span.redact', { title: 'Hidden: part of the snake’s name' }, h('span.sr-only', '(hidden word)'))) : p.t))))))));
   }
 
-  function shareText(g) {
+  function shareText(g, area) {
     const D = SQ.data;
     const answer = D.byId[g.sp];
+    const a = g.area || area || 'in';
     const rows = g.g.map((id) => {
       if (!id) return '⬜⬜⬜⬜⬜⬜';
-      return SQ.herpdle.compare(D.byId[id], answer).map((t) => (t.state === 'hit' ? '🟩' : t.state === 'near' ? '🟨' : '⬛')).join('');
+      return SQ.herpdle.compare(D.byId[id], answer, a).map((t) => (t.state === 'hit' ? '🟩' : t.state === 'near' ? '🟨' : '⬛')).join('');
     });
-    const head = g.kind === 'daily' ? `Herpdle #${g.number}` : `Herpdle practice (${(SQ.herpdle.LEVELS[g.level] || {}).label || ''})`;
+    const where = D.area(a).label;
+    const head = g.kind === 'daily' ? `Herpdle ${where} #${g.number}` : `Herpdle practice · ${where} (${(SQ.herpdle.LEVELS[g.level] || {}).label || ''})`;
     return `${head} ${g.won ? g.g.length : 'X'}/6 🐍\n${rows.join('\n')}`;
   }
 
-  function howTo() {
+  function howTo(area) {
     const D = SQ.data;
-    const a = D.byId['naja-naja'], b = D.byId['ptyas-mucosa'];
-    const sample = a && b ? h('div.hd-tiles.sample', SQ.herpdle.compare(b, a).map((t, i) => tileEl(t, i, false))) : null;
+    const na = area === 'na';
+    const a = D.byId[na ? 'agkistrodon-contortrix' : 'naja-naja'], b = D.byId[na ? 'nerodia-sipedon' : 'ptyas-mucosa'];
+    const sample = a && b ? h('div.hd-tiles.sample', SQ.herpdle.compare(b, a, area).map((t, i) => tileEl(t, i, false))) : null;
+    const zones = Object.entries(SQ.herpdle.ZONE_SETS[na ? 'na' : 'in']).map(([k, z]) => `${k} = ${z.label}`).join(', ');
     SQ.ui.modal({
       title: 'How to play Herpdle', className: 'hd-help',
       body: [
         h('p', 'Name the mystery snake in ', h('strong', 'six goes'), '. You start with one clue and a very blurry photo.'),
         h('ul.why-list',
-          h('li', 'Type a snake’s name and pick it from the list. Every snake in the field guide can be guessed.'),
+          h('li', `Type a snake’s name and pick it from the list. Every snake of ${D.area(na ? 'na' : 'in').label} in the field guide can be guessed.`),
           h('li', 'Each wrong guess (or skip) reveals the next clue and sharpens the photo.'),
           h('li', 'Words that would give the name away are blacked out.')),
         h('p.legend', 'Every guess is compared with the answer'),
@@ -333,8 +343,8 @@
           h('li', h('span.hd-key.near', icon('target', { size: 11, stroke: 3 })), 'Amber: close (one step away, a similar pattern or lifestyle, or a range that overlaps).'),
           h('li', h('span.hd-key.miss', icon('x', { size: 11, stroke: 3 })), 'Grey: different.'),
           h('li', h('span.hd-key.miss', icon('up', { size: 11, stroke: 3 })), 'Arrows: the answer is more (up) or less (down) venomous, or bigger or smaller.')),
-        h('p.muted.small', 'Size: XS under 40 cm, S 40-80 cm, M 0.8-1.5 m, L 1.5-2.5 m, XL bigger. Region: N north, NE north-east, E east, C central, W west, S south, AN Andaman & Nicobar.'),
-        h('p', h('strong', 'Points: '), '600 for the first go, then 500, 400, 300, 200 and 100. A new daily Herpdle arrives every midnight (India time); practice as much as you like in between.'),
+        h('p.muted.small', `Size: XS under 40 cm, S 40-80 cm, M 0.8-1.5 m, L 1.5-2.5 m, XL bigger. Region: ${zones}.`),
+        h('p', h('strong', 'Points: '), `600 for the first go, then 500, 400, 300, 200 and 100. A new daily Herpdle arrives in each region every day at ${SQ.time.resetText()}; practice as much as you like in between.`),
       ],
       actions: [h('button.btn.btn-primary', { type: 'button', onclick: SQ.ui.closeModal }, 'Got it')],
     });
@@ -359,9 +369,15 @@
   SQ.views.herpdle = function ({ query }) {
     const D = SQ.data;
     const practice = query.get('mode') === 'practice';
+    const qa = query.get('area');
+    const area = qa === 'in' || qa === 'na' ? qa : SQ.homeArea();
+    if (qa === 'in' || qa === 'na') SQ.store.saveSettings({ dailyArea: qa });
+    const where = D.area(area).label;
+    const boardName = area === 'na' ? 'herpdle-na' : 'herpdle';
+    const link = (mode) => '#/herpdle?' + (mode ? 'mode=' + mode + '&' : '') + 'area=' + area;
     const today = SQ.todayKey();
-    const number = SQ.herpdle.dayNumber(today);
-    let st = load();
+    const number = SQ.herpdle.dayNumber(today, area);
+    let st = load(area);
     let game = null;
     let photoBox = null, clock = null, box = null;
     let alive = true;
@@ -370,18 +386,23 @@
     const stage = h('div.hd-stage');
 
     const modeTabs = h('div.hd-modes', { role: 'tablist', 'aria-label': 'Herpdle mode' },
-      h('a.hd-mode' + (!practice ? '.on' : ''), { href: '#/herpdle', role: 'tab', 'aria-selected': !practice ? 'true' : 'false' }, icon('calendar', { size: 16 }), `Daily #${number}`),
-      h('a.hd-mode' + (practice ? '.on' : ''), { href: '#/herpdle?mode=practice', role: 'tab', 'aria-selected': practice ? 'true' : 'false' }, icon('redo', { size: 16 }), 'Practice'));
+      h('a.hd-mode' + (!practice ? '.on' : ''), { href: link(''), role: 'tab', 'aria-selected': !practice ? 'true' : 'false' }, icon('calendar', { size: 16 }), `Daily #${number}`),
+      h('a.hd-mode' + (practice ? '.on' : ''), { href: link('practice'), role: 'tab', 'aria-selected': practice ? 'true' : 'false' }, icon('redo', { size: 16 }), 'Practice'));
+    const areaTabs = SQ.ui.segmented({
+      name: 'Region', value: area, className: 'seg-area',
+      options: [{ value: 'in', label: 'India' }, { value: 'na', label: 'North America' }],
+      onChange: (v) => SQ.go('/herpdle?' + (practice ? 'mode=practice&' : '') + 'area=' + v),
+    });
 
     root.append(
-      SQ.ui.pageHead('Herpdle', practice ? 'Practice with any snake, as often as you like. Practice games are not ranked.' : 'One mystery snake a day, the same for everyone. Six goes to name it.',
-        h('button.btn.btn-sm', { type: 'button', onclick: howTo }, icon('help', { size: 16 }), 'How to play'), [h('b', '02'), 'Clue game']),
+      SQ.ui.pageHead('Herpdle', practice ? `Practice with any snake of ${where}, as often as you like. Practice games are not ranked.` : `One mystery snake of ${where} a day, the same for everyone. Six goes to name it.`,
+        h('div.head-tools', areaTabs, h('button.btn.btn-sm', { type: 'button', onclick: () => howTo(area) }, icon('help', { size: 16 }), 'How to play')), [h('b', '02'), 'Clue game']),
       modeTabs, stage);
 
     function persist() {
       if (!game) return;
       if (game.kind === 'daily') st.days[game.day] = game; else st.practice = game;
-      save(st);
+      save(st, area);
     }
 
     /* ----- before a game ----- */
@@ -393,7 +414,7 @@
         if (!SQ.herpdle.LEVELS[level]) level = 'medium';
         const levels = SQ.ui.segmented({
           name: 'Practice level', value: level,
-          options: Object.entries(SQ.herpdle.LEVELS).map(([k, lv]) => ({ value: k, label: lv.label, sub: `${SQ.herpdle.pool(k).length} snakes` })),
+          options: Object.entries(SQ.herpdle.LEVELS).map(([k, lv]) => ({ value: k, label: lv.label, sub: `${SQ.herpdle.pool(k, area).length} snakes` })),
           onChange: (v) => { level = v; SQ.store.saveSettings({ herpdleLevel: v }); },
         });
         const startBtn = h('button.btn.btn-primary.btn-lg', { type: 'button', onclick: async () => {
@@ -401,13 +422,13 @@
           const gate = await SQ.account.gate();
           startBtn.disabled = false;
           if (!gate) return;
-          const pick = SQ.herpdle.randomPick(level, st.recent);
-          game = { kind: 'practice', level, sp: pick.species, photo: pick.photo, g: [], done: false, won: false, ranked: false, at: Date.now() };
+          const pick = SQ.herpdle.randomPick(level, st.recent, area);
+          game = { kind: 'practice', area, level, sp: pick.species, photo: pick.photo, g: [], done: false, won: false, ranked: false, at: Date.now() };
           persist();
           board(true);
         } }, icon('play', { size: 20 }), 'Start a practice game');
         stage.append(h('section.card.hd-intro',
-          h('p.legend', 'Practice'),
+          h('p.legend', `Practice · ${where}`),
           h('h2', 'Pick a level'),
           levels,
           h('p.muted', `${st.pstats.played} practice games played, ${st.pstats.won} solved.`),
@@ -417,12 +438,12 @@
       const done = st.days[today];
       const playBtn = h('button.btn.btn-primary.btn-lg', { type: 'button', onclick: () => startDaily(playBtn) }, icon('play', { size: 20 }), 'Play today’s Herpdle');
       stage.append(h('section.card.hd-intro',
-        h('p.legend', `Herpdle #${number} · ${SQ.time.label(today, { weekday: 'long', day: 'numeric', month: 'long' })}`),
+        h('p.legend', `Herpdle ${where} #${number} · ${SQ.time.label(today, { weekday: 'long', day: 'numeric', month: 'long' })}`),
         h('h2', 'Today’s mystery snake is waiting'),
         h('p', 'You get one clue and a blurry photo to begin with. Every guess tells you how close you are, and every miss reveals another clue.'),
         done && done.remote ? h('p.notice.info', icon('info', { size: 18 }), h('div', 'You have already played today’s Herpdle on another device.')) : null,
-        h('div.btn-row', done && done.remote ? null : playBtn, h('button.btn', { type: 'button', onclick: howTo }, icon('help', { size: 18 }), 'How to play'))));
-      if (!st.seenHelp) { st.seenHelp = true; save(st); setTimeout(howTo, 300); }
+        h('div.btn-row', done && done.remote ? null : playBtn, h('button.btn', { type: 'button', onclick: () => howTo(area) }, icon('help', { size: 18 }), 'How to play'))));
+      if (!st.seenHelp) { st.seenHelp = true; save(st, area); setTimeout(() => howTo(area), 300); }
     }
 
     async function startDaily(btn) {
@@ -432,19 +453,19 @@
       let pick = null, runId = null, ranked = false;
       if (gate.ranked) {
         try {
-          const srv = await SQ.api.daily('herpdle');
+          const srv = await SQ.api.daily('herpdle', area);
           if (srv.day === today && D.byId[srv.species] && D.photoById[srv.photo] && D.photoById[srv.photo].sp === srv.species) pick = { species: srv.species, photo: srv.photo };
           else if (srv.day === today) {
             SQ.ui.toast('A newer version of Sarpa is available. Reload the page to play today’s ranked Herpdle.', 'bad');
           }
           if (pick) {
-            const run = await SQ.api.start('herpdle', 'daily');
+            const run = await SQ.api.start('herpdle', 'daily', 0, area);
             runId = run.runId; ranked = true;
           }
         } catch (e) {
           if (e.code === 'daily_done') {
-            st.days[today] = { kind: 'daily', day: today, remote: true, done: false };
-            save(st);
+            st.days[today] = { kind: 'daily', area, day: today, remote: true, done: false };
+            save(st, area);
             btn.disabled = false;
             intro();
             return;
@@ -453,8 +474,8 @@
           SQ.ui.toast('Cannot reach the Sarpa server. Today’s game will not be ranked.');
         }
       }
-      if (!pick) pick = SQ.herpdle.dailyPick(today);
-      game = { kind: 'daily', day: today, number, sp: pick.species, photo: pick.photo, g: [], done: false, won: false, ranked, runId, at: Date.now() };
+      if (!pick) pick = SQ.herpdle.dailyPick(today, area);
+      game = { kind: 'daily', area, day: today, number, sp: pick.species, photo: pick.photo, g: [], done: false, won: false, ranked, runId, at: Date.now() };
       persist();
       board(true);
     }
@@ -482,7 +503,7 @@
         [0, 1, 2, 3, 4, 5].map((i) => SQ.ui.led(i < used ? (game.won && i === used - 1 ? 'ok on' : game.g[i] ? 'bad on' : 'on') : '')));
       const worth = over ? (game.won ? SQ.herpdle.points(used, true) : 0) : SQ.herpdle.POINTS[Math.min(used, 5)];
       const status = h('div.lcd.hd-status',
-        h('div.readout', h('span.legend', game.kind === 'daily' ? `Herpdle #${game.number}` : `Practice · ${(SQ.herpdle.LEVELS[game.level] || {}).label || ''}`), h('b.lcd-num', over ? (game.won ? 'SOLVED' : 'MISSED') : `GO ${used + 1}/6`)),
+        h('div.readout', h('span.legend', game.kind === 'daily' ? `Herpdle ${where} #${game.number}` : `Practice · ${where} · ${(SQ.herpdle.LEVELS[game.level] || {}).label || ''}`), h('b.lcd-num', over ? (game.won ? 'SOLVED' : 'MISSED') : `GO ${used + 1}/6`)),
         h('div.readout', h('span.legend', over ? 'Points' : 'Worth'), h('b.lcd-num', String(worth).padStart(3, '0'))),
         leds);
 
@@ -497,7 +518,7 @@
       }
 
       const exclude = new Set(game.g.filter(Boolean));
-      const rows = h('ol.hd-rows', { 'aria-label': 'Your guesses' }, game.g.map((id, i) => guessRow(id, answer, i + 1, { animate: i === used - 1 && focusInput === 'guessed', links: over })));
+      const rows = h('ol.hd-rows', { 'aria-label': 'Your guesses' }, game.g.map((id, i) => guessRow(id, answer, i + 1, { animate: i === used - 1 && focusInput === 'guessed', links: over, area })));
       const wide = window.matchMedia('(min-width: 1024px)').matches;
       const clueList = h('ol.hd-clues', { 'aria-label': 'Clues' }, clues.map((c, i) => clueEl(c, i, {
         open: over || i <= used, expanded: wide || over || i === Math.min(used, 5), fresh: !over && i === used && used > 0, unmask: over, sp: answer,
@@ -505,7 +526,7 @@
 
       let entry = null;
       if (!over) {
-        entry = box = guessBox({ exclude, guessesLeft: left, onGuess: (id) => guess(id) });
+        entry = box = guessBox({ exclude, guessesLeft: left, area, onGuess: (id) => guess(id) });
       }
 
       const playCol = h('div.hd-play', photoEl, rows.children.length ? rows : null, over ? result(answer) : entry.el);
@@ -544,24 +565,25 @@
           .forEach((b) => SQ.ui.toast(`Badge unlocked: ${b.name}`));
       }, 600);
       if (game.kind === 'practice') {
-        st.pstats.played += 1;
-        if (game.won) st.pstats.won += 1;
+        const mine = (st.pdev[SQ.store.deviceId()] = st.pdev[SQ.store.deviceId()] || { played: 0, won: 0 });
+        st.pstats.played += 1; mine.played += 1;
+        if (game.won) { st.pstats.won += 1; mine.won += 1; }
         st.recent = [game.sp].concat(st.recent.filter((x) => x !== game.sp)).slice(0, 25);
         return;
       }
       if (game.ranked && game.runId) {
         game.saving = true;
         const runId = game.runId, day = game.day, guesses = game.g.slice();
-        SQ.api.submit(runId, { guesses }, { game: 'herpdle', day }).then((res) => {
-          const s = load();
+        SQ.api.submit(runId, { guesses }, { game: 'herpdle', day, area }).then((res) => {
+          const s = load(area);
           const g = s.days[day];
-          if (g) { g.saving = false; g.result = { points: res.points, rank: res.rank, streak: res.streak }; save(s); }
+          if (g) { g.saving = false; g.result = { points: res.points, rank: res.rank, streak: res.streak }; save(s, area); }
           st = s;
           if (alive && game && game.day === day) { game = g; board(false); }
         }).catch((e) => {
-          const s = load();
+          const s = load(area);
           const g = s.days[day];
-          if (g) { g.saving = false; g.saveError = e.queued ? 'queued' : (e.message || 'error'); save(s); }
+          if (g) { g.saving = false; g.saveError = e.queued ? 'queued' : (e.message || 'error'); save(s, area); }
           st = s;
           if (alive && game && game.day === day) { game = g; board(false); }
         });
@@ -577,9 +599,9 @@
       if (game.kind === 'daily') {
         if (game.ranked) {
           if (game.saving) rankLine = h('p.hd-rank', SQ.ui.led('on blink'), 'Saving to the leaderboard…');
-          else if (game.result && game.result.rank && game.result.rank.herpdle) {
-            const r = game.result.rank.herpdle;
-            rankLine = h('p.hd-rank', icon('trophy', { size: 16 }), h('span', `#${r.day} today`, r.week ? ` · #${r.week} this week` : '', r.all ? ` · #${r.all} all time` : ''), h('a', { href: '#/ranks?board=herpdle' }, 'Leaderboard'));
+          else if (game.result && game.result.rank && game.result.rank[boardName]) {
+            const r = game.result.rank[boardName];
+            rankLine = h('p.hd-rank', icon('trophy', { size: 16 }), h('span', `#${r.day} today`, r.week ? ` · #${r.week} this week` : '', r.all ? ` · #${r.all} all time` : ''), h('a', { href: '#/ranks?board=' + boardName }, 'Leaderboard'));
           } else if (game.saveError === 'queued') rankLine = h('p.hd-rank', icon('clock', { size: 16 }), 'Saved on this device. It will go on the leaderboard when you are back online.');
           else if (game.saveError) rankLine = h('p.hd-rank.bad', icon('warn', { size: 16 }), 'Not ranked: ' + game.saveError);
         } else {
@@ -590,8 +612,8 @@
       clock = game.kind === 'daily' ? countdown() : null;
       const maxD = stats ? Math.max(1, ...stats.dist) : 1;
       const again = h('a.btn' + (game.kind === 'practice' ? '.btn-primary' : ''), {
-        href: '#/herpdle?mode=practice',
-        onclick: (e) => { if (game.kind === 'practice') { e.preventDefault(); st.practice = null; save(st); game = null; intro(); } },
+        href: link('practice'),
+        onclick: (e) => { if (game.kind === 'practice') { e.preventDefault(); st.practice = null; save(st, area); game = null; intro(); } },
       }, icon('redo', { size: 18 }), game.kind === 'practice' ? 'Another snake' : 'Practice more');
 
       return h('section.card.hd-result',
@@ -604,7 +626,7 @@
         h('div.lcd.hd-points', SQ.ui.readout('Points', game.points || 0), stats ? SQ.ui.readout('Streak', stats.streak) : SQ.ui.readout('Practice solved', `${st.pstats.won}/${st.pstats.played}`)),
         rankLine,
         h('div.btn-row',
-          h('button.btn' + (game.kind === 'daily' ? '.btn-primary' : ''), { type: 'button', onclick: () => SQ.ui.shareText(shareText(game), location.origin + location.pathname + '#/herpdle') }, icon('share', { size: 18 }), 'Share'),
+          h('button.btn' + (game.kind === 'daily' ? '.btn-primary' : ''), { type: 'button', onclick: () => SQ.ui.shareText(shareText(game, area), location.origin + location.pathname + link('')) }, icon('share', { size: 18 }), 'Share'),
           again,
           h('a.btn', { href: '#/guide/' + answer.id }, icon('book', { size: 18 }), 'Read about it')),
         stats ? h('div.hd-stats',
@@ -624,7 +646,7 @@
     }
 
     return {
-      node: root, title: practice ? 'Herpdle practice' : `Herpdle #${number}`, view: 'herpdle',
+      node: root, title: practice ? `Herpdle practice · ${where}` : `Herpdle #${number} · ${where}`, view: 'herpdle',
       cleanup: () => { alive = false; teardown(); },
     };
   };

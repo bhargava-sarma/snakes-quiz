@@ -36,10 +36,14 @@
 
   const MAX_LOOK_POOL = 8;
 
+  /** The area a game is played in: 'in' (India), 'na' (North America) or 'mix' (both). */
+  const areaOf = (opts) => (opts.area === 'na' || opts.area === 'mix' ? opts.area : 'in');
+
   function speciesPool(opts, rnd) {
     const D = SQ.data;
     const level = DIFFICULTY[opts.difficulty] || DIFFICULTY.mixed;
-    let all = D.species.filter((sp) => D.photosOf(sp.id, opts.mode === 'daily').length > 0);
+    const area = areaOf(opts);
+    let all = D.species.filter((sp) => D.inArea(sp, area) && D.photosOf(sp.id, opts.mode === 'daily', area).length > 0);
 
     let region = null;
     if (opts.region && opts.region !== 'all') {
@@ -71,11 +75,31 @@
       return w;
     };
 
-    return { all, region, weightFn, level };
+    const pool = { all, region, weightFn, level, area };
+    // a mixed game without a fixed list of snakes takes half its questions from each area
+    if (area === 'mix' && !(opts.focus && opts.focus.length) && !region) {
+      pool.split = D.AREA_ORDER.map((a) => speciesPool(Object.assign({}, opts, { area: a }), rnd));
+    }
+    return pool;
   }
 
-  /** Targets are drawn in "cycles" so every species appears k or k+1 times. */
+  /**
+   * The snakes to ask about, each with the area its photo should come from: [{ sp, area }].
+   * Targets are drawn in "cycles" so every species appears k or k+1 times. In a mixed game the two areas take turns,
+   * so any stretch of the game has snakes from both (the server checks this before it gives the Mixed bonus).
+   */
   function pickTargets(pool, count, rnd) {
+    if (pool.split) {
+      const first = rnd() < 0.5 ? 0 : 1;
+      const parts = pool.split.map((sub, i) => pickTargets(sub, i === first ? Math.ceil(count / 2) : Math.floor(count / 2), rnd));
+      const out = [];
+      for (let i = 0; out.length < count && (parts[0].length || parts[1].length); i++) {
+        const turn = parts[(first + i) % 2].length ? (first + i) % 2 : (first + i + 1) % 2;
+        out.push(parts[turn].shift());
+      }
+      return out;
+    }
+    const photoArea = pool.area === 'mix' ? null : pool.area;
     const targets = [];
     const candidates = pool.all.filter((sp) => pool.weightFn(sp) > 0);
     while (targets.length < count) {
@@ -88,12 +112,12 @@
       if (!round.length) break;
       targets.push(...round);
     }
-    return targets;
+    return targets.map((sp) => ({ sp, area: photoArea }));
   }
 
-  function pickPhoto(sp, opts, used, rnd, regionSet) {
+  function pickPhoto(sp, opts, used, rnd, regionSet, area) {
     const D = SQ.data;
-    let photos = D.photosOf(sp.id, opts.mode === 'daily');
+    let photos = D.photosOf(sp.id, opts.mode === 'daily', area);
     if (opts.region && opts.region !== 'all' && regionSet) {
       const local = photos.filter((p) => p.state === opts.region);
       if (local.length >= 2) photos = local;
@@ -120,9 +144,11 @@
   function pickDistractors(sp, pool, rnd, opts) {
     const D = SQ.data;
     const level = pool.level;
-    let dpool = pool.region ? D.species.filter((s) => pool.region.has(s.id)) : D.species;
-    if (dpool.length < 12) dpool = D.species;
-    dpool = dpool.filter((s) => s.id !== sp.id && s.name !== sp.name && !D.isCryptic(sp.id, s.id) && D.photosOf(s.id).length > 0);
+    // the wrong answers come from the game's area; in a mixed game from either, look-alikes across the world included
+    const base = D.areaSpecies(pool.area);
+    let dpool = pool.region ? base.filter((s) => pool.region.has(s.id)) : base;
+    if (dpool.length < 12) dpool = base;
+    dpool = dpool.filter((s) => s.id !== sp.id && s.name !== sp.name && !D.isCryptic(sp.id, s.id) && D.photosOf(s.id, false, pool.area).length > 0);
 
     // never let two options be species that cannot be told apart from a photo
     const clashes = (s, others) => others.some((o) => D.isCryptic(o.id, s.id));
@@ -135,7 +161,7 @@
     const chosen = [];
 
     if (wantLook) {
-      const ranked = D.lookalikes(sp.id, 60).filter((s) => usable.includes(s)).slice(0, MAX_LOOK_POOL);
+      const ranked = D.lookalikes(sp.id, 60, pool.area).filter((s) => usable.includes(s)).slice(0, MAX_LOOK_POOL);
       const picks = SQ.weightedSample(ranked, (s) => Math.pow(Math.max(D.similarity(sp.id, s.id), 0.5), 2), wantLook + 2, rnd);
       for (const pick of picks) {
         if (chosen.length >= wantLook) break;
@@ -168,9 +194,11 @@
   const engine = {
     DIFFICULTY,
 
+    areaOf,
+
     /** Number of species that can be asked about at a given setting. */
-    poolSize(difficulty, region) {
-      const pool = speciesPool({ difficulty, region, preferUnseen: false, personalise: false }, Math.random);
+    poolSize(difficulty, region, area) {
+      const pool = speciesPool({ difficulty, region, area, preferUnseen: false, personalise: false }, Math.random);
       return pool.all.filter((sp) => pool.weightFn(sp) > 0).length;
     },
 
@@ -181,11 +209,11 @@
       const pool = speciesPool(opts, rnd);
       const targets = pickTargets(pool, opts.count, rnd);
       const used = new Set();
-      const questions = targets.map((sp, i) => {
-        const photo = pickPhoto(sp, opts, used, rnd, pool.region);
+      const questions = targets.map(({ sp, area }, i) => {
+        const photo = pickPhoto(sp, opts, used, rnd, pool.region, area);
         used.add(photo.id);
         const options = SQ.shuffle([sp, ...pickDistractors(sp, pool, rnd, opts)], rnd).map((s) => s.id);
-        return { n: i + 1, photo: photo.id, species: sp.id, options, answer: options.indexOf(sp.id) };
+        return { n: i + 1, photo: photo.id, species: sp.id, options, answer: options.indexOf(sp.id), area: photo.region };
       });
       return { seed, questions };
     },
@@ -194,10 +222,11 @@
      * A day's daily challenge: the same ten questions for everyone. The server's schedule of daily puzzles is made
      * with this function too (scripts/dataset/10_server_data.js), so keep it free of anything personal.
      */
-    dailySet(day) {
+    dailySet(day, area = 'in') {
+      const tag = area === 'na' ? 'sarpa-daily-na' : 'sarpa-daily';           // India keeps the seed it has always had
       return engine.build({
-        mode: 'daily', count: 10, difficulty: 'intermediate', region: 'all', timer: 0, hints: true,
-        preferUnseen: false, personalise: false, seed: SQ.hashSeed(`sarpa-daily-${day}-${SQ.data.meta.version || 1}`),
+        mode: 'daily', count: 10, difficulty: 'intermediate', region: 'all', area: area === 'na' ? 'na' : 'in', timer: 0, hints: true,
+        preferUnseen: false, personalise: false, seed: SQ.hashSeed(`${tag}-${day}-${SQ.data.meta.version || 1}`),
       });
     },
 
@@ -218,13 +247,25 @@
       return { seed, questions };
     },
 
-    /** Points for one answer. */
-    score({ correct, hintsUsed, remaining, timerSec, streak }) {
+    /** Mixed games (both areas) earn this much more: a small reward for taking on both. */
+    MIX_BONUS: 1.2,
+
+    /** How much a question is worth compared with an easy one: rarer, trickier snakes and awkward photos count more. */
+    difficultyFactor(tier, hard) {
+      return 1 + 0.1 * (Math.max(1, Math.min(5, tier || 1)) - 1) + (hard ? 0.15 : 0);
+    },
+
+    /**
+     * Points for one answer: a base for being right (less with hints), a bonus for speed and for a streak, all
+     * multiplied by the question's difficulty and, in a mixed game, the Mixed bonus. server/games.js sarpaPoints
+     * works the same out; keep the two in step.
+     */
+    score({ correct, hintsUsed, remaining, timerSec, streak, tier, hard, mixed }) {
       if (!correct) return 0;
       let pts = Math.max(30, 100 - 25 * hintsUsed);
       if (timerSec > 0) pts += Math.round(40 * Math.max(0, Math.min(1, remaining / timerSec)));
       pts += 5 * Math.min(streak, 10);
-      return pts;
+      return Math.round(pts * engine.difficultyFactor(tier, hard) * (mixed ? engine.MIX_BONUS : 1));
     },
 
     rank(pct) {

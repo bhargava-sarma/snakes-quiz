@@ -12,6 +12,9 @@ const check = (ok, msg) => { console.log(`${ok ? '  ok ' : ' FAIL'} ${msg}`); if
 
 const session = (page) => page.evaluate(() => JSON.parse(localStorage.getItem('sarpa.v1.session') || 'null'));
 
+// the "20 questions" key (not the Mixed region's "+20% points")
+const COUNT_20 = '.seg-btn:has(.seg-main:text-is("20"))';
+
 let accounts = 0;
 /** After a game is started: in accounts mode the site asks for an account first, so make one; then wait for the game. */
 async function startGame(page, ready = '.option') {
@@ -49,8 +52,9 @@ async function answer(page, which) {
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto(`${base}#/play`, { waitUntil: 'load' });
   await page.waitForSelector('.level');
+  await page.click('.seg-area .seg-btn:has-text("India")');
   await page.click('.seg-btn:has-text("15s")');
-  await page.click('.seg-btn:has-text("20")');
+  await page.click(COUNT_20);
   await page.click('.level:has-text("Beginner")');
   await page.click('button:has-text("Start quiz")');
   await startGame(page);
@@ -139,7 +143,7 @@ async function answer(page, which) {
   console.log('\n[5] Region filter');
   await page.goto(`${base}#/play`);
   await page.waitForSelector('#region');
-  const state = await page.evaluate(() => SQ.data.regions(12)[0].state);
+  const state = await page.evaluate(() => SQ.data.regions(12, 'in')[0].state);
   await page.selectOption('#region', state);
   await page.click('.level:has-text("All species")');
   await page.click('button:has-text("Start quiz")');
@@ -152,6 +156,41 @@ async function answer(page, which) {
   check(regionOk, `every question is about a snake recorded in ${state}`);
   await page.click('#quit-btn');
   await page.click('.modal button:has-text("Discard quiz")');
+
+  /* ---------- 5b. North America and Mixed ---------- */
+  console.log('\n[5b] North America and Mixed');
+  await page.goto(`${base}#/play`);
+  await page.waitForSelector('.seg-area');
+  await page.click('.seg-area .seg-btn:has-text("North America")');
+  check(await page.isVisible('#region') && /province/i.test(await page.locator('.state-opt label').innerText()), 'North America has a state or province filter');
+  await page.click('button:has-text("Start quiz")');
+  await page.waitForSelector('.option');
+  const naOk = await page.evaluate(() => {
+    const s = JSON.parse(localStorage.getItem('sarpa.v1.session'));
+    return s.questions.every((q) => SQ.data.photoById[q.photo].region === 'na' && q.options.every((id) => SQ.data.inArea(SQ.data.byId[id], 'na')));
+  });
+  check(naOk, 'a North America quiz shows only North American snakes and photos');
+  check(/North America/i.test(await page.locator('.q-head .legend').innerText()), 'the quiz says which region it is');
+  await page.click('#quit-btn');
+  await page.click('.modal button:has-text("Discard quiz")');
+  await page.goto(`${base}#/play`);
+  await page.waitForSelector('.seg-area');
+  await page.click('.seg-area .seg-btn:has-text("Mixed")');
+  check(!(await page.isVisible('#region')), 'Mixed has no state filter');
+  await page.click('button:has-text("Start quiz")');
+  await page.waitForSelector('.option');
+  const mixOk = await page.evaluate(() => {
+    const s = JSON.parse(localStorage.getItem('sarpa.v1.session'));
+    const nIn = s.questions.filter((q) => SQ.data.photoById[q.photo].region === 'in').length;
+    return Math.abs(nIn - s.questions.length / 2) <= 1;
+  });
+  check(mixOk, 'a Mixed quiz takes about half its snakes from each region');
+  check(await page.isVisible('.q-bonus'), 'a Mixed quiz shows its ×1.2 bonus');
+  await page.click('#quit-btn');
+  await page.click('.modal button:has-text("Discard quiz")');
+  await page.goto(`${base}#/play`);
+  await page.waitForSelector('.seg-area');
+  await page.click('.seg-area .seg-btn:has-text("India")');
 
   /* ---------- 6. reporting a photo ---------- */
   console.log('\n[6] Reporting a photo');
@@ -243,7 +282,7 @@ async function answer(page, which) {
   await page.click('#theme-btn');
   await page.goto(`${base}#/play`, { waitUntil: 'load' });
   await page.waitForSelector('.level');
-  await page.click('.seg-btn:has-text("20")');
+  await page.click(COUNT_20);
   await page.click('button:has-text("Start quiz")');
   await startGame(page);
   check((await page.locator('.steps i').count()) === 20, 'the progress bar has one segment per question');
@@ -300,6 +339,70 @@ async function answer(page, which) {
   const hOverflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
   check(!hOverflow, 'no horizontal scrolling in Herpdle on a phone');
   await ctx.close();
+
+  /* ---------- 11. saved progress: the same progress in another browser ---------- */
+  const hasAccounts = accounts > 0;           // the games asked for an account, so this site has them
+  if (hasAccounts) {
+    console.log('\n[11] Progress follows the player to another browser');
+    const name = `sync_${Date.now() % 100000}`;
+    const signUp = async (p, mode) => {
+      await p.evaluate((m) => { SQ.account.open({ mode: m }); }, mode);
+      await p.waitForSelector('.modal.acct');
+      if (mode === 'signup') {
+        await p.fill('#acct-name', name); await p.fill('#acct-pin', '305817'); await p.fill('#acct-pin2', '305817'); await p.check('#acct-agree');
+      } else {
+        await p.fill('#acct-name', name); await p.fill('#acct-pin', '305817');
+      }
+      await p.click('.acct-fields button[type=submit]');
+      await p.waitForFunction(() => !!SQ.api.session());
+    };
+    const totals = (p) => p.evaluate(() => SQ.store.progress().totals);
+    // browser A: sign up and play a quick 20-question quiz
+    const ctxA = await browser.newContext({ viewport: { width: 1100, height: 800 } });
+    const a = await ctxA.newPage();
+    a.on('pageerror', (e) => errors.push('A: ' + e.message));
+    await a.goto(`${base}#/play`, { waitUntil: 'load' });
+    await a.waitForSelector('.level');
+    await signUp(a, 'signup');
+    await a.click('.seg-area .seg-btn:has-text("North America")');
+    await a.click(COUNT_20);
+    await a.click('button:has-text("Start quiz")');
+    await a.waitForSelector('.option');
+    for (let i = 1; i <= 20; i++) {
+      await a.waitForFunction((k) => new RegExp(`Question ${k} of 20`).test(document.querySelector('.q-count').textContent), i);
+      await answer(a, i % 3 === 0 ? 'wrong' : 'right');
+      await a.click('.next-btn');
+    }
+    await a.waitForSelector('.result-hero');
+    await a.evaluate(() => SQ.sync.sync());
+    const tA = await totals(a);
+    check(tA.games === 1 && tA.answered === 20, 'browser A has the finished quiz');
+    // browser B: sign in with the same account and see the same progress
+    const ctxB = await browser.newContext({ viewport: { width: 1100, height: 800 } });
+    const b = await ctxB.newPage();
+    b.on('pageerror', (e) => errors.push('B: ' + e.message));
+    await b.goto(`${base}#/me`, { waitUntil: 'load' });
+    await b.waitForFunction(() => window.SQ && SQ.data && SQ.data.ready);
+    await signUp(b, 'signin');
+    await b.waitForFunction(() => SQ.store.progress().totals.games === 1, null, { timeout: 10000 }).catch(() => {});
+    const tB = await totals(b);
+    check(tB.games === 1 && tB.answered === 20 && tB.correct === tA.correct, `browser B shows the progress made in browser A (${tB.games} quiz, ${tB.answered} answers)`);
+    // B plays a little more; A catches up when it comes back
+    await b.evaluate(() => { SQ.store.recordAnswer({ speciesId: SQ.data.byArea.in[0].id, photoId: 1, correct: true, chosenId: SQ.data.byArea.in[0].id }); SQ.store.recordGame({ mode: 'quiz', n: 1, correct: 1, points: 100, seconds: 5, bestStreak: 1, area: 'in' }); });
+    await b.evaluate(() => SQ.sync.sync());
+    await a.evaluate(() => SQ.sync.sync());
+    const tA2 = await totals(a);
+    check(tA2.games === 2 && tA2.answered === 21, `browser A picks up what was played in browser B, without counting anything twice (${tA2.games} quizzes, ${tA2.answered} answers)`);
+    // signing out in B removes the progress there; signing in again brings it back
+    await b.evaluate(() => { SQ.account.signOut(); });     // (not awaited: it waits for the dialog below)
+    await b.click('.modal button:has-text("Sign out")');
+    await b.waitForFunction(() => !SQ.api.session());
+    check((await totals(b)).games === 0, 'signing out removes the progress from that browser');
+    await signUp(b, 'signin');
+    await b.waitForFunction(() => SQ.store.progress().totals.games === 2, null, { timeout: 10000 }).catch(() => {});
+    check((await totals(b)).games === 2, 'signing in again brings it back');
+    await ctxA.close(); await ctxB.close();
+  }
 
   check(errors.length === 0, `no uncaught JavaScript errors${errors.length ? ': ' + errors[0] : ''}`);
   await browser.close();

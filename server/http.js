@@ -12,7 +12,7 @@ class HttpError extends Error {
   }
 }
 
-const MAX_BODY = 64 * 1024;
+const MAX_BODY = 256 * 1024;      // the largest request is a player's saved progress (server/progress.js)
 
 async function readBody(req) {
   if (req.method === 'GET' || req.method === 'HEAD') return {};

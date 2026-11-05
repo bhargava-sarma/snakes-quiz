@@ -2,15 +2,17 @@
 /* The Sarpa API: accounts and leaderboards. One endpoint, the action is a query parameter:
  *
  *   GET  /api/sarpa?action=health                       is the database set up?
- *   GET  /api/sarpa?action=daily&game=sarpa|herpdle     today's puzzle (the same for everyone)
+ *   GET  /api/sarpa?action=daily&game=sarpa|herpdle[&area=in|na]   today's puzzle in an area (the same for everyone)
  *   GET  /api/sarpa?action=leaderboard&board=..&period=day|week|all[&day=YYYY-MM-DD]
  *   GET  /api/sarpa?action=me                           (signed in) profile and stats
  *   POST /api/sarpa?action=signup | login               { username, pin }
  *   POST /api/sarpa?action=logout                       (signed in)
  *   POST /api/sarpa?action=change-pin                   (signed in) { pin, newPin }
  *   POST /api/sarpa?action=delete-account               (signed in) { pin }
- *   POST /api/sarpa?action=start                        (signed in) { game, mode, timer }
+ *   POST /api/sarpa?action=start                        (signed in) { game, mode, timer, area: in | na | mix }
  *   POST /api/sarpa?action=submit                       (signed in) { runId, answers | guesses }
+ *   GET  /api/sarpa?action=progress                     (signed in) the progress saved for this account
+ *   POST /api/sarpa?action=progress                     (signed in) { doc, rev }: save it (409 with the newer copy if rev is old)
  *   POST /api/sarpa?action=admin-delete                 header x-admin-token: ADMIN_TOKEN, { username }
  *
  * Signed-in calls send "Authorization: Bearer <token>". Errors come back as { error, code } with an HTTP status.
@@ -20,6 +22,7 @@ const { HttpError, readBody, query, bearer, jsonOrEmpty, clientId, send } = requ
 const storeLib = require('./store');
 const auth = require('./auth');
 const games = require('./games');
+const progress = require('./progress');
 const time = require('./time');
 const DATA = require('./data');
 
@@ -46,8 +49,9 @@ async function route(req, store) {
   const q = query(req);
   const action = String(q.action || '');
   if (POST_ONLY.has(action) && req.method !== 'POST') throw new HttpError(405, 'Use POST for this.', 'method');
-  if (POST_ONLY.has(action) && !jsonOrEmpty(req)) throw new HttpError(415, 'Send the request as JSON.', 'bad_type');
-  const body = POST_ONLY.has(action) ? await readBody(req) : {};
+  const posting = POST_ONLY.has(action) || (action === 'progress' && req.method === 'POST');
+  if (posting && !jsonOrEmpty(req)) throw new HttpError(415, 'Send the request as JSON.', 'bad_type');
+  const body = posting ? await readBody(req) : {};
   if (body === null || typeof body !== 'object' || Array.isArray(body)) throw new HttpError(400, 'The request was not valid.', 'bad_json');
 
   switch (action) {
@@ -57,11 +61,13 @@ async function route(req, store) {
     case 'daily': {
       const game = q.game === 'herpdle' ? 'herpdle' : q.game === 'sarpa' ? 'sarpa' : null;
       if (!game) throw new HttpError(400, 'Unknown game.', 'bad_game');
+      const area = q.area == null || q.area === 'in' ? 'in' : q.area === 'na' ? 'na' : null;
+      if (!area) throw new HttpError(400, 'Unknown region.', 'bad_area');
       const day = time.dayKey();
-      const puzzle = DATA.daily(game, day);
+      const puzzle = DATA.daily(game, day, area);
       if (!puzzle) throw new HttpError(404, 'No puzzle is scheduled for today.', 'no_daily');
       const ttl = Math.max(5, Math.min(3600, Math.floor(time.msToNextDay() / 1000) - 5));
-      return { body: Object.assign({ game, day, version: DATA.version() }, puzzle), headers: { 'Cache-Control': `public, max-age=60, s-maxage=${ttl}` } };
+      return { body: Object.assign({ game, day, area, version: DATA.version() }, puzzle), headers: { 'Cache-Control': `public, max-age=60, s-maxage=${ttl}` } };
     }
 
     case 'leaderboard': {
@@ -107,6 +113,13 @@ async function route(req, store) {
       return { body: { ok: true } };
     }
 
+    case 'progress': {
+      const s = needStore(store);
+      const user = await needUser(s, req);
+      if (req.method === 'POST') return { body: await progress.put(s, user, body) };
+      return { body: await progress.get(s, user) };
+    }
+
     case 'start': {
       const s = needStore(store);
       const user = await needUser(s, req);
@@ -145,7 +158,7 @@ async function handler(req, res, opts = {}) {
     send(res, out.status || 200, out.body, out.headers);
   } catch (e) {
     if (e instanceof HttpError) {
-      send(res, e.status, { error: e.message, code: e.code });
+      send(res, e.status, Object.assign({ error: e.message, code: e.code }, e.extra || {}));
     } else if (e instanceof storeLib.StoreError) {
       console.error('[sarpa api] store', e.message);
       send(res, 503, { error: 'The database is not responding. Please try again in a moment.', code: 'store_error' });

@@ -154,6 +154,13 @@
     shiftDay: (key, n) => SQ.time.keyFromIndex(SQ.time.dayIndex(key) + n),
     /** Milliseconds until the next midnight in India. */
     msToNextDay: (ms = Date.now()) => DAY_MS - ((ms + IST_OFFSET_MS) % DAY_MS),
+    /** When a new game day starts, for the reader: "midnight (India time)" in India, else e.g. "1:30 pm your time". */
+    resetText() {
+      const next = new Date(Date.now() + SQ.time.msToNextDay());
+      if (-next.getTimezoneOffset() === 330) return 'midnight (India time)';
+      const t = next.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+      return `${t} your time (midnight in India)`;
+    },
     /** A day key written out in the reader's language, e.g. "Thu 29 Oct". */
     label(key, opts = { weekday: 'short', day: 'numeric', month: 'short' }) {
       return new Date(SQ.time.dayIndex(key) * DAY_MS).toLocaleDateString(undefined, Object.assign({ timeZone: 'UTC' }, opts));
@@ -232,6 +239,7 @@
     file: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>',
     up: '<line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>',
     down: '<line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/>',
+    globe: '<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
     trophy: '<path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3"/><path d="M7 5H4v2a3 3 0 0 0 3 3"/>',
   };
 

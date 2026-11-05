@@ -53,7 +53,10 @@
   // a broken link (a stray "%") would otherwise stop the page from changing at all
   const decode = (s) => { try { return decodeURIComponent(s); } catch (e) { return s; } };
 
-  async function render() {
+  /** Draws the page for the current address. quiet: a redraw of the same page (keeps the scroll position and focus). */
+  async function render(opts) {
+    const quiet = !!(opts && opts.quiet);
+    const scrollY = window.scrollY;
     const my = ++token;
     const { path, query } = parseHash();
     let route = null, params = {};
@@ -78,12 +81,12 @@
     SQ.clear(main);
     main.appendChild(view.node);
     cleanup = view.cleanup || null;
-    document.title = (view.title ? view.title + ' · ' : '') + 'Sarpa · Indian Snake Quiz';
+    document.title = (view.title ? view.title + ' · ' : '') + 'Sarpa · Snake Quiz';
     document.body.dataset.view = view.view || '';
     document.body.classList.toggle('in-quiz', !!view.focus);
-    SQ.scrollTop();
+    if (quiet) window.scrollTo(0, scrollY); else SQ.scrollTop();
     SQ.app.markNav(path);
-    main.focus({ preventScroll: true });
+    if (!quiet) main.focus({ preventScroll: true });
     if (typeof view.after === 'function') view.after();
   }
 
@@ -128,7 +131,7 @@
       header.appendChild(h('div.wrap.header-in',
         h('a.brand', { href: '#/', 'data-nav': '/' },
           h('img.brand-logo', { src: 'assets/icon.svg', width: 38, height: 38, alt: '' }),
-          h('span.brand-text', h('strong', 'SARPA'), h('small', 'Indian snake quiz'))),
+          h('span.brand-text', h('strong', 'SARPA'), h('small', 'Snake ID quiz'))),
         h('nav.nav', { 'aria-label': 'Main' }, NAV.map((n, i) => h('a.nav-key', { href: '#' + n.path, 'data-nav': n.path }, h('i.nav-n', String(i + 1).padStart(2, '0')), n.label))),
         h('div.header-tools',
           h('a.icon-btn.safety-key', { href: '#/safety', 'data-nav': '/safety', 'aria-label': 'Snakebite safety' }, icon('shield', { size: 18 })),
@@ -197,10 +200,21 @@
       }
       render();
       app.registerServiceWorker();
-      // find out whether this site has accounts, then send any game that could not be saved earlier
-      SQ.api.status().then((state) => { if (state === 'ok') setTimeout(SQ.api.flush, 1500); });
+      // find out whether this site has accounts, then bring in progress made on the player's other devices and send any
+      // game that could not be saved earlier
+      SQ.api.status().then((state) => {
+        if (state !== 'ok') return;
+        if (SQ.api.session()) SQ.sync.sync();
+        setTimeout(SQ.api.flush, 1500);
+      });
+      const path = () => location.hash.replace(/^#/, '').split('?')[0] || '/';
+      const calm = () => !document.body.classList.contains('modal-open');
       window.addEventListener('sarpa-auth', () => {
-        if (location.hash.replace(/^#/, '').startsWith('/me') && !document.body.classList.contains('modal-open')) render();
+        if (path().startsWith('/me') && calm()) render();
+      });
+      // progress from another device arrived: redraw the pages that show it (never a game in play)
+      window.addEventListener('sarpa-progress', () => {
+        if (['/', '/me', '/daily'].includes(path()) && calm() && !(document.activeElement && /^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement.tagName))) render({ quiet: true });
       });
     },
 

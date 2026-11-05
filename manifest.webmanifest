@@ -1,7 +1,7 @@
 {
-  "name": "Sarpa · Indian Snake Quiz",
+  "name": "Sarpa · Snake Quiz",
   "short_name": "Sarpa",
-  "description": "Identify the snakes of India from real photos, play the daily Herpdle and learn why each answer is right or wrong.",
+  "description": "Identify the snakes of India and North America from real photos, play the daily Herpdle and learn why each answer is right or wrong.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

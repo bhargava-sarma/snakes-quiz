@@ -29,7 +29,7 @@
     const draw = () => {
       SQ.clear(box);
       box.hidden = false;
-      const board = r.mode === 'daily' ? 'sarpa-daily' : 'sarpa-points';
+      const board = r.mode === 'daily' ? 'sarpa-daily' + (r.area === 'na' ? '-na' : '') : 'sarpa-points';
       if (r.ranked === 'saving') box.append(SQ.ui.led('on blink'), h('span', 'Saving to the leaderboard…'));
       else if (r.ranked === 'saved' && r.rank) {
         const rk = r.rank[board] || {};
@@ -57,13 +57,14 @@
   }
 
   function shareText(r, rank) {
-    if (r.mode === 'sudden') return `Sarpa survival: ${r.correct} ${r.correct === 1 ? 'snake' : 'snakes'} in a row 🐍 (${rank.title})`;
+    if (r.mode === 'sudden') return `Sarpa survival (${SQ.data.area(r.area || 'in').label}): ${r.correct} ${r.correct === 1 ? 'snake' : 'snakes'} in a row 🐍 (${rank.title})`;
     const pct = SQ.pct(r.correct, r.n);
     const rows = [];
     const marks = r.items.map((x) => (x.correct ? '🟩' : '🟥'));
     for (let i = 0; i < marks.length; i += 10) rows.push(marks.slice(i, i + 10).join(''));
     const lvl = SQ.engine.DIFFICULTY[r.difficulty];
-    const head = r.mode === 'daily' ? `Sarpa daily snake quiz ${r.dateKey}` : `Sarpa snake quiz (${lvl ? lvl.label : r.difficulty}, ${r.n} questions)`;
+    const where = SQ.data.area(r.area || 'in').label;
+    const head = r.mode === 'daily' ? `Sarpa daily snake quiz · ${where} · ${r.dateKey}` : `Sarpa snake quiz (${where}, ${lvl ? lvl.label : r.difficulty}, ${r.n} questions)`;
     return `${head}\n${r.correct}/${r.n} (${pct}%) · ${rank.title}\n${rows.join('\n')}`;
   }
 
@@ -126,19 +127,19 @@
       r.mode === 'daily'
         ? null
         : survival
-          ? h('button.btn.btn-primary', { type: 'button', onclick: () => SQ.quiz.start({ mode: 'sudden', title: 'Survival' }) }, icon('redo', { size: 18 }), 'New run')
+          ? h('button.btn.btn-primary', { type: 'button', onclick: () => SQ.quiz.start({ mode: 'sudden', title: 'Survival', area: r.area || 'in' }) }, icon('redo', { size: 18 }), 'New run')
           : h('button.btn.btn-primary', { type: 'button', onclick: () => SQ.quiz.start({
-          mode: r.mode === 'quiz' ? 'quiz' : r.mode, count: r.config.planned || r.n, difficulty: r.difficulty, region: r.region,
+          mode: r.mode === 'quiz' ? 'quiz' : r.mode, count: r.config.planned || r.n, difficulty: r.difficulty, area: r.area || 'in', region: r.region,
           timer: r.timer, hints: r.config.hints !== false, preferUnseen: true, focus: r.config.focus, title: r.title,
         }) }, icon('redo', { size: 18 }), 'Play again'),
       missed.length && r.mode !== 'daily' && !survival
         ? h('button.btn', { type: 'button', onclick: () => SQ.quiz.start({
           mode: 'practice', title: 'Practice: snakes you missed', count: Math.min(20, Math.max(10, missed.length * 2)),
-          difficulty: 'mixed', region: 'all', timer: 0, hints: true, preferUnseen: true, focus: missed.map((m) => m.species),
+          difficulty: 'mixed', area: r.area || 'in', region: 'all', timer: 0, hints: true, preferUnseen: true, focus: missed.map((m) => m.species),
         }) }, icon('target', { size: 18 }), `Practise the ${missed.length} I missed`)
         : null,
       h('button.btn', { type: 'button', onclick: () => SQ.ui.shareText(shareText(r, rank), location.origin + location.pathname) }, icon('share', { size: 18 }), 'Share'),
-      h('a.btn', { href: r.mode === 'daily' ? '#/daily' : '#/play' }, r.mode === 'daily' ? 'Daily page' : 'New quiz settings'));
+      h('a.btn', { href: r.mode === 'daily' ? '#/daily?area=' + (r.area || 'in') : '#/play' }, r.mode === 'daily' ? 'Daily page' : 'New quiz settings'));
 
     const node = h('div.page.wrap.results',
       h('section.result-hero',
@@ -146,7 +147,8 @@
           ? SQ.ui.dial(Math.min(100, (100 * r.correct) / 60), { size: 248, label: String(r.correct), sub: 'in a row' })
           : SQ.ui.dial(pct, { size: 248, label: pct + '%', sub: `${r.correct} / ${r.n}` }),
         h('div.result-copy',
-          h('p.legend', survival ? 'Survival run over' : r.early ? 'Quiz ended early' : r.mode === 'daily' ? 'Daily challenge complete' : 'Quiz complete'),
+          h('p.legend', survival ? 'Survival run over' : r.early ? 'Quiz ended early' : r.mode === 'daily' ? 'Daily challenge complete' : 'Quiz complete',
+            ' · ' + SQ.data.area(r.area || 'in').label, r.mixed ? h('span.q-bonus', ' · ×1.2 points') : null),
           h('h1', rank.title),
           h('p.lead', rank.sub),
           ranked.el,

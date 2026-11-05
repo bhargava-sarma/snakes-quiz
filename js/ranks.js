@@ -1,4 +1,5 @@
-/* Leaderboards: Sarpa daily, Herpdle and ranked-quiz points, for a day, a week or all time. */
+/* Leaderboards: Sarpa daily and Herpdle (one pair of boards per region) and ranked-quiz points (one board for every
+ * region), for a day, a week or all time. */
 (function () {
   'use strict';
   const SQ = (window.SQ = window.SQ || {});
@@ -6,10 +7,12 @@
   SQ.views = SQ.views || {};
 
   const BOARDS = [
-    { id: 'sarpa-daily', label: 'Sarpa daily', sub: 'Ten photos a day', ico: 'calendar', play: '#/daily' },
-    { id: 'herpdle', label: 'Herpdle', sub: 'The daily clue game', ico: 'grid', play: '#/herpdle' },
-    { id: 'sarpa-points', label: 'Quiz points', sub: 'Every ranked quiz', ico: 'zap', play: '#/play' },
+    { id: 'sarpa-daily', label: 'Sarpa daily', sub: 'Ten photos a day', ico: 'calendar', play: (a) => '#/daily?area=' + a, areas: true },
+    { id: 'herpdle', label: 'Herpdle', sub: 'The daily clue game', ico: 'grid', play: (a) => '#/herpdle?area=' + a, areas: true },
+    { id: 'sarpa-points', label: 'Quiz points', sub: 'Every ranked quiz, all regions', ico: 'zap', play: () => '#/play' },
   ];
+  /** The server's name for a board in a region: the North America daily boards end in "-na". */
+  const boardId = (kind, area) => kind + (area === 'na' && BOARDS.find((b) => b.id === kind).areas ? '-na' : '');
   const PERIODS = [{ value: 'day', label: 'Today' }, { value: 'week', label: 'This week' }, { value: 'all', label: 'All time' }];
   const MAX_BACK = 120;
 
@@ -19,13 +22,19 @@
   function detailText(board, e) {
     const d = e.detail;
     if (!d) return e.seconds != null ? mmss(e.seconds) : '';
-    if (board === 'herpdle') return d.w ? `${d.g} ${d.g === 1 ? 'guess' : 'guesses'} · ${mmss(d.s)}` : `not solved · ${mmss(d.s)}`;
+    if (board.startsWith('herpdle')) return d.w ? `${d.g} ${d.g === 1 ? 'guess' : 'guesses'} · ${mmss(d.s)}` : `not solved · ${mmss(d.s)}`;
     return `${d.c}/${d.n} right · ${mmss(d.s)}`;
   }
 
   SQ.views.ranks = function ({ query }) {
     const today = SQ.todayKey();
-    let board = BOARDS.some((b) => b.id === query.get('board')) ? query.get('board') : 'sarpa-daily';
+    // ?board= is the server's name ("herpdle-na"), so links from the games can point straight at a region's board
+    const asked = String(query.get('board') || '');
+    const askedKind = asked.replace(/-na$/, '');
+    let kind = BOARDS.some((b) => b.id === askedKind) ? askedKind : 'sarpa-daily';
+    const askedArea = asked.endsWith('-na') ? 'na' : BOARDS.some((b) => b.id === asked && b.areas) ? 'in' : query.get('area');
+    let area = askedArea === 'in' || askedArea === 'na' ? askedArea : SQ.homeArea();
+    const board = () => boardId(kind, area);
     let period = PERIODS.some((p) => p.value === query.get('period')) ? query.get('period') : 'day';
     let day = query.get('day');
     if (!day || !/^\d{4}-\d{2}-\d{2}$/.test(day) || day > today || SQ.time.dayIndex(today) - SQ.time.dayIndex(day) > MAX_BACK) day = today;
@@ -35,9 +44,10 @@
     const dayNav = h('div.lb-daynav');
     const periodBox = h('div.lb-periods');
     const boardBox = h('div.lb-boards', { role: 'radiogroup', 'aria-label': 'Leaderboard' });
+    const areaBox = h('div.lb-areas');
 
     function syncUrl() {
-      const q = new URLSearchParams({ board, period });
+      const q = new URLSearchParams({ board: board(), period });
       if (period === 'day' && day !== today) q.set('day', day);
       try { history.replaceState(null, '', '#/ranks?' + q.toString()); } catch (e) { /* ignore */ }
     }
@@ -45,12 +55,22 @@
     function drawControls() {
       SQ.clear(boardBox);
       BOARDS.forEach((b) => {
-        const on = b.id === board;
+        const on = b.id === kind;
         boardBox.appendChild(h('button.lb-board' + (on ? '.on' : ''), {
           type: 'button', role: 'radio', 'aria-checked': on ? 'true' : 'false',
-          onclick: () => { board = b.id; refresh(); },
+          onclick: () => { kind = b.id; refresh(); },
         }, h('span.lb-board-top', icon(b.ico, { size: 18 }), SQ.ui.led(on ? 'on' : '')), h('strong', b.label), h('small', b.sub)));
       });
+      SQ.clear(areaBox);
+      const meta = BOARDS.find((b) => b.id === kind);
+      areaBox.hidden = !meta.areas;
+      if (meta.areas) {
+        areaBox.appendChild(SQ.ui.segmented({
+          name: 'Region', value: area, className: 'seg-area',
+          options: SQ.data.AREA_ORDER.map((a) => ({ value: a, label: SQ.data.area(a).label })),
+          onChange: (v) => { area = v; refresh(); },
+        }));
+      }
       SQ.clear(periodBox);
       periodBox.appendChild(SQ.ui.segmented({
         name: 'Period', value: period, options: PERIODS,
@@ -72,7 +92,7 @@
       return h('li.lb-row' + (isMe ? '.me' : '') + (e.rank <= 3 ? '.top' + e.rank : ''),
         h('span.lb-rank', h('b.lcd-num', String(e.rank))),
         h('span.lb-name', e.name, isMe ? h('span.badge.you', 'You') : null),
-        h('span.lb-score', pts, h('small', period === 'day' && board !== 'sarpa-points' ? detailText(board, e) : 'points')));
+        h('span.lb-score', pts, h('small', period === 'day' && kind !== 'sarpa-points' ? detailText(kind, e) : 'points')));
     }
 
     async function load() {
@@ -87,19 +107,19 @@
         return;
       }
       try {
-        const lb = await SQ.api.leaderboard(board, period, period === 'day' ? day : '');
+        const lb = await SQ.api.leaderboard(board(), period, period === 'day' ? day : '');
         if (my !== token) return;
         SQ.clear(out);
-        const meta = BOARDS.find((b) => b.id === board);
+        const meta = BOARDS.find((b) => b.id === kind);
         const user = SQ.api.user();
         const whenText = period === 'day' ? (day === today ? 'today' : SQ.time.label(day, { day: 'numeric', month: 'long' })) : period === 'week' ? `week ${lb.week.split('-W')[1]} (Mon to Sun, India time)` : 'all time';
         out.appendChild(h('div.lb-head',
-          h('h2', meta.label, h('small', ` · ${whenText}`)),
+          h('h2', meta.label, h('small', ` · ${meta.areas ? SQ.data.area(area).label + ' · ' : ''}${whenText}`)),
           h('p.legend', `${lb.total.toLocaleString()} ${lb.total === 1 ? 'player' : 'players'}`)));
         if (!lb.entries.length) {
           out.appendChild(h('div.card.lb-empty',
             h('p', period === 'day' && day === today ? 'Nobody is on this board yet today. Be the first!' : 'Nobody played in this period.'),
-            h('a.btn.btn-primary', { href: meta.play }, icon('play', { size: 18 }), 'Play now')));
+            h('a.btn.btn-primary', { href: meta.play(area) }, icon('play', { size: 18 }), 'Play now')));
           return;
         }
         const list = h('ol.lb-list', lb.entries.map((e) => row(e, lb.me, user && e.name === user.name)));
@@ -110,9 +130,9 @@
         if (!user && SQ.api.known() === 'ok') {
           out.appendChild(h('p.lb-note', icon('user', { size: 15 }), h('span', h('button.link-btn', { type: 'button', onclick: () => SQ.account.open({}).then((ok) => ok && load()) }, 'Sign in'), ' to see your own place.')));
         }
-        out.appendChild(h('p.lb-note.muted', icon('info', { size: 15 }), h('span', board === 'sarpa-points'
-          ? 'Points from every ranked quiz, up to 20 quizzes a day. Days and weeks follow India time.'
-          : 'One game per player per day. Equal points are split by time taken. Days follow India time (midnight IST).')));
+        out.appendChild(h('p.lb-note.muted', icon('info', { size: 15 }), h('span', kind === 'sarpa-points'
+          ? `Points from every ranked quiz in any region, up to 20 quizzes a day. Rarer snakes and harder photos are worth more, and Mixed quizzes score 20% more. Days and weeks follow India time: each day starts at ${SQ.time.resetText()}.`
+          : `One game per player per day. Equal points are split by time taken. Each day starts at ${SQ.time.resetText()}.`)));
       } catch (e) {
         if (my !== token) return;
         SQ.clear(out);
@@ -127,10 +147,10 @@
     window.addEventListener('sarpa-auth', onAuth);
 
     const node = h('div.page.wrap.ranks',
-      SQ.ui.pageHead('Leaderboards', 'Daily, weekly and all-time rankings. Everyone plays the same daily puzzles.',
+      SQ.ui.pageHead('Leaderboards', 'Daily, weekly and all-time rankings. Each region has its own daily puzzles, the same for everyone.',
         h('button.btn.btn-sm', { type: 'button', onclick: () => load(), 'aria-label': 'Refresh' }, icon('redo', { size: 16 }), 'Refresh'), [h('b', '04'), 'Ranks']),
       boardBox,
-      h('div.lb-controls', periodBox, dayNav),
+      h('div.lb-controls', areaBox, periodBox, dayNav),
       out);
     refresh();
     return { node, title: 'Leaderboards', view: 'ranks', cleanup: () => { token++; window.removeEventListener('sarpa-auth', onAuth); } };

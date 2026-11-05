@@ -9,15 +9,16 @@
   /*  Snake of the day                                                    */
   /* ------------------------------------------------------------------ */
 
-  SQ.snakeOfTheDay = function () {
+  /** One snake a day from a region (India keeps the pick it has always had). */
+  SQ.snakeOfTheDay = function (area = 'in') {
     const D = SQ.data;
     const key = SQ.todayKey();
-    const pool = D.species.filter((s) => s.tier <= 4 && s.fact);
-    const sp = pool[SQ.hashSeed('sotd-' + key) % pool.length];
+    const pool = D.areaSpecies(area).filter((s) => s.tier <= 4 && s.fact);
+    const sp = pool[SQ.hashSeed((area === 'na' ? 'sotd-na-' : 'sotd-') + key) % pool.length];
     return h('a.sotd', { href: '#/guide/' + sp.id },
       SQ.ui.thumb(sp),
       h('div.sotd-body',
-        h('p.legend', icon('star', { size: 13 }), ' Snake of the day'),
+        h('p.legend', icon('star', { size: 13 }), ` Snake of the day · ${D.area(area).label}`),
         h('h3', sp.name, h('i.sci', sp.sci)),
         h('p', sp.fact),
         h('div.badges', SQ.ui.venomBadge(sp, { short: true }), SQ.ui.big4Badge(sp))));
@@ -30,14 +31,19 @@
   SQ.views.compare = function ({ query }) {
     const D = SQ.data;
     const sorted = D.species.slice().sort((x, y) => x.name.localeCompare(y.name));
-    let a = D.byId[query.get('a')] || D.byId['naja-naja'] || sorted[0];
+    const home = SQ.homeArea ? SQ.homeArea() : 'in';
+    let a = D.byId[query.get('a')] || D.byId[home === 'na' ? 'crotalus-atrox' : 'naja-naja'] || sorted[0];
     let b = D.byId[query.get('b')];
-    if (!b || b === a) b = D.lookalikes(a.id, 1)[0] || sorted[1];
+    if (!b || b === a) b = D.lookalikes(a.id, 1, a.regions.length === 1 ? a.regions[0] : undefined)[0] || sorted[1];
 
     const out = h('div.cmp-out');
+    // one list per region (a snake found in both is listed under each; the two entries are the same snake)
+    const groups = D.AREA_ORDER.map((ar) => ({ label: D.area(ar).label, list: sorted.filter((s) => D.inArea(s, ar)) })).filter((g) => g.list.length);
     const makeSelect = (id, get, set) => {
+      const opt = (s) => h('option', { value: s.id }, `${s.name} (${s.sci})`);
       const sel = h('select#' + id, { onchange: (e) => { set(D.byId[e.target.value]); draw(); } },
-        sorted.map((s) => h('option', { value: s.id, selected: s.id === get().id }, `${s.name} (${s.sci})`)));
+        groups.length > 1 ? groups.map((g) => h('optgroup', { label: g.label }, g.list.map(opt))) : sorted.map(opt));
+      sel.value = get().id;
       return sel;
     };
     const selA = makeSelect('cmp-a', () => a, (v) => { a = v; });
@@ -48,7 +54,7 @@
       return h('div.cmp-col',
         h('a.cmp-photo', { href: '#/guide/' + sp.id, 'aria-label': `${sp.name} in the field guide` }, cover ? SQ.ui.photo(cover, { alt: sp.name, vf: true, tag: letter }) : SQ.ui.thumb(sp)),
         h('h2', sp.name), h('i.sci', sp.sci),
-        h('div.badges', SQ.ui.venomBadge(sp), SQ.ui.big4Badge(sp)));
+        h('div.badges', SQ.ui.venomBadge(sp), SQ.ui.big4Badge(sp), SQ.ui.areaBadge(sp, { short: true })));
     }
 
     function draw() {
@@ -93,16 +99,19 @@
     { value: 'all', label: 'All snakes' },
     { value: 'danger', label: 'Venomous snakes' },
     { value: 'none', label: 'Harmless and mildly venomous snakes' },
-    { value: 'big4', label: 'The Big Four' },
+    { value: 'big4', label: 'The Big Four (India)', areas: ['in', 'all'] },
+    { value: 'vipers', label: 'Vipers, pit vipers and rattlesnakes' },
     { value: 'easy', label: 'Easy ones (start here)' },
     { value: 'hard', label: 'Tricky ones' },
     { value: 'weak', label: 'My weak spots' },
   ];
+  const FLASH_AREAS = [{ value: 'in', label: 'India' }, { value: 'na', label: 'North America' }, { value: 'all', label: 'Both regions' }];
 
-  function deckFor(filter) {
+  function deckFor(filter, area) {
     const D = SQ.data, S = SQ.store;
-    let list = D.species.slice();
+    let list = area === 'all' ? D.species.slice() : D.areaSpecies(area).slice();
     if (filter === 'danger') list = list.filter((s) => s.venom === 'deadly' || s.venom === 'venomous');
+    else if (filter === 'vipers') list = list.filter((s) => s.family === 'Viperidae');
     else if (filter === 'none') list = list.filter((s) => s.venom === 'none' || s.venom === 'mild');
     else if (filter === 'big4') list = list.filter((s) => s.big4);
     else if (filter === 'easy') list = list.filter((s) => s.tier <= 2);
@@ -113,10 +122,10 @@
 
   SQ.views.learn = function () {
     const D = SQ.data;
-    let filter = 'easy', deck = [], i = 0, shown = false;
+    let filter = 'easy', area = SQ.homeArea ? SQ.homeArea() : 'in', deck = [], i = 0, shown = false;
     const stage = h('div.flash-stage');
 
-    function pickPhoto(sp) { return SQ.pick(D.photosOf(sp.id)); }
+    function pickPhoto(sp) { return SQ.pick(D.photosOf(sp.id, false, area === 'all' ? undefined : area)); }
 
     function draw() {
       SQ.clear(stage);
@@ -145,12 +154,20 @@
         h('div.flash-actions', h('button.btn.btn-lg', { type: 'button', disabled: i === 0, onclick: prev }, icon('left', { size: 18 }), h('span.flash-back-label', 'Back')), nextOrReveal))));
     }
 
-    function next() { shown = false; if (i + 1 >= deck.length) { deck = deckFor(filter); i = 0; } else i += 1; draw(); SQ.scrollTop(); }
+    function next() { shown = false; if (i + 1 >= deck.length) { deck = deckFor(filter, area); i = 0; } else i += 1; draw(); SQ.scrollTop(); }
     function prev() { if (i > 0) { shown = false; i -= 1; draw(); } }
-    function reset() { deck = deckFor(filter); i = 0; shown = false; draw(); }
+    function reset() { deck = deckFor(filter, area); deck.forEach((sp) => { delete sp._photo; }); i = 0; shown = false; draw(); }
 
-    const sel = h('select#flash-set', { 'aria-label': 'Which snakes', onchange: (e) => { filter = e.target.value; reset(); } },
-      FLASH_FILTERS.map((f) => h('option', { value: f.value, selected: f.value === filter }, f.label)));
+    const sel = h('select#flash-set', { 'aria-label': 'Which snakes', onchange: (e) => { filter = e.target.value; reset(); } });
+    function drawSets() {
+      const sets = FLASH_FILTERS.filter((f) => !f.areas || f.areas.includes(area));
+      if (!sets.some((f) => f.value === filter)) filter = 'easy';
+      SQ.clear(sel);
+      sets.forEach((f) => sel.appendChild(h('option', { value: f.value, selected: f.value === filter }, f.label)));
+    }
+    drawSets();
+    const areaSel = h('select#flash-area', { 'aria-label': 'Which region', onchange: (e) => { area = e.target.value; drawSets(); reset(); } },
+      FLASH_AREAS.map((f) => h('option', { value: f.value, selected: f.value === area }, f.label)));
 
     function onKey(e) {
       if (/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName) || document.body.classList.contains('modal-open')) return;
@@ -164,7 +181,7 @@
     const node = h('div.page.wrap.learn',
       h('a.back-link', { href: '#/guide' }, icon('back', { size: 16 }), 'Field guide'),
       SQ.ui.pageHead('Flashcards', 'Look at the photo, say the name out loud, then check yourself. No scores, no pressure.', null, [h('b', '05'), 'Field guide · flashcards']),
-      h('div.flash-controls', sel, h('button.btn.btn-sm', { type: 'button', onclick: reset }, icon('redo', { size: 16 }), 'Shuffle')),
+      h('div.flash-controls', areaSel, sel, h('button.btn.btn-sm', { type: 'button', onclick: reset }, icon('redo', { size: 16 }), 'Shuffle')),
       stage);
     reset();
     return { node, title: 'Flashcards', view: 'learn', cleanup: () => document.removeEventListener('keydown', onKey) };

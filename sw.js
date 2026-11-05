@@ -2,7 +2,7 @@
  *  - the app shell and data files: network first, falling back to the cache
  *  - photos: cache first (they never change), keeping the most recent ones
  */
-const VERSION = 'sarpa-v4';
+const VERSION = 'sarpa-v5';
 const IMG_CACHE = VERSION + '-img';
 const MAX_IMAGES = 700;
 
@@ -12,7 +12,7 @@ const SHELL = [
   'assets/fonts/geist-latin-wght-normal.woff2', 'assets/fonts/geist-mono-latin-wght-normal.woff2', 'assets/fonts/doto-latin-full-normal.woff2',
   'data/species.js', 'data/photos.js',
   'js/boot.js', 'js/config.js', 'js/util.js', 'js/store.js', 'js/data.js', 'js/explain.js', 'js/engine.js', 'js/herpdle-core.js', 'js/ui.js',
-  'js/api.js', 'js/account.js', 'js/explainpanel.js', 'js/badges.js', 'js/quiz.js', 'js/views-main.js', 'js/results.js',
+  'js/api.js', 'js/sync.js', 'js/account.js', 'js/explainpanel.js', 'js/badges.js', 'js/quiz.js', 'js/views-main.js', 'js/results.js',
   'js/herpdle.js', 'js/ranks.js', 'js/guide.js', 'js/extras.js', 'js/pages.js', 'js/legal.js', 'js/app.js',
   'assets/icon.svg', 'assets/icon-192.png',
 ];

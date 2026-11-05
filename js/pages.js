@@ -11,11 +11,13 @@
   /*  My progress                                                         */
   /* ------------------------------------------------------------------ */
 
-  SQ.views.stats = function () {
+  SQ.views.stats = function ({ query }) {
     const D = SQ.data, S = SQ.store;
     const p = S.progress();
     const t = p.totals;
-    const have = Object.keys(p.species).filter((id) => D.byId[id] && p.species[id].c > 0).length;
+    const signedIn = !!SQ.api.session();
+    const qa = query && query.get('dex');
+    let dexArea = qa === 'in' || qa === 'na' ? qa : (SQ.homeArea ? SQ.homeArea() : 'in');
 
     const tiles = h('div.lcd.stat-lcd',
       [['Quizzes played', t.games], ['Questions answered', t.answered], ['Accuracy', SQ.pct(t.correct, t.answered) + '%'],
@@ -31,15 +33,31 @@
       }))
       : h('p.muted', 'Play a quiz and your results will appear here.');
 
-    // snake-dex
-    const dex = h('div.dex', D.species.slice().sort((a, b) => a.name.localeCompare(b.name)).map((sp) => {
-      const m = S.mastery(sp.id);
-      return h('a.dex-item.m' + m, { href: '#/guide/' + sp.id, title: `${sp.name}: ${['not met yet', 'learning', 'getting there', 'mastered'][m]}` },
-        SQ.ui.thumb(sp), h('span', sp.name));
-    }));
+    // snake-dex, one region at a time
+    const dex = h('div.dex');
+    const dexCount = h('small');
+    function drawDex() {
+      const list = D.areaSpecies(dexArea).slice().sort((a, b) => a.name.localeCompare(b.name));
+      const have = list.filter((sp) => p.species[sp.id] && p.species[sp.id].c > 0).length;
+      dexCount.textContent = `${have} of ${list.length} identified correctly`;
+      SQ.clear(dex);
+      list.forEach((sp) => {
+        const m = S.mastery(sp.id);
+        dex.appendChild(h('a.dex-item.m' + m, { href: '#/guide/' + sp.id, title: `${sp.name}: ${['not met yet', 'learning', 'getting there', 'mastered'][m]}` },
+          SQ.ui.thumb(sp), h('span', sp.name)));
+      });
+    }
+    const dexTabs = SQ.ui.segmented({
+      name: 'Snake-dex region', value: dexArea, className: 'seg-area dex-areas',
+      options: D.AREA_ORDER.map((a) => ({ value: a, label: D.area(a).label })),
+      onChange: (v) => { dexArea = v; drawDex(); },
+    });
+    drawDex();
 
-    // weak spots
+    // weak spots (practised in the region they come from, or in both)
     const weak = S.weakSpecies(D.species.map((s) => s.id), 12);
+    const weakAreas = new Set(weak.flatMap((id) => (D.byId[id] ? D.byId[id].regions : [])));
+    const weakArea = weakAreas.size === 1 ? Array.from(weakAreas)[0] : 'mix';
     const weakList = weak.length
       ? h('div.weak-list', weak.map((id) => {
         const sp = D.byId[id], r = S.speciesRecord(id);
@@ -62,8 +80,9 @@
         h('thead', h('tr', ['Date', 'Quiz', 'Score', 'Points', 'Time'].map((x) => h('th', x)))),
         h('tbody', p.games.slice(0, 10).map((g) => {
           const lvl = SQ.engine.DIFFICULTY[g.diff];
-          const kind = g.mode === 'daily' ? 'Daily challenge' : g.mode === 'weak' ? 'Weak spots' : g.mode === 'practice' ? 'Practice' : `${lvl ? lvl.label : g.diff}${g.timer ? ', timed' : ''}`;
-          return h('tr', h('td', SQ.fmtDate(g.ts)), h('td', kind), h('td', `${g.correct}/${g.n} (${SQ.pct(g.correct, g.n)}%)`), h('td', String(g.points)), h('td', SQ.fmtDuration(g.sec)));
+          const kind = g.mode === 'daily' ? 'Daily challenge' : g.mode === 'weak' ? 'Weak spots' : g.mode === 'practice' ? 'Practice' : g.mode === 'sudden' ? 'Survival' : `${lvl ? lvl.label : g.diff}${g.timer ? ', timed' : ''}`;
+          const where = g.area === 'mix' ? 'Mixed' : D.area(g.area || 'in').short;
+          return h('tr', h('td', SQ.fmtDate(g.ts)), h('td', `${kind} · ${where}`), h('td', `${g.correct}/${g.n} (${SQ.pct(g.correct, g.n)}%)`), h('td', String(g.points)), h('td', SQ.fmtDuration(g.sec)));
         }))))
       : null;
 
@@ -72,13 +91,16 @@
     fileInput.addEventListener('change', async () => {
       const f = fileInput.files[0];
       if (!f) return;
+      if (signedIn && !(await SQ.ui.confirm({ title: 'Restore this backup?', text: 'Your account’s progress will be replaced by the backup on every device you use.', confirmLabel: 'Restore backup' }))) { fileInput.value = ''; return; }
       try { S.importAll(await f.text()); SQ.ui.toast('Progress restored'); SQ.go('/me'); }
       catch (e) { SQ.ui.toast(e.message || 'Could not read that file', 'bad'); }
     });
 
     const manage = h('section.card.manage',
       h('p.legend.card-tag.neutral', 'Your data'),
-      h('p.muted', 'Your snake-dex, badges, quiz history and settings are stored only on this device (in your browser). Download a backup to move them to another device. Account statistics and leaderboard places are kept by the server.'),
+      h('p.muted', signedIn
+        ? 'Your snake-dex, badges, quiz history and daily results are saved with your account, so they follow you to every browser and device you sign in on. Settings stay on each device. You can also download a backup file.'
+        : 'Your snake-dex, badges, quiz history and settings are stored only in this browser. Sign in to keep your progress on every device, or download a backup file to move it yourself.'),
       h('div.btn-row',
         h('button.btn', { type: 'button', onclick: () => {
           const blob = new Blob([S.exportAll()], { type: 'application/json' });
@@ -88,23 +110,28 @@
         h('button.btn', { type: 'button', onclick: () => fileInput.click() }, icon('upload', { size: 18 }), 'Restore backup'),
         flagged.length ? h('button.btn', { type: 'button', onclick: () => { flagged.forEach((id) => S.unflagPhoto(id)); SQ.ui.toast(`Restored ${flagged.length} reported photos`); SQ.go('/me'); } }, icon('flag', { size: 18 }), `Restore ${flagged.length} reported photo${flagged.length > 1 ? 's' : ''}`) : null,
         h('button.btn.btn-danger', { type: 'button', onclick: async () => {
-          if (await SQ.ui.confirm({ title: 'Reset all progress?', text: 'This deletes your stats, badges and snake-dex on this device. It cannot be undone.', confirmLabel: 'Reset everything', danger: true })) { S.resetAll(); SQ.ui.toast('Progress reset'); SQ.go('/me'); }
+          const text = signedIn
+            ? 'This deletes your stats, badges and snake-dex from your account, on every device you use. Leaderboard scores are not affected. It cannot be undone.'
+            : 'This deletes your stats, badges and snake-dex in this browser. It cannot be undone.';
+          if (await SQ.ui.confirm({ title: 'Reset all progress?', text, confirmLabel: 'Reset everything', danger: true })) { S.resetAll(); SQ.ui.toast('Progress reset'); SQ.go('/me'); }
         } }, icon('trash', { size: 18 }), 'Reset progress')),
       fileInput);
 
     const node = h('div.page.wrap.stats',
       SQ.ui.pageHead(SQ.api.user() ? SQ.api.user().name : 'My progress', t.games ? 'Your account and everything you have learned so far.' : 'Your quizzes, badges and snake-dex will build up here.', null, [h('b', 'ME'), 'Profile']),
       SQ.account.panel(),
-      h('h2.section-title', 'On this device', h('small', 'kept in this browser')),
+      signedIn
+        ? h('h2.section-title', 'Your progress', h('small', 'saved with your account, on every device'))
+        : h('h2.section-title', 'On this device', h('small', 'kept in this browser · sign in to keep it everywhere')),
       tiles,
       h('div.two-col',
         h('section.card', h('p.legend.card-tag.neutral', 'Last quizzes · accuracy %'), chart),
         h('section.card', h('p.legend.card-tag.neutral', 'Weak spots'), weakList,
           weak.length ? h('button.btn.btn-primary.btn-block', { type: 'button', onclick: () => SQ.quiz.start({
-            mode: 'weak', title: 'Weak-spot practice', count: 20, difficulty: 'mixed', region: 'all', timer: 0, hints: true, preferUnseen: true, focus: weak,
+            mode: 'weak', title: 'Weak-spot practice', count: 20, difficulty: 'mixed', area: weakArea, region: 'all', timer: 0, hints: true, preferUnseen: true, focus: weak,
           }) }, icon('target', { size: 18 }), 'Practise my weak spots') : null,
           confList ? h('div', h('h2.sub-h', 'Mix-ups to watch'), confList) : null)),
-      h('section', h('h2.section-title', `Snake-dex`, h('small', `${have} of ${D.species.length} identified correctly`)),
+      h('section', h('h2.section-title', `Snake-dex`, dexCount), dexTabs,
         h('div.dex-legend', ['Not met yet', 'Learning', 'Getting there', 'Mastered'].map((l, i) => h('span', h('i.m' + i), l))), dex),
       h('section', h('h2.section-title', 'Badges', h('small', `${Object.keys(p.badges).length} of ${SQ.badges.all.length} unlocked`)), badges),
       history ? h('section', h('h2.section-title', 'Recent quizzes'), history) : null,
@@ -128,10 +155,37 @@
     ['A dead snake is safe.', 'Not always. Reflexes can make a freshly killed snake (even a severed head) bite. Do not handle dead snakes with bare hands.'],
   ];
 
-  SQ.views.safety = function () {
-    const D = SQ.data;
-    const big4 = ['naja-naja', 'bungarus-caeruleus', 'daboia-russelii', 'echis-carinatus'].map((id) => D.byId[id]).filter(Boolean);
+  /* North America: the US Centers for Disease Control (NIOSH) advice and current emergency-medicine practice for pit
+   * viper and coral snake bites. */
+  const MYTHS_NA = [
+    ['Rattlesnakes always rattle before they strike.', 'Not always. A rattlesnake that feels hidden often stays silent, and young snakes have only a small button. Watch where you put your hands and feet.'],
+    ['"Red touches yellow, kills a fellow" tells you which snakes are safe.', 'Do not trust it. The rhyme only fits coral snakes in the United States, odd-coloured individuals break it, and it does not work south of the border. Leave any banded snake alone.'],
+    ['A baby rattlesnake is more dangerous than an adult.', 'A myth. Adults carry far more venom. Any venomous snake of any size deserves respect.'],
+    ['You can tell a rattlesnake’s age from its rattle.', 'No. A new segment is added each time the skin is shed, which can be several times a year, and segments break off.'],
+    ['Cottonmouths cannot bite under water.', 'They can. Give any snake in or near water plenty of room.'],
+    ['Cutting the bite and sucking out the venom, or a suction kit, works.', 'It does not. Suction devices remove almost no venom, and cutting causes bleeding and infection while wasting time.'],
+    ['A tourniquet or ice keeps the venom from spreading.', 'Both make things worse. They trap venom in the limb and add to the tissue damage. Get to an emergency room instead.'],
+    ['A dead snake is safe.', 'Not always. Reflexes can make a freshly killed snake (even a severed head) bite. Do not handle dead snakes with bare hands.'],
+    ['Snakes chase people.', 'Snakes flee when they can. Many bites in North America happen when someone tries to catch, move or kill a snake.'],
+  ];
 
+  SQ.views.safety = function ({ query }) {
+    const D = SQ.data;
+    const qa = query && query.get('area');
+    const area = qa === 'in' || qa === 'na' ? qa : (SQ.homeArea ? SQ.homeArea() : 'in');
+    const tabs = SQ.ui.segmented({
+      name: 'Region', value: area, className: 'seg-area',
+      options: D.AREA_ORDER.map((a) => ({ value: a, label: D.area(a).label })),
+      onChange: (v) => SQ.go('/safety?area=' + v),
+    });
+    const cards = (ids) => ids.map((id) => D.byId[id]).filter(Boolean)
+      .map((sp) => h('a.big4-card', { href: '#/guide/' + sp.id }, SQ.ui.thumb(sp), h('div', h('strong', sp.name), h('i.sci', sp.sci))));
+    const head = SQ.ui.pageHead('Snakebite safety', 'Know what to do before you ever need it.', h('div.head-tools', tabs), [h('b', '06'), 'Safety']);
+    const node = area === 'na' ? safetyNa(head, cards) : safetyIn(head, cards);
+    return { node, title: 'Snakebite safety', view: 'safety' };
+  };
+
+  function safetyIn(head, cards) {
     const right = [
       ['R', 'Reassure', 'Keep the person calm and still. Fear and panic speed up the spread of venom. Many bites are from harmless snakes, and even venomous bites can be treated successfully if the person reaches hospital in time.'],
       ['I', 'Immobilise', 'Hold the bitten limb still, like a fractured limb, with a splint or sling. Remove rings, bangles, watches and anklets before swelling starts. Avoid walking if you can. Carry or transport them.'],
@@ -156,8 +210,7 @@
       'If you meet a snake, stop, step back slowly and give it space. Keep children and pets away and call a trained snake rescuer or the forest department.',
     ];
 
-    const node = h('div.page.wrap.safety',
-      SQ.ui.pageHead('Snakebite safety', 'Know what to do before you ever need it.', null, [h('b', '06'), 'Safety']),
+    return h('div.page.wrap.safety', head,
       h('div.notice.danger', icon('warn', { size: 24 }), h('div',
         h('strong', 'A snakebite is always a medical emergency. '),
         'Research estimates that snakebite caused about 58,000 deaths a year in India between 2000 and 2019, mostly among rural people, and most of these deaths could have been prevented by getting to hospital quickly for anti-snake venom. If someone has been bitten, call ',
@@ -170,14 +223,57 @@
       h('section',
         h('h2.section-title', 'The "Big Four"', h('small', 'Cause most snakebite deaths in India')),
         h('p.lead-p', 'The standard Indian polyvalent anti-snake venom is made against these four. Learn to recognise them, but remember that any bite should be treated as an emergency.'),
-        h('div.big4-grid', big4.map((sp) => h('a.big4-card', { href: '#/guide/' + sp.id }, SQ.ui.thumb(sp), h('div', h('strong', sp.name), h('i.sci', sp.sci)))))),
+        h('div.big4-grid', cards(['naja-naja', 'bungarus-caeruleus', 'daboia-russelii', 'echis-carinatus']))),
       h('section',
         h('h2.section-title', 'Myths and facts'),
         h('div.myths', MYTHS.map(([m, f]) => h('details.myth', h('summary', h('span.myth-tag', 'Myth'), m), h('p', h('span.fact-tag', 'Fact'), f))))),
       h('section.notice', icon('info', { size: 22 }), h('div',
         'This page is general information and not medical advice. Guidance follows the widely used "Do it R.I.G.H.T." approach in the national and WHO South-East Asia snakebite guidelines. Follow the advice of local doctors and emergency services.')));
-    return { node, title: 'Snakebite safety', view: 'safety' };
-  };
+  }
+
+  function safetyNa(head, cards) {
+    const steps = [
+      ['1', 'Call 911', 'Call 911 (in the USA and Canada) or get to an emergency room at once, even if the bite does not hurt much yet. Note the time of the bite. In the USA, Poison Control (1‑800‑222‑1222) can also advise you and the hospital.'],
+      ['2', 'Keep still and calm', 'Sit or lie down and keep the bitten limb still. Moving around spreads venom faster. Do not walk out if help can come to you, and keep away from the snake.'],
+      ['3', 'Take things off', 'Remove rings, watches, bracelets and tight clothing or boots near the bite before swelling starts. Cover the bite loosely with a clean, dry dressing.'],
+      ['4', 'Watch and report', 'Hospitals in the USA and Canada keep antivenom for rattlesnake, copperhead and cottonmouth bites. Tell the doctors about any swelling, bruising, numbness or tingling, a metallic taste, drooping eyelids or trouble breathing. Coral snake bites can look mild for hours before they get serious.'],
+    ];
+    const donts = [
+      'Do not use a tourniquet, and do not wrap the limb tightly. For rattlesnake and other pit viper bites a tight or pressure bandage can make the damage worse.',
+      'Do not cut the bite or try to suck out the venom, by mouth or with a suction kit.',
+      'Do not put ice or cold packs on the bite, and do not soak it in water.',
+      'Do not drink alcohol or caffeine, and do not take pain medicine such as aspirin or ibuprofen unless a doctor says so.',
+      'Do not try to catch or kill the snake. A photo from a safe distance is enough, or none at all.',
+      'If the person is unconscious, lay them on their side (recovery position) and keep the airway clear. Do not give anything by mouth.',
+    ];
+    const prevention = [
+      'Watch where you step and where you put your hands: around rocks, logs, woodpiles and ledges, and in tall grass. Stay on trails.',
+      'Wear boots and long trousers in snake country, and carry a light on warm nights, when many snakes are about.',
+      'Step over logs onto the far side only when you can see it, and never reach under rocks or into holes.',
+      'Leave every snake alone. If you meet one, step back slowly and give it room. Many bites happen when people try to handle or kill a snake.',
+      'Keep yards free of rubbish and wood piles that shelter rodents, and keep children and pets away from any snake.',
+    ];
+
+    return h('div.page.wrap.safety', head,
+      h('div.notice.danger', icon('warn', { size: 24 }), h('div',
+        h('strong', 'A venomous snakebite is a medical emergency. '),
+        'In the United States, about 7,000 to 8,000 people are bitten by venomous snakes each year and around five of them die, according to the CDC. Most deaths are avoided because people reach hospital quickly for antivenom. If someone has been bitten, call ',
+        h('a', { href: 'tel:911' }, '911'), ' and go to an emergency room straight away. In the USA you can also call Poison Control on ', h('a', { href: 'tel:18002221222' }, '1‑800‑222‑1222'), '; in Canada, call 911 or your provincial poison centre.')),
+      h('section', h('h2.section-title', 'First aid for a snakebite'),
+        h('div.right-grid', steps.map(([k, t, text]) => h('div.right-card', h('span.right-key', k), h('h3', t), h('p', text))))),
+      h('div.two-col',
+        h('section.card', h('p.legend.card-tag.bad', icon('x', { size: 13, stroke: 3 }), 'What NOT to do'), h('ul.dont-list', donts.map((d) => h('li', d)))),
+        h('section.card', h('p.legend.card-tag', icon('shield', { size: 13 }), 'Avoiding bites'), h('ul.why-list', prevention.map((d) => h('li', d))))),
+      h('section',
+        h('h2.section-title', 'The venomous snakes', h('small', 'Pit vipers and coral snakes')),
+        h('p.lead-p', 'Almost every venomous bite in the USA and Canada is from a pit viper: a rattlesnake, a copperhead or a cottonmouth. Coral snakes live in the southern states and bite rarely. Learn to recognise them, but treat every bite as an emergency.'),
+        h('div.big4-grid', cards(['crotalus-atrox', 'crotalus-horridus', 'agkistrodon-contortrix', 'agkistrodon-piscivorus', 'micrurus-fulvius']))),
+      h('section',
+        h('h2.section-title', 'Myths and facts'),
+        h('div.myths', MYTHS_NA.map(([m, f]) => h('details.myth', h('summary', h('span.myth-tag', 'Myth'), m), h('p', h('span.fact-tag', 'Fact'), f))))),
+      h('section.notice', icon('info', { size: 22 }), h('div',
+        'This page is general information and not medical advice. It follows the advice of the US Centers for Disease Control and Prevention (NIOSH) and current emergency-medicine practice for pit viper and coral snake bites. Follow the advice of local doctors, Poison Control and emergency services.')));
+  }
 
   /* ------------------------------------------------------------------ */
   /*  About                                                               */
@@ -200,16 +296,17 @@
       h('div.prose-grid',
       h('section.card',
         h('h2', 'How it works'),
-        h('p', `Sarpa shows you a real photograph of a snake from the Indian subcontinent and asks you to name it from four options. After you answer you see why the right answer is right and why each of the other three options is not, including how they differ from the snake in the photo.`),
-        h('p', `The game holds ${D.photos.length.toLocaleString()} photographs of ${D.species.length} species. Every quiz is built fresh: species are balanced, the photos you have already seen are avoided, and the harder difficulty levels fill the options with genuine look-alikes.`)),
+        h('p', `Sarpa shows you a real photograph of a snake from India or from North America (the USA and Canada) and asks you to name it from four options. After you answer you see why the right answer is right and why each of the other three options is not, including how they differ from the snake in the photo.`),
+        h('p', `The game holds ${D.photos.length.toLocaleString()} photographs of ${D.species.length} species: ${D.byArea.in.length} from India and ${D.byArea.na.length} from North America. Every quiz is built fresh: species are balanced, the photos you have already seen are avoided, and the harder difficulty levels fill the options with genuine look-alikes.`),
+        h('p', 'Play one region, or Mixed for both at once. Points depend on how hard the snake and the photo are, and Mixed quizzes score 20% more. Each region has its own daily challenge and Herpdle, and anyone can play either.')),
       h('section.card',
         h('h2', 'Where the photos come from'),
         h('p', 'All photos are community observations on ', h('a', { href: 'https://www.inaturalist.org', target: '_blank', rel: 'noopener' }, 'iNaturalist'),
-          ' that reached "research grade", meaning other naturalists agreed with the species identification. They were taken in India, and every photographer chose an open Creative Commons licence.'),
+          ' that reached "research grade", meaning other naturalists agreed with the species identification. They were taken in India, the United States and Canada, and every photographer chose an open Creative Commons licence.'),
         h('p', `This edition has photos from ${people.toLocaleString()} photographers. Each photo is credited beneath it and in the full `, h('a', { href: '#/credits' }, 'photo credits'), ' list. ',
           'Licences used: ', Object.entries(licCount).sort((a, b) => b[1] - a[1]).map(([l, n]) => `${l} (${n.toLocaleString()})`).join(', '), '.'),
         h('p', 'Some iNaturalist species are so alike that they cannot be told apart from a photo (for example several newly separated vine snakes). Those are grouped as a single species here, and the photo’s original iNaturalist name is shown in its credit line.'),
-        h('p.muted', 'Some licences are "NonCommercial", so this site must stay non-commercial unless the data set is rebuilt with only commercial-friendly licences (the README explains how). State names are derived from each photo’s location using OpenStreetMap-based boundaries © OpenStreetMap contributors.')),
+        h('p.muted', 'Some licences are "NonCommercial", so this site must stay non-commercial unless the data set is rebuilt with only commercial-friendly licences (the README explains how). Indian state names are derived from each photo’s location using OpenStreetMap-based boundaries © OpenStreetMap contributors; US state and Canadian province names use Natural Earth’s public-domain boundaries.')),
       h('section.card',
         h('h2', 'Accuracy and limits'),
         h('p', 'Species descriptions are written for general education from standard field-guide knowledge. Identification on iNaturalist is community-based and a few photos may be mislabelled, and snakes vary a lot in colour and pattern. If you spot a mistake, use the "Report photo" button on a question, or ', h('a', { href: REPO_URL + '/issues', target: '_blank', rel: 'noopener' }, 'open an issue'), '.'),
@@ -219,7 +316,7 @@
         h('p', 'No adverts, no cookies and nothing that follows you around: visits are only counted with cookie-free statistics. Your progress, badges and settings are stored in your own browser. ',
           SQ.api.known() === 'off'
             ? 'This copy of Sarpa has no accounts.'
-            : 'To play the games you make an account with just a username and a 6-digit PIN (stored only as a one-way hash); your username and scores appear on the leaderboards, and you can delete the account at any time.'),
+            : 'If you make an account (just a username and a 6-digit PIN, stored only as a one-way hash), your progress is also saved with it so it follows you to other devices, and your username and scores appear on the leaderboards. You can delete the account, and everything saved with it, at any time.'),
         h('p', 'Details are in the ', h('a', { href: '#/legal/privacy' }, 'privacy policy'), ' and the ', h('a', { href: '#/legal/terms' }, 'terms of use'), '.')),
       h('section.card',
         h('h2', 'Open source'),
@@ -242,7 +339,7 @@
 
     function rows() {
       const needle = q.toLowerCase();
-      return D.photos.filter((p) => !needle || (p.credit + ' ' + D.byId[p.sp].name + ' ' + D.byId[p.sp].sci + ' ' + p.state).toLowerCase().includes(needle));
+      return D.photos.filter((p) => !needle || (p.credit + ' ' + D.byId[p.sp].name + ' ' + D.byId[p.sp].sci + ' ' + p.state + ' ' + D.area(p.region).label).toLowerCase().includes(needle));
     }
 
     function draw() {
@@ -256,7 +353,7 @@
           h('td', { 'data-label': 'Species' }, h('a', { href: '#/guide/' + p.sp }, D.byId[p.sp].name)),
           h('td', { 'data-label': 'Photographer' }, p.credit),
           h('td', { 'data-label': 'Licence' }, p.licenseUrl ? h('a', { href: p.licenseUrl, target: '_blank', rel: 'noopener' }, p.license) : p.license),
-          h('td', { 'data-label': 'State' }, p.state || '-'),
+          h('td', { 'data-label': 'Where' }, [p.state, D.area(p.region).short].filter(Boolean).join(', ')),
           h('td', { 'data-label': 'Source' }, h('a', { href: p.page, target: '_blank', rel: 'noopener' }, 'photo ' + p.id))));
       });
       SQ.clear(pager);
@@ -266,12 +363,12 @@
         h('button.btn.btn-sm', { type: 'button', disabled: page >= pages - 1, onclick: () => { page++; draw(); SQ.scrollTop(); } }, 'Next', icon('right', { size: 16 })));
     }
 
-    const search = h('input', { type: 'search', placeholder: 'Search credits', 'aria-label': 'Search credits by photographer, species or state' });
+    const search = h('input', { type: 'search', placeholder: 'Search credits', 'aria-label': 'Search credits by photographer, species, state or region' });
     search.addEventListener('input', SQ.debounce(() => { q = search.value.trim(); page = 0; draw(); }, 150));
     const node = h('div.page.wrap.credits',
       SQ.ui.pageHead('Photo credits', 'Thank you to every photographer who shared their snake photos under an open licence on iNaturalist.', null, [h('b', 'SQ-1'), 'Credits']),
       h('div.filters', h('div.search-box', icon('search', { size: 18 }), search)), info,
-      h('div.table-wrap.credits-table', { tabindex: '0', role: 'region', 'aria-label': 'Photo credits' }, h('table.history', h('thead', h('tr', ['Species', 'Photographer', 'Licence', 'State', 'Source'].map((x) => h('th', x)))), body)),
+      h('div.table-wrap.credits-table', { tabindex: '0', role: 'region', 'aria-label': 'Photo credits' }, h('table.history', h('thead', h('tr', ['Species', 'Photographer', 'Licence', 'Where', 'Source'].map((x) => h('th', x)))), body)),
       pager);
     draw();
     return { node, title: 'Photo credits', view: 'credits' };
