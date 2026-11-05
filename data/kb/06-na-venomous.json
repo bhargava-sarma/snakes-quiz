@@ -1,0 +1,1325 @@
+[
+ {
+  "id": "crotalus-atrox",
+  "sci": "Crotalus atrox",
+  "name": "Western Diamondback Rattlesnake",
+  "aka": [
+   "Texas Diamondback",
+   "Coon-tail Rattler"
+  ],
+  "family": "Viperidae",
+  "kind": "Rattlesnake",
+  "tier": 1,
+  "venom": "deadly",
+  "len": "0.9-1.5 m, rarely 2 m (3-5 ft)",
+  "habitat": "Deserts, dry grassland, scrub, rocky hillsides and farmland; often around ranches, barns and wood piles",
+  "range": "South-western USA: Texas, Oklahoma, New Mexico, Arizona and the far south of California, Nevada and Arkansas; into Mexico",
+  "diet": "Rodents, rabbits, ground squirrels and birds",
+  "active": "At dusk and night in summer, by day in spring and autumn",
+  "ids": [
+   "A heavy rattlesnake with a broad, triangular head and a rattle at the tip of the tail.",
+   "Grey, tan or pinkish diamonds with pale edges run down the back; the pattern looks dusty and faded.",
+   "The tail just before the rattle has bold black and white rings of about equal width (a \"coon tail\").",
+   "Two pale diagonal lines on each side of the face; the rear one runs to the corner of the mouth.",
+   "Many small scales on top of the head between the eyes, vertical pupils and a heat-sensing pit below each eye."
+  ],
+  "look": {
+   "colour": "Grey, tan or pinkish-brown, dusty-looking",
+   "pattern": "Pale-edged diamonds; black-and-white ringed tail",
+   "head": "Broad and triangular, with two pale stripes on the face",
+   "body": "Heavy, with keeled scales and a rattle"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "blotched",
+   "build": "stout",
+   "size": 4,
+   "habit": "terrestrial",
+   "pupil": "vertical",
+   "scales": "keeled",
+   "hue": [
+    "grey",
+    "tan",
+    "brown"
+   ],
+   "snout": "blunt"
+  },
+  "grp": [
+   "rattlesnake",
+   "viper-like"
+  ],
+  "fact": "The black-and-white \"coon tail\" is shared only with the Mojave and Red Diamond Rattlesnakes; on the Mojave the white rings are wider than the black ones."
+ },
+ {
+  "id": "crotalus-adamanteus",
+  "sci": "Crotalus adamanteus",
+  "name": "Eastern Diamondback Rattlesnake",
+  "family": "Viperidae",
+  "kind": "Rattlesnake",
+  "tier": 2,
+  "venom": "deadly",
+  "len": "1-1.8 m, rarely over 2 m (3-6 ft)",
+  "habitat": "Longleaf pine and wiregrass, pine flatwoods, palmetto scrub, coastal dunes and barrier islands",
+  "range": "South-eastern USA: Florida, south Georgia, the Carolina coastal plain, south Alabama, Mississippi and Louisiana",
+  "diet": "Rabbits, rats, squirrels and birds",
+  "active": "By day in cool weather, at dusk and night in summer",
+  "ids": [
+   "A very large, thick rattlesnake: the heaviest venomous snake in the Americas.",
+   "Dark brown diamonds outlined in cream or yellow along the back, on an olive or brown body.",
+   "The tail is brownish with dark rings, not black and white, ending in a large rattle.",
+   "Two pale diagonal lines on each side of the head frame a dark band through the eye."
+  ],
+  "look": {
+   "colour": "Olive to dark brown, with cream or yellow edging",
+   "pattern": "Large, crisp, pale-edged diamonds",
+   "head": "Broad and triangular, with a dark band through the eye between two pale lines",
+   "body": "Massive and heavy, with a rattle"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "blotched",
+   "build": "stout",
+   "size": 5,
+   "habit": "terrestrial",
+   "pupil": "vertical",
+   "scales": "keeled",
+   "hue": [
+    "brown",
+    "olive",
+    "yellow"
+   ],
+   "snout": "blunt"
+  },
+  "grp": [
+   "rattlesnake",
+   "viper-like"
+  ],
+  "fact": "It depends on gopher tortoise burrows for shelter, and has vanished from much of its range as longleaf pine forests were cleared."
+ },
+ {
+  "id": "crotalus-horridus",
+  "sci": "Crotalus horridus",
+  "name": "Timber Rattlesnake",
+  "aka": [
+   "Canebrake Rattlesnake"
+  ],
+  "family": "Viperidae",
+  "kind": "Rattlesnake",
+  "tier": 1,
+  "venom": "deadly",
+  "len": "0.9-1.5 m (3-5 ft)",
+  "habitat": "Forested hills with rocky ridges and winter dens; in the south, swamps, canebrakes and river-bottom forests",
+  "range": "Eastern USA, from New Hampshire and New York to north Florida, west to Minnesota, Kansas and east Texas; gone from much of the north-east and from Canada",
+  "diet": "Mice, chipmunks, squirrels and other small mammals",
+  "active": "By day and at night; waits beside fallen logs for prey",
+  "ids": [
+   "Dark crossbands shaped like a V or a chevron, pointing towards the head, on a yellow, tan, grey or nearly black body.",
+   "The tail is plain, velvety black just before the rattle.",
+   "Southern \"canebrake\" snakes are pinkish-tan, with a rusty stripe along the spine and a dark line from the eye.",
+   "Broad head with vertical pupils, usually without the bold pale face stripes of western rattlesnakes."
+  ],
+  "look": {
+   "colour": "Yellow, tan, grey or almost black; canebrakes pinkish-tan",
+   "pattern": "Wavy V-shaped dark crossbands; black tail",
+   "head": "Broad and triangular, mostly plain",
+   "body": "Heavy, with a rattle"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "banded",
+   "build": "stout",
+   "size": 4,
+   "habit": "terrestrial",
+   "pupil": "vertical",
+   "scales": "keeled",
+   "hue": [
+    "yellow",
+    "brown",
+    "black",
+    "grey"
+   ],
+   "snout": "blunt"
+  },
+  "grp": [
+   "rattlesnake",
+   "viper-like"
+  ],
+  "fact": "Timber Rattlesnakes can live for over 30 years and return to the same rocky den every winter.",
+  "cover": 92418173
+ },
+ {
+  "id": "crotalus-oreganus",
+  "sci": "Crotalus oreganus",
+  "name": "Western Rattlesnake",
+  "aka": [
+   "Northern Pacific Rattlesnake",
+   "Southern Pacific Rattlesnake",
+   "Great Basin Rattlesnake",
+   "Pacific Rattlesnake"
+  ],
+  "family": "Viperidae",
+  "kind": "Rattlesnake",
+  "tier": 1,
+  "venom": "deadly",
+  "len": "0.6-1.2 m, rarely 1.6 m (2-4 ft)",
+  "habitat": "Grassland, chaparral, oak woodland, rocky hillsides and forest edges, from the coast up into the mountains",
+  "range": "Western USA and Canada: California, Oregon, Washington, Idaho, Nevada, Utah and southern British Columbia, with relatives across the Great Basin",
+  "diet": "Ground squirrels, mice, rats, lizards and birds",
+  "active": "By day in spring and autumn, at dusk and night in hot weather",
+  "ids": [
+   "Dark, blotchy diamonds or hexagons with pale borders on a brown, grey or olive body; towards the tail the blotches join into crossbands.",
+   "The tail rings are brown and pale, not crisp black and white, and often end in a wider dark ring before the rattle.",
+   "A pale stripe runs from behind the eye towards the corner of the mouth.",
+   "Triangular head, vertical pupils, heat-sensing pits and a rattle."
+  ],
+  "look": {
+   "colour": "Brown, grey or olive",
+   "pattern": "Pale-edged dark blotches that turn into bands on the tail",
+   "head": "Broad and triangular, with a pale stripe behind the eye",
+   "body": "Medium to heavy, with a rattle"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "blotched",
+   "build": "stout",
+   "size": 3,
+   "habit": "terrestrial",
+   "pupil": "vertical",
+   "scales": "keeled",
+   "hue": [
+    "brown",
+    "grey",
+    "olive"
+   ],
+   "snout": "blunt"
+  },
+  "grp": [
+   "rattlesnake",
+   "viper-like"
+  ],
+  "fact": "In California it is often confused with the harmless Gophersnake, which copies a rattlesnake by hissing and shaking its tail in dry leaves."
+ },
+ {
+  "id": "crotalus-viridis",
+  "sci": "Crotalus viridis",
+  "name": "Prairie Rattlesnake",
+  "family": "Viperidae",
+  "kind": "Rattlesnake",
+  "tier": 1,
+  "venom": "deadly",
+  "len": "0.6-1.2 m (2-4 ft)",
+  "habitat": "Short-grass prairie, sagebrush, badlands and rocky outcrops; often in prairie-dog towns",
+  "range": "The Great Plains, from Alberta and Saskatchewan through Montana, the Dakotas, Wyoming, Nebraska, Colorado and Kansas to New Mexico and west Texas",
+  "diet": "Prairie dogs, ground squirrels, mice and birds",
+  "active": "By day in spring and autumn, at night in summer",
+  "ids": [
+   "Greenish-brown, olive or tan with dark brown, pale-edged blotches that become crossbands near the tail.",
+   "Two pale lines on each side of the face; the rear one passes behind the corner of the mouth.",
+   "The tail has brown rings, not black-and-white ones, and ends in a rattle.",
+   "Broad triangular head with vertical pupils."
+  ],
+  "look": {
+   "colour": "Greenish-brown, olive or tan",
+   "pattern": "Rounded dark blotches with pale edges",
+   "head": "Triangular, with two pale face lines",
+   "body": "Medium-heavy, with a rattle"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "blotched",
+   "build": "stout",
+   "size": 3,
+   "habit": "terrestrial",
+   "pupil": "vertical",
+   "scales": "keeled",
+   "hue": [
+    "olive",
+    "brown",
+    "green",
+    "tan"
+   ],
+   "snout": "blunt"
+  },
+  "grp": [
+   "rattlesnake",
+   "viper-like"
+  ],
+  "fact": "In the northern prairies hundreds may share one winter den, then spread out over the grassland in spring."
+ },
+ {
+  "id": "crotalus-scutulatus",
+  "sci": "Crotalus scutulatus",
+  "name": "Mojave Rattlesnake",
+  "aka": [
+   "Mojave Green"
+  ],
+  "family": "Viperidae",
+  "kind": "Rattlesnake",
+  "tier": 2,
+  "venom": "deadly",
+  "len": "0.6-1 m, rarely 1.3 m (2-4 ft)",
+  "habitat": "Open desert flats and scrub with creosote and mesquite, and desert grassland",
+  "range": "The Mojave and Chihuahuan Deserts: south-eastern California, southern Nevada and Utah, Arizona, New Mexico and west Texas; into Mexico",
+  "diet": "Kangaroo rats, mice and other rodents, and lizards",
+  "active": "Mostly at dusk and night",
+  "ids": [
+   "Looks like a Western Diamondback but is often greenish, with crisper, well-defined diamonds.",
+   "On the tail the white rings are clearly wider than the black ones.",
+   "The pale stripe behind the eye passes above the corner of the mouth.",
+   "Two or three large scales between the eyes on top of the head (the Western Diamondback has many small ones)."
+  ],
+  "look": {
+   "colour": "Greenish, olive, tan or grey",
+   "pattern": "Crisp pale-edged diamonds; white tail rings wider than the black",
+   "head": "Triangular, with large scales between the eyes",
+   "body": "Medium-heavy, with a rattle"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "blotched",
+   "build": "stout",
+   "size": 3,
+   "habit": "terrestrial",
+   "pupil": "vertical",
+   "scales": "keeled",
+   "hue": [
+    "green",
+    "olive",
+    "tan",
+    "grey"
+   ],
+   "snout": "blunt"
+  },
+  "grp": [
+   "rattlesnake",
+   "viper-like"
+  ],
+  "fact": "Many Mojave Rattlesnakes carry \"Mojave toxin\", which attacks the nerves, so a bite can be dangerous even when the wound looks mild."
+ },
+ {
+  "id": "crotalus-cerastes",
+  "sci": "Crotalus cerastes",
+  "name": "Sidewinder",
+  "aka": [
+   "Horned Rattlesnake"
+  ],
+  "family": "Viperidae",
+  "kind": "Rattlesnake",
+  "tier": 1,
+  "venom": "venomous",
+  "len": "0.45-0.75 m (18-30 in)",
+  "habitat": "Sandy desert with dunes, creosote flats and washes",
+  "range": "The Mojave and Sonoran Deserts: south-eastern California, southern Nevada, south-western Utah and western Arizona; into Mexico",
+  "diet": "Lizards, kangaroo rats and pocket mice",
+  "active": "Mostly at night; by day it buries itself in sand under bushes",
+  "ids": [
+   "A small, pale rattlesnake with a raised, horn-like scale above each eye.",
+   "Moves by \"sidewinding\", throwing its body sideways and leaving a row of J-shaped tracks in the sand.",
+   "Cream, tan, pink or grey to match the sand, with faint darker blotches.",
+   "A rattle on the tail, and a triangular head with vertical pupils."
+  ],
+  "look": {
+   "colour": "Cream, tan, pinkish or grey",
+   "pattern": "Faint blotches, often speckled",
+   "head": "Triangular, with a horn over each eye",
+   "body": "Short and stout, with a rattle"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "blotched",
+   "build": "stout",
+   "size": 2,
+   "habit": "terrestrial",
+   "pupil": "vertical",
+   "scales": "keeled",
+   "hue": [
+    "cream",
+    "tan",
+    "pink",
+    "grey"
+   ],
+   "snout": "blunt"
+  },
+  "grp": [
+   "rattlesnake",
+   "viper-like"
+  ],
+  "fact": "Sidewinding lets it cross loose, hot sand with only two short parts of its body touching the ground at a time."
+ },
+ {
+  "id": "crotalus-pyrrhus",
+  "sci": "Crotalus pyrrhus",
+  "name": "Southwestern Speckled Rattlesnake",
+  "aka": [
+   "Speckled Rattlesnake"
+  ],
+  "family": "Viperidae",
+  "kind": "Rattlesnake",
+  "tier": 3,
+  "venom": "deadly",
+  "len": "0.6-1 m (2-3 ft)",
+  "habitat": "Rocky desert slopes, canyons and boulder fields",
+  "range": "Southern California, southern Nevada, south-western Utah and western Arizona; into Mexico",
+  "diet": "Mice, kangaroo rats, lizards and birds",
+  "active": "By day in cool weather, at night in summer",
+  "ids": [
+   "Its colour matches the local rock: cream, pink, orange, grey or almost black.",
+   "A grainy, \"peppered\" pattern of indistinct crossbands, as if sprinkled with dark specks.",
+   "Dark rings on the tail before the rattle.",
+   "Triangular head with vertical pupils; the scales look rough and sandpapery."
+  ],
+  "look": {
+   "colour": "Cream, pink, orange, grey or dark, like the rocks it lives on",
+   "pattern": "Speckled, indistinct crossbands",
+   "head": "Triangular",
+   "body": "Medium, with a rattle"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "speckled",
+   "build": "stout",
+   "size": 3,
+   "habit": "terrestrial",
+   "pupil": "vertical",
+   "scales": "keeled",
+   "hue": [
+    "grey",
+    "pink",
+    "orange",
+    "cream"
+   ],
+   "snout": "blunt"
+  },
+  "grp": [
+   "rattlesnake",
+   "viper-like"
+  ],
+  "fact": "Snakes on pink granite are pink, those on dark lava are nearly black: one of the best-camouflaged rattlesnakes."
+ },
+ {
+  "id": "crotalus-stephensi",
+  "sci": "Crotalus stephensi",
+  "name": "Panamint Rattlesnake",
+  "family": "Viperidae",
+  "kind": "Rattlesnake",
+  "tier": 4,
+  "venom": "deadly",
+  "len": "0.6-1 m (2-3 ft)",
+  "habitat": "Rocky desert mountains, canyons and alluvial fans",
+  "range": "The desert ranges of eastern California and southern Nevada, such as the Panamint and Inyo Mountains",
+  "diet": "Rodents and lizards",
+  "active": "By day in cool weather, at night in summer",
+  "ids": [
+   "A pale, speckled rattlesnake of desert mountains, tan to grey with faint crossbands.",
+   "The bands are made of fine dark specks rather than solid colour.",
+   "Dark rings on the tail and a rattle."
+  ],
+  "look": {
+   "colour": "Tan, grey or buff",
+   "pattern": "Faint speckled crossbands",
+   "head": "Triangular",
+   "body": "Medium, with a rattle"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "speckled",
+   "build": "stout",
+   "size": 3,
+   "habit": "terrestrial",
+   "pupil": "vertical",
+   "scales": "keeled",
+   "hue": [
+    "tan",
+    "grey",
+    "cream"
+   ],
+   "snout": "blunt"
+  },
+  "grp": [
+   "rattlesnake",
+   "viper-like"
+  ],
+  "fact": "It was long treated as part of the Speckled Rattlesnake and was recognised as its own species in 2007.",
+  "cover": 490879666
+ },
+ {
+  "id": "crotalus-molossus",
+  "sci": "Crotalus molossus",
+  "name": "Northern Black-tailed Rattlesnake",
+  "aka": [
+   "Black-tailed Rattlesnake"
+  ],
+  "family": "Viperidae",
+  "kind": "Rattlesnake",
+  "tier": 2,
+  "venom": "deadly",
+  "len": "0.75-1.2 m (2.5-4 ft)",
+  "habitat": "Rocky canyons, oak and pine woodland and desert mountains",
+  "range": "Arizona and western New Mexico; into Mexico",
+  "diet": "Rodents, rabbits and birds",
+  "active": "By day in cool weather, at dusk and night in summer",
+  "ids": [
+   "Olive, yellow or greenish, with dark crossbands that have pale centres.",
+   "Many scales are a single colour, light or dark, which gives a patchwork look.",
+   "The tail is solid black, and the snout is usually dark too."
+  ],
+  "look": {
+   "colour": "Olive, yellow-green or tan",
+   "pattern": "Dark, pale-centred crossbands; black tail",
+   "head": "Broad, with a dark snout",
+   "body": "Medium-heavy, with a rattle"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "banded",
+   "build": "stout",
+   "size": 3,
+   "habit": "terrestrial",
+   "pupil": "vertical",
+   "scales": "keeled",
+   "hue": [
+    "olive",
+    "yellow",
+    "green",
+    "black"
+   ],
+   "snout": "blunt"
+  },
+  "grp": [
+   "rattlesnake",
+   "viper-like"
+  ],
+  "fact": "It is famously calm for a rattlesnake and often rattles only as a last resort."
+ },
+ {
+  "id": "crotalus-ornatus",
+  "sci": "Crotalus ornatus",
+  "name": "Eastern Black-tailed Rattlesnake",
+  "family": "Viperidae",
+  "kind": "Rattlesnake",
+  "tier": 3,
+  "venom": "deadly",
+  "len": "0.75-1.1 m (2.5-3.5 ft)",
+  "habitat": "Rocky slopes and canyons of the Chihuahuan Desert and its mountains",
+  "range": "West Texas and southern New Mexico; into Mexico",
+  "diet": "Rodents and other small mammals",
+  "active": "By day in cool weather, at night in summer",
+  "ids": [
+   "Grey to olive with dark crossbands, often edged with pale scales.",
+   "Solid black tail before the rattle.",
+   "Only told from the Northern Black-tailed Rattlesnake by where it lives."
+  ],
+  "look": {
+   "colour": "Grey, olive or tan",
+   "pattern": "Dark crossbands; black tail",
+   "head": "Broad",
+   "body": "Medium-heavy, with a rattle"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "banded",
+   "build": "stout",
+   "size": 3,
+   "habit": "terrestrial",
+   "pupil": "vertical",
+   "scales": "keeled",
+   "hue": [
+    "grey",
+    "olive",
+    "black"
+   ],
+   "snout": "blunt"
+  },
+  "grp": [
+   "rattlesnake",
+   "viper-like"
+  ],
+  "fact": "Its separation from the Northern Black-tailed Rattlesnake rests on DNA rather than looks."
+ },
+ {
+  "id": "crotalus-lepidus",
+  "sci": "Crotalus lepidus",
+  "name": "Rock Rattlesnake",
+  "aka": [
+   "Banded Rock Rattlesnake",
+   "Mottled Rock Rattlesnake"
+  ],
+  "family": "Viperidae",
+  "kind": "Rattlesnake",
+  "tier": 3,
+  "venom": "venomous",
+  "len": "0.4-0.8 m (16-30 in)",
+  "habitat": "Rocky slopes, canyons and talus in desert mountains",
+  "range": "West Texas, southern New Mexico and south-eastern Arizona; into Mexico",
+  "diet": "Lizards, mice and small snakes",
+  "active": "By day",
+  "ids": [
+   "A small rattlesnake with dark crossbands spaced widely along a pale grey, greenish or pinkish body.",
+   "Banded snakes have bold black bands; mottled snakes have bands made of dark specks.",
+   "A dark stripe from the eye to the corner of the mouth.",
+   "A small rattle and a rather small head."
+  ],
+  "look": {
+   "colour": "Pale grey, greenish, bluish or pinkish",
+   "pattern": "Widely spaced dark crossbands",
+   "head": "Small, with a dark stripe behind the eye",
+   "body": "Small and fairly slim for a rattlesnake"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "banded",
+   "build": "medium",
+   "size": 2,
+   "habit": "terrestrial",
+   "pupil": "vertical",
+   "scales": "keeled",
+   "hue": [
+    "grey",
+    "green",
+    "pink"
+   ],
+   "snout": "blunt"
+  },
+  "grp": [
+   "rattlesnake",
+   "viper-like"
+  ],
+  "fact": "Its colours tend to match the rocks: greenish in some ranges, pinkish or grey in others."
+ },
+ {
+  "id": "crotalus-tigris",
+  "sci": "Crotalus tigris",
+  "name": "Tiger Rattlesnake",
+  "family": "Viperidae",
+  "kind": "Rattlesnake",
+  "tier": 3,
+  "venom": "deadly",
+  "len": "0.45-0.9 m (18-36 in)",
+  "habitat": "Rocky canyons and slopes in the Sonoran Desert",
+  "range": "Arizona; into Sonora, Mexico",
+  "diet": "Rodents and lizards",
+  "active": "Mostly at night",
+  "ids": [
+   "Grey, pinkish or lavender, with many thin, wavy crossbands like tiger stripes.",
+   "A very small head for a rattlesnake, with a large rattle.",
+   "The bands become clearer and darker towards the tail."
+  ],
+  "look": {
+   "colour": "Grey, pink, lavender or tan",
+   "pattern": "Many thin, wavy crossbands",
+   "head": "Small and triangular",
+   "body": "Medium, with a large rattle"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "banded",
+   "build": "medium",
+   "size": 2,
+   "habit": "terrestrial",
+   "pupil": "vertical",
+   "scales": "keeled",
+   "hue": [
+    "grey",
+    "pink",
+    "tan"
+   ],
+   "snout": "blunt"
+  },
+  "grp": [
+   "rattlesnake",
+   "viper-like"
+  ],
+  "fact": "It produces only a little venom, but drop for drop it is among the most toxic of all rattlesnake venoms."
+ },
+ {
+  "id": "crotalus-willardi",
+  "sci": "Crotalus willardi",
+  "name": "Ridge-nosed Rattlesnake",
+  "family": "Viperidae",
+  "kind": "Rattlesnake",
+  "tier": 4,
+  "venom": "venomous",
+  "len": "0.3-0.6 m (1-2 ft)",
+  "habitat": "Pine-oak woodland and rocky canyons in high mountains",
+  "range": "Sky-island mountains of south-eastern Arizona and south-western New Mexico; into Mexico",
+  "diet": "Lizards, mice and large insects",
+  "active": "By day",
+  "ids": [
+   "A small brown rattlesnake with a raised ridge along the edge of its snout.",
+   "Bold white stripes on the face.",
+   "Thin pale crossbars edged in dark brown along the back."
+  ],
+  "look": {
+   "colour": "Brown or reddish-brown",
+   "pattern": "Thin pale crossbars",
+   "head": "Small, with white face stripes and a ridged snout",
+   "body": "Small, with a rattle"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "banded",
+   "build": "medium",
+   "size": 2,
+   "habit": "terrestrial",
+   "pupil": "vertical",
+   "scales": "keeled",
+   "hue": [
+    "brown",
+    "red",
+    "white"
+   ],
+   "snout": "upturned"
+  },
+  "grp": [
+   "rattlesnake",
+   "viper-like"
+  ],
+  "fact": "It is Arizona's state reptile."
+ },
+ {
+  "id": "crotalus-pricei",
+  "sci": "Crotalus pricei",
+  "name": "Twin-spotted Rattlesnake",
+  "family": "Viperidae",
+  "kind": "Rattlesnake",
+  "tier": 5,
+  "venom": "venomous",
+  "len": "0.3-0.6 m (1-2 ft)",
+  "habitat": "Rocky slopes and talus in high pine-oak forest",
+  "range": "The highest mountains of south-eastern Arizona; into Mexico",
+  "diet": "Lizards and mice",
+  "active": "By day",
+  "ids": [
+   "A small, slim grey rattlesnake with pairs of small dark spots side by side down the back.",
+   "Speckled with tiny dark flecks between the spots.",
+   "A tiny rattle."
+  ],
+  "look": {
+   "colour": "Grey to brownish-grey",
+   "pattern": "Paired dark spots down the back",
+   "head": "Small",
+   "body": "Small and slim, with a tiny rattle"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "spotted",
+   "build": "medium",
+   "size": 1,
+   "habit": "terrestrial",
+   "pupil": "vertical",
+   "scales": "keeled",
+   "hue": [
+    "grey",
+    "brown"
+   ],
+   "snout": "blunt"
+  },
+  "grp": [
+   "rattlesnake",
+   "viper-like"
+  ],
+  "fact": "In Arizona it lives only on a few mountain tops above about 2,000 m."
+ },
+ {
+  "id": "crotalus-ruber",
+  "sci": "Crotalus ruber",
+  "name": "Red Diamond Rattlesnake",
+  "family": "Viperidae",
+  "kind": "Rattlesnake",
+  "tier": 2,
+  "venom": "deadly",
+  "len": "0.75-1.4 m (2.5-4.5 ft)",
+  "habitat": "Coastal sage scrub, chaparral, rocky hillsides and desert foothills",
+  "range": "Southern California; into Baja California",
+  "diet": "Ground squirrels, rabbits and other mammals",
+  "active": "By day in spring, at dusk and night in summer",
+  "ids": [
+   "Brick-red, pinkish or tan, with pale-edged diamonds.",
+   "A black-and-white ringed tail before the rattle, like the Western Diamondback.",
+   "Large and heavy, with a broad triangular head."
+  ],
+  "look": {
+   "colour": "Brick-red, pink or tan",
+   "pattern": "Pale-edged diamonds; black-and-white tail",
+   "head": "Broad and triangular",
+   "body": "Heavy, with a rattle"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "blotched",
+   "build": "stout",
+   "size": 4,
+   "habit": "terrestrial",
+   "pupil": "vertical",
+   "scales": "keeled",
+   "hue": [
+    "red",
+    "pink",
+    "tan"
+   ],
+   "snout": "blunt"
+  },
+  "grp": [
+   "rattlesnake",
+   "viper-like"
+  ],
+  "fact": "Despite its size it is usually mild-tempered, but its bite is dangerous like any large rattlesnake's."
+ },
+ {
+  "id": "crotalus-cerberus",
+  "sci": "Crotalus cerberus",
+  "name": "Arizona Black Rattlesnake",
+  "family": "Viperidae",
+  "kind": "Rattlesnake",
+  "tier": 3,
+  "venom": "deadly",
+  "len": "0.75-1.1 m (2.5-3.5 ft)",
+  "habitat": "Rocky canyons and mountain woodland",
+  "range": "Central and eastern Arizona and western New Mexico",
+  "diet": "Rodents, lizards and birds",
+  "active": "By day in cool weather, at night in summer",
+  "ids": [
+   "Adults are dark grey to black, with pale crossbars or rings of light scales.",
+   "It can darken and lighten its colour within minutes.",
+   "Young snakes are grey-brown with dark blotches, like other Western Rattlesnakes."
+  ],
+  "look": {
+   "colour": "Dark grey to black (young paler)",
+   "pattern": "Dark blotches with pale outlines",
+   "head": "Broad and triangular",
+   "body": "Medium-heavy, with a rattle"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "blotched",
+   "build": "stout",
+   "size": 3,
+   "habit": "terrestrial",
+   "pupil": "vertical",
+   "scales": "keeled",
+   "hue": [
+    "black",
+    "grey",
+    "brown"
+   ],
+   "snout": "blunt"
+  },
+  "grp": [
+   "rattlesnake",
+   "viper-like"
+  ],
+  "fact": "Mothers stay with their newborn young for days, and families have been seen sharing dens."
+ },
+ {
+  "id": "sistrurus-miliarius",
+  "sci": "Sistrurus miliarius",
+  "name": "Pygmy Rattlesnake",
+  "aka": [
+   "Dusky Pygmy Rattlesnake",
+   "Ground Rattler"
+  ],
+  "family": "Viperidae",
+  "kind": "Rattlesnake",
+  "tier": 2,
+  "venom": "venomous",
+  "len": "0.4-0.6 m (15-24 in)",
+  "habitat": "Pine flatwoods, wet prairies, marshes and swamp edges",
+  "range": "South-eastern USA: Florida to North Carolina, west to Oklahoma and east Texas",
+  "diet": "Lizards, frogs, mice and centipedes",
+  "active": "By day and at night",
+  "ids": [
+   "A small, stout rattlesnake with a tiny rattle that buzzes like an insect.",
+   "Grey (reddish in the Carolinas) with rows of black blotches and often a rust or orange stripe down the spine.",
+   "Large plates on top of the head, unlike the small scales of most other rattlesnakes."
+  ],
+  "look": {
+   "colour": "Grey, bluish-grey or reddish",
+   "pattern": "Rows of dark blotches with an orange spine stripe",
+   "head": "Triangular, with large head plates",
+   "body": "Small and stout, with a tiny rattle"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "spotted",
+   "build": "stout",
+   "size": 2,
+   "habit": "terrestrial",
+   "pupil": "vertical",
+   "scales": "keeled",
+   "hue": [
+    "grey",
+    "red",
+    "orange",
+    "black"
+   ],
+   "snout": "blunt"
+  },
+  "grp": [
+   "rattlesnake",
+   "viper-like"
+  ],
+  "fact": "Its rattle is so small it can hardly be heard more than a metre away."
+ },
+ {
+  "id": "sistrurus-catenatus",
+  "sci": "Sistrurus catenatus",
+  "name": "Eastern Massasauga",
+  "aka": [
+   "Massasauga Rattlesnake",
+   "Swamp Rattler"
+  ],
+  "family": "Viperidae",
+  "kind": "Rattlesnake",
+  "tier": 3,
+  "venom": "venomous",
+  "len": "0.5-0.75 m (20-30 in)",
+  "habitat": "Wet prairies, fens, bogs and swamp edges; drier fields in summer",
+  "range": "The Great Lakes region: southern Ontario, Michigan, Ohio, Indiana, Illinois, Wisconsin, Pennsylvania and New York",
+  "diet": "Voles, mice, frogs and small snakes",
+  "active": "By day in spring and autumn, at night in summer",
+  "ids": [
+   "Grey or brownish-grey with large dark brown blotches down the back and smaller ones on the sides.",
+   "Nine large plates on top of the head and a small rattle.",
+   "A dark stripe through the eye, edged with white."
+  ],
+  "look": {
+   "colour": "Grey to grey-brown; some are all black",
+   "pattern": "Large dark blotches in rows",
+   "head": "Triangular, with large head plates",
+   "body": "Stout, with a small rattle"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "blotched",
+   "build": "stout",
+   "size": 2,
+   "habit": "terrestrial",
+   "pupil": "vertical",
+   "scales": "keeled",
+   "hue": [
+    "grey",
+    "brown",
+    "black"
+   ],
+   "snout": "blunt"
+  },
+  "grp": [
+   "rattlesnake",
+   "viper-like"
+  ],
+  "fact": "It is Ontario's only venomous snake, and is protected as threatened in both Canada and the USA."
+ },
+ {
+  "id": "sistrurus-tergeminus",
+  "sci": "Sistrurus tergeminus",
+  "name": "Western Massasauga",
+  "aka": [
+   "Desert Massasauga",
+   "Prairie Massasauga"
+  ],
+  "family": "Viperidae",
+  "kind": "Rattlesnake",
+  "tier": 4,
+  "venom": "venomous",
+  "len": "0.4-0.7 m (16-28 in)",
+  "habitat": "Grassland, prairie and desert grassland, often near water",
+  "range": "The Great Plains: Kansas, Oklahoma, Texas, Nebraska, Colorado, New Mexico and Missouri; into Mexico",
+  "diet": "Lizards, mice and frogs",
+  "active": "By day in spring and autumn, at night in summer",
+  "ids": [
+   "A small, pale grey or tan rattlesnake with rows of brown blotches.",
+   "Large plates on top of the head and a small rattle.",
+   "Told apart from the Eastern Massasauga mainly by where it lives."
+  ],
+  "look": {
+   "colour": "Pale grey or tan",
+   "pattern": "Rows of brown blotches",
+   "head": "Triangular, with large head plates",
+   "body": "Small and stout, with a small rattle"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "blotched",
+   "build": "stout",
+   "size": 2,
+   "habit": "terrestrial",
+   "pupil": "vertical",
+   "scales": "keeled",
+   "hue": [
+    "grey",
+    "tan",
+    "brown"
+   ],
+   "snout": "blunt"
+  },
+  "grp": [
+   "rattlesnake",
+   "viper-like"
+  ],
+  "fact": "Unlike most rattlesnakes it often lives near water and eats many frogs."
+ },
+ {
+  "id": "agkistrodon-contortrix",
+  "sci": "Agkistrodon contortrix",
+  "name": "Eastern Copperhead",
+  "aka": [
+   "Copperhead",
+   "Northern Copperhead"
+  ],
+  "family": "Viperidae",
+  "kind": "Copperhead",
+  "tier": 1,
+  "venom": "venomous",
+  "len": "0.6-0.9 m, rarely 1.3 m (2-3 ft)",
+  "habitat": "Forests, rocky hillsides, woodland edges and suburbs with leaf litter, wood piles and old walls",
+  "range": "Eastern USA, from Massachusetts and New York to north Florida, west to Illinois, Missouri and east Texas",
+  "diet": "Mice, frogs, lizards and insects such as cicadas",
+  "active": "By day in spring and autumn, at night in summer",
+  "ids": [
+   "Copper, pinkish or tan, with dark hourglass-shaped crossbands: wide on the sides, narrow over the back.",
+   "A plain, unmarked coppery head with vertical pupils and a heat-sensing pit.",
+   "Young snakes have a bright yellow-green tail tip.",
+   "No rattle. Stout body with keeled scales."
+  ],
+  "look": {
+   "colour": "Copper, pinkish-tan or chestnut",
+   "pattern": "Dark hourglass crossbands",
+   "head": "Plain copper-coloured, triangular",
+   "body": "Stout, no rattle"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "banded",
+   "build": "stout",
+   "size": 3,
+   "habit": "terrestrial",
+   "pupil": "vertical",
+   "scales": "keeled",
+   "hue": [
+    "brown",
+    "orange",
+    "pink",
+    "tan"
+   ],
+   "snout": "blunt"
+  },
+  "grp": [
+   "copperhead-like",
+   "viper-like",
+   "pit-viper"
+  ],
+  "fact": "Copperheads bite more people in the eastern USA than any other snake, but their bites are very rarely fatal."
+ },
+ {
+  "id": "agkistrodon-laticinctus",
+  "sci": "Agkistrodon laticinctus",
+  "name": "Broad-banded Copperhead",
+  "family": "Viperidae",
+  "kind": "Copperhead",
+  "tier": 2,
+  "venom": "venomous",
+  "len": "0.5-0.8 m (20-30 in)",
+  "habitat": "Woodland, rocky hills, river bottoms and suburbs",
+  "range": "Texas, Oklahoma and southern Kansas",
+  "diet": "Mice, frogs, lizards and insects",
+  "active": "By day in spring and autumn, at night in summer",
+  "ids": [
+   "Very broad reddish-brown crossbands that hardly narrow over the back, on a pale tan body.",
+   "A plain coppery head with vertical pupils.",
+   "Young have a yellow-green tail tip."
+  ],
+  "look": {
+   "colour": "Tan with reddish-brown bands",
+   "pattern": "Broad crossbands",
+   "head": "Plain, copper-coloured",
+   "body": "Stout, no rattle"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "banded",
+   "build": "stout",
+   "size": 2,
+   "habit": "terrestrial",
+   "pupil": "vertical",
+   "scales": "keeled",
+   "hue": [
+    "brown",
+    "red",
+    "tan"
+   ],
+   "snout": "blunt"
+  },
+  "grp": [
+   "copperhead-like",
+   "viper-like",
+   "pit-viper"
+  ],
+  "fact": "The western copperheads were split from the Eastern Copperhead as their own species in 2015."
+ },
+ {
+  "id": "agkistrodon-piscivorus",
+  "sci": "Agkistrodon piscivorus",
+  "name": "Northern Cottonmouth",
+  "aka": [
+   "Water Moccasin",
+   "Cottonmouth"
+  ],
+  "family": "Viperidae",
+  "kind": "Cottonmouth",
+  "tier": 1,
+  "venom": "venomous",
+  "len": "0.6-1.2 m, rarely 1.8 m (2-4 ft)",
+  "habitat": "Swamps, marshes, slow rivers, ponds, bayous and ditches",
+  "range": "South-eastern and south-central USA: Virginia to Alabama, west to Texas and Oklahoma, and up the Mississippi to southern Illinois and Indiana",
+  "diet": "Fish, frogs, snakes, small mammals and birds",
+  "active": "By day and at night",
+  "ids": [
+   "Heavy-bodied and dark: olive, brown or nearly black; adults often look plain, with only faint crossbands.",
+   "A broad, flat-topped head with a dark stripe through the eye (a \"mask\") and vertical pupils.",
+   "When threatened it gapes to show the white inside of its mouth.",
+   "It swims with its whole body floating high on the water.",
+   "Young are boldly banded like copperheads, with a yellow tail tip."
+  ],
+  "look": {
+   "colour": "Olive, brown or nearly black",
+   "pattern": "Dark crossbands, fading with age",
+   "head": "Broad and blocky, with a dark mask through the eye",
+   "body": "Heavy, with a short, thick tail"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "banded",
+   "build": "stout",
+   "size": 3,
+   "habit": "aquatic",
+   "pupil": "vertical",
+   "scales": "keeled",
+   "hue": [
+    "black",
+    "olive",
+    "brown"
+   ],
+   "snout": "blunt"
+  },
+  "grp": [
+   "water-snake",
+   "pit-viper",
+   "viper-like"
+  ],
+  "fact": "Most \"water moccasins\" reported by people are in fact harmless watersnakes, which are far more common."
+ },
+ {
+  "id": "agkistrodon-conanti",
+  "sci": "Agkistrodon conanti",
+  "name": "Florida Cottonmouth",
+  "aka": [
+   "Florida Water Moccasin"
+  ],
+  "family": "Viperidae",
+  "kind": "Cottonmouth",
+  "tier": 2,
+  "venom": "venomous",
+  "len": "0.6-1.2 m (2-4 ft)",
+  "habitat": "Swamps, marshes, lakes, canals and wet prairies",
+  "range": "Florida and south Georgia",
+  "diet": "Fish, frogs, snakes, birds and carrion",
+  "active": "By day and at night",
+  "ids": [
+   "A heavy, dark water snake: brown to black, with faint wide crossbands.",
+   "A bold dark mask through the eye, often edged by pale lines on the snout, and vertical pupils.",
+   "Gapes to show its cotton-white mouth when disturbed."
+  ],
+  "look": {
+   "colour": "Brown, olive or black",
+   "pattern": "Faint broad crossbands",
+   "head": "Broad, with a dark mask and pale facial lines",
+   "body": "Heavy"
+  },
+  "t": {
+   "hood": false,
+   "head": "distinct",
+   "pat": "banded",
+   "build": "stout",
+   "size": 3,
+   "habit": "aquatic",
+   "pupil": "vertical",
+   "scales": "keeled",
+   "hue": [
+    "black",
+    "brown",
+    "olive"
+   ],
+   "snout": "blunt"
+  },
+  "grp": [
+   "water-snake",
+   "pit-viper",
+   "viper-like"
+  ],
+  "fact": "It often stays put rather than fleeing, but it will bite only if stepped on or handled."
+ },
+ {
+  "id": "micrurus-fulvius",
+  "sci": "Micrurus fulvius",
+  "name": "Harlequin Coral Snake",
+  "aka": [
+   "Eastern Coral Snake",
+   "Coral Snake"
+  ],
+  "family": "Elapidae",
+  "kind": "Coral snake",
+  "tier": 1,
+  "venom": "deadly",
+  "len": "0.5-0.8 m, rarely 1.2 m (20-30 in)",
+  "habitat": "Pine flatwoods, sandhills, hardwood hammocks and gardens; hides in leaf litter and under logs",
+  "range": "South-eastern USA: Florida, south Georgia, the Carolina coastal plain, south Alabama, Mississippi and Louisiana",
+  "diet": "Other snakes and lizards",
+  "active": "Mostly by day, at dawn and dusk",
+  "ids": [
+   "Glossy rings of red, yellow and black around the body; the red rings touch the narrow yellow rings.",
+   "A blunt black snout, then a wide yellow band across the back of the head.",
+   "Slim, smooth and shiny, with a small head no wider than the neck.",
+   "The tail has only black and yellow rings."
+  ],
+  "look": {
+   "colour": "Red, yellow and black",
+   "pattern": "Rings: red touches yellow",
+   "head": "Small and blunt, with a black snout",
+   "body": "Slim and glossy"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "ringed",
+   "build": "slender",
+   "size": 2,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "glossy",
+   "hue": [
+    "red",
+    "yellow",
+    "black"
+   ]
+  },
+  "grp": [
+   "coral-like"
+  ],
+  "fact": "In the USA \"red touches yellow\" marks a coral snake, but the rhyme fails elsewhere in the world, so never rely on it to handle a snake."
+ },
+ {
+  "id": "micrurus-tener",
+  "sci": "Micrurus tener",
+  "name": "Texas Coral Snake",
+  "family": "Elapidae",
+  "kind": "Coral snake",
+  "tier": 2,
+  "venom": "deadly",
+  "len": "0.5-0.8 m (20-30 in)",
+  "habitat": "Woodland, thornscrub, rocky canyons and suburban gardens",
+  "range": "Texas, Louisiana and southern Arkansas; into Mexico",
+  "diet": "Other snakes and lizards",
+  "active": "By day, especially after rain",
+  "ids": [
+   "Wide red and black rings separated by narrow yellow rings; red touches yellow.",
+   "The red rings are often flecked with black.",
+   "A black snout and a yellow band behind the head."
+  ],
+  "look": {
+   "colour": "Red, yellow and black",
+   "pattern": "Rings: red touches yellow",
+   "head": "Small and blunt, with a black snout",
+   "body": "Slim and glossy"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "ringed",
+   "build": "slender",
+   "size": 2,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "glossy",
+   "hue": [
+    "red",
+    "yellow",
+    "black"
+   ]
+  },
+  "grp": [
+   "coral-like"
+  ],
+  "fact": "It looks almost exactly like the Harlequin Coral Snake; the two are told apart mainly by range."
+ },
+ {
+  "id": "micruroides-euryxanthus",
+  "sci": "Micruroides euryxanthus",
+  "name": "Sonoran Coral Snake",
+  "aka": [
+   "Arizona Coral Snake",
+   "Western Coral Snake"
+  ],
+  "family": "Elapidae",
+  "kind": "Coral snake",
+  "tier": 3,
+  "venom": "venomous",
+  "len": "0.3-0.55 m (13-21 in)",
+  "habitat": "Rocky desert, thornscrub and grassland, often hiding under stones",
+  "range": "Arizona and south-western New Mexico; into Mexico",
+  "diet": "Thread snakes and other small snakes",
+  "active": "At night and after summer rains",
+  "ids": [
+   "A small coral snake with wide red and black rings separated by white or pale yellow rings.",
+   "A black head with a pale band behind it.",
+   "Red touches the pale rings."
+  ],
+  "look": {
+   "colour": "Red, black and white or pale yellow",
+   "pattern": "Wide rings",
+   "head": "Black, small and rounded",
+   "body": "Slim and small"
+  },
+  "t": {
+   "hood": false,
+   "head": "indistinct",
+   "pat": "ringed",
+   "build": "slender",
+   "size": 1,
+   "habit": "terrestrial",
+   "snout": "blunt",
+   "scales": "glossy",
+   "hue": [
+    "red",
+    "black",
+    "white"
+   ]
+  },
+  "grp": [
+   "coral-like"
+  ],
+  "fact": "When alarmed it makes a popping sound by pushing air out of its vent."
+ }
+]

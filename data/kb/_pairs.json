@@ -185,6 +185,177 @@
   [
    "hebius-clerki",
    "herpetoreas-platyceps"
+  ],
+  [
+   "crotalus-pyrrhus",
+   "crotalus-stephensi"
+  ],
+  [
+   "crotalus-molossus",
+   "crotalus-ornatus"
+  ],
+  [
+   "crotalus-oreganus",
+   "crotalus-viridis",
+   "crotalus-cerberus"
+  ],
+  [
+   "agkistrodon-contortrix",
+   "agkistrodon-laticinctus"
+  ],
+  [
+   "agkistrodon-piscivorus",
+   "agkistrodon-conanti"
+  ],
+  [
+   "sistrurus-catenatus",
+   "sistrurus-tergeminus"
+  ],
+  [
+   "micrurus-fulvius",
+   "micrurus-tener"
+  ],
+  [
+   "pantherophis-alleghaniensis",
+   "pantherophis-obsoletus",
+   "pantherophis-quadrivittatus"
+  ],
+  [
+   "pantherophis-guttatus",
+   "pantherophis-slowinskii"
+  ],
+  [
+   "pantherophis-emoryi",
+   "pantherophis-slowinskii"
+  ],
+  [
+   "pantherophis-vulpinus",
+   "pantherophis-ramspotti"
+  ],
+  [
+   "pituophis-catenifer",
+   "pituophis-melanoleucus"
+  ],
+  [
+   "lampropeltis-getula",
+   "lampropeltis-nigra"
+  ],
+  [
+   "lampropeltis-holbrooki",
+   "lampropeltis-splendida"
+  ],
+  [
+   "lampropeltis-gentilis",
+   "lampropeltis-annulata"
+  ],
+  [
+   "lampropeltis-zonata",
+   "lampropeltis-multifasciata"
+  ],
+  [
+   "lampropeltis-pyromelana",
+   "lampropeltis-knoblochi"
+  ],
+  [
+   "heterodon-nasicus",
+   "heterodon-kennerlyi"
+  ],
+  [
+   "masticophis-flagellum",
+   "masticophis-piceus"
+  ],
+  [
+   "salvadora-hexalepis",
+   "salvadora-deserticola",
+   "salvadora-lineata",
+   "salvadora-grahamiae"
+  ],
+  [
+   "arizona-elegans",
+   "arizona-occidentalis"
+  ],
+  [
+   "hypsiglena-chlorophaea",
+   "hypsiglena-jani",
+   "hypsiglena-ochrorhynchus"
+  ],
+  [
+   "trimorphodon-lambda",
+   "trimorphodon-lyrophanes",
+   "trimorphodon-vilkinsonii"
+  ],
+  [
+   "tantilla-nigriceps",
+   "tantilla-hobartsmithi",
+   "tantilla-planiceps",
+   "tantilla-cucullata",
+   "tantilla-yaquia"
+  ],
+  [
+   "tantilla-coronata",
+   "tantilla-relicta"
+  ],
+  [
+   "sonora-episcopa",
+   "sonora-semiannulata",
+   "sonora-taylori"
+  ],
+  [
+   "sonora-occipitalis",
+   "sonora-annulata"
+  ],
+  [
+   "carphophis-amoenus",
+   "carphophis-vermis"
+  ],
+  [
+   "contia-tenuis",
+   "contia-longicauda"
+  ],
+  [
+   "charina-bottae",
+   "charina-umbratica"
+  ],
+  [
+   "lichanura-orcutti",
+   "lichanura-trivirgata"
+  ],
+  [
+   "rena-dulcis",
+   "rena-humilis"
+  ],
+  [
+   "storeria-dekayi",
+   "storeria-victa"
+  ],
+  [
+   "virginia-striatula",
+   "virginia-valeriae"
+  ],
+  [
+   "thamnophis-saurita",
+   "thamnophis-proximus"
+  ],
+  [
+   "thamnophis-butleri",
+   "thamnophis-brachystoma"
+  ],
+  [
+   "thamnophis-elegans",
+   "thamnophis-atratus",
+   "thamnophis-couchii"
+  ],
+  [
+   "thamnophis-atratus",
+   "thamnophis-hammondii"
+  ],
+  [
+   "nerodia-floridana",
+   "nerodia-cyclopion"
+  ],
+  [
+   "nerodia-clarkii",
+   "nerodia-fasciata"
   ]
  ],
  "pairs": [
@@ -457,6 +628,216 @@
    "a": "bungarus-caeruleus",
    "b": "bungarus-andamanensis",
    "tip": "They look alike, but they never meet: the Andaman Krait lives only in the Andaman Islands and has single narrow pale bands, while the Common Krait of the mainland has narrow white bands that are often paired."
+  },
+  {
+   "a": "crotalus-atrox",
+   "b": "crotalus-scutulatus",
+   "tip": "On the tail, the Mojave's white rings are clearly wider than its black ones; the Western Diamondback's are about equal. The Mojave also has two or three big scales between the eyes (the Western Diamondback has many small ones), a crisper pattern, often a greenish tint, and a pale face stripe that passes above the corner of the mouth."
+  },
+  {
+   "a": "crotalus-atrox",
+   "b": "crotalus-ruber",
+   "tip": "Both have a black-and-white \"coon tail\". The Red Diamond is brick-red to pinkish and lives in southern California; the Western Diamondback is grey to brown, dusty-looking, and lives from Arizona eastwards."
+  },
+  {
+   "a": "crotalus-oreganus",
+   "b": "pituophis-catenifer",
+   "tip": "The Gophersnake copies a rattlesnake by hissing, flattening its head and shaking its tail, but it has a narrow head, round pupils, no heat pits, no rattle and a pointed tail. The Western Rattlesnake has a broad triangular head, vertical pupils and a rattle."
+  },
+  {
+   "a": "crotalus-viridis",
+   "b": "pituophis-catenifer",
+   "tip": "Look at the head and tail: the Bullsnake (a Gophersnake) has a narrow head, round pupils and a pointed tail; the Prairie Rattlesnake has a wide triangular head, vertical pupils, pale face lines and a rattle."
+  },
+  {
+   "a": "crotalus-horridus",
+   "b": "crotalus-adamanteus",
+   "tip": "The Timber Rattlesnake has dark V-shaped crossbands and a plain velvety-black tail; the Eastern Diamondback has pale-edged diamonds, a ringed brown tail and bold pale lines on the face."
+  },
+  {
+   "a": "crotalus-horridus",
+   "b": "agkistrodon-contortrix",
+   "tip": "Both have dark crossbands, but only the Timber Rattlesnake has a rattle and a black tail. The Copperhead's bands are hourglass-shaped and its head is plain copper."
+  },
+  {
+   "a": "agkistrodon-contortrix",
+   "b": "nerodia-sipedon",
+   "tip": "The Copperhead's bands are hourglass-shaped (narrow on the back, wide on the sides) and its head is plain copper with vertical pupils. The Common Watersnake's bands are wide on the back and break up into blotches behind, its lips are barred and its pupils are round."
+  },
+  {
+   "a": "agkistrodon-contortrix",
+   "b": "pantherophis-guttatus",
+   "tip": "The Red Cornsnake has black-edged red saddles, a spear-point mark on its head, a checkered belly and round pupils. The Copperhead has hourglass bands, a plain coppery head and vertical pupils."
+  },
+  {
+   "a": "agkistrodon-contortrix",
+   "b": "heterodon-platirhinos",
+   "tip": "The Eastern Hog-nosed Snake has an upturned snout, round pupils and often flattens its neck and plays dead. The Copperhead has a plain, pointed-oval head, vertical pupils and hourglass bands."
+  },
+  {
+   "a": "agkistrodon-contortrix",
+   "b": "lampropeltis-triangulum",
+   "tip": "The Eastern Milksnake has black-edged blotches, a pale Y or V on the neck, a checkerboard belly and glossy scales. The Copperhead has hourglass bands, a plain copper head and dull keeled scales."
+  },
+  {
+   "a": "agkistrodon-contortrix",
+   "b": "pantherophis-vulpinus",
+   "tip": "The Eastern Foxsnake has a plain orange-brown head too, but its dark blotches are separate spots, not hourglass bands, and it has round pupils. Most of its range has no copperheads at all."
+  },
+  {
+   "a": "agkistrodon-piscivorus",
+   "b": "nerodia-sipedon",
+   "tip": "The Cottonmouth is heavier, with a broad, flat-topped head, a dark mask through the eye, vertical pupils and a blocky jaw; it swims with its whole body high on the water and may gape to show its white mouth. The watersnake has a slimmer head, round pupils and swims with only its head showing."
+  },
+  {
+   "a": "agkistrodon-piscivorus",
+   "b": "nerodia-fasciata",
+   "tip": "The Banded Watersnake has a dark stripe from eye to jaw too, but it has round pupils, a narrower head and bands that stay crisp along the whole body. The Cottonmouth is bulkier, with a broad, flat head, vertical pupils and faded bands."
+  },
+  {
+   "a": "agkistrodon-piscivorus",
+   "b": "nerodia-rhombifer",
+   "tip": "The Diamond-backed Watersnake has a dark net pattern with pale diamonds and round pupils; the Cottonmouth is darker, plainer, with a broad head, a mask through the eye and vertical pupils."
+  },
+  {
+   "a": "agkistrodon-piscivorus",
+   "b": "nerodia-erythrogaster",
+   "tip": "Both look plain dark from above, but the Plain-bellied Watersnake has a bright red, orange or yellow belly, round pupils and a slimmer head. The Cottonmouth has a mask through the eye and vertical pupils."
+  },
+  {
+   "a": "agkistrodon-conanti",
+   "b": "nerodia-fasciata",
+   "tip": "In Florida, the Banded Watersnake is often red or orange with crisp bands and round pupils. The Florida Cottonmouth is darker and heavier, with a bold mask and pale lines on the face."
+  },
+  {
+   "a": "agkistrodon-conanti",
+   "b": "nerodia-taxispilota",
+   "tip": "The Brown Watersnake has large dark squares on a brown body and round pupils, and basks on branches over the water. The Florida Cottonmouth is darker, with faint bands, a mask through the eye and vertical pupils."
+  },
+  {
+   "a": "micrurus-fulvius",
+   "b": "lampropeltis-elapsoides",
+   "tip": "On the coral snake, red touches yellow and the snout is black. On the Scarlet Kingsnake, red touches black and the snout is red. (The rhyme only works for snakes native to the USA.)"
+  },
+  {
+   "a": "micrurus-fulvius",
+   "b": "cemophora-coccinea",
+   "tip": "The Scarletsnake's red marks are saddles that stop at the sides, leaving a plain white belly, and its snout is pointed and red. The coral snake's rings go all the way round, red touches yellow, and its snout is black."
+  },
+  {
+   "a": "micrurus-tener",
+   "b": "lampropeltis-annulata",
+   "tip": "The Texas Coral Snake has red touching yellow and a black snout; the Mexican Milksnake has red touching black and wider red rings bordered by black."
+  },
+  {
+   "a": "micruroides-euryxanthus",
+   "b": "lampropeltis-pyromelana",
+   "tip": "The Sonoran Coral Snake is small, with a black head, wide red and black rings and pale rings that touch the red. The Sonoran Mountain Kingsnake has a white snout and red touching black."
+  },
+  {
+   "a": "micruroides-euryxanthus",
+   "b": "sonora-semiannulata",
+   "tip": "Banded Western Groundsnakes have black bands over an orange body but no pale rings, and the bands do not cross the belly. The Sonoran Coral Snake has full rings of red, black and pale yellow, and a black head."
+  },
+  {
+   "a": "sistrurus-catenatus",
+   "b": "pantherophis-vulpinus",
+   "tip": "The Eastern Foxsnake has a plain orange-brown head, round pupils and no rattle. The Eastern Massasauga has a dark, white-edged stripe through the eye, vertical pupils, big head plates and a rattle."
+  },
+  {
+   "a": "sistrurus-catenatus",
+   "b": "heterodon-platirhinos",
+   "tip": "The Eastern Hog-nosed Snake has an upturned snout and round pupils and no rattle; the Massasauga has a rattle, vertical pupils and a dark stripe through the eye."
+  },
+  {
+   "a": "sistrurus-miliarius",
+   "b": "heterodon-platirhinos",
+   "tip": "The Pygmy Rattlesnake has a tiny rattle, vertical pupils and often an orange stripe down the spine; the Eastern Hog-nosed Snake has an upturned snout, round pupils and no rattle."
+  },
+  {
+   "a": "coluber-constrictor",
+   "b": "pantherophis-alleghaniensis",
+   "tip": "Both can be black with a white chin. The racer is slimmer and faster, with smooth, satiny scales and a round body; the Eastern Ratsnake is bulkier, with a flat belly, a squarish cross-section, faint traces of blotches and a checkered belly."
+  },
+  {
+   "a": "coluber-constrictor",
+   "b": "masticophis-flagellum",
+   "tip": "The Coachwhip is even longer and thinner, dark in front fading to tan behind, with braided-looking tail scales. The racer is evenly coloured from head to tail."
+  },
+  {
+   "a": "thamnophis-sirtalis",
+   "b": "thamnophis-saurita",
+   "tip": "The Eastern Ribbonsnake is much slimmer, with a very long tail (about a third of its length), bright stripes and plain, unmarked lips. The Common Garter Snake is stockier, often with a checkered pattern and dark bars on the lips."
+  },
+  {
+   "a": "thamnophis-sirtalis",
+   "b": "thamnophis-radix",
+   "tip": "Count up from the belly: the Common Garter Snake's side stripe sits on scale rows 2 and 3, the Plains Garter Snake's on rows 3 and 4. The Plains Garter Snake's back stripe is often bright orange."
+  },
+  {
+   "a": "thamnophis-proximus",
+   "b": "thamnophis-sirtalis",
+   "tip": "The Western Ribbonsnake is slimmer, with a long tail, plain pale lips and usually an orange back stripe; the Common Garter Snake is stockier with barred lips."
+  },
+  {
+   "a": "storeria-dekayi",
+   "b": "storeria-occipitomaculata",
+   "tip": "The Red-bellied Snake has a bright red belly and pale spots on the neck; DeKay's Brownsnake has a cream belly and two rows of small dark spots down its back."
+  },
+  {
+   "a": "diadophis-punctatus",
+   "b": "storeria-occipitomaculata",
+   "tip": "The Ring-necked Snake has smooth, satiny scales, a bold yellow or orange neck ring and often a black-spotted belly; the Red-bellied Snake has keeled scales and three small pale neck spots."
+  },
+  {
+   "a": "lampropeltis-getula",
+   "b": "lampropeltis-holbrooki",
+   "tip": "The Eastern Kingsnake has white or yellow chain-like crossbands; the Speckled Kingsnake has a pale spot on nearly every scale instead."
+  },
+  {
+   "a": "lampropeltis-californiae",
+   "b": "bungarus-caeruleus",
+   "tip": "They live on different continents. The Common Krait (South Asia) has a row of enlarged six-sided scales down its spine and thin white bands, often in pairs, on a glossy black body; the California Kingsnake (western North America) has bands that widen on the belly and no enlarged spine scales."
+  },
+  {
+   "a": "opheodrys-aestivus",
+   "b": "opheodrys-vernalis",
+   "tip": "The Rough Greensnake is larger and slimmer, lives in shrubs and has keeled scales; the Smooth Greensnake is small, lives in grass and has smooth scales."
+  },
+  {
+   "a": "pantherophis-guttatus",
+   "b": "pantherophis-emoryi",
+   "tip": "The Red Cornsnake is orange and red with black-edged saddles; the Great Plains Ratsnake is a duller grey or tan with brown blotches. Both have the spear-point mark on the head."
+  },
+  {
+   "a": "heterodon-platirhinos",
+   "b": "naja-naja",
+   "tip": "They live on different continents. The Spectacled Cobra (South Asia) rears up and spreads a wide hood, often with a spectacle mark; the Eastern Hog-nosed Snake (North America) flattens its neck while staying low, has an upturned snout, and then plays dead."
+  },
+  {
+   "a": "pituophis-catenifer",
+   "b": "arizona-occidentalis",
+   "tip": "The Western Glossy Snake has very smooth, shiny scales, a faded pattern and a plain white belly; the Gophersnake has keeled scales, a dark band between the eyes and a spotted belly."
+  },
+  {
+   "a": "rhinocheilus-lecontei",
+   "b": "lampropeltis-gentilis",
+   "tip": "The Long-nosed Snake has a long pointed snout and speckled black saddles, with a plain cream belly; the Western Milksnake has full rings of red, black and white with a black snout."
+  },
+  {
+   "a": "nerodia-sipedon",
+   "b": "nerodia-fasciata",
+   "tip": "The Banded Watersnake has crossbands all the way along the body and a dark stripe from the eye to the jaw; the Common Watersnake's bands break into blotches towards the tail and it has no eye stripe."
+  },
+  {
+   "a": "crotalus-cerastes",
+   "b": "echis-carinatus",
+   "tip": "They live on different continents, though both sidewind across sand. The Saw-scaled Viper (South Asia) has no rattle and a white cross or \"bird's foot\" mark on its head; the Sidewinder (North America) has a rattle and a horn-like scale over each eye."
+  },
+  {
+   "a": "charina-bottae",
+   "b": "eryx-johnii",
+   "tip": "Both have blunt tails that look like a second head. The Red Sand Boa (India) is reddish-brown and very thick, with a tiny pointed head; the Northern Rubber Boa (North America) is olive-brown to tan with rubbery-looking skin and a yellow belly."
   }
  ]
 }

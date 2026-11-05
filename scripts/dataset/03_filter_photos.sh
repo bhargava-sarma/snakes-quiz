@@ -4,13 +4,17 @@
 # modification (CC0, CC-BY, CC-BY-SA, CC-BY-NC, CC-BY-NC-SA; "ND" is excluded).
 #
 # Usage: 03_filter_photos.sh obs_snakes.tsv photos.csv.gz photos_snakes.tsv
+#   photos.csv.gz can also be its https:// address, to stream it instead of downloading 21 GB first.
 # Output columns: photo_id observation_uuid extension license width height position
 set -euo pipefail
 OBS=${1:?obs_snakes.tsv}
 PHOTOS=${2:?photos.csv.gz}
 OUT=${3:?output.tsv}
 
-gunzip -c "$PHOTOS" \
+if [[ "$PHOTOS" == http* ]]; then fetch() { curl -fsS --retry 5 --retry-delay 5 --retry-all-errors "$PHOTOS"; }
+else fetch() { cat "$PHOTOS"; }; fi
+
+fetch | gunzip -c \
   | mawk -F'\t' -v OFS='\t' -v obs="$OBS" '
       BEGIN { while ((getline line < obs) > 0) { split(line, a, "\t"); keep[a[1]] = 1 } }
       NR > 1 && ($3 in keep) && ($5 == "jpg" || $5 == "jpeg" || $5 == "png") \

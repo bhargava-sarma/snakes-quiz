@@ -69,7 +69,7 @@ def main():
 
     keep = ("photo", "obs", "ext", "license", "w", "h", "pos", "species", "state", "lat", "lon",
             "acc", "date", "observer_id", "login", "name")
-    json.dump([{k: p[k] for k in keep} for p in pool], open(args.out, "w"))
+    json.dump([dict({k: p[k] for k in keep}, region=p.get("region", "in")) for p in pool], open(args.out, "w"))
     print(f"{len(pool):,} photos in the pool across {kept_species} species -> {args.out}")
 
 

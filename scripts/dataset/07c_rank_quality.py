@@ -7,9 +7,11 @@ Training data are photos a person looked at on contact sheets (08_contact_sheets
   reviewed       every other photo on a reviewed sheet counts as "good"
 A logistic regression on the ResNet embeddings (07b) predicts, for every photo,
   p_keep  = P(not a reject)         p_good = P(clear, easy photo | keep)
-and writes work/quality.jsonl.  Re-run it after labelling more sheets.
+and writes quality.jsonl into each work directory.  Re-run it after labelling more sheets.
+Several work directories (one per region) can be given: the labels of any of them train one model, which then
+rates the photos of all of them, so a region nobody has reviewed yet is rated from the others' labels.
 
-Usage: 07c_rank_quality.py --work work/ --sheets sheets/ --rejects rejects.json --hard hard.json --reviewed review.log
+Usage: 07c_rank_quality.py --work work/ [work_na/ ...] --sheets sheets/ --rejects rejects.json --hard hard.json --reviewed review.log
 """
 import argparse
 import json
@@ -24,7 +26,7 @@ from sklearn.preprocessing import StandardScaler
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--work", required=True)
+    ap.add_argument("--work", required=True, nargs="+", help="one or more work directories (steps 6, 7 and 7b)")
     ap.add_argument("--sheets", required=True, nargs="+", help="one or more sheet directories")
     ap.add_argument("--rejects", required=True)
     ap.add_argument("--hard", required=True)
@@ -32,18 +34,22 @@ def main():
     ap.add_argument("--C", type=float, default=0.05)
     args = ap.parse_args()
 
-    z = np.load(os.path.join(args.work, "embeddings.npz"))
-    ids, X = z["ids"].tolist(), z["feats"]
-    row = {pid: i for i, pid in enumerate(ids)}
-
-    # extra scalar features (snake probability, sharpness, brightness, aspect)
+    ids, feats, home = [], [], []
     scores, metrics = {}, {}
-    for line in open(os.path.join(args.work, "scores.jsonl")):
-        d = json.loads(line)
-        scores[d["photo"]] = d
-    for line in open(os.path.join(args.work, "metrics.jsonl")):
-        d = json.loads(line)
-        metrics[d["photo"]] = d
+    for work in args.work:
+        z = np.load(os.path.join(work, "embeddings.npz"))
+        ids += z["ids"].tolist()
+        feats.append(z["feats"])
+        home += [work] * len(z["ids"])
+        # extra scalar features (snake probability, sharpness, brightness, aspect)
+        for line in open(os.path.join(work, "scores.jsonl")):
+            d = json.loads(line)
+            scores[d["photo"]] = d
+        for line in open(os.path.join(work, "metrics.jsonl")):
+            d = json.loads(line)
+            metrics[d["photo"]] = d
+    X = np.vstack(feats)
+    row = {pid: i for i, pid in enumerate(ids)}
     extra = np.array([[scores[p]["snake"], scores[p]["center"], scores[p]["full"], scores[p]["zoom"],
                        np.log10(max(metrics[p]["sharp"], 1)), metrics[p]["bright"] / 255, metrics[p]["contrast"] / 128,
                        metrics[p]["w2"] / metrics[p]["h2"], metrics[p]["bytes"] / 1e5] for p in ids], dtype=np.float32)
@@ -87,10 +93,12 @@ def main():
     # for labelled photos use out-of-fold predictions so they are not over-confident
     for j, i in enumerate(idx):
         p_keep[i] = cvp[j]
-    with open(os.path.join(args.work, "quality.jsonl"), "w") as fh:
-        for i, pid in enumerate(ids):
-            fh.write(json.dumps({"photo": pid, "keep": round(float(p_keep[i]), 4), "good": round(float(p_good[i]), 4)}) + "\n")
-    print("wrote", os.path.join(args.work, "quality.jsonl"))
+    for work in args.work:
+        with open(os.path.join(work, "quality.jsonl"), "w") as fh:
+            for i, pid in enumerate(ids):
+                if home[i] == work:
+                    fh.write(json.dumps({"photo": pid, "keep": round(float(p_keep[i]), 4), "good": round(float(p_good[i]), 4)}) + "\n")
+        print("wrote", os.path.join(work, "quality.jsonl"))
 
 
 if __name__ == "__main__":
