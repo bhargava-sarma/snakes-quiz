@@ -104,8 +104,8 @@
           pin.el,
           pin2 ? pin2.el : null,
           signup ? h('label.check', agree, h('span', 'I am 18 or older, or my parent or guardian agrees to this account, and I accept the ',
-            h('a', { href: '#/legal/terms', target: '_blank', rel: 'noopener' }, 'terms'), ' and the ',
-            h('a', { href: '#/legal/privacy', target: '_blank', rel: 'noopener' }, 'privacy policy'), '.')) : null,
+            h('a', { href: '/legal/terms', target: '_blank', rel: 'noopener' }, 'terms'), ' and the ',
+            h('a', { href: '/legal/privacy', target: '_blank', rel: 'noopener' }, 'privacy policy'), '.')) : null,
           err,
           submit);
 
@@ -277,7 +277,7 @@
         h('div.acct-id', h('span.acct-avatar', { 'aria-hidden': 'true' }, s.name.slice(0, 1).toUpperCase()),
           h('div', h('p.legend', 'Signed in'), h('h2', s.name), s.created ? h('p.muted.small', 'Member since ' + SQ.fmtDate(s.created)) : null)),
         h('div.btn-row.acct-actions',
-          h('a.btn.btn-sm', { href: '#/ranks' }, icon('award', { size: 16 }), 'Leaderboards'),
+          h('a.btn.btn-sm', { href: '/ranks' }, icon('award', { size: 16 }), 'Leaderboards'),
           h('button.btn.btn-sm', { type: 'button', onclick: changePin }, icon('lock', { size: 16 }), 'Change PIN'),
           h('button.btn.btn-sm', { type: 'button', onclick: signOut }, 'Sign out'))),
       stats,

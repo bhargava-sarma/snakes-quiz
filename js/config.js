@@ -1,5 +1,10 @@
 /* Site settings. Edit these for your own copy of Sarpa. */
 window.SQ_CONFIG = {
+  // The site's own address, without a slash at the end. Search engines and link previews need full addresses
+  // (canonical links, the sitemap, share images). After changing it (for example to your own domain), run
+  // node scripts/build-pages.js so that every prerendered page, sitemap.xml and robots.txt use the new address.
+  siteUrl: 'https://snakes-quiz.vercel.app',
+
   // Where the accounts-and-leaderboards API lives (api/sarpa.js on Vercel). When it is not reachable or has no
   // database, the games still work, without accounts or leaderboards.
   apiBase: '/api/sarpa',

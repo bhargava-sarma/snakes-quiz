@@ -348,7 +348,7 @@ a.hd-row-name:hover { color: var(--accent-text); }
   margin: 16px 0 0; padding: 10px 14px; border-radius: 12px; font-size: .93rem;
   background: var(--accent-wash); border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line));
 }
-.rank-panel a { font-weight: 650; }
+.rank-panel a { font-weight: 650; margin: -10px 0; padding: 10px 0; }      /* a bigger tap area, same layout */
 @media (max-width: 899.98px) { .rank-panel { margin-inline: auto; justify-content: center; } }
 .q-ranked { color: var(--accent-text); font-weight: 600; }
 

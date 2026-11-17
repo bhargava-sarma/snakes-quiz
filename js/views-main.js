@@ -15,9 +15,9 @@
       h('div', h('p.legend', 'Quiz in progress'), h('strong', `${sess.answers.length} of ${sess.questions.length} answered`)),
       h('div.banner-actions',
         h('button.btn.btn-sm', { type: 'button', onclick: async () => {
-          if (await SQ.ui.confirm({ title: 'Discard this quiz?', text: 'Your progress in it will be lost.', confirmLabel: 'Discard', danger: true })) { SQ.quiz.discard(); SQ.go(location.hash.replace(/^#/, '') || '/'); }
+          if (await SQ.ui.confirm({ title: 'Discard this quiz?', text: 'Your progress in it will be lost.', confirmLabel: 'Discard', danger: true })) { SQ.quiz.discard(); SQ.refresh(); }
         } }, 'Discard'),
-        h('a.btn.btn-sm.btn-primary', { href: '#/quiz' }, 'Continue', icon('arrow', { size: 16 }))));
+        h('a.btn.btn-sm.btn-primary', { href: '/quiz' }, 'Continue', icon('arrow', { size: 16 }))));
   }
 
   /* ------------------------------------------------------------------ */
@@ -41,7 +41,7 @@
     const sp = D.byId[photo.sp];
     const others = D.lookalikes(sp.id, 10, photo.region).filter((s) => s.tier <= 3).slice(0, 3);
     const options = SQ.shuffle([sp, ...others]);
-    return h('a.demo', { href: '#/play', 'aria-hidden': 'true', tabindex: '-1' },
+    return h('a.demo', { href: '/play', 'aria-hidden': 'true', tabindex: '-1' },
       h('div.demo-top', h('span.legend', 'Sarpa SQ-1 · photo quiz'), h('span.demo-leds', SQ.ui.led('on'), SQ.ui.led(), SQ.ui.led())),
       h('div.viewport', SQ.ui.photo(photo, { eager: true, vf: true, alt: '', tag: 'Q07' })),
       h('div.demo-keys', { 'aria-hidden': 'true' }, options.map((o, i) => h('span.demo-key', h('span.opt-key', LETTERS[i]), h('span.demo-name', o.name)))));
@@ -49,20 +49,21 @@
 
   /** Today's top three in both daily games of the player's area (only when this site has leaderboards). */
   function leadersCard() {
-    const box = h('section.wrap.home-section.home-leaders', { hidden: true });
+    // (live data: left out of the prerendered copy of the page)
+    const box = h('section.wrap.home-section.home-leaders', { hidden: true, 'data-noprerender': '' });
     const area = homeArea();
     const suffix = area === 'na' ? '-na' : '';
     SQ.api.status().then(async (state) => {
       if (state !== 'ok') return;
       try {
         const [a, b] = await Promise.all([SQ.api.leaderboard('sarpa-daily' + suffix, 'day'), SQ.api.leaderboard('herpdle' + suffix, 'day')]);
-        const col = (title, lb, board) => h('a.leader-col', { href: '#/ranks?board=' + board },
+        const col = (title, lb, board) => h('a.leader-col', { href: '/ranks?board=' + board },
           h('p.legend', title),
           lb.entries.length
             ? h('ol', lb.entries.slice(0, 3).map((e) => h('li', h('b.lcd-num', String(e.rank)), h('span.leader-name', e.name), h('small', `${e.points} pts`))))
             : h('p.muted', 'Nobody yet today. Be the first!'));
         box.append(
-          h('div.section-head', h('h2', `Today’s leaders · ${SQ.data.area(area).label}`), h('a.legend', { href: '#/ranks' }, 'All leaderboards')),
+          h('div.section-head', h('h2', `Today’s leaders · ${SQ.data.area(area).label}`), h('a.legend', { href: '/ranks' }, 'All leaderboards')),
           h('div.leaders', col('Sarpa daily', a, 'sarpa-daily' + suffix), col(`Herpdle #${SQ.herpdle.dayNumber(SQ.todayKey(), area)}`, b, 'herpdle' + suffix)));
         box.hidden = false;
       } catch (e) { /* the home page works without it */ }
@@ -91,8 +92,8 @@
     pads.push(
       h('button.pad.pad-survival', { type: 'button', onclick: () => SQ.quiz.start({ mode: 'sudden', title: 'Survival', area: playArea }) },
         SQ.ui.led(), h('span.pad-num', icon('heart', { size: 34, stroke: 1.6 })), h('span.pad-label', 'Survival'), h('span.legend', 'one mistake ends it')),
-      h('a.pad.pad-herpdle', { href: '#/herpdle' }, SQ.ui.led(hStats.streak ? 'on' : ''), h('span.pad-num', icon('grid', { size: 34, stroke: 1.6 })), h('span.pad-label', 'Herpdle'), h('span.legend', hStats.streak ? `${hStats.streak} day streak` : 'six clues, six goes')),
-      h('a.pad.pad-daily', { href: '#/daily' }, SQ.ui.led(streak ? 'on' : ''), h('span.pad-num', icon('calendar', { size: 34, stroke: 1.6 })), h('span.pad-label', 'Daily'), h('span.legend', streak ? `${streak} day streak` : 'new every day')));
+      h('a.pad.pad-herpdle', { href: '/herpdle' }, SQ.ui.led(hStats.streak ? 'on' : ''), h('span.pad-num', icon('grid', { size: 34, stroke: 1.6 })), h('span.pad-label', 'Herpdle'), h('span.legend', hStats.streak ? `${hStats.streak} day streak` : 'six clues, six goes')),
+      h('a.pad.pad-daily', { href: '/daily' }, SQ.ui.led(streak ? 'on' : ''), h('span.pad-num', icon('calendar', { size: 34, stroke: 1.6 })), h('span.pad-label', 'Daily'), h('span.legend', streak ? `${streak} day streak` : 'new every day')));
 
     const progress = prog.totals.games
       ? h('div.lcd.stats-strip',
@@ -103,7 +104,7 @@
       : null;
 
     const mosaic = SQ.shuffle(D.species.filter((s) => s.tier <= 3)).slice(0, 8);
-    const guideCard = h('a.guide-card', { href: '#/guide' },
+    const guideCard = h('a.guide-card', { href: '/guide' },
       h('div.guide-mosaic', { 'aria-hidden': 'true' }, mosaic.map((s) => SQ.ui.thumb(s))),
       h('div.guide-copy', h('p.legend', h('b', '05'), 'Field guide'), h('h3', `Browse all ${D.species.length} species`), h('p', 'Identification tips, look-alikes, ranges and photo galleries for every snake in the quiz.'),
         h('span.more-link', 'Open the field guide', icon('arrow', { size: 16 }))));
@@ -130,10 +131,10 @@
         h('div.hero-copy',
           h('p.legend', h('b', 'SQ-1'), 'Snakes of India and North America'),
           h('h1', 'How well do you know your snakes?'),
-          h('p.hero-lead', `Spot the snake in ${D.photos.length.toLocaleString()} real photographs of ${D.species.length} species from India, the USA and Canada, then learn exactly why it is, and is not, each option.`),
+          h('p.hero-lead', `A free snake identification quiz: spot the snake in ${D.photos.length.toLocaleString()} real photographs of ${D.species.length} species from India, the USA and Canada, then learn exactly why it is, and is not, each option.`),
           h('div.hero-cta',
-            h('a.btn.btn-primary.btn-lg', { href: '#/play' }, icon('play', { size: 20 }), 'Start a quiz'),
-            h('a.btn.btn-lg', { href: '#/herpdle' }, icon('grid', { size: 20 }), 'Play Herpdle', hStats.streak ? h('span.streak-chip', icon('flame', { size: 14 }), String(hStats.streak)) : null)),
+            h('a.btn.btn-primary.btn-lg', { href: '/play' }, icon('play', { size: 20 }), 'Start a quiz'),
+            h('a.btn.btn-lg', { href: '/herpdle' }, icon('grid', { size: 20 }), 'Play Herpdle', hStats.streak ? h('span.streak-chip', icon('flame', { size: 14 }), String(hStats.streak)) : null)),
           h('p.hero-note', icon('shield', { size: 15 }), ' Free to play. For learning only. Never handle wild snakes.')),
         demoScreen()),
 
@@ -147,12 +148,12 @@
           snake.el)),
 
       h('section.wrap.home-section', resumeBanner(),
-        h('div.section-head', h('h2', 'Quick start'), h('p.legend', `${D.area(playArea).label} · ${lvl.label} · ${settings.timer ? settings.timer + 's per question' : 'no timer'} · `, h('a', { href: '#/play' }, 'change settings'))),
+        h('div.section-head', h('h2', 'Quick start'), h('p.legend', `${D.area(playArea).label} · ${lvl.label} · ${settings.timer ? settings.timer + 's per question' : 'no timer'} · `, h('a', { href: '/play' }, 'change settings'))),
         h('div.pads', pads)),
 
       leadersCard(),
 
-      progress ? h('section.wrap.home-section', h('div.section-head', h('h2', 'Your progress'), h('a.legend', { href: '#/me' }, 'See details')), progress) : null,
+      progress ? h('section.wrap.home-section', h('div.section-head', h('h2', 'Your progress'), h('a.legend', { href: '/me' }, 'See details')), progress) : null,
 
       h('section.wrap.home-section.home-duo', SQ.snakeOfTheDay(homeArea()), guideCard),
 
@@ -166,8 +167,13 @@
         h('div.notice.danger', icon('warn', { size: 22 }),
           h('div', h('strong', 'Identifying a snake from a photo is not a safety tool. '),
             'Many harmless snakes look like dangerous ones and the reverse. If you find a snake at home, keep your distance and call a trained local snake rescuer or the wildlife authorities. If someone is bitten, call for an ambulance and go to a hospital immediately. ',
-            h('a', { href: '#/safety' }, 'Read the first-aid guide')))));
-    return { node, title: '', view: 'home', after: () => snake.start(), cleanup: () => snake.stop() };
+            h('a', { href: area === 'na' ? '/safety/north-america' : '/safety' }, 'Read the first-aid guide')))));
+    const desc = `A free snake ID quiz with ${D.photos.length.toLocaleString('en')} real photos of ${D.species.length} snakes of India, the USA and Canada, plus Herpdle (a daily snake puzzle), a field guide and first aid.`;
+    const seo = {
+      title: SQ.seo.HOME_TITLE, description: desc, path: '/',
+      ld: [SQ.seo.website(desc), SQ.seo.app('Sarpa', '/', desc), SQ.seo.page('WebPage', '/', SQ.seo.HOME_TITLE, desc, { about: { '@id': SQ.seo.abs('/') + '#app' } })],
+    };
+    return { node, seo, view: 'home', after: () => snake.start(), cleanup: () => snake.stop() };
   };
 
   /* ------------------------------------------------------------------ */
@@ -278,16 +284,21 @@
             h('div.alt-modes',
               h('button.alt-mode', { type: 'button', onclick: () => SQ.quiz.start({ mode: 'sudden', title: 'Survival', area: cfg.area }) },
                 icon('heart', { size: 22 }), h('span', h('strong', 'Survival'), h('small', 'One mistake ends the run. It starts easy and ends in the look-alikes.'))),
-              h('a.alt-mode', { href: '#/daily' },
+              h('a.alt-mode', { href: '/daily' },
                 icon('calendar', { size: 22 }), h('span', h('strong', 'Daily challenge'), h('small', 'Ten photos, the same for everyone, new every day in each region.'))),
-              h('a.alt-mode', { href: '#/herpdle' },
+              h('a.alt-mode', { href: '/herpdle' },
                 icon('grid', { size: 22 }), h('span', h('strong', 'Herpdle'), h('small', 'Name a mystery snake from clues in six goes.')))))),
         h('aside.setup-side',
           h('div.lcd.setup-lcd', h('p.legend', 'Readout'), readout),
           h('div.start-bar', summary, h('button.btn.btn-primary.btn-lg.start-btn', { type: 'button', onclick: start }, icon('play', { size: 20 }), 'Start quiz')))));
     drawStates();
     refresh();
-    return { node, title: 'Set up a quiz', view: 'setup' };
+    const desc = `Test yourself on ${D.species.length} snakes with real photos: India, North America or Mixed, 20 to 100 questions, four difficulty levels, a timer and hints. Every answer is explained.`;
+    const seo = {
+      title: 'Snake identification quiz: India, North America or both · Sarpa', description: desc, path: '/play',
+      ld: [SQ.seo.app('Sarpa snake identification quiz', '/play', desc), SQ.seo.crumbs('/play', [['Snake ID quiz', '/play']])],
+    };
+    return { node, seo, view: 'setup' };
   };
 
   /* ------------------------------------------------------------------ */
@@ -336,7 +347,7 @@
     const hStats = SQ.herpdleState.dailyStats(hs);
     const number = SQ.herpdle.dayNumber(key, area);
     const dateLabel = SQ.time.label(key, { weekday: 'long', day: 'numeric', month: 'long' });
-    const herpdleHref = '#/herpdle?area=' + area;
+    const herpdleHref = '/herpdle?area=' + area;
 
     const clock = h('b.lcd-num', clockText(SQ.time.msToNextDay()));
     const timer = setInterval(() => {
@@ -353,7 +364,7 @@
 
     // ----- Sarpa daily -----
     let sarpaBody;
-    const sarpaBoard = h('a.btn', { href: '#/ranks?board=sarpa-daily' + suffix }, icon('trophy', { size: 18 }), 'Leaderboard');
+    const sarpaBoard = h('a.btn', { href: '/ranks?board=sarpa-daily' + suffix }, icon('trophy', { size: 18 }), 'Leaderboard');
     if (done) {
       const grid = h('div.emoji-grid', { role: 'img', 'aria-label': `${done.correct} of ${done.n} correct` });
       for (let i = 0; i < done.grid.length; i += 10) grid.appendChild(h('div', done.grid.slice(i, i + 10).split('').map((c) => h('span.cell.' + (c === 'G' ? 'ok' : 'bad'), c === 'G' ? '✓' : '✗'))));
@@ -361,11 +372,11 @@
         h('div.daily-score', h('b', `${done.correct}/${done.n}`), h('span', `${done.points} points`)),
         grid,
         h('div.btn-row',
-          h('button.btn.btn-primary', { type: 'button', onclick: () => SQ.ui.shareText(SQ.dailyShareText(key, done, area), location.origin + location.pathname + '#/daily?area=' + area) }, icon('share', { size: 18 }), 'Share'),
+          h('button.btn.btn-primary', { type: 'button', onclick: () => SQ.ui.shareText(SQ.dailyShareText(key, done, area), location.origin + '/daily?area=' + area) }, icon('share', { size: 18 }), 'Share'),
           sarpaBoard)];
     } else if (inProgress) {
       sarpaBody = [h('p', `You are part-way through: ${inProgress.answers.length} of ${inProgress.questions.length} answered.`),
-        h('div.btn-row', h('a.btn.btn-primary.btn-lg', { href: '#/quiz' }, icon('play', { size: 20 }), 'Continue'))];
+        h('div.btn-row', h('a.btn.btn-primary.btn-lg', { href: '/quiz' }, icon('play', { size: 20 }), 'Continue'))];
     } else {
       const btn = h('button.btn.btn-primary.btn-lg', { type: 'button' }, icon('play', { size: 20 }), 'Start the challenge');
       btn.onclick = startSarpa(btn);
@@ -379,13 +390,13 @@
 
     // ----- Herpdle -----
     let herpBody;
-    const herpBoard = h('a.btn', { href: '#/ranks?board=herpdle' + suffix }, icon('trophy', { size: 18 }), 'Leaderboard');
+    const herpBoard = h('a.btn', { href: '/ranks?board=herpdle' + suffix }, icon('trophy', { size: 18 }), 'Leaderboard');
     if (hDone) {
       herpBody = [
         h('div.daily-score', h('b', hDone.won ? `${hDone.g.length}/6` : 'X/6'), h('span', hDone.won ? `${hDone.points || SQ.herpdle.points(hDone.g.length, true)} points` : 'not solved')),
         h('p.muted', `It was the ${D.byId[hDone.sp].name}.`),
         h('div.btn-row',
-          h('button.btn.btn-primary', { type: 'button', onclick: () => SQ.ui.shareText(SQ.herpdleState.shareText(hDone, area), location.origin + location.pathname + herpdleHref) }, icon('share', { size: 18 }), 'Share'),
+          h('button.btn.btn-primary', { type: 'button', onclick: () => SQ.ui.shareText(SQ.herpdleState.shareText(hDone, area), location.origin + herpdleHref) }, icon('share', { size: 18 }), 'Share'),
           h('a.btn', { href: herpdleHref }, 'See the board'),
           herpBoard)];
     } else if (hBusy) {
@@ -402,7 +413,7 @@
       ...herpBody);
 
     const daily = area === 'na' ? S.progress().dailyNa : S.progress().daily;
-    const strip = h('section.lcd.daily-lcd',
+    const strip = h('section.lcd.daily-lcd', { 'data-noprerender': '' },
       h('div.daily-reads',
         h('div.readout', h('span.legend', 'Next puzzles in'), clock),
         SQ.ui.readout('Sarpa streak', S.dailyStreak(area)),
@@ -416,7 +427,9 @@
       options: [{ value: 'in', label: 'India' }, { value: 'na', label: 'North America' }],
       onChange: (v) => SQ.go('/daily?area=' + v),
     });
-    const head = SQ.ui.pageHead('Daily', `${dateLabel}. Two puzzles in each region, the same for everyone, new every day at ${SQ.time.resetText()}.`, h('div.head-tools', tabs), [h('b', '03'), 'Daily']);
+    // (today's date is left out of the prerendered copy of the page, which search engines keep for a long time)
+    const lead = [h('span', { 'data-noprerender': '' }, dateLabel + '. '), `Two puzzles in each region, the same for everyone, new every day at ${SQ.time.resetText()}.`];
+    const head = SQ.ui.pageHead('Daily snake puzzles', lead, h('div.head-tools', tabs), [h('b', '03'), 'Daily']);
     const node = h('div.page.wrap.daily', head, h('div.daily-grid', sarpaCard, herpCard), strip);
 
     // signed in: show games played on another device
@@ -439,6 +452,11 @@
         }
       }).catch(() => {});
     }
-    return { node, title: 'Daily', view: 'daily', cleanup: () => clearInterval(timer) };
+    const desc = 'Two snake puzzles a day for India and for North America, the same for everyone: a ten-photo identification challenge and Herpdle. Build a streak and climb the daily leaderboard.';
+    const seo = {
+      title: 'Daily snake quiz and Herpdle · Sarpa', description: desc, path: '/daily',
+      ld: [SQ.seo.page('WebPage', '/daily', 'Daily snake quiz and Herpdle', desc), SQ.seo.crumbs('/daily', [['Daily', '/daily']])],
+    };
+    return { node, seo, view: 'daily', cleanup: () => clearInterval(timer) };
   };
 })();

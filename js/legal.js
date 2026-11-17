@@ -7,7 +7,7 @@
   const { h, icon } = SQ;
   SQ.views = SQ.views || {};
 
-  const UPDATED = '4 November 2026';
+  const UPDATED = '17 November 2026';
 
   const CFG = () => window.SQ_CONFIG || {};
 
@@ -60,9 +60,9 @@
         sec('5. Fair play',
           h('p', 'Leaderboards are for fun and only work if everyone plays fairly. Do not use scripts, bots, other people’s answers or anything else that gets around the rules. Results or accounts that break these rules may be removed without notice.')),
         sec('6. Not a safety tool',
-          h('p', 'Sarpa is for learning only. Do not use it to decide whether a real snake is dangerous, and never touch, catch or corner a wild snake. Telling snakes apart from a photo is unreliable, even for experts. A snakebite is always a medical emergency: call 108 or 112 in India, or 911 in the USA and Canada, and go to a hospital. See the ', h('a', { href: '#/legal/disclaimer' }, 'safety disclaimer'), '.')),
+          h('p', 'Sarpa is for learning only. Do not use it to decide whether a real snake is dangerous, and never touch, catch or corner a wild snake. Telling snakes apart from a photo is unreliable, even for experts. A snakebite is always a medical emergency: call 108 or 112 in India, or 911 in the USA and Canada, and go to a hospital. See the ', h('a', { href: '/legal/disclaimer' }, 'safety disclaimer'), '.')),
         sec('7. Photos, text and code',
-          h('p', 'The photographs belong to their photographers and are used under the Creative Commons licence each of them chose. Many of those licences allow only non-commercial use. The species texts are shared under Creative Commons Attribution 4.0 and the code under the MIT licence. See ', h('a', { href: '#/legal/licences' }, 'licences and credits'), ' for the details.')),
+          h('p', 'The photographs belong to their photographers and are used under the Creative Commons licence each of them chose. Many of those licences allow only non-commercial use. The species texts are shared under Creative Commons Attribution 4.0 and the code under the MIT licence. See ', h('a', { href: '/legal/licences' }, 'licences and credits'), ' for the details.')),
         sec('8. No guarantees',
           h('p', 'Sarpa is a free hobby project, provided “as is” and “as available”. Care is taken to keep the information accurate and the site running, but there is no promise that it is complete, correct, always available or free of errors. The site, its games, leaderboards and accounts may be changed, reset or closed at any time, with or without notice. To the fullest extent allowed by law, ', runBy(), ' is not liable for any loss or harm arising from using the site or from relying on its content.')),
         sec('9. Changes and law',
@@ -91,7 +91,7 @@
             h('span', b('Links. '), 'Links to other websites (iNaturalist, Creative Commons, GitHub) take you to those sites, whose own privacy policies apply.'))),
         sec('If you make an account',
           h('p', 'The accounts database stores only this:'),
-          ul(h('span', b('Your username'), ', and when you created the account and last changed its PIN. Your username is public: it appears on the leaderboards.'),
+          ul(h('span', b('Your username'), ', and when you created the account and last changed its PIN. Your username is public: it appears on the leaderboards. Search engines are asked not to read the leaderboards (robots.txt keeps them away from the accounts API, and the copies of the pages made for them leave the leaderboards out), so usernames should not show up in search results.'),
             h('span', b('Your PIN, in scrambled form only.'), ' It is stored as a salted one-way hash (scrypt), so nobody can read your PIN from the database, including the person who runs the site.'),
             h('span', b('Your games:'), ' for each ranked game, the date, the game and mode, the points, how many answers were right or how many guesses you needed, and how long it took. From these come your streaks, totals and leaderboard places; a list of your last 50 games is kept for your profile page. The answers you sent are checked and then thrown away.'),
             h('span', b('Your progress:'), ' a copy of what you have learned, so that it follows you to every browser and device you sign in on: how many times you have answered each species and how often correctly, your totals and best streak, which snakes you mixed up, your last 60 quizzes, your badges, your daily challenge results, your Herpdle games and the photos you reported. Each device’s share is filed under a random device code that says nothing about the device. It is only ever given back to your own account.'),
@@ -128,7 +128,7 @@
       ico: 'warn',
       body: () => [
         h('div.notice.danger', icon('warn', { size: 22 }), h('div', h('strong', 'In a snakebite emergency, call 108 (ambulance) or 112 in India, or 911 in the USA and Canada, and go to the nearest hospital straight away. '),
-          'Do not wait for symptoms, and do not use home remedies, tourniquets or traditional healers. ', h('a', { href: '#/safety' }, 'Read the first-aid guide'), '.')),
+          'Do not wait for symptoms, and do not use home remedies, tourniquets or traditional healers. ', h('a', { href: '/safety' }, 'Read the first-aid guide'), '.')),
         sec('For learning only',
           h('p', 'Sarpa teaches general snake identification. It is not medical advice, not a professional identification service and not a safety tool. Never decide whether a real snake is dangerous from this site, a photo or a quick look: many harmless snakes look like venomous ones and the other way round. Keep your distance from every wild snake, and call a trained local rescuer, the forest department or the local wildlife authorities if one needs moving.')),
         sec('Accuracy',
@@ -149,7 +149,7 @@
         return [
           sec('Photographs',
             h('p', `All ${D.photos.length.toLocaleString()} photos are © their photographers and come from research-grade observations on `, h('a', { href: 'https://www.inaturalist.org', target: '_blank', rel: 'noopener' }, 'iNaturalist'),
-              ', used under the Creative Commons licence each photographer chose. Every photo is credited under it, and all of them are listed on the ', h('a', { href: '#/credits' }, 'photo credits'), ' page.'),
+              ', used under the Creative Commons licence each photographer chose. Every photo is credited under it, and all of them are listed on the ', h('a', { href: '/credits' }, 'photo credits'), ' page.'),
             h('ul.why-list', Object.entries(counts).sort((a, c) => c[1] - a[1]).map(([lic, n]) => {
               const p = D.photos.find((x) => x.license === lic);
               return h('li', p && p.licenseUrl ? h('a', { href: p.licenseUrl, target: '_blank', rel: 'noopener' }, lic.replace(/^CC-(?=[A-Z])/, 'CC ')) : lic, `: ${n.toLocaleString()} photos`);
@@ -171,7 +171,7 @@
       ico: 'flag',
       body: () => [
         sec('Photographers',
-          h('p', 'If one of your photos is shown here and you would like it removed, or credited differently, contact ', contactBits(), ' with the photo’s number (shown in its credit line and on the ', h('a', { href: '#/credits' }, 'photo credits'), ' page). It will be removed promptly. Changing the licence of a photo on iNaturalist to “all rights reserved” also takes it out the next time the data set is rebuilt.')),
+          h('p', 'If one of your photos is shown here and you would like it removed, or credited differently, contact ', contactBits(), ' with the photo’s number (shown in its credit line and on the ', h('a', { href: '/credits' }, 'photo credits'), ' page). It will be removed promptly. Changing the licence of a photo on iNaturalist to “all rights reserved” also takes it out the next time the data set is rebuilt.')),
         sec('Mistakes and problems',
           h('p', 'Wrong species? Wrong fact? An offensive username on a leaderboard? Please report it through ', contactBits(), '. For photos, the “Report photo” button on every question also hides it on your device straight away.')),
       ],
@@ -179,17 +179,31 @@
   };
   const ORDER = ['terms', 'privacy', 'disclaimer', 'licences', 'takedown'];
 
+  const DESCRIPTIONS = {
+    terms: 'The terms of use of Sarpa, a free, non-commercial snake identification quiz: accounts, fair play, photos and their licences, and what Sarpa is not (a safety tool).',
+    privacy: 'What Sarpa stores and why: no adverts, no cookies, cookie-free visit counts; for accounts only a username, a hashed PIN, game results and saved progress, deleted on request.',
+    disclaimer: 'Sarpa is for learning only and is not a safety tool: never judge whether a real snake is dangerous from a photo. In a snakebite emergency, call for help and go to a hospital.',
+    licences: 'The licences of the photos (Creative Commons, from iNaturalist), the species texts (CC BY 4.0), the code (MIT) and the fonts used by Sarpa.',
+    takedown: 'How photographers can have a photo removed or credited differently, and how to report a mistake or a problem on Sarpa.',
+  };
+
   SQ.views.legal = function ({ params }) {
-    const key = PAGES[params.page] ? params.page : 'terms';
+    if (params.page && !PAGES[params.page]) return SQ.views.notFound({ path: '/legal/' + params.page });
+    const key = params.page || 'terms';
     const page = PAGES[key];
     const tabs = h('nav.legal-tabs', { 'aria-label': 'Legal pages' }, ORDER.map((k) => h('a.legal-tab' + (k === key ? '.on' : ''),
-      { href: '#/legal/' + k, 'aria-current': k === key ? 'page' : null }, icon(PAGES[k].ico, { size: 16 }), PAGES[k].short)));
+      { href: '/legal/' + k, 'aria-current': k === key ? 'page' : null }, icon(PAGES[k].ico, { size: 16 }), PAGES[k].short)));
     const node = h('div.page.wrap.legal',
       SQ.ui.pageHead(page.title, `Last updated ${UPDATED}.`, null, [h('b', 'LG'), 'Legal']),
       tabs,
       h('article.card.legal-body.prose', page.body()),
       h('p.legal-foot.muted', icon('info', { size: 15 }), h('span', 'Written in plain language by ', runBy(), '. If anything is unclear, ask through ', contactBits(), '.')));
-    return { node, title: page.title, view: 'legal' };
+    const path = '/legal/' + key;           // "/legal" itself shows the terms, so its address for search engines is theirs
+    const seo = {
+      title: page.title + ' · Sarpa', description: DESCRIPTIONS[key], path,
+      ld: [SQ.seo.page('WebPage', path, page.title, DESCRIPTIONS[key], { breadcrumb: { '@id': SQ.seo.abs(path) + '#breadcrumb' } }), SQ.seo.crumbs(path, [['Legal', '/legal/terms'], [page.title, path]])],
+    };
+    return { node, seo, view: 'legal' };
   };
 
   SQ.legalPages = ORDER.map((k) => ({ key: k, title: PAGES[k].title, short: PAGES[k].short }));

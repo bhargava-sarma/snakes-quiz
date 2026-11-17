@@ -23,8 +23,8 @@
   /* The regions of the data set ("areas"): where the photos were taken. A game is played in one area or in both
    * ('mix'). Species shared by both areas (an introduced python, a blind snake carried in plant pots) have photos in each. */
   const AREAS = {
-    in: { key: 'in', label: 'India', short: 'India', adj: 'Indian', where: 'India' },
-    na: { key: 'na', label: 'North America', short: 'N. America', adj: 'North American', where: 'the USA and Canada' },
+    in: { key: 'in', label: 'India', short: 'India', adj: 'Indian', where: 'India', slug: 'india' },
+    na: { key: 'na', label: 'North America', short: 'N. America', adj: 'North American', where: 'the USA and Canada', slug: 'north-america' },
   };
   const AREA_ORDER = ['in', 'na'];
   const MIX = { key: 'mix', label: 'Mixed', short: 'Mixed', adj: 'mixed', where: 'India and North America' };
@@ -84,7 +84,7 @@
         credit: P.credits[creditIdx],
         license: lic, licenseUrl: LICENSE_URL[lic] || '', w, h, hard: hard ? 1 : 0,
         inat: inatIdx >= 0 ? P.inat[inatIdx] : '',
-        url: `images/${sp.id}/${id}.avif`,
+        url: `/images/${sp.id}/${id}.avif`,
         remote: `${REMOTE}/${id}/medium.${EXT[ext || 0]}`,
         page: `https://www.inaturalist.org/photos/${id}`,
       };
@@ -94,7 +94,7 @@
     });
 
     data.species.forEach((sp) => {
-      sp.thumb = `images/thumbs/${sp.id}.avif`;
+      sp.thumb = `/images/thumbs/${sp.id}.avif`;
       sp.photoCount = data.bySpecies[sp.id].length;
       sp.regions.forEach((a) => { if (data.byArea[a]) data.byArea[a].push(sp); });
     });
@@ -117,6 +117,8 @@
   const oneArea = (area) => (area && AREAS[area] ? area : null);
   data.oneArea = oneArea;
   data.area = (key) => AREAS[key] || (key === 'mix' ? MIX : AREAS.in);
+  /** The area whose address name this is ("india" -> "in", "north-america" -> "na"), or null. */
+  data.areaBySlug = (slug) => (Object.values(AREAS).find((a) => a.slug === slug) || {}).key || null;
 
   /** Is the species found in the area ('mix' or nothing: anywhere)? */
   data.inArea = (sp, area) => !oneArea(area) || (sp && sp.regions.includes(area));
@@ -153,6 +155,12 @@
   data.speciesInState = (state) => new Set(Object.keys(data.stateIndex[state] || {}));
 
   data.pair = (a, b) => data.pairMap[a + '|' + b] || null;
+
+  /** The address that compares two snakes: a page of its own ("/compare/a-vs-b") for a pair with a hand-written note. */
+  data.comparePath = (a, b) => {
+    const p = data.pair(a, b);
+    return p ? `/compare/${p.a}-vs-${p.b}` : `/compare?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}`;
+  };
 
   data.isCryptic = (a, b) => data.noPair.some((set) => set.includes(a) && set.includes(b));
 

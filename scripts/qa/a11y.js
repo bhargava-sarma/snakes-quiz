@@ -13,19 +13,19 @@ try { axePath = require.resolve('axe-core/axe.min.js'); } catch (e) {
 }
 if (!axePath) { console.error('axe-core is not installed. Run:  npm install --no-save axe-core'); process.exit(2); }
 const axeSrc = fs.readFileSync(axePath, 'utf8');
-const base = (process.argv[2] || 'http://localhost:8765/index.html').replace(/#.*$/, '');
+const base = (process.argv[2] || 'http://localhost:8765').replace(/#.*$/, '').replace(/\/(index\.html)?$/, '');
 
 const ROUTES = ['/', '/play', '/daily', '/daily?area=na', '/herpdle', '/herpdle?area=na', '/herpdle?mode=practice', 'herpdle-board', '/ranks', 'account',
-  '/guide', '/guide?area=na', '/guide/naja-naja', '/guide/crotalus-atrox', '/compare?a=naja-naja&b=ptyas-mucosa', '/learn', '/safety', '/safety?area=na',
+  '/guide', '/guide/north-america', '/compare/naja-naja-vs-ptyas-mucosa', '/no-such-page', '/guide/naja-naja', '/guide/crotalus-atrox', '/compare?a=naja-naja&b=ptyas-mucosa', '/learn', '/safety', '/safety/north-america',
   '/me', '/about', '/credits', '/legal', '/legal/privacy', 'quiz', 'quiz-answered', '/results'];
 
 /** Herpdle practice with one wrong guess on the board. */
 async function herpdleBoard(page) {
-  await page.goto(`${base}#/herpdle?mode=practice`, { waitUntil: 'load' });
+  await page.goto(`${base}/herpdle?mode=practice`, { waitUntil: 'load' });
   // (the page plays in the region last chosen, which earlier pages may have changed)
   await page.evaluate(() => { const a = SQ.homeArea(); const st = SQ.herpdleState.load(a); st.seenHelp = true; st.practice = null; SQ.herpdleState.save(st, a); });
-  await page.goto(`${base}#/play`, { waitUntil: 'load' });
-  await page.goto(`${base}#/herpdle?mode=practice`, { waitUntil: 'load' });
+  await page.goto(`${base}/play`, { waitUntil: 'load' });
+  await page.goto(`${base}/herpdle?mode=practice`, { waitUntil: 'load' });
   await page.click('button:has-text("Start a practice game")');
   await page.waitForSelector('#hd-input');
   const wrong = await page.evaluate(() => { const a = SQ.homeArea(); const g = SQ.herpdleState.load(a).practice; return SQ.data.areaSpecies(a).find((x) => x.id !== g.sp && x.tier <= 2).name; });
@@ -43,7 +43,7 @@ const CONTEXTS = [['phone', 390, 844, 'light'], ['laptop', 1440, 900, 'light'], 
     // bypassCSP: the page forbids inline scripts, and axe-core is injected as one
     const ctx = await browser.newContext({ viewport: { width: w, height: h }, colorScheme: theme, hasTouch: w < 700, isMobile: w < 700, bypassCSP: true });
     const page = await ctx.newPage();
-    await page.goto(`${base}#/play`, { waitUntil: 'load' });
+    await page.goto(`${base}/play`, { waitUntil: 'load' });
     await page.evaluate(() => SQ.quiz.start({ mode: 'quiz', count: 10, difficulty: 'intermediate', region: 'all', timer: 0, hints: true, preferUnseen: false }));
     for (let i = 0; i < 10; i++) {            // finish a quiz so that the results and progress pages have content
       await page.waitForSelector('.option');
@@ -57,7 +57,7 @@ const CONTEXTS = [['phone', 390, 844, 'light'], ['laptop', 1440, 900, 'light'], 
       if (r === 'herpdle-board') {
         await herpdleBoard(page);
       } else if (r === 'account') {
-        await page.goto(`${base}#/`, { waitUntil: 'load' });
+        await page.goto(`${base}/`, { waitUntil: 'load' });
         await page.waitForSelector('.hero');
         await page.evaluate(() => { SQ.account.open({ mode: 'signup' }); });
         await page.waitForSelector('.modal.acct');
@@ -66,7 +66,7 @@ const CONTEXTS = [['phone', 390, 844, 'light'], ['laptop', 1440, 900, 'light'], 
         await page.waitForSelector('.option');
         if (r === 'quiz-answered') { await page.click('.hint-btn'); await page.click('.option >> nth=1'); await page.waitForSelector('.explain .verdict'); }
       } else {
-        await page.goto(`${base}#${r}`, { waitUntil: 'load' });
+        await page.goto(`${base}${r}`, { waitUntil: 'load' });
         await page.waitForSelector('#main > :not(.boot)');
       }
       await page.waitForTimeout(600);

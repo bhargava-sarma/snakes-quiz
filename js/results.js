@@ -36,7 +36,7 @@
         const bits = [rk.day && `#${rk.day} today`, rk.week && `#${rk.week} this week`, rk.all && `#${rk.all} all time`].filter(Boolean);
         box.append(icon('trophy', { size: 18 }),
           h('span', h('strong', r.mode === 'daily' ? 'Daily leaderboard ' : 'Quiz points '), bits.length ? bits.join(' · ') : 'saved'),
-          h('a', { href: '#/ranks?board=' + board }, 'Leaderboard'));
+          h('a', { href: '/ranks?board=' + board }, 'Leaderboard'));
       } else if (r.ranked === 'queued') box.append(icon('clock', { size: 18 }), h('span', 'Saved on this device. It will go on the leaderboard when you are back online.'));
       else if (r.ranked === 'error') box.append(icon('warn', { size: 18 }), h('span', 'This game was not ranked: ' + (r.rankError || 'unknown error')));
       else box.hidden = true;
@@ -72,7 +72,7 @@
     const D = SQ.data, S = SQ.store;
     const r = S.loadLastResult();
     if (!r) {
-      return { node: h('div.page.wrap', SQ.ui.empty('No results yet', 'Play a quiz to see your results here.', h('a.btn.btn-primary', { href: '#/play' }, 'Start a quiz'))), view: 'results' };
+      return { node: h('div.page.wrap', SQ.ui.empty('No results yet', 'Play a quiz to see your results here.', h('a.btn.btn-primary', { href: '/play' }, 'Start a quiz'))), view: 'results', seo: { title: 'Results · Sarpa', noindex: true } };
     }
     // a game played before the data set was updated can mention a species that is no longer in it
     r.items = (r.items || []).filter((it) => D.byId[it.species] && (it.options || []).every((id) => D.byId[id]));
@@ -116,7 +116,7 @@
       ? h('div.missed-list', missed.slice(0, 12).map((it) => {
         const sp = D.byId[it.species];
         const chosen = it.chosen >= 0 ? D.byId[it.options[it.chosen]] : null;
-        return h('a.missed', { href: '#/guide/' + sp.id },
+        return h('a.missed', { href: '/guide/' + sp.id },
           SQ.ui.thumb(sp),
           h('div', h('strong', sp.name), h('small', chosen ? `You said ${chosen.name}` : 'Ran out of time')),
           icon('arrow', { size: 16 }));
@@ -138,8 +138,8 @@
           difficulty: 'mixed', area: r.area || 'in', region: 'all', timer: 0, hints: true, preferUnseen: true, focus: missed.map((m) => m.species),
         }) }, icon('target', { size: 18 }), `Practise the ${missed.length} I missed`)
         : null,
-      h('button.btn', { type: 'button', onclick: () => SQ.ui.shareText(shareText(r, rank), location.origin + location.pathname) }, icon('share', { size: 18 }), 'Share'),
-      h('a.btn', { href: r.mode === 'daily' ? '#/daily?area=' + (r.area || 'in') : '#/play' }, r.mode === 'daily' ? 'Daily page' : 'New quiz settings'));
+      h('button.btn', { type: 'button', onclick: () => SQ.ui.shareText(shareText(r, rank), location.origin + '/') }, icon('share', { size: 18 }), 'Share'),
+      h('a.btn', { href: r.mode === 'daily' ? '/daily?area=' + (r.area || 'in') : '/play' }, r.mode === 'daily' ? 'Daily page' : 'New quiz settings'));
 
     const node = h('div.page.wrap.results',
       h('section.result-hero',
@@ -166,6 +166,6 @@
           h('span.fam-name', f), h('div.fam-bar', h('i', { style: { width: SQ.pct(v.c, v.n) + '%' } })), h('span.fam-n', `${v.c}/${v.n}`)))))));
 
     if ((survival ? r.correct >= 25 : pct >= 85 && r.n >= 10 && !r.early)) setTimeout(() => SQ.ui.confetti(), 300);
-    return { node, title: 'Results', view: 'results', cleanup: ranked.stop };
+    return { node, view: 'results', seo: { title: 'Results · Sarpa', noindex: true }, cleanup: ranked.stop };
   };
 })();

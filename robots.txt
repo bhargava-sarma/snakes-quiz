@@ -1,0 +1,12 @@
+# Sarpa: every page is open to search engines; the API and the project's own files are not pages.
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /server/
+Disallow: /scripts/
+Disallow: /docs/
+Disallow: /data/kb/
+Disallow: /README.md
+Disallow: /CREDITS.md
+
+Sitemap: https://snakes-quiz.vercel.app/sitemap.xml

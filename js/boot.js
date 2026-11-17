@@ -9,12 +9,5 @@
     if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
     document.querySelector('meta[name="theme-color"]').setAttribute('content', dark ? '#121211' : '#e8e7e2');
   } catch (e) { /* storage blocked: the app sorts the theme out when it starts */ }
-  // Start loading the main fonts early (not on file://, where browsers refuse cross-origin font preloads).
-  if (location.protocol !== 'file:') {
-    ['geist-latin-wght-normal', 'geist-mono-latin-wght-normal', 'doto-latin-full-normal'].forEach(function (f) {
-      var l = document.createElement('link');
-      l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = 'anonymous'; l.href = 'assets/fonts/' + f + '.woff2';
-      document.head.appendChild(l);
-    });
-  }
+  // (the main fonts are preloaded by <link rel="preload"> tags in the page head)
 })();

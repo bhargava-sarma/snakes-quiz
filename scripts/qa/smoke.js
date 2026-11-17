@@ -4,7 +4,7 @@
  *   node scripts/qa/smoke.js [baseUrl]      (serve the repo first: python3 -m http.server 8765)
  */
 const { chromium } = require('playwright');
-const base = (process.argv[2] || 'http://localhost:8765/index.html').replace(/#.*$/, '');
+const base = (process.argv[2] || 'http://localhost:8765').replace(/#.*$/, '').replace(/\/(index\.html)?$/, '');
 
 (async () => {
   const browser = await chromium.launch();
@@ -14,7 +14,8 @@ const base = (process.argv[2] || 'http://localhost:8765/index.html').replace(/#.
   let route = '';
   // failed requests are reported by URL; the accounts API answering 404 on a static host is expected
   page.on('console', (m) => { if (m.type() === 'error' && !/Failed to load resource/.test(m.text())) problems.push(`${route}: console error: ${m.text().slice(0, 160)}`); });
-  page.on('response', (res) => { if (res.status() >= 400 && !/\/api\/sarpa|favicon/.test(res.url())) problems.push(`${route}: HTTP ${res.status()} for ${res.url()}`); });
+  // (a missing page is meant to answer 404, with the site's own "not found" page)
+  page.on('response', (res) => { if (res.status() >= 400 && !/\/api\/sarpa|favicon/.test(res.url()) && !(res.status() === 404 && route.startsWith('/no-such-page'))) problems.push(`${route}: HTTP ${res.status()} for ${res.url()}`); });
   page.on('pageerror', (e) => problems.push(`${route}: page error: ${e.message}`));
   page.on('requestfailed', (r) => { if (!/inaturalist-open-data/.test(r.url())) problems.push(`${route}: request failed ${r.url().slice(0, 100)}`); });
 
@@ -45,15 +46,16 @@ const base = (process.argv[2] || 'http://localhost:8765/index.html').replace(/#.
   } else problems.push(`${route}: og:image must be a full https:// address`);
 
   const routes = ['/', '/play', '/daily', '/daily?area=na', '/herpdle', '/herpdle?area=na', '/herpdle?mode=practice&area=na', '/ranks',
-    '/ranks?board=herpdle-na', '/guide', '/guide?area=in', '/guide?area=na', '/learn', '/compare', '/me', '/safety', '/safety?area=in',
-    '/safety?area=na', '/about', '/credits', '/legal/terms', '/legal/privacy', '/legal/disclaimer', '/legal/licences', '/legal/takedown']
+    '/ranks?board=herpdle-na', '/guide', '/guide/india', '/guide/north-america', '/guide?area=na', '/learn', '/compare',
+    '/compare/naja-naja-vs-ptyas-mucosa', '/me', '/safety', '/safety/north-america', '/safety?area=na', '/about', '/credits',
+    '/legal/terms', '/legal/privacy', '/legal/disclaimer', '/legal/licences', '/legal/takedown', '/404', '/no-such-page']
     .concat(ids.map((id) => '/guide/' + id))
     .concat([`/compare?a=${ids[0]}&b=${ids[1]}`]);
 
   const BAD = /(^|\s)(null|undefined|NaN)(\s|$)|\[object Object\]/;
   for (const r of routes) {
     route = r;
-    await page.goto(`${base}#${r}`, { waitUntil: 'load' });
+    await page.goto(`${base}${r}`, { waitUntil: 'load' });
     await page.waitForTimeout(r.startsWith('/guide/') ? 120 : 400);
     const found = await page.evaluate((src) => {
       const re = new RegExp(src);
@@ -66,6 +68,12 @@ const base = (process.argv[2] || 'http://localhost:8765/index.html').replace(/#.
     if (found.broken) problems.push(`${r}: ${found.broken} broken image(s)`);
     if (found.empty) problems.push(`${r}: page is empty`);
   }
+  // a missing page answers 404, with a page that says so (and asks search engines to leave it out)
+  route = '/no-such-page (status)';
+  const missing = await page.goto(`${base}/no-such-page`, { waitUntil: 'load' });
+  if (missing.status() !== 404) problems.push(`${route}: answered ${missing.status()}, not 404`);
+  await page.waitForSelector('.notfound');
+  if (!/noindex/.test(await page.getAttribute('meta[name="robots"]', 'content'))) problems.push(`${route}: not marked noindex`);
   console.log(`${routes.length} pages checked`);
   if (problems.length) {
     [...new Set(problems)].slice(0, 40).forEach((p) => console.log(' -', p));

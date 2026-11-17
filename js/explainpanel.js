@@ -48,7 +48,7 @@
       h('ul.why-list', why.points.map((p) => h('li', p))),
       why.facts.length ? ui.factsBox(why.facts) : null,
       why.fact ? h('p.fun', h('span.fun-tag', 'Did you know?'), ' ', why.fact) : null,
-      h('a.more-link', { href: '#/guide/' + sp.id, onclick: () => ui.closeModal() }, `Open ${sp.name} in the field guide`, icon('arrow', { size: 16 })));
+      h('a.more-link', { href: '/guide/' + sp.id, onclick: () => ui.closeModal() }, `Open ${sp.name} in the field guide`, icon('arrow', { size: 16 })));
   }
 
   function whyNotCard(correct, other, isChosen) {
@@ -70,7 +70,7 @@
           h('p.sub', `Telltale signs of ${SQ.article(other.name)} ${other.name}`),
           h('ul.why-list', w.ids.map((p) => h('li', p))),
           ui.compareTable(correct, other),
-          h('a.more-link', { href: '#/guide/' + other.id, onclick: () => ui.closeModal() }, `Open ${other.name} in the field guide`, icon('arrow', { size: 16 })))));
+          h('a.more-link', { href: '/guide/' + other.id, onclick: () => ui.closeModal() }, `Open ${other.name} in the field guide`, icon('arrow', { size: 16 })))));
   }
 
   /**
