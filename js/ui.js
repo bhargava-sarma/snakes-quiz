@@ -243,12 +243,13 @@
 
   /* ---------- toast ---------- */
 
-  ui.toast = function (message, kind) {
+  /** A short message at the bottom of the screen. ms: how long it stays (longer messages need longer). */
+  ui.toast = function (message, kind, ms) {
     const root = document.getElementById('toast-root');
     const t = h('div.toast' + (kind ? '.' + kind : ''), { role: 'status' }, message);
     root.appendChild(t);
     requestAnimationFrame(() => t.classList.add('show'));
-    setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 2600);
+    setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, ms || 2600);
   };
 
   /* ---------- small widgets ---------- */
@@ -424,6 +425,13 @@
   };
 
   ui.empty = (title, text, action) => h('div.empty', ui.snakeMark(), h('h2', title), text ? h('p', text) : null, action || null);
+
+  /** Where a page sits: [["Field guide", "/guide"], ["Snakes of India", "/guide/india"], ["Indian Cobra"]]. */
+  ui.crumbs = function (items) {
+    return h('nav.crumbs', { 'aria-label': 'Breadcrumb' },
+      h('ol', items.map(([label, href], k) => h('li',
+        href && k < items.length - 1 ? h('a', { href }, k === 0 ? [icon('back', { size: 14 }), label] : label) : h('span', { 'aria-current': 'page' }, label)))));
+  };
 
   ui.pageHead = function (title, sub, right, legend) {
     return h('div.page-head',

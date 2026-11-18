@@ -288,7 +288,7 @@
     }
     const sp = D.byId[id];
     const win = id === answer.id;
-    const nameEl = opts.links ? h('a.hd-row-name', { href: '#/guide/' + sp.id }, sp.name) : h('span.hd-row-name', sp.name);
+    const nameEl = opts.links ? h('a.hd-row-name', { href: '/guide/' + sp.id }, sp.name) : h('span.hd-row-name', sp.name);
     return h('li.hd-row' + (win ? '.win' : ''),
       h('div.hd-row-head', h('span.hd-row-n', String(n)), nameEl, h('i.sci', sp.sci), win ? h('span.badge.ok-badge', icon('check', { size: 12, stroke: 3 }), 'Got it') : null),
       h('div.hd-tiles', SQ.herpdle.compare(sp, answer, opts.area).map((t, i) => tileEl(t, i, opts.animate))));
@@ -374,7 +374,7 @@
     if (qa === 'in' || qa === 'na') SQ.store.saveSettings({ dailyArea: qa });
     const where = D.area(area).label;
     const boardName = area === 'na' ? 'herpdle-na' : 'herpdle';
-    const link = (mode) => '#/herpdle?' + (mode ? 'mode=' + mode + '&' : '') + 'area=' + area;
+    const link = (mode) => '/herpdle?' + (mode ? 'mode=' + mode + '&' : '') + 'area=' + area;
     const today = SQ.todayKey();
     const number = SQ.herpdle.dayNumber(today, area);
     let st = load(area);
@@ -601,7 +601,7 @@
           if (game.saving) rankLine = h('p.hd-rank', SQ.ui.led('on blink'), 'Saving to the leaderboard…');
           else if (game.result && game.result.rank && game.result.rank[boardName]) {
             const r = game.result.rank[boardName];
-            rankLine = h('p.hd-rank', icon('trophy', { size: 16 }), h('span', `#${r.day} today`, r.week ? ` · #${r.week} this week` : '', r.all ? ` · #${r.all} all time` : ''), h('a', { href: '#/ranks?board=' + boardName }, 'Leaderboard'));
+            rankLine = h('p.hd-rank', icon('trophy', { size: 16 }), h('span', `#${r.day} today`, r.week ? ` · #${r.week} this week` : '', r.all ? ` · #${r.all} all time` : ''), h('a', { href: '/ranks?board=' + boardName }, 'Leaderboard'));
           } else if (game.saveError === 'queued') rankLine = h('p.hd-rank', icon('clock', { size: 16 }), 'Saved on this device. It will go on the leaderboard when you are back online.');
           else if (game.saveError) rankLine = h('p.hd-rank.bad', icon('warn', { size: 16 }), 'Not ranked: ' + game.saveError);
         } else {
@@ -619,16 +619,16 @@
       return h('section.card.hd-result',
         h('p.legend', won ? `Solved in ${n}` : 'Out of guesses'),
         h('h2', won ? lines[n] : 'So close. It was…'),
-        h('a.hd-answer', { href: '#/guide/' + answer.id },
+        h('a.hd-answer', { href: '/guide/' + answer.id },
           SQ.ui.thumb(answer),
           h('div', h('strong', answer.name), h('i.sci', answer.sci), h('div.badges', SQ.ui.venomBadge(answer, { short: true }), SQ.ui.big4Badge(answer))),
           icon('arrow', { size: 18 })),
         h('div.lcd.hd-points', SQ.ui.readout('Points', game.points || 0), stats ? SQ.ui.readout('Streak', stats.streak) : SQ.ui.readout('Practice solved', `${st.pstats.won}/${st.pstats.played}`)),
         rankLine,
         h('div.btn-row',
-          h('button.btn' + (game.kind === 'daily' ? '.btn-primary' : ''), { type: 'button', onclick: () => SQ.ui.shareText(shareText(game, area), location.origin + location.pathname + link('')) }, icon('share', { size: 18 }), 'Share'),
+          h('button.btn' + (game.kind === 'daily' ? '.btn-primary' : ''), { type: 'button', onclick: () => SQ.ui.shareText(shareText(game, area), location.origin + link('')) }, icon('share', { size: 18 }), 'Share'),
           again,
-          h('a.btn', { href: '#/guide/' + answer.id }, icon('book', { size: 18 }), 'Read about it')),
+          h('a.btn', { href: '/guide/' + answer.id }, icon('book', { size: 18 }), 'Read about it')),
         stats ? h('div.hd-stats',
           h('div.hd-stat-nums', [['Played', stats.played], ['Solved', SQ.pct(stats.won, stats.played) + '%'], ['Streak', stats.streak], ['Best', stats.best]].map(([l, v]) => h('div', h('b', String(v)), h('span', l)))),
           h('p.legend', 'Guess distribution'),
@@ -645,8 +645,13 @@
       if (g && !g.remote && usable(g)) { game = g; board(false); } else intro();
     }
 
+    const desc = 'Name the mystery snake in six goes. A new Herpdle every day for India and for North America: each guess reveals a clue and sharpens the photo. Free, with practice games.';
     return {
-      node: root, title: practice ? `Herpdle practice · ${where}` : `Herpdle #${number} · ${where}`, view: 'herpdle',
+      node: root, view: 'herpdle',
+      seo: {
+        title: 'Herpdle: the daily snake guessing game · Sarpa', description: desc, path: '/herpdle',
+        ld: [SQ.seo.app('Herpdle', '/herpdle', desc, 'game'), SQ.seo.crumbs('/herpdle', [['Herpdle', '/herpdle']])],
+      },
       cleanup: () => { alive = false; teardown(); },
     };
   };

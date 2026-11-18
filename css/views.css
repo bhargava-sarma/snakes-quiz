@@ -733,3 +733,15 @@ kbd {
 /* four timer keys fit on one row, even on a small phone */
 .opt .seg { flex-wrap: nowrap; gap: 8px; }
 .opt .seg-btn { flex: 1 1 0; padding-inline: 6px; }
+
+/* ---------- breadcrumbs and side-by-side links ---------- */
+.crumbs ol { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 0; margin: 0; padding: 0; list-style: none; }
+.crumbs li { display: inline-flex; align-items: center; min-width: 0; font: 600 0.6875rem/1.2 var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.crumbs li + li::before { content: "›"; margin: 0 9px; color: var(--ink-3); }
+.crumbs a { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; text-decoration: none; color: var(--ink); }
+.crumbs a:hover { color: var(--accent-text); }
+.crumbs [aria-current] { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 60vw; }
+.pair-links { margin-top: 18px; }
+.pair-links ul { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 0; padding: 0; list-style: none; }
+.pair-links a { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--line-2); background: var(--panel); color: var(--ink); text-decoration: none; font-weight: 600; font-size: .9rem; }
+.pair-links a:hover { border-color: var(--accent); color: var(--accent-text); }

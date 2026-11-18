@@ -23,7 +23,7 @@ const { chromium } = require('playwright');
 const args = process.argv.slice(2);
 const flag = (name) => args.includes(name);
 const opt = (name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : null; };
-const base = (args.find((a) => /^https?:/.test(a)) || 'http://localhost:8765/index.html').replace(/#.*$/, '');
+const base = (args.find((a) => /^https?:/.test(a)) || 'http://localhost:8765').replace(/#.*$/, '').replace(/\/(index\.html)?$/, '');
 const quick = flag('--quick');
 const shotsDir = opt('--shots');
 const only = opt('--only');
@@ -69,14 +69,16 @@ const ROUTES = [
   { r: '/legal/privacy', name: 'legal-privacy' },
   { r: '/legal/licences', name: 'legal-licences' },
   { r: '/guide', name: 'guide' },
-  { r: '/guide?area=na', name: 'guide-na' },
+  { r: '/guide/north-america', name: 'guide-na' },
+  { r: '/compare/naja-naja-vs-ptyas-mucosa', name: 'compare-pair' },
+  { r: '/no-such-page', name: 'not-found' },
   { r: '/guide/naja-naja', name: 'species' },
   { r: '/guide/crotalus-atrox', name: 'species-na' },
   { r: '/guide/lycodon-fasciolatus', name: 'species-hard' },
   { r: '/compare?a=naja-naja&b=ptyas-mucosa', name: 'compare' },
   { r: '/learn', name: 'flashcards' },
   { r: '/safety', name: 'safety' },
-  { r: '/safety?area=na', name: 'safety-na' },
+  { r: '/safety/north-america', name: 'safety-na' },
   { r: '/about', name: 'about' },
   { r: '/credits', name: 'credits' },
   { r: '/me', name: 'profile', after: 'play-one' },
@@ -275,7 +277,7 @@ function inPage(opts) {
 /* ------------------------------------------------------------------ */
 
 async function playOne(page) {
-  await page.goto(`${base}#/play`, { waitUntil: 'load' });
+  await page.goto(`${base}/play`, { waitUntil: 'load' });
   await page.evaluate(() => SQ.quiz.start({ mode: 'quiz', count: 10, difficulty: 'intermediate', region: 'all', timer: 0, hints: true, preferUnseen: false }));
   for (let i = 0; i < 10; i++) {
     await page.waitForSelector('.option');
@@ -294,11 +296,11 @@ async function herpdleGuess(page, name) {
 
 async function openRoute(page, route) {
   if (route.r === 'herpdle-board' || route.r === 'herpdle-result') {
-    await page.goto(`${base}#/herpdle?mode=practice`, { waitUntil: 'load' });
+    await page.goto(`${base}/herpdle?mode=practice`, { waitUntil: 'load' });
     // (the page plays in the region last chosen, which earlier pages may have changed)
     await page.evaluate(() => { const a = SQ.homeArea(); const st = SQ.herpdleState.load(a); st.seenHelp = true; st.practice = null; SQ.herpdleState.save(st, a); });
-    await page.goto(`${base}#/play`, { waitUntil: 'load' });
-    await page.goto(`${base}#/herpdle?mode=practice`, { waitUntil: 'load' });
+    await page.goto(`${base}/play`, { waitUntil: 'load' });
+    await page.goto(`${base}/herpdle?mode=practice`, { waitUntil: 'load' });
     await page.click('button:has-text("Start a practice game")');
     await page.waitForSelector('#hd-input');
     const names = await page.evaluate(() => { const a = SQ.homeArea(); const g = SQ.herpdleState.load(a).practice; return { right: SQ.data.byId[g.sp].name, wrong: SQ.data.areaSpecies(a).find((x) => x.id !== g.sp && x.tier <= 2).name }; });
@@ -309,7 +311,7 @@ async function openRoute(page, route) {
     return;
   }
   if (route.r === 'herpdle-daily') {
-    await page.goto(`${base}#/herpdle`, { waitUntil: 'load' });
+    await page.goto(`${base}/herpdle`, { waitUntil: 'load' });
     await page.waitForSelector('.hd-intro, .hd-status, .hd-result');
     const play = page.locator('button:has-text("Play today’s Herpdle")');
     if (await play.count()) {
@@ -326,7 +328,7 @@ async function openRoute(page, route) {
     return;
   }
   if (route.r === 'account') {
-    await page.goto(`${base}#/`, { waitUntil: 'load' });
+    await page.goto(`${base}/`, { waitUntil: 'load' });
     await page.waitForSelector('.hero');
     await page.evaluate(() => { SQ.account.open({ mode: 'signup' }); });
     await page.waitForSelector('.modal.acct');
@@ -334,7 +336,7 @@ async function openRoute(page, route) {
     return;
   }
   if (route.r === 'quiz' || route.r === 'quiz-answered') {
-    await page.goto(`${base}#/play`, { waitUntil: 'load' });
+    await page.goto(`${base}/play`, { waitUntil: 'load' });
     await page.evaluate(() => { SQ.quiz.discard(); SQ.quiz.start({ mode: 'quiz', count: 20, difficulty: 'intermediate', region: 'all', timer: 30, hints: true, preferUnseen: false }); });
     await page.waitForSelector('.option');
     if (route.r === 'quiz-answered') {
@@ -344,13 +346,13 @@ async function openRoute(page, route) {
     }
     return;
   }
-  await page.goto(`${base}#${route.r}`, { waitUntil: 'load' });
+  await page.goto(`${base}${route.r}`, { waitUntil: 'load' });
   await page.waitForSelector('#main > :not(.boot)', { timeout: 10000 });
 }
 
 /** With the accounts API running, make one account for the whole run (sign-ups are rate-limited per address). */
 async function testAccount() {
-  const api = new URL('api/sarpa', base.replace(/[^/]*$/, ''));
+  const api = new URL('/api/sarpa', base);
   try {
     const st = await (await fetch(api + '?action=health')).json();
     if (!st.accounts) return null;
@@ -391,7 +393,8 @@ async function testAccount() {
       page.on('pageerror', (e) => errors.push(e.message));
       // failed requests are reported by URL below; the accounts API answering 404 on a static host is expected
       page.on('console', (m) => { if (m.type() === 'error' && !/favicon|net::ERR|Failed to load resource/.test(m.text())) errors.push(m.text()); });
-      page.on('response', (res) => { if (res.status() >= 400 && !/\/api\/sarpa|favicon/.test(res.url())) errors.push(`HTTP ${res.status()} for ${res.url()}`); });
+      // (the "not found" page is meant to answer 404)
+      page.on('response', (res) => { if (res.status() >= 400 && !/\/api\/sarpa|favicon|\/no-such-page$/.test(res.url())) errors.push(`HTTP ${res.status()} for ${res.url()}`); });
       await playOne(page);
       for (const route of ROUTES) {
         if (only && !route.name.includes(only) && !route.r.includes(only)) continue;

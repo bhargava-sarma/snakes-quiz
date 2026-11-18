@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en" data-prerendered>
+<head>
+  <meta charset="utf-8">
+  <!-- What this page may load: only its own files, plus iNaturalist's photo store as a fallback for photos. No inline
+       scripts, no other sites. vercel.json adds the protections a page cannot set itself (no framing, and more). -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://inaturalist-open-data.s3.amazonaws.com; font-src 'self'; connect-src 'self'; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- This page's title, description, address and link-preview tags. js/seo.js keeps them right for every page of the
+       app, and scripts/build-pages.js writes them into every prerendered page (with full addresses, from siteUrl in
+       js/config.js). Keep them between these two markers. -->
+  <!--seo-->
+  <title>About Sarpa, the snake identification quiz</title>
+  <meta name="description" content="How Sarpa works, where its 12,290 photos of 320 snakes come from (research-grade iNaturalist observations under Creative Commons licences), accuracy, privacy and…" data-seo="">
+  <meta name="robots" content="index, follow, max-image-preview:large" data-seo="">
+  <link rel="canonical" href="https://www.sarpa.live/about" data-seo="">
+  <meta property="og:type" content="website" data-seo="">
+  <meta property="og:title" content="About Sarpa, the snake identification quiz" data-seo="">
+  <meta property="og:description" content="How Sarpa works, where its 12,290 photos of 320 snakes come from (research-grade iNaturalist observations under Creative Commons licences), accuracy, privacy and…" data-seo="">
+  <meta property="og:url" content="https://www.sarpa.live/about" data-seo="">
+  <meta property="og:image" content="https://www.sarpa.live/assets/social-preview.jpg" data-seo="">
+  <meta property="og:image:type" content="image/jpeg" data-seo="">
+  <meta property="og:image:width" content="1200" data-seo="">
+  <meta property="og:image:height" content="630" data-seo="">
+  <meta property="og:image:alt" content="Sarpa, the snake ID quiz for India and North America: how well do you know your snakes?" data-seo="">
+  <script type="application/ld+json" data-seo="">{"@context":"https://schema.org","@graph":[{"@type":"AboutPage","@id":"https://www.sarpa.live/about","url":"https://www.sarpa.live/about","name":"About Sarpa","description":"How Sarpa works, where its 12,290 photos of 320 snakes come from (research-grade iNaturalist observations under Creative Commons licences), accuracy, privacy and the open-source code.","inLanguage":"en","isPartOf":{"@id":"https://www.sarpa.live/#website"}},{"@type":"BreadcrumbList","@id":"https://www.sarpa.live/about#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Sarpa","item":"https://www.sarpa.live/"},{"@type":"ListItem","position":2,"name":"About","item":"https://www.sarpa.live/about"}]}]}</script>
+  <!--/seo-->
+  <meta property="og:site_name" content="Sarpa">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="en_IN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#e8e7e2">
+  <meta name="color-scheme" content="light dark">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Sarpa">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="preload" href="/assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/geist-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/doto-latin-full-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/views.css">
+  <link rel="stylesheet" href="/css/games.css">
+  <script src="/js/boot.js"></script>
+  <!-- Vercel Web Analytics and Speed Insights, served by Vercel from this site's own address (no other site involved,
+       no cookies). They only exist on Vercel; elsewhere these two requests simply fail. See the privacy policy. -->
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <!-- The header, page and footer are drawn by the app. In the files on the server they already hold a copy of the
+       page (written by scripts/build-pages.js between these markers), so that search engines, link previews and
+       people without JavaScript see it, and everyone sees it before the app has loaded. -->
+  <header id="site-header" class="site-header"><!--shell:header--><div class="wrap header-in"><a href="/" data-nav="/" aria-label="Sarpa, home" class="brand"><img src="/assets/icon.svg" width="38" height="38" alt="" class="brand-logo"><span class="brand-text"><strong>SARPA</strong><small>Snake ID quiz</small></span></a><nav aria-label="Main" class="nav"><a href="/play" data-nav="/play" class="nav-key"><i class="nav-n">01</i>Play</a><a href="/herpdle" data-nav="/herpdle" class="nav-key"><i class="nav-n">02</i>Herpdle</a><a href="/daily" data-nav="/daily" class="nav-key"><i class="nav-n">03</i>Daily</a><a href="/ranks" data-nav="/ranks" class="nav-key"><i class="nav-n">04</i>Ranks</a><a href="/guide" data-nav="/guide" class="nav-key"><i class="nav-n">05</i>Guide</a><a href="/safety" data-nav="/safety" class="nav-key"><i class="nav-n">06</i>Safety</a></nav><div class="header-tools"><a href="/safety" data-nav="/safety" aria-label="Snakebite safety" class="icon-btn safety-key"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></span></a><button id="acct-btn" type="button" class="acct-btn" aria-label="Sign in or create an account"><span class="acct-ico"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span></span><span class="acct-name">Sign in</span></button><button id="theme-btn" type="button" role="switch" class="theme-btn" data-mode="light" aria-label="Switch to dark theme" aria-checked="false"><span class="t-sun"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></span></span><span class="t-moon"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span></span></button></div></div><!--/shell:header--></header>
+  <main id="main" tabindex="-1"><!--page--><div class="page wrap about prose"><div class="page-head"><div><p class="legend"><b>SQ-1</b>Specifications</p><h1>About Sarpa</h1><p class="lead">A free photo quiz that teaches snake identification, one explanation at a time.</p></div></div><div class="lcd about-lcd"><div class="readout"><span class="legend">Photos</span><b class="lcd-num">12,290</b></div><div class="readout"><span class="legend">Species</span><b class="lcd-num">320</b></div><div class="readout"><span class="legend">Photographers</span><b class="lcd-num">5,047</b></div><div class="readout"><span class="legend">Data built</span><b class="lcd-num">2026-11-04</b></div></div><div class="prose-grid"><section class="card"><h2>How it works</h2><p>Sarpa shows you a real photograph of a snake from India or from North America (the USA and Canada) and asks you to name it from four options. After you answer you see why the right answer is right and why each of the other three options is not, including how they differ from the snake in the photo.</p><p>The game holds 12,290 photographs of 320 species: 162 from India and 160 from North America. Every quiz is built fresh: species are balanced, the photos you have already seen are avoided, and the harder difficulty levels fill the options with genuine look-alikes.</p><p>Play one region, or Mixed for both at once. Points depend on how hard the snake and the photo are, and Mixed quizzes score 20% more. Each region has its own daily challenge and Herpdle, and anyone can play either.</p></section><section class="card"><h2>Where the photos come from</h2><p>All photos are community observations on <a href="https://www.inaturalist.org" target="_blank" rel="noopener">iNaturalist</a> that reached "research grade", meaning other naturalists agreed with the species identification. They were taken in India, the United States and Canada, and every photographer chose an open Creative Commons licence.</p><p>This edition has photos from 5,047 photographers. Each photo is credited beneath it and in the full <a href="/credits">photo credits</a> list. Licences used: CC-BY-NC (10,496), CC-BY (1,349), CC-BY-NC-SA (197), CC0 (155), CC-BY-SA (93).</p><p>Some iNaturalist species are so alike that they cannot be told apart from a photo (for example several newly separated vine snakes). Those are grouped as a single species here, and the photo’s original iNaturalist name is shown in its credit line.</p><p class="muted">Some licences are "NonCommercial", so this site must stay non-commercial unless the data set is rebuilt with only commercial-friendly licences (the README explains how). Indian state names are derived from each photo’s location using OpenStreetMap-based boundaries © OpenStreetMap contributors; US state and Canadian province names use Natural Earth’s public-domain boundaries.</p></section><section class="card"><h2>Accuracy and limits</h2><p>Species descriptions are written for general education from standard field-guide knowledge. Identification on iNaturalist is community-based and a few photos may be mislabelled, and snakes vary a lot in colour and pattern. If you spot a mistake, use the "Report photo" button on a question, or <a href="https://github.com/bhargava-sarma/snakes-quiz/issues" target="_blank" rel="noopener">open an issue</a>.</p><p><strong>Do not use this app to decide whether a real snake is dangerous. </strong>Treat every wild snake as potentially dangerous and keep your distance.</p></section><section class="card"><h2>Privacy</h2><p>No adverts, no cookies and nothing that follows you around: visits are only counted with cookie-free statistics. Your progress, badges and settings are stored in your own browser. If you make an account (just a username and a 6-digit PIN, stored only as a one-way hash), your progress is also saved with it so it follows you to other devices, and your username and scores appear on the leaderboards. You can delete the account, and everything saved with it, at any time.</p><p>Details are in the <a href="/legal/privacy">privacy policy</a> and the <a href="/legal/terms">terms of use</a>.</p></section><section class="card"><h2>Open source</h2><p>The code is open source (MIT licence). The README explains how the photo data set is built from iNaturalist’s open data and how to rebuild or extend it. <a href="https://github.com/bhargava-sarma/snakes-quiz" target="_blank" rel="noopener">View the project on GitHub</a>.</p><p class="muted">Data set built 2026-11-04.</p></section></div></div><!--/page--><noscript><div class="page wrap"><p>The Sarpa quiz and games need JavaScript. The field guide and the other pages can be read without it.</p></div></noscript></main>
+  <footer id="site-footer" class="site-footer"><!--shell:footer--><div class="wrap footer-in"><div class="foot-cols"><div><p class="legend foot-title">About</p><p><strong>Sarpa</strong> is a free educational snake-identification quiz. Photos are community observations from <a href="https://www.inaturalist.org" target="_blank" rel="noopener">iNaturalist</a>, used under their Creative Commons licences.</p></div><div><p class="legend foot-title">Snakes</p><div class="foot-links"><a href="/guide/india">Snakes of India</a><a href="/guide/north-america">Snakes of North America</a><a href="/guide">Field guide</a><a href="/compare">Compare two snakes</a><a href="/learn">Flashcards</a><a href="/safety">Snakebite first aid (India)</a><a href="/safety/north-america">Snakebite first aid (USA &amp; Canada)</a></div></div><div><p class="legend foot-title">Play</p><div class="foot-links"><a href="/play">Snake ID quiz</a><a href="/daily">Daily challenge</a><a href="/herpdle">Herpdle</a><a href="/herpdle?mode=practice">Herpdle practice</a><a href="/ranks">Leaderboards</a><a href="/me">My progress</a></div></div><div><p class="legend foot-title">Sarpa</p><div class="foot-links"><a href="/about">About &amp; data</a><a href="/credits">Photo credits</a><a href="/legal/terms">Terms of use</a><a href="/legal/privacy">Privacy policy</a><a href="/legal/disclaimer">Safety and accuracy disclaimer</a><a href="/legal/licences">Licences and credits</a><a href="/legal/takedown">Takedown and corrections</a></div></div><div class="foot-warn"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></span><p>Never touch, corner or try to catch a wild snake. In a snakebite emergency go to a hospital at once. <a href="/safety">Snakebite first aid</a></p></div></div><p class="legend foot-spec"><span>Sarpa SQ-1</span><span>12,290 photos</span><span>320 species</span><span>Code MIT</span><span>Photos © photographers, CC</span></p></div><!--/shell:footer--></footer>
+  <nav id="tabbar" class="tabbar" aria-label="Main"><!--shell:tabbar--><a href="/play" data-nav="/play" class="tab"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></span><span>Play</span></a><a href="/herpdle" data-nav="/herpdle" class="tab"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg></span><span>Herpdle</span></a><a href="/daily" data-nav="/daily" class="tab"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span><span>Daily</span></a><a href="/ranks" data-nav="/ranks" class="tab"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8"></path><path d="M12 17v4"></path><path d="M7 4h10v5a5 5 0 0 1-10 0z"></path><path d="M17 5h3v2a3 3 0 0 1-3 3"></path><path d="M7 5H4v2a3 3 0 0 0 3 3"></path></svg></span><span>Ranks</span></a><a href="/guide" data-nav="/guide" class="tab"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></span><span>Guide</span></a><!--/shell:tabbar--></nav>
+  <div id="modal-root"></div>
+  <div id="toast-root" aria-live="polite"></div>
+
+  <script defer src="/data/species.js"></script>
+  <script defer src="/data/photos.js"></script>
+  <script defer src="/js/config.js"></script>
+  <script defer src="/js/util.js"></script>
+  <script defer src="/js/store.js"></script>
+  <script defer src="/js/data.js"></script>
+  <script defer src="/js/explain.js"></script>
+  <script defer src="/js/engine.js"></script>
+  <script defer src="/js/herpdle-core.js"></script>
+  <script defer src="/js/ui.js"></script>
+  <script defer src="/js/seo.js"></script>
+  <script defer src="/js/api.js"></script>
+  <script defer src="/js/sync.js"></script>
+  <script defer src="/js/account.js"></script>
+  <script defer src="/js/explainpanel.js"></script>
+  <script defer src="/js/badges.js"></script>
+  <script defer src="/js/quiz.js"></script>
+  <script defer src="/js/views-main.js"></script>
+  <script defer src="/js/results.js"></script>
+  <script defer src="/js/herpdle.js"></script>
+  <script defer src="/js/ranks.js"></script>
+  <script defer src="/js/guide.js"></script>
+  <script defer src="/js/extras.js"></script>
+  <script defer src="/js/pages.js"></script>
+  <script defer src="/js/legal.js"></script>
+  <script defer src="/js/app.js"></script>
+</body>
+</html>

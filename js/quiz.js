@@ -173,7 +173,7 @@
   SQ.views.quiz = function () {
     const D = SQ.data;
     const sess = quiz.current();
-    if (!sess) { setTimeout(() => SQ.go('/play'), 0); return h('div'); }
+    if (!sess) { setTimeout(() => SQ.go('/play', { replace: true }), 0); return { node: h('div'), seo: { title: 'Quiz · Sarpa', noindex: true } }; }
     const settings = SQ.store.settings();
     const timerSec = sess.config.timer || 0;
     const total = sess.questions.length;
@@ -475,6 +475,6 @@
 
     renderQuestion();
     // when the user refreshed after the last answer, show that answer again so they can continue
-    return { node: root, cleanup, focus: true, view: 'quiz', title: 'Quiz' };
+    return { node: root, cleanup, focus: true, view: 'quiz', seo: { title: 'Quiz · Sarpa', noindex: true } };
   };
 })();

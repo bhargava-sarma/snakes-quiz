@@ -7,9 +7,9 @@
   SQ.views = SQ.views || {};
 
   const BOARDS = [
-    { id: 'sarpa-daily', label: 'Sarpa daily', sub: 'Ten photos a day', ico: 'calendar', play: (a) => '#/daily?area=' + a, areas: true },
-    { id: 'herpdle', label: 'Herpdle', sub: 'The daily clue game', ico: 'grid', play: (a) => '#/herpdle?area=' + a, areas: true },
-    { id: 'sarpa-points', label: 'Quiz points', sub: 'Every ranked quiz, all regions', ico: 'zap', play: () => '#/play' },
+    { id: 'sarpa-daily', label: 'Sarpa daily', sub: 'Ten photos a day', ico: 'calendar', play: (a) => '/daily?area=' + a, areas: true },
+    { id: 'herpdle', label: 'Herpdle', sub: 'The daily clue game', ico: 'grid', play: (a) => '/herpdle?area=' + a, areas: true },
+    { id: 'sarpa-points', label: 'Quiz points', sub: 'Every ranked quiz, all regions', ico: 'zap', play: () => '/play' },
   ];
   /** The server's name for a board in a region: the North America daily boards end in "-na". */
   const boardId = (kind, area) => kind + (area === 'na' && BOARDS.find((b) => b.id === kind).areas ? '-na' : '');
@@ -40,7 +40,7 @@
     if (!day || !/^\d{4}-\d{2}-\d{2}$/.test(day) || day > today || SQ.time.dayIndex(today) - SQ.time.dayIndex(day) > MAX_BACK) day = today;
     let token = 0;
 
-    const out = h('div.lb-out', { 'aria-live': 'polite' });
+    const out = h('div.lb-out', { 'aria-live': 'polite', 'data-noprerender': '' });       // live data
     const dayNav = h('div.lb-daynav');
     const periodBox = h('div.lb-periods');
     const boardBox = h('div.lb-boards', { role: 'radiogroup', 'aria-label': 'Leaderboard' });
@@ -49,7 +49,7 @@
     function syncUrl() {
       const q = new URLSearchParams({ board: board(), period });
       if (period === 'day' && day !== today) q.set('day', day);
-      try { history.replaceState(null, '', '#/ranks?' + q.toString()); } catch (e) { /* ignore */ }
+      SQ.setUrl('/ranks?' + q.toString());
     }
 
     function drawControls() {
@@ -153,6 +153,11 @@
       h('div.lb-controls', areaBox, periodBox, dayNav),
       out);
     refresh();
-    return { node, title: 'Leaderboards', view: 'ranks', cleanup: () => { token++; window.removeEventListener('sarpa-auth', onAuth); } };
+    const desc = 'Daily, weekly and all-time leaderboards for the Sarpa daily snake quiz and Herpdle, in India and in North America, and quiz points from every ranked game.';
+    const seo = {
+      title: 'Leaderboards · Sarpa', description: desc, path: '/ranks',
+      ld: [SQ.seo.page('WebPage', '/ranks', 'Leaderboards', desc), SQ.seo.crumbs('/ranks', [['Leaderboards', '/ranks']])],
+    };
+    return { node, seo, view: 'ranks', cleanup: () => { token++; window.removeEventListener('sarpa-auth', onAuth); } };
   };
 })();

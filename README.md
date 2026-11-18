@@ -4,6 +4,8 @@ A free photo quiz that teaches you to recognise the snakes of **India** and **No
 and **explains every answer**. Two games: **Sarpa**, the photo quiz, and **Herpdle**, a daily puzzle where you name a
 mystery snake from clues. Play one region, or **Mixed** for both at once.
 
+**Play it at [www.sarpa.live](https://www.sarpa.live).**
+
 <p align="center">
   <img src="docs/screens/home-desktop.jpg" alt="The Sarpa home page: a quiz screen preview, an LCD with the numbers and big keys to start a quiz" width="49%">
   <img src="docs/screens/quiz-desktop.jpg" alt="A question on a laptop: a big photo on the left, the answer keys and the explanation on the right" width="49%">
@@ -106,13 +108,15 @@ node scripts/dev-server.js 8000           # website + accounts API with a tempor
 node scripts/dev-server.js 8000 --no-api  # website only, like a static host (guest play, no leaderboards)
 ```
 
-Then open http://localhost:8000. No packages are needed (Node 18 or newer). `python3 -m http.server` also works
-for the website alone.
+Then open http://localhost:8000. No packages are needed (Node 18 or newer). Every page has its own address
+(`/guide/naja-naja`, `/safety/north-america` ...), so the site must be served from the root of its domain, by a server
+that finds `guide/naja-naja.html` for `/guide/naja-naja` (the dev server and Vercel both do).
 
 ### Put it online (Vercel, with accounts and leaderboards)
 
 1. Import the repository in Vercel (no framework, no build command; the defaults are right). The website is served as
-   static files and `api/sarpa.js` becomes the accounts API.
+   static files (the prerendered pages are in the repository, see below) and `api/sarpa.js` becomes the accounts API.
+   `vercel.json` turns on clean addresses and caching; `.vercelignore` leaves out the folders the site does not use.
 2. In the Vercel project open **Storage → Create Database → Upstash for Redis**, pick the free plan and connect it to
    the project (keep the suggested environment-variable prefix).
 3. Strongly recommended: in **Settings → Environment Variables** add `PIN_PEPPER` with a long random value (for
@@ -133,16 +137,45 @@ Without step 2 the site still works: the games are played as a guest and are not
 1. In the repository go to **Settings → Pages → Build and deployment → Source** and choose **GitHub Actions**.
 2. Merge to `main`. The workflow in `.github/workflows/pages.yml` publishes the site automatically.
 
-Any other static host (Netlify, Cloudflare Pages, an S3 bucket, your own server) works as well: upload
-`index.html`, `sw.js`, `manifest.webmanifest`, `css/`, `js/`, `data/*.js`, `assets/` and `images/`.
+Any other static host (Netlify, Cloudflare Pages, your own server) works as well, as long as it serves the site from
+the root of a domain and finds `about.html` for the address `/about`: upload the `.html` files and the `guide/`,
+`compare/`, `legal/` and `safety/` folders, `sw.js`, `manifest.webmanifest`, `robots.txt`, `sitemap.xml`,
+`favicon.ico`, `apple-touch-icon.png`, `css/`, `js/`, `data/*.js`, `assets/` and `images/`. (GitHub Pages serves a
+project from `/snakes-quiz/` unless it has its own domain, so it needs one.)
 
-### Link previews
+### Search engines and link previews
 
-When the link is pasted into WhatsApp, X, Facebook, LinkedIn, Slack and similar apps, they show a card with
-[`assets/social-preview.jpg`](assets/social-preview.jpg). These apps need full addresses, so the tags at the top of
-`index.html` name `https://snakes-quiz.vercel.app`: on another domain, change those addresses. The apps remember a
-link's preview for a while, so to see a change straight away, share the address with something added, such as
-`https://snakes-quiz.vercel.app/?v=2`. `scripts/assets/make-social-preview.js` redraws the image.
+Every page has a real address, and the repository holds a ready-made HTML copy of each one, so Google, Bing and the
+link previews of WhatsApp, X, Facebook, LinkedIn and Slack read the full page without running the app:
+
+- **Addresses**: the home page, `/play`, `/daily`, `/herpdle`, `/ranks`, the field guide (`/guide`, `/guide/india`,
+  `/guide/north-america` and a page per species such as `/guide/naja-naja`), `/compare` and a page for every
+  hand-written look-alike pair (`/compare/naja-naja-vs-ptyas-mucosa`), `/learn`, `/safety`, `/safety/north-america`,
+  `/about`, `/credits` and the legal pages. Old links (`/#/guide/naja-naja`) still work and move to the new address.
+- **Each page describes itself** ([`js/seo.js`](js/seo.js)): its own title and description, its canonical address,
+  link-preview tags (species pages share their own photo, from `images/share/`) and schema.org structured data:
+  the site, breadcrumbs, the list of species, each species as a taxon with its photos, photographers and licences.
+  Personal pages (`/me`, a game in progress, results) are kept out of search results.
+- **[`scripts/build-pages.js`](scripts/build-pages.js)** opens every page in a headless browser, as a first-time visitor,
+  and saves it (`guide/naja-naja.html` ...), with `sitemap.xml`, `robots.txt`, `404.html`, `favicon.ico`,
+  `apple-touch-icon.png` and the share pictures. When the app loads, it draws the page again in place. **Run it, and
+  commit what it writes, after changing the data (`scripts/dataset` steps 9 and 10), the text of a page or
+  `index.html`**: `node scripts/build-pages.js` (about two minutes; Playwright needed). It only rewrites pages that
+  changed, and the sitemap's dates follow the pages.
+- **Another domain**: set `siteUrl` in [`js/config.js`](js/config.js) and run the build: every page, the sitemap and
+  `robots.txt` then use it. Add the old address to `MOVED_FROM` in [`js/boot.js`](js/boot.js): visitors who arrive
+  there are taken to the new address and keep their sign-in, settings and progress (a browser keeps those per
+  address). The site moved from `snakes-quiz.vercel.app` to **www.sarpa.live** this way.
+- **Google Search Console**: add `sarpa.live` as a *Domain* property and prove you own it with the TXT record it
+  gives, added in the domain's DNS settings (at the registrar); then submit `https://www.sarpa.live/sitemap.xml`. (For
+  an address whose DNS you do not control, use a *URL prefix* property and the *HTML tag* method instead: paste the
+  `<meta name="google-site-verification" ...>` line into the head of `index.html`, just under
+  `<meta charset="utf-8">`.) Bing Webmaster Tools can import the site from Search Console.
+- Link previews are remembered by the apps for a while; to see a change straight away, share the address with
+  something added, such as `https://www.sarpa.live/?v=2`. `scripts/assets/make-social-preview.js` redraws the
+  site's own preview picture.
+
+`node scripts/qa/seo.js` checks the built pages as a search engine reads them (see Quality checks).
 
 ### How the accounts work
 
@@ -256,28 +289,37 @@ node scripts/qa/engine_check.js   # 13,000+ generated questions in India, North 
                                   # answer, no look-alike clashes, balance, photos and options from the right region...
 node scripts/qa/smoke.js          # every page and species page: no stray "null"/"undefined", no errors, no broken photos;
                                   # the link-preview tags and image
-node scripts/qa/e2e.js            # 70-step run-through: account sign-up, timer, hints, explanations, reload-and-resume,
+node scripts/qa/e2e.js            # 83-step run-through: account sign-up, timer, hints, explanations, reload-and-resume,
                                   # results, daily parity between two players, state filter, North America and Mixed
-                                  # quizzes, reporting a photo, phone layout, Herpdle, and progress following a player to
-                                  # another browser (and signing out and in again)
+                                  # quizzes, reporting a photo, phone layout, Herpdle, progress following a player to
+                                  # another browser (and signing out and in again), page addresses, back and forward,
+                                  # and moving from the old address (snakes-quiz.vercel.app) to the new one
 node scripts/qa/layout.js         # design checks on every page at phone, tablet, laptop and ultrawide sizes, light and dark:
                                   # nothing overflows or is clipped, tap targets, WCAG contrast, broken images, tab bar overlap
                                   # (--quick for fewer sizes, --shots <dir> to save screenshots)
 node scripts/qa/a11y.js           # axe-core accessibility scan of every page (WCAG 2.2 AA); first: npm install --no-save axe-core
+node scripts/qa/seo.js            # the prerendered pages as search engines read them (no browser needed): robots.txt and the
+                                  # sitemap, a title, description, canonical address, link preview, one h1 and valid
+                                  # structured data on every page, no duplicate titles, no broken internal links
 ```
 
 ## Project layout
 
 ```
 index.html  sw.js  manifest.webmanifest
-vercel.json                         security headers for the site on Vercel (the page's own policy is in index.html)
+*.html  guide/  compare/  legal/  safety/   the prerendered pages (written by scripts/build-pages.js; index.html is also
+                                    the template every page is made from)
+sitemap.xml  robots.txt  favicon.ico  apple-touch-icon.png   written by scripts/build-pages.js
+vercel.json                         clean addresses, caching and security headers on Vercel (the page's own policy is in
+                                    index.html); .vercelignore leaves out the folders the site does not use
 css/                                styling: fonts.css, tokens.css (colours, type, space; light + dark),
                                     base.css (page frame, header, tab bar), components.css (keys, LCD, panels ...),
                                     views.css (every screen), games.css (Herpdle, accounts, leaderboards)
 js/                                 the app: engine (question building), explain (why-not logic), quiz, guide, results,
                                     herpdle-core + herpdle (the clue game), api + account (accounts), sync (saved
                                     progress), ranks, legal ...
-js/config.js                        site settings: API address, accounts on/off, who runs the site (for the legal pages)
+js/config.js                        site settings: the site's address, API address, accounts on/off, who runs the site
+js/seo.js                           what each page tells search engines and link previews
 api/sarpa.js                        the Vercel serverless function (accounts and leaderboards); its code is in server/
 server/                             the API: app (actions), auth (PINs, sessions), games (scoring, boards), progress (saved
                                     progress), store (Upstash)
@@ -285,10 +327,12 @@ server/generated/data.json          species, photos and the daily puzzles the se
 data/kb/*.json                      the species knowledge base (hand-written)
 data/species.js  data/photos.js     generated for the app by scripts/dataset/09_build_data.py
 data/catalog.csv                    every photo with species, region, state, photographer, licence and source link
-images/<species>/<photo-id>.avif    the photos (800 px, AVIF) and images/thumbs/ for the cover pictures
+images/<species>/<photo-id>.avif    the photos (800 px, AVIF), images/thumbs/ for the cover pictures and images/share/
+                                    for the pictures shown when a species page is shared
 assets/                             app icons and the link-preview image (drawn by scripts/assets/) and the bundled fonts
 scripts/dataset/                    the data-set pipeline (iNaturalist open data -> photos -> server schedule)
-scripts/dev-server.js               a local server for the website and the API
+scripts/dev-server.js               a local server for the website and the API (clean addresses, like Vercel)
+scripts/build-pages.js              prerenders every page, the sitemap and robots.txt
 scripts/qa/                         API and browser-based tests
 ```
 

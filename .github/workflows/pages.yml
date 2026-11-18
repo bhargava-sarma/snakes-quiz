@@ -26,10 +26,11 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      # the prerendered pages (scripts/build-pages.js) are committed, so there is nothing to build
       - name: Assemble the site (leave out dataset tooling)
         run: |
           mkdir _site
-          cp -r index.html sw.js manifest.webmanifest css js data assets images _site/
+          cp -r *.html sw.js manifest.webmanifest robots.txt sitemap.xml favicon.ico apple-touch-icon.png css js data assets images guide compare legal safety _site/
           rm -rf _site/data/kb
           touch _site/.nojekyll
       - uses: actions/configure-pages@v5

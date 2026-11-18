@@ -1,0 +1,6 @@
+# Files the website does not use, left out of what Vercel publishes (they stay in the repository).
+# Never list api/ or server/ (the accounts API) or anything the pages load.
+.github/
+docs/
+scripts/
+data/kb/

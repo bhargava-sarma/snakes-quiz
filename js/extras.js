@@ -15,7 +15,7 @@
     const key = SQ.todayKey();
     const pool = D.areaSpecies(area).filter((s) => s.tier <= 4 && s.fact);
     const sp = pool[SQ.hashSeed((area === 'na' ? 'sotd-na-' : 'sotd-') + key) % pool.length];
-    return h('a.sotd', { href: '#/guide/' + sp.id },
+    return h('a.sotd', { href: '/guide/' + sp.id },
       SQ.ui.thumb(sp),
       h('div.sotd-body',
         h('p.legend', icon('star', { size: 13 }), ` Snake of the day · ${D.area(area).label}`),
@@ -28,13 +28,22 @@
   /*  Compare                                                             */
   /* ------------------------------------------------------------------ */
 
-  SQ.views.compare = function ({ query }) {
+  SQ.views.compare = function ({ query, params }) {
     const D = SQ.data;
     const sorted = D.species.slice().sort((x, y) => x.name.localeCompare(y.name));
     const home = SQ.homeArea ? SQ.homeArea() : 'in';
-    let a = D.byId[query.get('a')] || D.byId[home === 'na' ? 'crotalus-atrox' : 'naja-naja'] || sorted[0];
-    let b = D.byId[query.get('b')];
+    // "/compare/naja-naja-vs-ptyas-mucosa" (a page of its own for a pair with a hand-written note) or "/compare?a=…&b=…"
+    let pair = null;
+    if (params && params.pair) {
+      const m = /^(.+)-vs-(.+)$/.exec(params.pair);
+      if (!m || !D.byId[m[1]] || !D.byId[m[2]]) return SQ.views.notFound({ path: '/compare/' + params.pair, what: 'There is no such comparison.' });
+      pair = [D.byId[m[1]], D.byId[m[2]]];
+    }
+    const landing = !pair && !query.get('a');          // "/compare" itself, with a suggested pair
+    let a = pair ? pair[0] : D.byId[query.get('a')] || D.byId[home === 'na' ? 'crotalus-atrox' : 'naja-naja'] || sorted[0];
+    let b = pair ? pair[1] : D.byId[query.get('b')];
     if (!b || b === a) b = D.lookalikes(a.id, 1, a.regions.length === 1 ? a.regions[0] : undefined)[0] || sorted[1];
+    let first = true;
 
     const out = h('div.cmp-out');
     // one list per region (a snake found in both is listed under each; the two entries are the same snake)
@@ -52,14 +61,41 @@
     function column(sp, letter) {
       const cover = D.coverOf(sp.id);
       return h('div.cmp-col',
-        h('a.cmp-photo', { href: '#/guide/' + sp.id, 'aria-label': `${sp.name} in the field guide` }, cover ? SQ.ui.photo(cover, { alt: sp.name, vf: true, tag: letter }) : SQ.ui.thumb(sp)),
+        h('a.cmp-photo', { href: '/guide/' + sp.id, 'aria-label': `${sp.name} in the field guide` }, cover ? SQ.ui.photo(cover, { alt: sp.name, vf: true, tag: letter }) : SQ.ui.thumb(sp)),
         h('h2', sp.name), h('i.sci', sp.sci),
         h('div.badges', SQ.ui.venomBadge(sp), SQ.ui.big4Badge(sp), SQ.ui.areaBadge(sp, { short: true })));
     }
 
+    /** What search engines and link previews are told about the pair on screen. */
+    function seoFor() {
+      if (landing && first) {
+        const desc = `Pick any two of ${D.species.length} snakes of India and North America and see how they differ: colours, pattern, head shape, venom and the tell-tale signs, side by side.`;
+        return { title: 'Compare two snakes side by side · Sarpa', description: desc, path: '/compare',
+          ld: [SQ.seo.page('WebPage', '/compare', 'Compare two snakes', desc), SQ.seo.crumbs('/compare', [['Field guide', '/guide'], ['Compare two snakes', '/compare']])] };
+      }
+      const note = D.pair(a.id, b.id);
+      const path = D.comparePath(a.id, b.id);
+      const name = `${a.name} vs ${b.name}`;
+      const desc = note ? `${a.name} or ${b.name}? ${note.tip}`
+        : `How to tell the ${a.name} (${a.sci}) from the ${b.name} (${b.sci}): the differences that show in a photo, their venom and how to recognise each, side by side.`;
+      const taxa = [a, b].map((x) => ({ '@type': 'Taxon', name: x.sci, alternateName: x.name, url: SQ.seo.abs('/guide/' + x.id) }));
+      return {
+        title: SQ.seo.fit([`${name}: how to tell them apart · Sarpa`, `${name}: the differences · Sarpa`, `${name} · Sarpa`]),
+        description: desc, path, type: 'article', image: SQ.seo.speciesImage(a),
+        noindex: !note,               // only the pairs with a note have a page of their own; the rest are left out of search results
+        ld: [SQ.seo.page('WebPage', path, name, desc, { about: taxa, breadcrumb: { '@id': SQ.seo.abs(path) + '#breadcrumb' } }),
+          SQ.seo.crumbs(path, [['Field guide', '/guide'], ['Compare two snakes', '/compare'], [name, path]])],
+      };
+    }
+
     function draw() {
       selA.value = a.id; selB.value = b.id;
-      try { history.replaceState(null, '', `#/compare?a=${a.id}&b=${b.id}`); } catch (e) { /* ignore */ }
+      if (!(landing && first)) {
+        SQ.setUrl(D.comparePath(a.id, b.id));
+        if (!first) SQ.seo.apply(seoFor());
+        title.textContent = `${a.name} vs ${b.name}`;
+      }
+      first = false;
       SQ.clear(out);
       if (a.id === b.id) { out.appendChild(SQ.ui.empty('Pick two different snakes', 'Choose another species to compare.')); return; }
       const cryptic = D.isCryptic(a.id, b.id);
@@ -79,16 +115,19 @@
           h('section.card', h('h3', `Recognising the ${b.name}`), h('ul.why-list', b.ids.map((x) => h('li', x))))));
     }
 
+    const head = SQ.ui.pageHead(landing ? 'Compare two snakes' : `${a.name} vs ${b.name}`, landing ? 'See exactly how two look-alikes differ.' : 'How to tell them apart, side by side.', null, [h('b', '05'), 'Field guide · compare']);
+    const title = head.querySelector('h1');
     const node = h('div.page.wrap.compare',
-      h('a.back-link', { href: '#/guide' }, icon('back', { size: 16 }), 'Field guide'),
-      SQ.ui.pageHead('Compare two snakes', 'See exactly how two look-alikes differ.', null, [h('b', '05'), 'Field guide · compare']),
+      SQ.ui.crumbs([['Field guide', '/guide'], landing ? ['Compare two snakes'] : ['Compare two snakes', '/compare'], landing ? null : [`${a.name} vs ${b.name}`]].filter(Boolean)),
+      head,
       h('div.cmp-pick',
         h('div.cmp-field', h('label.legend', { for: 'cmp-a' }, h('b', 'A'), 'First snake'), selA),
         h('button.btn.btn-sm.cmp-swap', { type: 'button', 'aria-label': 'Swap the two snakes', onclick: () => { [a, b] = [b, a]; draw(); } }, icon('redo', { size: 16 }), 'Swap'),
         h('div.cmp-field', h('label.legend', { for: 'cmp-b' }, h('b', 'B'), 'Second snake'), selB)),
       out);
+    const seo = seoFor();
     draw();
-    return { node, title: 'Compare snakes', view: 'compare' };
+    return { node, seo, view: 'compare' };
   };
 
   /* ------------------------------------------------------------------ */
@@ -145,7 +184,7 @@
           h('div.badges', SQ.ui.venomBadge(sp), SQ.ui.big4Badge(sp)),
           h('ul.why-list', sp.ids.slice(0, 3).map((x) => h('li', x))),
           SQ.ui.creditLine(photo, { inat: false }),
-          h('a.more-link', { href: '#/guide/' + sp.id }, `Open ${sp.name} in the field guide`, icon('arrow', { size: 16 })))
+          h('a.more-link', { href: '/guide/' + sp.id }, `Open ${sp.name} in the field guide`, icon('arrow', { size: 16 })))
         : h('div.flash-prompt', h('p.legend', 'Your turn'), h('h2', 'What snake is this?'), h('p', 'Look closely, say the name out loud, then reveal the answer.'));
       const nextOrReveal = shown
         ? h('button.btn.btn-primary.btn-lg', { type: 'button', onclick: next }, i + 1 >= deck.length ? 'Start over' : 'Next card', icon('arrow', { size: 20 }))
@@ -179,11 +218,16 @@
     document.addEventListener('keydown', onKey);
 
     const node = h('div.page.wrap.learn',
-      h('a.back-link', { href: '#/guide' }, icon('back', { size: 16 }), 'Field guide'),
-      SQ.ui.pageHead('Flashcards', 'Look at the photo, say the name out loud, then check yourself. No scores, no pressure.', null, [h('b', '05'), 'Field guide · flashcards']),
+      SQ.ui.crumbs([['Field guide', '/guide'], ['Flashcards']]),
+      SQ.ui.pageHead('Snake flashcards', 'Look at the photo, say the name out loud, then check yourself. No scores, no pressure.', null, [h('b', '05'), 'Field guide · flashcards']),
       h('div.flash-controls', areaSel, sel, h('button.btn.btn-sm', { type: 'button', onclick: reset }, icon('redo', { size: 16 }), 'Shuffle')),
       stage);
     reset();
-    return { node, title: 'Flashcards', view: 'learn', cleanup: () => document.removeEventListener('keydown', onKey) };
+    const desc = 'Learn the snakes of India and North America with photo flashcards: look at a real photo, name the snake, then check the answer and what to look for. No scores, no pressure.';
+    const seo = {
+      title: 'Snake flashcards: learn to identify snakes · Sarpa', description: desc, path: '/learn',
+      ld: [SQ.seo.page('WebPage', '/learn', 'Snake flashcards', desc), SQ.seo.crumbs('/learn', [['Field guide', '/guide'], ['Flashcards', '/learn']])],
+    };
+    return { node, seo, view: 'learn', cleanup: () => document.removeEventListener('keydown', onKey) };
   };
 })();

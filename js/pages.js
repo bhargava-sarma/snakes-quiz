@@ -43,7 +43,7 @@
       SQ.clear(dex);
       list.forEach((sp) => {
         const m = S.mastery(sp.id);
-        dex.appendChild(h('a.dex-item.m' + m, { href: '#/guide/' + sp.id, title: `${sp.name}: ${['not met yet', 'learning', 'getting there', 'mastered'][m]}` },
+        dex.appendChild(h('a.dex-item.m' + m, { href: '/guide/' + sp.id, title: `${sp.name}: ${['not met yet', 'learning', 'getting there', 'mastered'][m]}` },
           SQ.ui.thumb(sp), h('span', sp.name)));
       });
     }
@@ -61,13 +61,13 @@
     const weakList = weak.length
       ? h('div.weak-list', weak.map((id) => {
         const sp = D.byId[id], r = S.speciesRecord(id);
-        return h('a.missed', { href: '#/guide/' + id }, SQ.ui.thumb(sp), h('div', h('strong', sp.name), h('small', `${r.c} of ${r.s} correct`)), icon('arrow', { size: 16 }));
+        return h('a.missed', { href: '/guide/' + id }, SQ.ui.thumb(sp), h('div', h('strong', sp.name), h('small', `${r.c} of ${r.s} correct`)), icon('arrow', { size: 16 }));
       }))
       : h('p.muted', t.answered ? 'No weak spots right now. Nice work.' : 'Answer some questions and your trickiest snakes will be listed here.');
 
     const confusions = S.topConfusions(5).filter((c) => D.byId[c.correct] && D.byId[c.chosen]);
     const confList = confusions.length
-      ? h('ul.confusions', confusions.map((c) => h('li', h('a', { href: '#/guide/' + c.correct }, D.byId[c.correct].name), ' mistaken for ', h('a', { href: '#/guide/' + c.chosen }, D.byId[c.chosen].name), h('small', ` × ${c.n}`))))
+      ? h('ul.confusions', confusions.map((c) => h('li', h('a', { href: '/guide/' + c.correct }, D.byId[c.correct].name), ' mistaken for ', h('a', { href: '/guide/' + c.chosen }, D.byId[c.chosen].name), h('small', ` × ${c.n}`))))
       : null;
 
     const badges = h('div.badge-grid', SQ.badges.all.map((b) => {
@@ -136,7 +136,7 @@
       h('section', h('h2.section-title', 'Badges', h('small', `${Object.keys(p.badges).length} of ${SQ.badges.all.length} unlocked`)), badges),
       history ? h('section', h('h2.section-title', 'Recent quizzes'), history) : null,
       manage);
-    return { node, title: 'My progress', view: 'stats' };
+    return { node, view: 'stats', seo: { title: 'My progress · Sarpa', description: 'Your quizzes, badges and snake-dex on Sarpa.', path: '/me', noindex: true } };
   };
 
   /* ------------------------------------------------------------------ */
@@ -169,20 +169,32 @@
     ['Snakes chase people.', 'Snakes flee when they can. Many bites in North America happen when someone tries to catch, move or kill a snake.'],
   ];
 
-  SQ.views.safety = function ({ query }) {
+  /** "/safety" is India's first-aid page and "/safety/north-america" that of the USA and Canada (old: "?area=na"). */
+  SQ.views.safety = function ({ query, params }) {
     const D = SQ.data;
-    const qa = query && query.get('area');
-    const area = qa === 'in' || qa === 'na' ? qa : (SQ.homeArea ? SQ.homeArea() : 'in');
+    const slugArea = params && params.area ? D.areaBySlug(params.area) : null;
+    if (params && params.area && !slugArea) return SQ.views.notFound({ path: '/safety/' + params.area });
+    const area = slugArea || (query && query.get('area') === 'na' ? 'na' : 'in');
+    const path = area === 'na' ? '/safety/north-america' : '/safety';
+    if (location.pathname !== path) SQ.setUrl(path);
     const tabs = SQ.ui.segmented({
       name: 'Region', value: area, className: 'seg-area',
       options: D.AREA_ORDER.map((a) => ({ value: a, label: D.area(a).label })),
-      onChange: (v) => SQ.go('/safety?area=' + v),
+      onChange: (v) => SQ.go(v === 'na' ? '/safety/north-america' : '/safety'),
     });
     const cards = (ids) => ids.map((id) => D.byId[id]).filter(Boolean)
-      .map((sp) => h('a.big4-card', { href: '#/guide/' + sp.id }, SQ.ui.thumb(sp), h('div', h('strong', sp.name), h('i.sci', sp.sci))));
-    const head = SQ.ui.pageHead('Snakebite safety', 'Know what to do before you ever need it.', h('div.head-tools', tabs), [h('b', '06'), 'Safety']);
+      .map((sp) => h('a.big4-card', { href: '/guide/' + sp.id }, SQ.ui.thumb(sp), h('div', h('strong', sp.name), h('i.sci', sp.sci))));
+    const h1 = area === 'na' ? 'Snakebite first aid in the USA and Canada' : 'Snakebite first aid in India';
+    const head = SQ.ui.pageHead(h1, 'Know what to do before you ever need it.', h('div.head-tools', tabs), [h('b', '06'), 'Safety']);
     const node = area === 'na' ? safetyNa(head, cards) : safetyIn(head, cards);
-    return { node, title: 'Snakebite safety', view: 'safety' };
+    const desc = area === 'na'
+      ? 'What to do after a snakebite in the USA or Canada: call 911 and get to an emergency room (Poison Control: 1-800-222-1222). What not to do, the venomous snakes and common myths.'
+      : 'What to do after a snakebite in India: call 108, keep still and get to a hospital with anti-snake venom (do it R.I.G.H.T.). What not to do, the Big Four and common myths.';
+    const seo = {
+      title: (area === 'na' ? 'Snakebite first aid in the USA and Canada' : 'Snakebite first aid in India: what to do') + ' · Sarpa', description: desc, path,
+      ld: [SQ.seo.page('WebPage', path, h1, desc, { breadcrumb: { '@id': SQ.seo.abs(path) + '#breadcrumb' } }), SQ.seo.crumbs(path, [['Snakebite first aid', '/safety']].concat(area === 'na' ? [['USA and Canada', path]] : []))],
+    };
+    return { node, seo, view: 'safety' };
   };
 
   function safetyIn(head, cards) {
@@ -303,7 +315,7 @@
         h('h2', 'Where the photos come from'),
         h('p', 'All photos are community observations on ', h('a', { href: 'https://www.inaturalist.org', target: '_blank', rel: 'noopener' }, 'iNaturalist'),
           ' that reached "research grade", meaning other naturalists agreed with the species identification. They were taken in India, the United States and Canada, and every photographer chose an open Creative Commons licence.'),
-        h('p', `This edition has photos from ${people.toLocaleString()} photographers. Each photo is credited beneath it and in the full `, h('a', { href: '#/credits' }, 'photo credits'), ' list. ',
+        h('p', `This edition has photos from ${people.toLocaleString()} photographers. Each photo is credited beneath it and in the full `, h('a', { href: '/credits' }, 'photo credits'), ' list. ',
           'Licences used: ', Object.entries(licCount).sort((a, b) => b[1] - a[1]).map(([l, n]) => `${l} (${n.toLocaleString()})`).join(', '), '.'),
         h('p', 'Some iNaturalist species are so alike that they cannot be told apart from a photo (for example several newly separated vine snakes). Those are grouped as a single species here, and the photo’s original iNaturalist name is shown in its credit line.'),
         h('p.muted', 'Some licences are "NonCommercial", so this site must stay non-commercial unless the data set is rebuilt with only commercial-friendly licences (the README explains how). Indian state names are derived from each photo’s location using OpenStreetMap-based boundaries © OpenStreetMap contributors; US state and Canadian province names use Natural Earth’s public-domain boundaries.')),
@@ -317,12 +329,17 @@
           SQ.api.known() === 'off'
             ? 'This copy of Sarpa has no accounts.'
             : 'If you make an account (just a username and a 6-digit PIN, stored only as a one-way hash), your progress is also saved with it so it follows you to other devices, and your username and scores appear on the leaderboards. You can delete the account, and everything saved with it, at any time.'),
-        h('p', 'Details are in the ', h('a', { href: '#/legal/privacy' }, 'privacy policy'), ' and the ', h('a', { href: '#/legal/terms' }, 'terms of use'), '.')),
+        h('p', 'Details are in the ', h('a', { href: '/legal/privacy' }, 'privacy policy'), ' and the ', h('a', { href: '/legal/terms' }, 'terms of use'), '.')),
       h('section.card',
         h('h2', 'Open source'),
         h('p', 'The code is open source (MIT licence). The README explains how the photo data set is built from iNaturalist’s open data and how to rebuild or extend it. ', h('a', { href: REPO_URL, target: '_blank', rel: 'noopener' }, 'View the project on GitHub'), '.'),
         m.generated ? h('p.muted', `Data set built ${m.generated}.`) : null)));
-    return { node, title: 'About', view: 'about' };
+    const desc = `How Sarpa works, where its ${D.photos.length.toLocaleString('en')} photos of ${D.species.length} snakes come from (research-grade iNaturalist observations under Creative Commons licences), accuracy, privacy and the open-source code.`;
+    const seo = {
+      title: 'About Sarpa, the snake identification quiz', description: desc, path: '/about',
+      ld: [SQ.seo.page('AboutPage', '/about', 'About Sarpa', desc), SQ.seo.crumbs('/about', [['About', '/about']])],
+    };
+    return { node, seo, view: 'about' };
   };
 
   /* ------------------------------------------------------------------ */
@@ -350,7 +367,7 @@
       SQ.clear(body);
       list.slice(page * PAGE, page * PAGE + PAGE).forEach((p) => {
         body.appendChild(h('tr',
-          h('td', { 'data-label': 'Species' }, h('a', { href: '#/guide/' + p.sp }, D.byId[p.sp].name)),
+          h('td', { 'data-label': 'Species' }, h('a', { href: '/guide/' + p.sp }, D.byId[p.sp].name)),
           h('td', { 'data-label': 'Photographer' }, p.credit),
           h('td', { 'data-label': 'Licence' }, p.licenseUrl ? h('a', { href: p.licenseUrl, target: '_blank', rel: 'noopener' }, p.license) : p.license),
           h('td', { 'data-label': 'Where' }, [p.state, D.area(p.region).short].filter(Boolean).join(', ')),
@@ -371,6 +388,23 @@
       h('div.table-wrap.credits-table', { tabindex: '0', role: 'region', 'aria-label': 'Photo credits' }, h('table.history', h('thead', h('tr', ['Species', 'Photographer', 'Licence', 'Where', 'Source'].map((x) => h('th', x)))), body)),
       pager);
     draw();
-    return { node, title: 'Photo credits', view: 'credits' };
+    const desc = `The photographers behind the ${D.photos.length.toLocaleString('en')} snake photos in Sarpa, shared on iNaturalist under Creative Commons licences, with a link to every original photo.`;
+    const seo = {
+      title: 'Photo credits · Sarpa', description: desc, path: '/credits',
+      ld: [SQ.seo.page('WebPage', '/credits', 'Photo credits', desc), SQ.seo.crumbs('/credits', [['Photo credits', '/credits']])],
+    };
+    return { node, seo, view: 'credits' };
+  };
+
+  /* ------------------------------------------------------------------ */
+  /*  Not found                                                           */
+  /* ------------------------------------------------------------------ */
+
+  SQ.views.notFound = function (ctx) {
+    const c = ctx || {};
+    const node = h('div.page.wrap.notfound',
+      h('div.empty', SQ.ui.snakeMark(), h('h1', 'Page not found'), h('p', (c.what ? c.what + ' ' : '') + 'The address may be mistyped, or the page may have moved.'),
+        h('div.btn-row', h('a.btn.btn-primary', { href: '/' }, icon('back', { size: 16 }), 'Home'), h('a.btn', { href: '/guide' }, icon('book', { size: 16 }), 'Field guide'), h('a.btn', { href: '/play' }, icon('play', { size: 16 }), 'Play a quiz'))));
+    return { node, view: 'notfound', seo: { title: 'Page not found · Sarpa', description: 'There is no page at this address on Sarpa, the free snake identification quiz.', path: c.path || '/404', noindex: true } };
   };
 })();

@@ -5,7 +5,7 @@
  * Without accounts, like a plain static host:  node scripts/dev-server.js 8765 --no-api  (or python3 -m http.server 8765)
  */
 const { chromium, devices } = require('playwright');
-const base = (process.argv[2] || 'http://localhost:8765/index.html').replace(/#.*$/, '');
+const base = (process.argv[2] || 'http://localhost:8765').replace(/#.*$/, '').replace(/\/(index\.html)?$/, '');
 
 let failures = 0;
 const check = (ok, msg) => { console.log(`${ok ? '  ok ' : ' FAIL'} ${msg}`); if (!ok) failures++; };
@@ -50,7 +50,7 @@ async function answer(page, which) {
   let page = await ctx.newPage();
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));
-  await page.goto(`${base}#/play`, { waitUntil: 'load' });
+  await page.goto(`${base}/play`, { waitUntil: 'load' });
   await page.waitForSelector('.level');
   await page.click('.seg-area .seg-btn:has-text("India")');
   await page.click('.seg-btn:has-text("15s")');
@@ -103,7 +103,7 @@ async function answer(page, which) {
     await page.click('.next-btn');
   }
   await page.waitForSelector('.result-hero');
-  check(/#\/results/.test(page.url()), 'finishing shows the results page');
+  check(new URL(page.url()).pathname === "/results", "finishing shows the results page");
   const pctText = await page.locator('.ring-label strong').innerText();
   check(/^\d+%$/.test(pctText), `results show a score (${pctText})`);
   check((await page.locator('.tile').count()) === 20, 'all 20 answers are listed');
@@ -125,7 +125,7 @@ async function answer(page, which) {
   console.log('\n[4] Variety');
   const sets = [];
   for (let g = 0; g < 3; g++) {
-    await page.goto(`${base}#/play`);
+    await page.goto(`${base}/play`);
     await page.waitForSelector('.level');
     await page.click('.level:has-text("All species")');
     await page.click('button:has-text("Start quiz")');
@@ -141,7 +141,7 @@ async function answer(page, which) {
 
   /* ---------- 5. region filter ---------- */
   console.log('\n[5] Region filter');
-  await page.goto(`${base}#/play`);
+  await page.goto(`${base}/play`);
   await page.waitForSelector('#region');
   const state = await page.evaluate(() => SQ.data.regions(12, 'in')[0].state);
   await page.selectOption('#region', state);
@@ -159,7 +159,7 @@ async function answer(page, which) {
 
   /* ---------- 5b. North America and Mixed ---------- */
   console.log('\n[5b] North America and Mixed');
-  await page.goto(`${base}#/play`);
+  await page.goto(`${base}/play`);
   await page.waitForSelector('.seg-area');
   await page.click('.seg-area .seg-btn:has-text("North America")');
   check(await page.isVisible('#region') && /province/i.test(await page.locator('.state-opt label').innerText()), 'North America has a state or province filter');
@@ -173,7 +173,7 @@ async function answer(page, which) {
   check(/North America/i.test(await page.locator('.q-head .legend').innerText()), 'the quiz says which region it is');
   await page.click('#quit-btn');
   await page.click('.modal button:has-text("Discard quiz")');
-  await page.goto(`${base}#/play`);
+  await page.goto(`${base}/play`);
   await page.waitForSelector('.seg-area');
   await page.click('.seg-area .seg-btn:has-text("Mixed")');
   check(!(await page.isVisible('#region')), 'Mixed has no state filter');
@@ -188,13 +188,13 @@ async function answer(page, which) {
   check(await page.isVisible('.q-bonus'), 'a Mixed quiz shows its ×1.2 bonus');
   await page.click('#quit-btn');
   await page.click('.modal button:has-text("Discard quiz")');
-  await page.goto(`${base}#/play`);
+  await page.goto(`${base}/play`);
   await page.waitForSelector('.seg-area');
   await page.click('.seg-area .seg-btn:has-text("India")');
 
   /* ---------- 6. reporting a photo ---------- */
   console.log('\n[6] Reporting a photo');
-  await page.goto(`${base}#/play`);
+  await page.goto(`${base}/play`);
   await page.waitForSelector('.level');
   await page.click('button:has-text("Start quiz")');
   await page.waitForSelector('.option');
@@ -220,7 +220,7 @@ async function answer(page, which) {
   for (let i = 0; i < 2; i++) {
     const c = await browser.newContext({ viewport: { width: 1000, height: 800 } });
     const p = await c.newPage();
-    await p.goto(`${base}#/daily`, { waitUntil: 'load' });
+    await p.goto(`${base}/daily`, { waitUntil: 'load' });
     await p.click('button:has-text("Start the challenge")');
     await startGame(p);
     const s = await session(p);
@@ -232,7 +232,7 @@ async function answer(page, which) {
       await p.click('.next-btn');
     }
     await p.waitForSelector('.result-hero');
-    await p.goto(`${base}#/daily`);
+    await p.goto(`${base}/daily`);
     await p.waitForSelector('.daily-card.is-done');
     check(await p.isVisible('.daily-card.is-done'), 'after playing, the daily page shows the finished state');
     const grid = await p.locator('.emoji-grid .cell').count();
@@ -245,7 +245,7 @@ async function answer(page, which) {
   console.log('\n[8] Phone');
   ctx = await browser.newContext({ ...devices['iPhone 13'] });
   page = await ctx.newPage();
-  await page.goto(`${base}#/play`, { waitUntil: 'load' });
+  await page.goto(`${base}/play`, { waitUntil: 'load' });
   await page.waitForSelector('.level');
   await page.click('button:has-text("Start quiz")');
   await startGame(page);
@@ -257,7 +257,7 @@ async function answer(page, which) {
   const overflow2 = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
   check(!overflow2, 'no horizontal scrolling while reading an explanation');
   await page.evaluate(() => SQ.quiz.discard());
-  await page.goto(`${base}#/`, { waitUntil: 'load' });
+  await page.goto(`${base}/`, { waitUntil: 'load' });
   await page.waitForSelector('.hero');
   check(await page.isVisible('.tabbar') && !(await page.isVisible('.nav')), 'phones get the bottom key bar instead of the header row');
   await ctx.close();
@@ -266,7 +266,7 @@ async function answer(page, which) {
   console.log('\n[9] Shell, theme and progress bar');
   ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, colorScheme: 'light' });
   page = await ctx.newPage();
-  await page.goto(`${base}#/`, { waitUntil: 'load' });
+  await page.goto(`${base}/`, { waitUntil: 'load' });
   await page.waitForSelector('.hero');
   check(await page.isVisible('.nav') && !(await page.isVisible('.tabbar')), 'wide screens show the key row in the header and no bottom bar');
   check((await page.locator('.nav a').count()) === 6, 'six main sections in the navigation');
@@ -280,7 +280,7 @@ async function answer(page, which) {
   const bg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
   check(bg !== 'rgb(232, 231, 226)', `night mode really changes the page colour (${bg})`);
   await page.click('#theme-btn');
-  await page.goto(`${base}#/play`, { waitUntil: 'load' });
+  await page.goto(`${base}/play`, { waitUntil: 'load' });
   await page.waitForSelector('.level');
   await page.click(COUNT_20);
   await page.click('button:has-text("Start quiz")');
@@ -310,7 +310,7 @@ async function answer(page, which) {
   ctx = await browser.newContext({ ...devices['Pixel 7'] });
   page = await ctx.newPage();
   page.on('pageerror', (e) => errors.push(e.message));
-  await page.goto(`${base}#/herpdle?mode=practice`, { waitUntil: 'load' });
+  await page.goto(`${base}/herpdle?mode=practice`, { waitUntil: 'load' });
   await page.waitForSelector('.hd-intro');
   await page.waitForTimeout(700);
   if (await page.locator('.modal').count()) await page.keyboard.press('Escape');      // how to play, on the first visit
@@ -361,7 +361,7 @@ async function answer(page, which) {
     const ctxA = await browser.newContext({ viewport: { width: 1100, height: 800 } });
     const a = await ctxA.newPage();
     a.on('pageerror', (e) => errors.push('A: ' + e.message));
-    await a.goto(`${base}#/play`, { waitUntil: 'load' });
+    await a.goto(`${base}/play`, { waitUntil: 'load' });
     await a.waitForSelector('.level');
     await signUp(a, 'signup');
     await a.click('.seg-area .seg-btn:has-text("North America")');
@@ -381,7 +381,7 @@ async function answer(page, which) {
     const ctxB = await browser.newContext({ viewport: { width: 1100, height: 800 } });
     const b = await ctxB.newPage();
     b.on('pageerror', (e) => errors.push('B: ' + e.message));
-    await b.goto(`${base}#/me`, { waitUntil: 'load' });
+    await b.goto(`${base}/me`, { waitUntil: 'load' });
     await b.waitForFunction(() => window.SQ && SQ.data && SQ.data.ready);
     await signUp(b, 'signin');
     await b.waitForFunction(() => SQ.store.progress().totals.games === 1, null, { timeout: 10000 }).catch(() => {});
@@ -403,6 +403,91 @@ async function answer(page, which) {
     check((await totals(b)).games === 2, 'signing in again brings it back');
     await ctxA.close(); await ctxB.close();
   }
+
+  /* ---------- 12. addresses: real pages, links, back and forward, old links ---------- */
+  console.log('\n[12] Page addresses');
+  ctx = await browser.newContext({ viewport: { width: 1200, height: 900 } });
+  page = await ctx.newPage();
+  page.on('pageerror', (e) => errors.push(e.message));
+  const here = () => page.evaluate(() => location.pathname + location.search);
+  await page.goto(`${base}/guide/naja-naja`, { waitUntil: 'load' });
+  check((await page.locator('main h1').innerText()) === 'Indian Cobra', 'a species page opens straight from its address');
+  check(/Indian Cobra \(Naja naja\)/.test(await page.title()), 'it has its own title');
+  await page.goto(`${base}/#/guide/daboia-russelii`, { waitUntil: 'load' });
+  await page.waitForFunction(() => location.pathname === '/guide/daboia-russelii');
+  check(/Russell/.test(await page.locator('main h1').innerText()), 'an old "#/" link still opens the right page, at its new address');
+  await page.goto(`${base}/guide/india`, { waitUntil: 'load' });
+  await page.evaluate(() => { window.__noReload = true; window.scrollTo(0, 1200); });
+  await page.waitForTimeout(150);
+  await page.click('.species-card >> nth=12');
+  await page.waitForFunction(() => /^\/guide\/[a-z-]+$/.test(location.pathname) && location.pathname !== '/guide/india');
+  const name = await page.locator('main h1').innerText();
+  check(await page.evaluate(() => window.__noReload === true), `following a link does not reload the page (${name})`);
+  await page.goBack();
+  await page.waitForFunction(() => location.pathname === '/guide/india');
+  await page.waitForTimeout(300);
+  const y = await page.evaluate(() => window.scrollY);
+  check(y > 900, `the back button returns to the same place in the list (${y}px down)`);
+  await page.goForward();
+  await page.waitForFunction((n) => document.querySelector('main h1') && document.querySelector('main h1').textContent === n, name);
+  check(true, 'the forward button works');
+  await page.goto(`${base}/compare/naja-naja-vs-ptyas-mucosa`, { waitUntil: 'load' });
+  await page.selectOption('#cmp-b', 'bungarus-caeruleus');
+  await page.waitForFunction(() => /bungarus-caeruleus/.test(location.pathname + location.search));
+  check(/Indian Cobra vs Common Krait/.test(await page.title()), `choosing another snake updates the address and title (${await here()})`);
+  const missing = await page.goto(`${base}/guide/not-a-snake`, { waitUntil: 'load' });
+  check(missing.status() === 404 && /not found/i.test(await page.locator('main h1').innerText()), 'a page that does not exist says so (404)');
+  await ctx.close();
+
+  /* ---------- 13. moving from the old address (js/boot.js) ----------
+   * Both addresses are served from the local server, so that the browser keeps their data apart as it would. */
+  console.log('\n[13] Moving from the old address');
+  const OLD = 'https://snakes-quiz.vercel.app', NEW = 'https://www.sarpa.live';
+  const local = new URL(base);
+  const serveBoth = async (c) => c.route(/^https:\/\/(snakes-quiz\.vercel\.app|www\.sarpa\.live)\//, async (route) => {
+    const req = route.request();
+    const u = new URL(req.url());
+    const res = await fetch(local.origin + u.pathname + u.search, { method: req.method(), headers: req.headers(), body: req.postDataBuffer() || undefined, redirect: 'manual' });
+    const headers = Object.fromEntries(res.headers.entries());
+    delete headers['content-length']; delete headers['transfer-encoding'];
+    if (headers.location) headers.location = headers.location.replace(local.origin, u.origin);
+    await route.fulfill({ status: res.status, headers, body: Buffer.from(await res.arrayBuffer()) });
+  });
+  const api = async (action, body) => (await fetch(`${local.origin}/api/sarpa?action=${action}`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Forwarded-For': '10.13.0.' + (Date.now() % 200) }, body: JSON.stringify(body) })).json();
+  const mover = `move_${Date.now() % 100000}`;
+  const made = accounts ? await api('signup', { username: mover, pin: '305817' }) : null;
+  const seed = { auth: made && made.token ? JSON.stringify({ token: made.token, name: made.user.name, created: made.user.created || 0, at: Date.now() }) : null, settings: JSON.stringify({ theme: 'dark', area: 'na' }) };
+  // an old-address visitor: signed in, dark theme, North America
+  ctx = await browser.newContext({ viewport: { width: 1100, height: 800 } });
+  await serveBoth(ctx);
+  await ctx.addInitScript((s) => {
+    if (location.hostname !== 'snakes-quiz.vercel.app' || localStorage.getItem('sarpa.v1.settings')) return;
+    if (s.auth) localStorage.setItem('sarpa.v1.auth', s.auth);
+    localStorage.setItem('sarpa.v1.settings', s.settings);
+  }, seed);
+  page = await ctx.newPage();
+  page.on('pageerror', (e) => errors.push('move: ' + e.message));
+  await page.goto(`${OLD}/#/guide/naja-naja`, { waitUntil: 'load' });
+  await page.waitForURL(`${NEW}/guide/naja-naja`, { timeout: 15000 });
+  await page.waitForSelector('main h1');
+  check(page.url() === `${NEW}/guide/naja-naja`, `an old link lands on the new address, on the same page, with nothing after "#" (${page.url()})`);
+  const after = await page.evaluate(() => ({ dark: document.documentElement.getAttribute('data-theme'), settings: JSON.parse(localStorage.getItem('sarpa.v1.settings') || '{}'), auth: !!localStorage.getItem('sarpa.v1.auth') }));
+  check(after.dark === 'dark' && after.settings.area === 'na', 'the settings came along (dark theme, North America)');
+  if (seed.auth) {
+    check(after.auth, 'the player is still signed in on the new address');
+    await page.waitForSelector('#toast-root .toast', { timeout: 5000 }).catch(() => {});
+    check(/new address: sarpa\.live/.test(await page.locator('#toast-root').innerText()), 'and is told about the new address');
+  }
+  await ctx.close();
+  // the new address takes nothing that does not come straight from the old one
+  ctx = await browser.newContext({ viewport: { width: 1100, height: 800 } });
+  await serveBoth(ctx);
+  page = await ctx.newPage();
+  const forged = Buffer.from(JSON.stringify({ v: 1, t: Date.now(), settings: JSON.stringify({ theme: 'dark' }), auth: seed.auth || JSON.stringify({ token: 'x', name: 'x' }) })).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  await page.goto(`${NEW}/guide#sarpa-move=${forged}`, { waitUntil: 'load' });
+  const forgedRes = await page.evaluate(() => ({ hash: location.hash, auth: localStorage.getItem('sarpa.v1.auth'), settings: localStorage.getItem('sarpa.v1.settings') }));
+  check(!forgedRes.hash && !forgedRes.auth && !(forgedRes.settings || '').includes('dark'), 'a link that does not come from the old address is not taken (and its "#" part is removed)');
+  await ctx.close();
 
   check(errors.length === 0, `no uncaught JavaScript errors${errors.length ? ': ' + errors[0] : ''}`);
   await browser.close();

@@ -5,7 +5,7 @@
  */
 const { chromium } = require('playwright');
 
-const base = process.argv[2] || 'http://localhost:8765/index.html';
+const base = (process.argv[2] || 'http://localhost:8765').replace(/\/(index\.html)?$/, '');
 
 (async () => {
   const browser = await chromium.launch();

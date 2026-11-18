@@ -47,10 +47,16 @@
   /*  List                                                                */
   /* ------------------------------------------------------------------ */
 
-  SQ.views.guide = function ({ query }) {
+  /** The address of the guide for a region: /guide, /guide/india or /guide/north-america. */
+  const guidePath = (area) => (D_area(area) ? '/guide/' + SQ.data.area(area).slug : '/guide');
+  const D_area = (area) => SQ.data.oneArea(area);
+
+  SQ.views.guide = function ({ query, area }) {
     const D = SQ.data, S = SQ.store;
+    // the region is part of the address (the old "?area=na" still works)
     const qa = query && query.get('area');
-    if (qa === 'all' || D.oneArea(qa)) state.area = qa;
+    state.area = area || (D.oneArea(qa) ? qa : 'all');
+    if (!area && D.oneArea(qa)) SQ.setUrl(guidePath(qa));          // the old "?area=na" becomes "/guide/north-america"
     const inView = () => D.species.filter((sp) => state.area === 'all' || D.inArea(sp, state.area));
 
     const count = h('p.result-count');
@@ -87,7 +93,7 @@
       if (!list.length) { grid.appendChild(SQ.ui.empty('No snakes match', 'Try clearing a filter or searching for something else.')); return; }
       list.forEach((sp) => {
         const m = S.mastery(sp.id);
-        grid.appendChild(h('a.species-card', { href: '#/guide/' + sp.id },
+        grid.appendChild(h('a.species-card', { href: '/guide/' + sp.id },
           h('div.sc-photo', SQ.ui.thumb(sp), m > 0 ? h('span.sc-seen', { title: ['', 'Seen in quizzes', 'Getting there', 'Mastered'][m] }, icon('check', { size: 13, stroke: 3 })) : null),
           h('div.sc-body',
             h('h3', sp.name),
@@ -143,11 +149,7 @@
       name: 'Region', value: state.area, className: 'seg-area guide-areas',
       options: [{ value: 'all', label: 'All', sub: `${D.species.length} species` },
         ...D.AREA_ORDER.map((a) => ({ value: a, label: D.area(a).label, sub: `${D.byArea[a].length} species` }))],
-      onChange: (v) => {
-        state.area = v;
-        try { history.replaceState(null, '', '#/guide' + (v === 'all' ? '' : '?area=' + v)); } catch (e) { /* ignore */ }
-        drawFilters(); draw();
-      },
+      onChange: (v) => SQ.go(guidePath(v)),
     });
 
     const filters = h('div.filters.panel',
@@ -155,13 +157,42 @@
       h('div.search-box', icon('search', { size: 18 }), search),
       panel);
 
+    const n = inView().length;
+    const HEAD = {
+      all: ['Field guide', `${D.species.length} snakes of India and North America with identification tips, look-alikes and photos.`],
+      in: ['Snakes of India', `All ${n} snakes of India in Sarpa, from the Big Four (the Indian Cobra, Common Krait, Russell’s Viper and Saw-scaled Viper) to rare pit vipers and shieldtails, with identification tips, look-alikes and real photos.`],
+      na: ['Snakes of North America', `All ${n} snakes of the USA and Canada in Sarpa: rattlesnakes, copperheads, cottonmouths and coral snakes, kingsnakes, rat snakes, garter and water snakes and many more, with identification tips, look-alikes and real photos.`],
+    }[state.area];
     const node = h('div.page.wrap.guide',
-      SQ.ui.pageHead('Field guide', `${D.species.length} snakes of India and North America with identification tips, look-alikes and photos.`,
-        h('div.btn-row', h('a.btn.btn-sm', { href: '#/learn' }, icon('eye', { size: 16 }), 'Flashcards'), h('a.btn.btn-sm', { href: '#/compare' }, icon('compare', { size: 16 }), 'Compare snakes')),
-        [h('b', '05'), 'Field guide']),
+      SQ.ui.pageHead(HEAD[0], HEAD[1],
+        h('div.btn-row', h('a.btn.btn-sm', { href: '/learn' }, icon('eye', { size: 16 }), 'Flashcards'), h('a.btn.btn-sm', { href: '/compare' }, icon('compare', { size: 16 }), 'Compare snakes')),
+        [h('b', '05'), state.area === 'all' ? 'Field guide' : 'Field guide · ' + D.area(state.area).label]),
       filters, count, h('h2.sr-only', 'Species'), grid);
     draw();
-    return { node, title: 'Field guide', view: 'guide' };
+
+    // for search engines: the page, where it sits, and every snake it lists
+    const path = guidePath(state.area);
+    const SEO = {
+      all: [`Field guide: ${D.species.length} snakes of India and North America · Sarpa`,
+        `Identify ${D.species.length} snakes of India, the USA and Canada: real photos, identification tips, venom status, range and look-alikes for every species, from cobras and kraits to rattlesnakes.`],
+      in: [`Snakes of India: ${n} species with photos and ID tips · Sarpa`,
+        `The snakes of India, from the Big Four to rare pit vipers: real photos, identification tips, venom status and look-alikes for ${n} species, photographed all over India.`],
+      na: [`Snakes of North America (USA and Canada): ${n} species · Sarpa`,
+        `Rattlesnakes, copperheads, coral snakes, kingsnakes, garter snakes and more: real photos, identification tips, venom status and look-alikes for ${n} snakes of the USA and Canada.`],
+    }[state.area];
+    const listed = inView().slice().sort((a, b) => a.name.localeCompare(b.name));
+    const trail = [['Field guide', '/guide']].concat(state.area === 'all' ? [] : [[HEAD[0], path]]);
+    const seo = {
+      title: SEO[0], description: SEO[1], path,
+      ld: [
+        SQ.seo.page('CollectionPage', path, HEAD[0], SEO[1], {
+          breadcrumb: { '@id': SQ.seo.abs(path) + '#breadcrumb' },
+          mainEntity: { '@type': 'ItemList', numberOfItems: listed.length, itemListElement: listed.map((sp, k) => ({ '@type': 'ListItem', position: k + 1, name: sp.name, url: SQ.seo.abs('/guide/' + sp.id) })) },
+        }),
+        SQ.seo.crumbs(path, trail),
+      ],
+    };
+    return { node, seo, view: 'guide' };
   };
 
   /* ------------------------------------------------------------------ */
@@ -178,7 +209,7 @@
     D.lookalikes(sp.id, 8, sp.regions.length === 1 ? sp.regions[0] : undefined).forEach((s) => { if (!ordered.includes(s)) ordered.push(s); });
     return ordered.slice(0, 4).map((other) => {
       const w = SQ.explain.whyNot(sp, other);
-      return h('a.look-card', { href: '#/guide/' + other.id },
+      return h('a.look-card', { href: '/guide/' + other.id },
         SQ.ui.thumb(other),
         h('div',
           h('h3', other.name, h('i.sci', other.sci)),
@@ -190,7 +221,7 @@
   SQ.views.species = function ({ params }) {
     const D = SQ.data, S = SQ.store;
     const sp = D.byId[params.id];
-    if (!sp) return { node: h('div.page.wrap', SQ.ui.empty('Species not found', 'That snake is not in the guide.', h('a.btn.btn-primary', { href: '#/guide' }, 'Back to the field guide'))), view: 'guide' };
+    if (!sp) return SQ.views.notFound({ path: '/guide/' + params.id, what: 'That snake is not in the field guide.' });
 
     if (!D.noteIndex) {
       D.noteIndex = {};
@@ -202,6 +233,7 @@
     }
 
     const photos = D.photosOf(sp.id);
+    const photoAlt = (p) => `${sp.name} (${sp.sci})${p.state ? ', photographed in ' + p.state : ''}`;
     let current = 0;
     const stage = h('div.gallery-stage');
     const strip = h('div.gallery-strip');
@@ -211,7 +243,7 @@
       current = (i + photos.length) % photos.length;
       const p = photos[current];
       SQ.clear(stage);
-      stage.appendChild(h('div.viewport', SQ.ui.photo(p, { zoom: true, eager: true, vf: true, alt: `${sp.name} photo ${current + 1}`, tag: `${String(current + 1).padStart(2, '0')}/${String(photos.length).padStart(2, '0')}` })));
+      stage.appendChild(h('div.viewport', SQ.ui.photo(p, { zoom: true, eager: true, vf: true, alt: photoAlt(p), tag: `${String(current + 1).padStart(2, '0')}/${String(photos.length).padStart(2, '0')}` })));
       if (photos.length > 1) {
         stage.appendChild(h('button.nav-btn.prev', { type: 'button', 'aria-label': 'Previous photo', onclick: () => show(current - 1) }, icon('left', { size: 22 })));
         stage.appendChild(h('button.nav-btn.next', { type: 'button', 'aria-label': 'Next photo', onclick: () => show(current + 1) }, icon('right', { size: 22 })));
@@ -238,7 +270,14 @@
       h('button.btn.btn-primary.btn-block', { type: 'button', onclick: () => SQ.quiz.start({
         mode: 'practice', title: `Practice: ${sp.name}`, count: 10, difficulty: 'expert', area: sp.regions.length === 1 ? sp.regions[0] : 'mix', region: 'all', timer: 0, hints: true, preferUnseen: true, focus: [sp.id],
       }) }, icon('target', { size: 18 }), `Practise the ${sp.name}`),
-      h('a.btn.btn-block', { href: `#/compare?a=${sp.id}` }, icon('compare', { size: 18 }), 'Compare with another snake'));
+      h('a.btn.btn-block', { href: `/compare?a=${sp.id}` }, icon('compare', { size: 18 }), 'Compare with another snake'));
+
+    // side-by-side pages for the look-alikes that have a hand-written note
+    const pairs = (D.noteIndex[sp.id] || []).map((id) => D.byId[id]).filter(Boolean).slice(0, 8);
+    const pairLinks = pairs.length
+      ? h('div.pair-links', h('h3.sub-h', 'Side by side'),
+        h('ul', pairs.map((o) => h('li', h('a', { href: D.comparePath(sp.id, o.id) }, `${sp.name} vs ${o.name}`, icon('arrow', { size: 14 }))))))
+      : null;
 
     const facts = SQ.ui.factsGrid([
       ['Length', sp.len], ['Habitat', sp.habitat], ['Found in', sp.range], ['Eats', sp.diet], ['Active', sp.active],
@@ -265,8 +304,11 @@
         localLine.length ? h('dl.local-names', localLine) : null,
         hues ? h('p.hue-line', h('span.legend', 'Colours'), hues) : null)
       : null;
+    const home = sp.regions[0] === 'na' ? 'na' : 'in';
+    const listName = home === 'na' ? 'Snakes of North America' : 'Snakes of India';
+    const path = '/guide/' + sp.id;
     const node = h('div.page.wrap.species',
-      h('a.back-link', { href: '#/guide' }, icon('back', { size: 16 }), 'Field guide'),
+      SQ.ui.crumbs([['Field guide', '/guide'], [listName, guidePath(home)], [sp.name]]),
       h('header.species-head',
         h('div.species-title',
           h('p.legend', h('b', String(sp.index + 1).padStart(3, '0')), `${sp.family} · ${sp.kind || 'snake'}`),
@@ -279,13 +321,28 @@
             h('p.venom-note', icon(SQ.explain.venomInfo(sp).icon, { size: 16 }), ' ', SQ.cap(SQ.explain.venomInfo(sp).note) + '.'),
             h('ul.why-list', sp.ids.map((x) => h('li', x))),
             sp.fact ? h('p.fun', h('span.fun-tag', 'Did you know?'), ' ', sp.fact) : null),
-          h('section', h('h2.section-title', 'Look-alikes', h('small', 'and how to tell them apart')), h('div.look-list', lookalikeCards(sp)))),
+          h('section', h('h2.section-title', 'Look-alikes', h('small', 'and how to tell them apart')), h('div.look-list', lookalikeCards(sp)), pairLinks)),
         h('aside.col-side',
           progressCard,
           h('section.card', h('p.legend.card-tag.neutral', 'Quick facts'), facts),
           namesCard,
           h('section.card', h('p.legend.card-tag.neutral', 'Where our photos were taken'), h('p.muted.small', sp.regions.includes('na') ? 'States and provinces where community members photographed this snake.' : 'States where community members photographed this snake.'), stateChips))));
     show(0);
-    return { node, title: sp.name, view: 'species' };
+
+    const desc = SQ.seo.speciesDescription(sp);
+    const pics = photos.slice(0, 4).map((p) => SQ.seo.photo(p, photoAlt(p)));
+    const seo = {
+      title: SQ.seo.fit([`${sp.name} (${sp.sci}): how to identify it · Sarpa`, `${sp.name} (${sp.sci}): ID guide · Sarpa`, `${sp.name} (${sp.sci}) · Sarpa`, `${sp.name} · Sarpa`]),
+      description: desc, path, type: 'article', image: SQ.seo.speciesImage(sp),
+      ld: [
+        SQ.seo.page('WebPage', path, `${sp.name} (${sp.sci})`, desc, {
+          about: { '@id': SQ.seo.abs(path) + '#taxon' }, breadcrumb: { '@id': SQ.seo.abs(path) + '#breadcrumb' },
+          primaryImageOfPage: pics[0] || undefined, image: pics.length ? pics : undefined,
+        }),
+        Object.assign(SQ.seo.taxon(sp, path), { image: pics[0] ? pics[0].contentUrl : undefined, url: SQ.seo.abs(path) }),
+        SQ.seo.crumbs(path, [['Field guide', '/guide'], [listName, guidePath(home)], [sp.name, path]]),
+      ],
+    };
+    return { node, seo, view: 'species' };
   };
 })();
