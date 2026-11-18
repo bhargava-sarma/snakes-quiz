@@ -211,6 +211,7 @@
     },
 
     start() {
+      if (window.SQ_MOVING) return;          // js/boot.js is taking the player to the site's new address
       SQ.theme.apply();
       try {
         SQ.data.init();
@@ -273,6 +274,14 @@
       fromHash();
       render({ quiet: pre }).then(() => { document.documentElement.removeAttribute('data-prerendered'); });
       app.registerServiceWorker();
+      // just arrived from the site's old address (js/boot.js)
+      try {
+        if (sessionStorage.getItem('sarpa.moved')) {
+          sessionStorage.removeItem('sarpa.moved');
+          const where = location.hostname.replace(/^www\./, '');
+          setTimeout(() => SQ.ui.toast(SQ.api.session() ? `Sarpa has a new address: ${where}. You are still signed in.` : `Sarpa has a new address: ${where}. Your progress came with you.`, null, 7000), 600);
+        }
+      } catch (e) { /* storage blocked */ }
       // find out whether this site has accounts, then bring in progress made on the player's other devices and send any
       // game that could not be saved earlier
       SQ.api.status().then((state) => {

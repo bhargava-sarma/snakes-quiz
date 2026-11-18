@@ -243,12 +243,13 @@
 
   /* ---------- toast ---------- */
 
-  ui.toast = function (message, kind) {
+  /** A short message at the bottom of the screen. ms: how long it stays (longer messages need longer). */
+  ui.toast = function (message, kind, ms) {
     const root = document.getElementById('toast-root');
     const t = h('div.toast' + (kind ? '.' + kind : ''), { role: 'status' }, message);
     root.appendChild(t);
     requestAnimationFrame(() => t.classList.add('show'));
-    setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 2600);
+    setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, ms || 2600);
   };
 
   /* ---------- small widgets ---------- */

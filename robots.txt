@@ -9,4 +9,4 @@ Disallow: /data/kb/
 Disallow: /README.md
 Disallow: /CREDITS.md
 
-Sitemap: https://snakes-quiz.vercel.app/sitemap.xml
+Sitemap: https://www.sarpa.live/sitemap.xml

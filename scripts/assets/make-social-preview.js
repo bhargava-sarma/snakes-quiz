@@ -28,7 +28,7 @@ const html = `<!doctype html>
     background-size: 24px 24px; background-position: 12px 12px;
   }
   .label { margin-top: 50px; font: 500 19px/1 GeistMono, monospace; letter-spacing: .16em; text-transform: uppercase; color: #4d4c47; }
-  .label b { font-weight: 600; color: #a83200; }
+  .label b { font-weight: 600; color: #a83200; text-transform: none; letter-spacing: .04em; }
   .brand { display: flex; align-items: center; gap: 30px; margin-top: 40px; }
   .brand svg { width: 132px; height: 132px; display: block; border-radius: 31px; box-shadow: 0 4px 0 rgba(19, 19, 18, .18), 0 16px 30px rgba(255, 90, 18, .28); }
   .word { display: flex; flex-direction: column; gap: 14px; }
@@ -50,7 +50,7 @@ const html = `<!doctype html>
   }
   .lcd i { width: 9px; height: 9px; border-radius: 2px; background: #1b2417; opacity: .55; }
 </style></head><body>
-  <div class="label"><b>SQ-1</b> &nbsp;Snakes of India and North America</div>
+  <div class="label"><b>sarpa.live</b> &nbsp;·&nbsp; Snakes of India and North America</div>
   <div class="brand">${icon}<div class="word"><strong>SARPA</strong><small>Snake ID quiz</small></div></div>
   <h1>How well do you know your snakes?</h1>
   <p>Spot the snake in real photos, and learn why each answer is right or wrong.</p>

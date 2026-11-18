@@ -4,6 +4,8 @@ A free photo quiz that teaches you to recognise the snakes of **India** and **No
 and **explains every answer**. Two games: **Sarpa**, the photo quiz, and **Herpdle**, a daily puzzle where you name a
 mystery snake from clues. Play one region, or **Mixed** for both at once.
 
+**Play it at [www.sarpa.live](https://www.sarpa.live).**
+
 <p align="center">
   <img src="docs/screens/home-desktop.jpg" alt="The Sarpa home page: a quiz screen preview, an LCD with the numbers and big keys to start a quiz" width="49%">
   <img src="docs/screens/quiz-desktop.jpg" alt="A question on a laptop: a big photo on the left, the answer keys and the explanation on the right" width="49%">
@@ -161,12 +163,16 @@ link previews of WhatsApp, X, Facebook, LinkedIn and Slack read the full page wi
   `index.html`**: `node scripts/build-pages.js` (about two minutes; Playwright needed). It only rewrites pages that
   changed, and the sitemap's dates follow the pages.
 - **Another domain**: set `siteUrl` in [`js/config.js`](js/config.js) and run the build: every page, the sitemap and
-  `robots.txt` then use it.
-- **Google Search Console**: add the site as a "URL prefix" property, choose the *HTML tag* method and paste the
-  `<meta name="google-site-verification" ...>` line it gives into the head of `index.html` (just under
-  `<meta charset="utf-8">`), then submit `sitemap.xml`. Bing Webmaster Tools can import the site from Search Console.
+  `robots.txt` then use it. Add the old address to `MOVED_FROM` in [`js/boot.js`](js/boot.js): visitors who arrive
+  there are taken to the new address and keep their sign-in, settings and progress (a browser keeps those per
+  address). The site moved from `snakes-quiz.vercel.app` to **www.sarpa.live** this way.
+- **Google Search Console**: add `sarpa.live` as a *Domain* property and prove you own it with the TXT record it
+  gives, added in the domain's DNS settings (at the registrar); then submit `https://www.sarpa.live/sitemap.xml`. (For
+  an address whose DNS you do not control, use a *URL prefix* property and the *HTML tag* method instead: paste the
+  `<meta name="google-site-verification" ...>` line into the head of `index.html`, just under
+  `<meta charset="utf-8">`.) Bing Webmaster Tools can import the site from Search Console.
 - Link previews are remembered by the apps for a while; to see a change straight away, share the address with
-  something added, such as `https://snakes-quiz.vercel.app/?v=2`. `scripts/assets/make-social-preview.js` redraws the
+  something added, such as `https://www.sarpa.live/?v=2`. `scripts/assets/make-social-preview.js` redraws the
   site's own preview picture.
 
 `node scripts/qa/seo.js` checks the built pages as a search engine reads them (see Quality checks).
@@ -283,10 +289,11 @@ node scripts/qa/engine_check.js   # 13,000+ generated questions in India, North 
                                   # answer, no look-alike clashes, balance, photos and options from the right region...
 node scripts/qa/smoke.js          # every page and species page: no stray "null"/"undefined", no errors, no broken photos;
                                   # the link-preview tags and image
-node scripts/qa/e2e.js            # 78-step run-through: account sign-up, timer, hints, explanations, reload-and-resume,
+node scripts/qa/e2e.js            # 83-step run-through: account sign-up, timer, hints, explanations, reload-and-resume,
                                   # results, daily parity between two players, state filter, North America and Mixed
                                   # quizzes, reporting a photo, phone layout, Herpdle, progress following a player to
-                                  # another browser (and signing out and in again), page addresses, back and forward
+                                  # another browser (and signing out and in again), page addresses, back and forward,
+                                  # and moving from the old address (snakes-quiz.vercel.app) to the new one
 node scripts/qa/layout.js         # design checks on every page at phone, tablet, laptop and ultrawide sizes, light and dark:
                                   # nothing overflows or is clipped, tap targets, WCAG contrast, broken images, tab bar overlap
                                   # (--quick for fewer sizes, --shots <dir> to save screenshots)

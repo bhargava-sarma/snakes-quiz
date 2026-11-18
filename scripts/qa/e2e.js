@@ -439,6 +439,56 @@ async function answer(page, which) {
   check(missing.status() === 404 && /not found/i.test(await page.locator('main h1').innerText()), 'a page that does not exist says so (404)');
   await ctx.close();
 
+  /* ---------- 13. moving from the old address (js/boot.js) ----------
+   * Both addresses are served from the local server, so that the browser keeps their data apart as it would. */
+  console.log('\n[13] Moving from the old address');
+  const OLD = 'https://snakes-quiz.vercel.app', NEW = 'https://www.sarpa.live';
+  const local = new URL(base);
+  const serveBoth = async (c) => c.route(/^https:\/\/(snakes-quiz\.vercel\.app|www\.sarpa\.live)\//, async (route) => {
+    const req = route.request();
+    const u = new URL(req.url());
+    const res = await fetch(local.origin + u.pathname + u.search, { method: req.method(), headers: req.headers(), body: req.postDataBuffer() || undefined, redirect: 'manual' });
+    const headers = Object.fromEntries(res.headers.entries());
+    delete headers['content-length']; delete headers['transfer-encoding'];
+    if (headers.location) headers.location = headers.location.replace(local.origin, u.origin);
+    await route.fulfill({ status: res.status, headers, body: Buffer.from(await res.arrayBuffer()) });
+  });
+  const api = async (action, body) => (await fetch(`${local.origin}/api/sarpa?action=${action}`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Forwarded-For': '10.13.0.' + (Date.now() % 200) }, body: JSON.stringify(body) })).json();
+  const mover = `move_${Date.now() % 100000}`;
+  const made = accounts ? await api('signup', { username: mover, pin: '305817' }) : null;
+  const seed = { auth: made && made.token ? JSON.stringify({ token: made.token, name: made.user.name, created: made.user.created || 0, at: Date.now() }) : null, settings: JSON.stringify({ theme: 'dark', area: 'na' }) };
+  // an old-address visitor: signed in, dark theme, North America
+  ctx = await browser.newContext({ viewport: { width: 1100, height: 800 } });
+  await serveBoth(ctx);
+  await ctx.addInitScript((s) => {
+    if (location.hostname !== 'snakes-quiz.vercel.app' || localStorage.getItem('sarpa.v1.settings')) return;
+    if (s.auth) localStorage.setItem('sarpa.v1.auth', s.auth);
+    localStorage.setItem('sarpa.v1.settings', s.settings);
+  }, seed);
+  page = await ctx.newPage();
+  page.on('pageerror', (e) => errors.push('move: ' + e.message));
+  await page.goto(`${OLD}/#/guide/naja-naja`, { waitUntil: 'load' });
+  await page.waitForURL(`${NEW}/guide/naja-naja`, { timeout: 15000 });
+  await page.waitForSelector('main h1');
+  check(page.url() === `${NEW}/guide/naja-naja`, `an old link lands on the new address, on the same page, with nothing after "#" (${page.url()})`);
+  const after = await page.evaluate(() => ({ dark: document.documentElement.getAttribute('data-theme'), settings: JSON.parse(localStorage.getItem('sarpa.v1.settings') || '{}'), auth: !!localStorage.getItem('sarpa.v1.auth') }));
+  check(after.dark === 'dark' && after.settings.area === 'na', 'the settings came along (dark theme, North America)');
+  if (seed.auth) {
+    check(after.auth, 'the player is still signed in on the new address');
+    await page.waitForSelector('#toast-root .toast', { timeout: 5000 }).catch(() => {});
+    check(/new address: sarpa\.live/.test(await page.locator('#toast-root').innerText()), 'and is told about the new address');
+  }
+  await ctx.close();
+  // the new address takes nothing that does not come straight from the old one
+  ctx = await browser.newContext({ viewport: { width: 1100, height: 800 } });
+  await serveBoth(ctx);
+  page = await ctx.newPage();
+  const forged = Buffer.from(JSON.stringify({ v: 1, t: Date.now(), settings: JSON.stringify({ theme: 'dark' }), auth: seed.auth || JSON.stringify({ token: 'x', name: 'x' }) })).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  await page.goto(`${NEW}/guide#sarpa-move=${forged}`, { waitUntil: 'load' });
+  const forgedRes = await page.evaluate(() => ({ hash: location.hash, auth: localStorage.getItem('sarpa.v1.auth'), settings: localStorage.getItem('sarpa.v1.settings') }));
+  check(!forgedRes.hash && !forgedRes.auth && !(forgedRes.settings || '').includes('dark'), 'a link that does not come from the old address is not taken (and its "#" part is removed)');
+  await ctx.close();
+
   check(errors.length === 0, `no uncaught JavaScript errors${errors.length ? ': ' + errors[0] : ''}`);
   await browser.close();
   console.log(failures ? `\n${failures} check(s) FAILED` : '\nall checks passed');

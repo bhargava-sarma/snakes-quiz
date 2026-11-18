@@ -38,6 +38,12 @@ function meta(html, key, value) {
   return m ? unesc(attr(m[0], 'content') || '') : null;
 }
 
+/* ---------- the site's address ---------- */
+
+ok(/^https:\/\/[a-z0-9.-]+$/.test(SITE), `siteUrl in js/config.js is a plain https:// address (${SITE})`);
+const movedFrom = (/var MOVED_FROM = (\[[^\]]*\])/.exec(read('js/boot.js')) || [, '[]'])[1];
+ok(!movedFrom.includes(`'${SITE.replace(/^https:\/\//, '')}'`), 'js/boot.js does not send visitors away from the current address');
+
 /* ---------- robots.txt and sitemap.xml ---------- */
 
 const robots = read('robots.txt');
